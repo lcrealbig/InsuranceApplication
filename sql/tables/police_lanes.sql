@@ -1,7 +1,7 @@
-create table police_lanes(
-LANE_ID number,
-LANE_BELONGING_TO number,
-LANE_PRODUCT_TYPE varchar2(30),
-POLICE_START_DATE date,
-POLICE_END_DATE date,
+create table policy_lines(
+LINE_ID number,
+LINE_BELONGING_TO number,
+LINE_PRODUCT_TYPE varchar2(30),
+POLICY_START_DATE date,
+POLICY_END_DATE date,
 );
