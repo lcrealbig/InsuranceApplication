@@ -40,11 +40,29 @@ public class Utilities extends LoginScreenModel {
         System.out.println("Press '2' to create a customer.");
         String userChoice = userInput.nextLine();
         if (userChoice.equals("1")){
-            System.out.println("going next screen= policy");
+            policyManagement();
         }
         if (userChoice.equals("2")){
             System.out.println("going next screen= customer");
         }
     }
+    public static void policyManagement(){
+        System.out.println("Press '1' to create a policy.");
+        System.out.println("Press '2' to edit the policy.");
+        System.out.println("Press '3' to delete the policy.");
+        System.out.println("Press '4' to search a policy.");
+        String userChoice = userInput.nextLine();
+        switch (userChoice){
+            case "1": PolicyUtilities.createPolicy();
+            break;
+            case "2": PolicyUtilities.editPolicy();
+            break;
+            case "3": PolicyUtilities.deletePolicy();
+            break;
+            case "4": PolicyUtilities.searchPolicy();
+        }
 
+
+
+    }
 }
