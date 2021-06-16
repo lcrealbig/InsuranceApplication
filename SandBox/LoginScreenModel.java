@@ -1,10 +1,15 @@
 package SandBox;
 
 public class LoginScreenModel {
-    String login = "";/*login == database login, password follows.*/
-    String password = "";
+    String login = "login";/*login == database login, password follows.*/
+    String password = "password";
 
     public LoginScreenModel() {
+        this.login = login;
+        this.password = password;
+    }
+
+    public LoginScreenModel(String login, String password) {
         this.login = login;
         this.password = password;
     }

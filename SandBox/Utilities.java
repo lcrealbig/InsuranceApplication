@@ -3,18 +3,18 @@ package SandBox;
 import java.util.Date;
 import java.util.Scanner;
 
-public class Utilities {
+public class Utilities extends LoginScreenModel {
     /*this is a worksheet*/
+    public static Scanner userInput = new Scanner(System.in);
     public static String ShowCurrentdate() {
         Date date = java.util.Calendar.getInstance().getTime();
         String date2String = date.toString();
         return date2String;
     }
 
-    public static LoginScreenModel lsmAttempt() {
-        LoginScreenModel lsm = new LoginScreenModel();
-        Scanner userInput = new Scanner(System.in);
+    public static LoginScreenModel lsmInput() {
 
+        LoginScreenModel lsm = new LoginScreenModel();
         System.out.println("Input your login down below please.");
         lsm.setLogin(userInput.nextLine());
         System.out.println("Input your password down below please.");
@@ -24,14 +24,27 @@ public class Utilities {
     }
 
     public static void loginVerifier() {
-        LoginScreenModel lsmInput =lsmAttempt();
-        LoginScreenModel lsmDataBase = new LoginScreenModel();/**/
-        if (lsmInput!=lsmDataBase){
-            System.out.println("Login or password is incorrect");
+
+        LoginScreenModel lsmInput = lsmInput();
+        LoginScreenModel lsmDataBase = new LoginScreenModel("login", "password");/**/
+        if (lsmInput.login.equals(lsmDataBase.login) && lsmInput.password.equals(lsmDataBase.password)) {
+            System.out.println("You are logged In!");
+        } else { System.out.println("Login or password is incorrect");
+        loginVerifier();
         }
+    }
 
-
-
+    public static void secondScreen() {
+        System.out.println("Hello User which action will you perform ?");
+        System.out.println("Press '1' for policy management.");
+        System.out.println("Press '2' to create a customer.");
+        String userChoice = userInput.nextLine();
+        if (userChoice.equals("1")){
+            System.out.println("going next screen= policy");
+        }
+        if (userChoice.equals("2")){
+            System.out.println("going next screen= customer");
+        }
     }
 
 }
