@@ -1,10 +1,12 @@
 --IN PROGRESS
+--risks
 
 create table insured_objects(
-OBJECT_ID number,
-OBJECT_OWNER number,
-OBJECT_TYPE varchar2(30),
-OBJECT_POLICY_LINE number,
-OBJECT_ID number,
-OBJECT_REG_NUM varchar2(10),
+ID number,
+OWNER number,
+TYPE varchar2(30),
+POLICY_LINE number,
+VEHICLE_ID number,
+REG_NUM varchar2(10),
+VIN_NUM varchar2(20)
 );
