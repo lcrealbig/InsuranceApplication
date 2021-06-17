@@ -1,5 +1,5 @@
 create table users (
-ID number,
+USER_ID number,
 NAME varchar2(70),
 ADRESS varchar2(70),
 TYPE varchar2(30),
