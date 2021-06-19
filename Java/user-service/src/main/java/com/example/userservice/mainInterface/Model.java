@@ -7,16 +7,16 @@ public class Model {
     public static ArrayList<String> choices = new ArrayList<>();
     public static String choice = "";
 
-    public Model( String choice,ArrayList<String> choices) {
-        choice = this.choice;
+    public Model( ArrayList<String> choices) {
+
         choices = this.choices;
     }
 
-    public static ArrayList<String> displayChoices() {
+    public static void displayChoices() {
         for (int i = 0; i < choices.size(); i++) {
             System.out.println((i + 1) + choices.get(i));
         }
-        return null;
+
     }
     public static String choice() {
         String choice = "";
