@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Screen {
     ArrayList<String> optionsToSelect = new ArrayList<>();
     String selectedOption ="";
-
+    public  Screen(){}
     public Screen(ArrayList<String> optionsToSelect) {
         this.optionsToSelect = optionsToSelect;
 
