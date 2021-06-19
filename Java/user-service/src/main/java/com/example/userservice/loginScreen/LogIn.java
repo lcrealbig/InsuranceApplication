@@ -9,12 +9,20 @@ public class LogIn {
     /*Ta klasa ma na celu wyswietlenie ekranu logowania, pobrania danych, wyslania danych na serwer*/
     public static Scanner userInput = new Scanner(System.in);
 
-    public static void  logInScreen(){
-        ConnectToServer connection = new ConnectToServer();
+    public static LoginModel  logInScreen(){
+
+        LoginModel lm = new LoginModel();
         System.out.println("Welcome User , today is :" + Utils.ShowCurrentdate());
         System.out.println("Input your user-id number down below please.");
-        String login = userInput.nextLine();
+        lm.userId = userInput.nextInt();
         System.out.println("Input your password down below please.");
-        String password = userInput.nextLine();
+        lm.password = userInput.nextLine();
+        return lm;
+    }
+
+    public static void sendLoginAttempt(){
+        ConnectToServer connection = new ConnectToServer();
+        LoginModel lm = logInScreen();
+        connection.postRequest();
     }
 }
