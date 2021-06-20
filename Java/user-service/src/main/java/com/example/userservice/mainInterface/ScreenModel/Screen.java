@@ -1,4 +1,4 @@
-package com.example.userservice.mainInterface.Enums.model;
+package com.example.userservice.mainInterface.ScreenModel;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,7 +20,7 @@ public class Screen {
 
     public static void displayOptions(Screen screen) {
         for (int i = 0; i < screen.optionsToSelect.size(); i++) {
-            System.out.println((i + 1) + screen.optionsToSelect.get(i));
+            System.out.println((i + 1)+"." + screen.optionsToSelect.get(i));
         }
 
     }
