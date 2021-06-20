@@ -6,11 +6,7 @@ import java.util.Scanner;
 public class Utilities extends LoginScreenModel {
     /*this is a worksheet*/
     public static Scanner userInput = new Scanner(System.in);
-    public static String ShowCurrentdate() {
-        Date date = java.util.Calendar.getInstance().getTime();
-        String date2String = date.toString();
-        return date2String;
-    }
+
 
     public static LoginScreenModel lsmInput() {
 
