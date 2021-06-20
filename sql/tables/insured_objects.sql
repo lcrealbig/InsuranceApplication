@@ -12,5 +12,12 @@ N03 number,
 N04 number,
 D01 date,
 D02 date,
-D03 date,
+D03 date
 );
+/
+create sequence insured_objects_sequence
+minvalue 1
+maxvalue 9999999
+start with 1
+increment by 1;
+/
