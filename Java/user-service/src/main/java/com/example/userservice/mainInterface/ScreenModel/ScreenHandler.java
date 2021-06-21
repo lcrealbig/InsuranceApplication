@@ -1,41 +1,45 @@
 package com.example.userservice.mainInterface.ScreenModel;
 
+import com.example.userservice.mainInterface.Enums.ScreenType;
+import com.example.userservice.model.Screen;
+import com.example.userservice.model.SearchScreen;
+import com.example.userservice.model.UserScreen;
+
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class ScreenHandler extends Screen {
+
+    public static Screen currentScreen = new Screen();
 
     public static void main(String[] args) {
 
         Screen loginScn = new Screen();
-        Screen policyScn = new Screen();
-        Screen mngPolicies = new Screen();
-        Screen crtCustomer = new Screen();
-        ArrayList<Screen> testScreens = new ArrayList<>();
-        testScreens.add(mngPolicies);
-        testScreens.add(crtCustomer);
-        policyScn.optionsToSelect.add(testScreens.get(0));
-        policyScn.optionsToSelect.add(testScreens.get(1));
-    chooseAScreen(userChoice(),policyScn);
+        currentScreen = new UserScreen();
+        /* stworz zmienna ktora przechowa poprzedni ekran.*/
+        chooseAScreen();
     }
 
 
-    public static void chooseAScreen(int userChoice, Screen screen) {
+    public static void chooseAScreen() {
+        if (currentScreen.getScreenType().equals(ScreenType.SEARCH)) {
+            for (int i = 0; i < ((SearchScreen) (currentScreen)).getSearchOptions().size(); i++) {
+                System.out.println((i + 1) + ". " + ((SearchScreen) (currentScreen)).getSearchOptions().get(i));
 
-        Screen currentScreen = new Screen(screen.optionsToSelect, userChoice());
-        switch (userChoice) {
-            case 1:
-                currentScreen.optionsToSelect.get(0);
-                System.out.println("sukces1");
-                
-                break;
-            case 2:
-                currentScreen.optionsToSelect.get(1);
-                System.out.println("sukces2");
-                break;
+            }
+        } else
+            for (int i = 0; i < currentScreen.getOptionsToSelect().size(); i++) {
+                System.out.println((i + 1) + ". " + currentScreen.getOptionsToSelect().get(i).getScreenTitle());
+
+            }
+
+        Scanner scn = new Scanner(System.in);
+        int userChoice = scn.nextInt();
+
+        currentScreen = currentScreen.getOptionsToSelect().get(userChoice - 1);
 
 
-        }
-
+        chooseAScreen();
     }
 
 }

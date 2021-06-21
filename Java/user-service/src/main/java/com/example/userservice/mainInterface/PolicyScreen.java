@@ -1,6 +1,6 @@
 package com.example.userservice.mainInterface;
 
-import com.example.userservice.mainInterface.ScreenModel.Screen;
+import com.example.userservice.model.Screen;
 
 import java.util.ArrayList;
 
