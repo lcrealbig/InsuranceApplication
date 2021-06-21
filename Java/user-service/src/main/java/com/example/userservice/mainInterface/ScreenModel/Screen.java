@@ -10,7 +10,7 @@ public class Screen {
 
     public Screen() {}
 
-    public Screen(ArrayList<Screen> optionsToSelect) {
+    public Screen(ArrayList<Screen> optionsToSelect,int userChoice) {
         this.optionsToSelect = optionsToSelect;
         this.date = java.util.Calendar.getInstance().getTime() + "";
 
