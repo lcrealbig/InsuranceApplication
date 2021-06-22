@@ -5,9 +5,9 @@ import com.example.userservice.mainInterface.Enums.ScreenType;
 import java.util.ArrayList;
 
 public class Screen {
-    ArrayList<Screen> optionsToSelect = new ArrayList<>();
+    protected ArrayList<Screen> optionsToSelect = new ArrayList<>();
     String date ;
-    String screenTitle = "";
+    protected String screenTitle = "";
     ScreenType screenType = ScreenType.SCREEN;
     public Screen() {}
 

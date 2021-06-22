@@ -3,9 +3,8 @@ package com.example.userservice.mainInterface.ScreenModel;
 import com.example.userservice.mainInterface.Enums.ScreenType;
 import com.example.userservice.model.Screen;
 import com.example.userservice.model.SearchScreen;
-import com.example.userservice.model.UserScreen;
+import com.example.userservice.model.user.UserScreen;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ScreenHandler extends Screen {

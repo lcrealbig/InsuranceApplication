@@ -5,7 +5,7 @@ import com.example.userservice.mainInterface.Enums.ScreenType;
 import java.util.ArrayList;
 
 public class SearchScreen extends Screen {
-    ArrayList<String> searchOptions = new ArrayList<>();
+    protected ArrayList<String> searchOptions = new ArrayList<>();
     ScreenType screenType= ScreenType.SEARCH;
 
     public ArrayList<String> getSearchOptions() {
