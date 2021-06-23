@@ -13,6 +13,7 @@ public class ScreenHandler extends Screen {
 
     static ArrayList<Screen> previousScreens = new ArrayList<>();
     static Screen currentScreen = new UserScreen();
+
     public static void main(String[] args) {
 
         Screen loginScn = new Screen();
@@ -37,15 +38,16 @@ public class ScreenHandler extends Screen {
         System.out.println("0. Return to previous view.");
 
         Scanner scn = new Scanner(System.in);
-        int userChoice=-1;
-        try{userChoice = scn.nextInt();}
-        catch(InputMismatchException ex){
+        int userChoice = -1;
+        try {
+            userChoice = scn.nextInt();
+        } catch (InputMismatchException ex) {
             System.out.println("An option does not exists.");
         }
 
         if (userChoice == 0) {
-            currentScreen = previousScreens.get(previousScreens.size()-1);
-            previousScreens.remove(previousScreens.get(previousScreens.size()-1));
+            currentScreen = previousScreens.get(previousScreens.size() - 1);
+            previousScreens.remove(previousScreens.get(previousScreens.size() - 1));
         } else {
             previousScreens.add(currentScreen);
             currentScreen = currentScreen.getOptionsToSelect().get(userChoice - 1);
