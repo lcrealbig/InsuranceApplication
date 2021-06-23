@@ -5,16 +5,19 @@ import com.example.userservice.model.Screen;
 import com.example.userservice.model.SearchScreen;
 import com.example.userservice.model.user.UserScreen;
 
+import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ScreenHandler extends Screen {
 
-    public static Screen currentScreen = new Screen();
-
+    static ArrayList<Screen> previousScreens = new ArrayList<>();
+    static Screen currentScreen = new UserScreen();
     public static void main(String[] args) {
 
         Screen loginScn = new Screen();
-        currentScreen = new UserScreen();
+
+
         /* stworz zmienna ktora przechowa poprzedni ekran.*/
         chooseAScreen();
     }
@@ -31,12 +34,22 @@ public class ScreenHandler extends Screen {
                 System.out.println((i + 1) + ". " + currentScreen.getOptionsToSelect().get(i).getScreenTitle());
 
             }
+        System.out.println("0. Return to previous view.");
 
         Scanner scn = new Scanner(System.in);
-        int userChoice = scn.nextInt();
+        int userChoice=-1;
+        try{userChoice = scn.nextInt();}
+        catch(InputMismatchException ex){
+            System.out.println("An option does not exists.");
+        }
 
-        currentScreen = currentScreen.getOptionsToSelect().get(userChoice - 1);
-
+        if (userChoice == 0) {
+            currentScreen = previousScreens.get(previousScreens.size()-1);
+            previousScreens.remove(previousScreens.get(previousScreens.size()-1));
+        } else {
+            previousScreens.add(currentScreen);
+            currentScreen = currentScreen.getOptionsToSelect().get(userChoice - 1);
+        }
 
         chooseAScreen();
     }

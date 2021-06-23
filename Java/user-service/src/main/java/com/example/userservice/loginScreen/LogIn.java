@@ -7,7 +7,7 @@ public class LogIn {
     /*Ta klasa ma na celu wyswietlenie ekranu logowania, pobrania danych, wyslania danych na serwer*/
     public static Scanner userInput = new Scanner(System.in);
 
-    public static void  logInScreen(){
+    public static void logInScreen() {
 
 
         System.out.println("Input your user-id number down below please.");
