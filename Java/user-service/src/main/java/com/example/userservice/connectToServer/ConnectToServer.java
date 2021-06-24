@@ -64,6 +64,7 @@ public class ConnectToServer {
                 huc = (HttpURLConnection) url.openConnection();
                 huc.setRequestMethod("POST");
 
+
                 // To store our response
                 String content;
 

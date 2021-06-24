@@ -21,6 +21,7 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+<<<<<<< HEAD
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
@@ -54,3 +55,7 @@ build/
 
 ### VS Code ###
 .vscode/
+=======
+.idea/workspace.xml
+.idea/vcs.xml
+>>>>>>> develop
