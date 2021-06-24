@@ -1,6 +1,6 @@
-package com.example.userservice.mainInterface.ScreenModel;
+package com.example.userservice.mainInterface.mainHandler;
 
-import com.example.userservice.mainInterface.Enums.ScreenType;
+import com.example.userservice.mainInterface.enums.ScreenType;
 import com.example.userservice.model.Screen;
 import com.example.userservice.model.SearchScreen;
 import com.example.userservice.model.user.UserScreen;
@@ -15,11 +15,6 @@ public class ScreenHandler extends Screen {
     static Screen currentScreen = new UserScreen();
 
     public static void main(String[] args) {
-
-        Screen loginScn = new Screen();
-
-
-        /* stworz zmienna ktora przechowa poprzedni ekran.*/
         chooseAScreen();
     }
 
