@@ -1,6 +1,7 @@
 package com.example.userService.main;
 
-import org.apache.catalina.User;
+
+import com.example.userService.model.User;
 import org.springframework.web.bind.annotation.*;
 import javax.persistence.EntityManager;
 
@@ -17,18 +18,24 @@ public class Controller {
     private EntityManager em;
 
     @Transactional
-    @PostMapping("/insert")
+    @PostMapping("/verify")
     public void verifyUserLogin(@RequestParam("id") int id,
-                                @RequestParam("password") String password
-    ) {
+                                @RequestParam("password") String password) {
+
         /* getting a list of records from dataBase using entity.*/
         List<User> dbRecords = em.createQuery("select u from User u", User.class).getResultList();
-        System.out.println("");
-    }
+        for (User user : dbRecords) {
+            if (user.equals(dbRecords)) {
+                System.out.println("hello");
 
-    @GetMapping("hi")
-    public String hi() {
-        String hi = "hi";
-        return hi;
+            }
+
+        }
     }
+        @GetMapping("hi")
+        public String hi () {
+            String hi = "hi";
+            return hi;
+        }
+
 }
