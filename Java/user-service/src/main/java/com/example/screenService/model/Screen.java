@@ -1,6 +1,6 @@
-package com.example.userservice.model;
+package com.example.screenService.model;
 
-import com.example.userservice.mainInterface.enums.ScreenType;
+import com.example.screenService.mainInterface.enums.ScreenType;
 
 import java.util.ArrayList;
 

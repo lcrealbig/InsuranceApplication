@@ -1,8 +1,6 @@
-package com.example.userservice.model.policy;
+package com.example.screenService.model.policy;
 
-import com.example.userservice.model.Screen;
-import com.example.userservice.model.customer.CreateCustomer;
-import com.example.userservice.model.customer.SearchCustomer;
+import com.example.screenService.model.Screen;
 
 public class PolicyScreen extends Screen {
     public PolicyScreen() {

@@ -1,10 +1,9 @@
-package com.example.userservice.mainInterface.mainHandler;
+package com.example.screenService.mainInterface.mainHandler;
 
-import com.example.userservice.loginScreen.LoginScreen;
-import com.example.userservice.mainInterface.enums.ScreenType;
-import com.example.userservice.model.Screen;
-import com.example.userservice.model.SearchScreen;
-import com.example.userservice.model.user.UserScreen;
+import com.example.screenService.loginScreen.LoginScreen;
+import com.example.screenService.mainInterface.enums.ScreenType;
+import com.example.screenService.model.Screen;
+import com.example.screenService.model.SearchScreen;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;

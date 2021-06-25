@@ -1,4 +1,4 @@
-package com.example.userservice.connectToServer;
+package com.example.screenService.connectToServer;
 
 import java.io.BufferedReader;
 import java.io.IOException;

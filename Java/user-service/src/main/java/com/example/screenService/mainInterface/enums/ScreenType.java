@@ -1,4 +1,4 @@
-package com.example.userservice.mainInterface.enums;
+package com.example.screenService.mainInterface.enums;
 
 public enum ScreenType {
     SCREEN, SEARCH , LOGIN;

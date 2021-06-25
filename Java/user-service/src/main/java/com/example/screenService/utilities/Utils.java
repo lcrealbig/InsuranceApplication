@@ -1,4 +1,4 @@
-package com.example.userservice.utilities;
+package com.example.screenService.utilities;
 
 import java.util.Date;
 

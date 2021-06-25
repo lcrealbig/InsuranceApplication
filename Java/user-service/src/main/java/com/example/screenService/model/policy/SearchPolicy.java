@@ -1,6 +1,6 @@
-package com.example.userservice.model.policy;
+package com.example.screenService.model.policy;
 
-import com.example.userservice.model.SearchScreen;
+import com.example.screenService.model.SearchScreen;
 
 public class SearchPolicy extends SearchScreen {
     public SearchPolicy() {

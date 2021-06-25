@@ -1,8 +1,8 @@
-package com.example.userservice.loginScreen;
+package com.example.screenService.loginScreen;
 
-import com.example.userservice.connectToServer.ConnectToServer;
-import com.example.userservice.mainInterface.enums.ScreenType;
-import com.example.userservice.model.Screen;
+import com.example.screenService.connectToServer.ConnectToServer;
+import com.example.screenService.mainInterface.enums.ScreenType;
+import com.example.screenService.model.Screen;
 
 import java.util.Scanner;
 

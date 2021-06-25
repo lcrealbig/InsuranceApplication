@@ -1,6 +1,6 @@
-package com.example.userservice.model.customer;
+package com.example.screenService.model.customer;
 
-import com.example.userservice.model.Screen;
+import com.example.screenService.model.Screen;
 
 public class CreateCustomer extends Screen {
     public CreateCustomer() {
