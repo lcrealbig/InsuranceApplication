@@ -5,8 +5,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "POLICIES")
 public class Policy {
-    private Integer policy_id;
-    private Integer owner_id;
+    private int policy_id;
+    private int owner_id;
     private String type;
     private String status;
     private String start_date;
