@@ -1,4 +1,4 @@
-package com.insuranceapplication.policyservice;
+package com.insuranceapplication.policyservice.models;
 
 import javax.persistence.*;
 
