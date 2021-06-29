@@ -33,11 +33,9 @@
 		</dependency>
 		<dependency>
 			<!--Due to Oracledb license restrictions it is mandatory to manually download jdbc driver and provide path to it-->
-			<groupId>pl.hibernateOracle</groupId>
-			<artifactId>ojdbc8</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>C:/Coding/Java/InsuranceApplication/java/policy-service/ojdbc8.jar</systemPath>
+			<groupId>com.oracle.database.jdbc</groupId>
+			<artifactId>ojdbc10</artifactId>
+			<version>19.11.0.0</version>
 		</dependency>
 	</dependencies>
 
