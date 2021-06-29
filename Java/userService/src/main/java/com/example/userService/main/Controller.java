@@ -26,16 +26,16 @@ public class Controller {
         List<User> dbRecords = em.createQuery("select u from User u", User.class).getResultList();
         for (User user : dbRecords) {
             if (user.equals(dbRecords)) {
-                System.out.println("hello");
 
             }
 
         }
+
     }
-        @GetMapping("hi")
-        public String hi () {
-            String hi = "hi";
-            return hi;
+        @GetMapping("/showStatus")
+        public String showStatus () {
+            String online = "Server is online.";
+            return online;
         }
 
 }
