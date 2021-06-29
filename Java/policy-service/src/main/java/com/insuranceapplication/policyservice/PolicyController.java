@@ -13,10 +13,10 @@ import javax.persistence.Persistence;
 @RestController
 public class PolicyController {
 
-    //function adding new policy into db, it requests in body data according to policy model
+    //function adding new policy into db, it requests in body data according to Policy model
     @PostMapping("/createpolicy")
     public void createPolicy(@RequestBody Policy newPolicy){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Policy");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PolicyService");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         em.persist(newPolicy);
@@ -25,14 +25,10 @@ public class PolicyController {
         emf.close();
     }
 
-
-    //need to work on functions below, keep getting bad request error when trying to add something via postman
-    /*
-
-    //function adding new policy line into db, it requests in body data according to policyLine model
+    //function adding new policy line into db, it requests in body data according to PolicyLine model
     @PostMapping("/createpolicyline")
     public void createPolicyLine(@RequestBody PolicyLine newPolicyLine){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PolicyLine");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PolicyService");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         em.persist(newPolicyLine);
@@ -41,10 +37,10 @@ public class PolicyController {
         emf.close();
     }
 
-    //function adding new insured object into db, it requests in body data according to insuredObject model
+    //function adding new insured object into db, it requests in body data according to InsuredObject model
     @PostMapping("/createinsuredobject")
     public void createInsuredObject(@RequestBody InsuredObject insuredObject){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("InsuredObject");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PolicyService");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         em.persist(insuredObject);
@@ -53,5 +49,4 @@ public class PolicyController {
         emf.close();
     }
 
-     */
 }
