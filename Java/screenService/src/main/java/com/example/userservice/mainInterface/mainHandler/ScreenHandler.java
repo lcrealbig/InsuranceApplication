@@ -1,5 +1,6 @@
 package com.example.userservice.mainInterface.mainHandler;
 
+import com.example.userservice.loginScreen.LoginScreen;
 import com.example.userservice.mainInterface.enums.ScreenType;
 import com.example.userservice.model.Screen;
 import com.example.userservice.model.SearchScreen;
@@ -12,7 +13,7 @@ import java.util.Scanner;
 public class ScreenHandler extends Screen {
 
     static ArrayList<Screen> previousScreens = new ArrayList<>();
-    static Screen currentScreen = new UserScreen();
+    static Screen currentScreen = new LoginScreen();
 
     public static void main(String[] args) {
         chooseAScreen();
