@@ -18,8 +18,9 @@ public class LoginScreen extends Screen {
         String password = userInput.next();
         ConnectToServer cs = new ConnectToServer();
         cs.postRequest(
-                "insert?id=" + userId
+                "verify?id=" + userId
                         + "&password=" + password);
+
 
 
     }
