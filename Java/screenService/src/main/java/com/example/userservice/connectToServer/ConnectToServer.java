@@ -9,7 +9,7 @@ import java.net.*;
 
 public class ConnectToServer {
 
-    String serverUrl = "http://localhost:8081/";
+    String serverUrl = "http://localhost:8080/";
     /*Poczytaj o Eureka*/
 
     public void getRequest(String endpoint) {
@@ -52,11 +52,11 @@ public class ConnectToServer {
 
     }
     public void postRequest(String endpoint) {
-        String gotowyUrl = serverUrl + endpoint;
+        String readyUrl = serverUrl + endpoint;
         HttpURLConnection huc = null;
         URL url = null;
         try {
-            url = new URL(gotowyUrl);
+            url = new URL(readyUrl);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
