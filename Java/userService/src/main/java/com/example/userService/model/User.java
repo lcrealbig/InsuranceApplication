@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 
-@Entity(name = "User")
+@Entity
 /*encja(entity) to odpowiednik tabeli w bazie danych*/
 @Table(name = "USERS")
 public class User {
@@ -15,7 +15,7 @@ public class User {
     private int id;
     @Column(name = "PASSWORD")
     private String password;
-
+    /*zmapuj wszystkie kolumny usera i powinno dzialac*/
 
 
     public int getId() {

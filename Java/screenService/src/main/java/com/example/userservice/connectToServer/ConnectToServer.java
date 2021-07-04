@@ -1,28 +1,28 @@
 package com.example.userservice.connectToServer;
 
-
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.*;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Properties;
 
 public class ConnectToServer {
 
-    String serverUrl = "http://localhost:8081/";
+    FileReader fileReader = null;
+    String serverUrl = "http://localhost";
+    Properties properties = new Properties();
     /*Poczytaj o Eureka*/
 
     public void getRequest(String endpoint) {
-        String gotowyUrl = serverUrl + endpoint;
+
         HttpURLConnection huc = null;
         URL url = null;
+
         try {
+            fileReader = new FileReader("./src/main/resources/application.properties");
+            properties.load(fileReader);
+            String gotowyUrl = serverUrl + ":"+properties.getProperty("server.port") + "/" + endpoint;
             url = new URL(gotowyUrl);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        try {
-            //url.openConnection();
             huc = (HttpURLConnection) url.openConnection();
             huc.setRequestMethod("GET");
 
@@ -45,19 +45,30 @@ public class ConnectToServer {
 
             // Output the content to the console
             System.out.println(content);
-        } catch (IOException e) {
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
 
 
+
     }
+
     public void postRequest(String endpoint) {
-        String gotowyUrl = serverUrl + endpoint;
         HttpURLConnection huc = null;
+
         URL url = null;
         try {
+            fileReader = new FileReader("./src/main/resources/application.properties");
+            properties.load(fileReader);
+            String gotowyUrl = serverUrl + ":"+properties.getProperty("server.port") + "/" + endpoint;
             url = new URL(gotowyUrl);
-        } catch (MalformedURLException e) {
+        } catch (MalformedURLException | FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
         try {
@@ -76,11 +87,11 @@ public class ConnectToServer {
                     // Append each line of the response and separate them
                     content = content + line;
                     content = content + System.lineSeparator();
+
                 }
             } finally {
                 huc.disconnect();
             }
-
 
             // Output the content to the console
             System.out.println(content);
