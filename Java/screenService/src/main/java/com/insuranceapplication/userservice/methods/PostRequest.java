@@ -1,0 +1,11 @@
+package com.insuranceapplication.userservice.methods;
+
+import org.apache.tomcat.util.json.JSONParser;
+
+abstract public class PostRequest {
+
+    void sendRequest(Object body){
+        JSONParser parser = new JSONParser(body);
+
+    }
+}
