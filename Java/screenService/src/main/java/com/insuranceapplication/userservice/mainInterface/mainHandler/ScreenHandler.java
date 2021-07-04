@@ -1,11 +1,9 @@
-package com.example.userservice.mainInterface.mainHandler;
+package com.insuranceapplication.userservice.mainInterface.mainHandler;
 
-import com.example.userservice.connectToServer.ConnectToServer;
-import com.example.userservice.loginScreen.LoginScreen;
-import com.example.userservice.mainInterface.enums.ScreenType;
-import com.example.userservice.model.Screen;
-import com.example.userservice.model.SearchScreen;
-import com.example.userservice.model.user.UserScreen;
+import com.insuranceapplication.userservice.loginScreen.LoginScreen;
+import com.insuranceapplication.userservice.mainInterface.enums.ScreenType;
+import com.insuranceapplication.userservice.model.Screen;
+import com.insuranceapplication.userservice.model.SearchScreen;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
