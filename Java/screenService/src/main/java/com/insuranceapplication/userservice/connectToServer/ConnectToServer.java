@@ -1,4 +1,4 @@
-package com.example.userservice.connectToServer;
+package com.insuranceapplication.userservice.connectToServer;
 
 import java.io.*;
 import java.net.HttpURLConnection;

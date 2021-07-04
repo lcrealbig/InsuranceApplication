@@ -1,6 +1,6 @@
-package com.example.userservice.model.customer;
+package com.insuranceapplication.userservice.model.customer;
 
-import com.example.userservice.model.SearchScreen;
+import com.insuranceapplication.userservice.model.SearchScreen;
 
 public class SearchCustomer extends SearchScreen {
     public SearchCustomer() {
