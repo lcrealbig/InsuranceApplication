@@ -1,5 +1,6 @@
 package com.example.userservice.mainInterface.mainHandler;
 
+import com.example.userservice.connectToServer.ConnectToServer;
 import com.example.userservice.loginScreen.LoginScreen;
 import com.example.userservice.mainInterface.enums.ScreenType;
 import com.example.userservice.model.Screen;
@@ -16,7 +17,9 @@ public class ScreenHandler extends Screen {
     static Screen currentScreen = new LoginScreen();
 
     public static void main(String[] args) {
+
         chooseAScreen();
+
     }
 
 
