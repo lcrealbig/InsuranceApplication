@@ -1,7 +1,7 @@
 package com.example.userService.main;
 
 
-import com.example.userService.model.User;
+import com.example.userService.model.Users;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,12 +22,12 @@ public class Controller {
 
     @Transactional
     @PostMapping("/verify")
-    public ResponseEntity<User> verifyUserLogin(@RequestParam("id") int id,
-                                                @RequestParam("password") String password) {
+    public ResponseEntity<Users> verifyUserLogin(@RequestParam("id") int id,
+                                                 @RequestParam("password") String password) {
 
         /* getting a list of records from dataBase using entity.*/
-        List<User> dbRecords = em.createQuery("select u from User u", User.class).getResultList();
-        for (User user : dbRecords) {
+        List<Users> dbRecords = em.createQuery("select u from Users u", Users.class).getResultList();
+        for (Users user : dbRecords) {
             if (user.getId() == id && user.getPassword().equals(password)) {
                 return ResponseEntity.ok().body(user);
             }
