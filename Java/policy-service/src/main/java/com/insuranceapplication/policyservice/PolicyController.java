@@ -49,4 +49,11 @@ public class PolicyController {
         emf.close();
     }
 
+    @PostMapping("/testJson")
+    public void testClient(@RequestBody Object obj){
+
+        System.out.println(obj.toString());
+
+    }
+
 }

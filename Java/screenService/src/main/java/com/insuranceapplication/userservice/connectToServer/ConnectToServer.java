@@ -21,7 +21,7 @@ public class ConnectToServer {
         try {
             fileReader = new FileReader("./src/main/resources/application.properties");
             properties.load(fileReader);
-            String gotowyUrl = serverUrl + ":"+properties.getProperty("server.port") + "/" + endpoint;
+            String gotowyUrl = serverUrl + ":" + properties.getProperty("server.port") + "/" + endpoint;
             url = new URL(gotowyUrl);
             huc = (HttpURLConnection) url.openConnection();
             huc.setRequestMethod("GET");
