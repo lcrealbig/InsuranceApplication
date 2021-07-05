@@ -1,7 +1,5 @@
 package com.example.userService.model;
 
-import org.springframework.stereotype.Component;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -15,7 +13,7 @@ import java.util.Date;
 public class Users {
     @Id
     @Column(name = "USER_ID")
-    private int id;
+    private long id;
     @Column(name = "PASSWORD")
     private String password;
     @Column(name = "NAME")
@@ -27,7 +25,7 @@ public class Users {
     @Column(name = "BIRTH_DATE")
     private Date date;
     @Column(name = "PESEL")
-    private int pesel;
+    private long pesel;
     /*zmapuj wszystkie kolumny usera i powinno dzialac*/
 
     public String getName() {
@@ -62,19 +60,19 @@ public class Users {
         this.date = date;
     }
 
-    public int getPesel() {
+    public long getPesel() {
         return pesel;
     }
 
-    public void setPesel(int pesel) {
+    public void setPesel(long pesel) {
         this.pesel = pesel;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
