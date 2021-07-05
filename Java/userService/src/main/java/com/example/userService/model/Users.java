@@ -1,5 +1,7 @@
 package com.example.userService.model;
 
+import org.springframework.stereotype.Component;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -22,7 +24,7 @@ public class Users {
     private String adress;
     @Column(name = "TYPE")
     private String type;
-    @Column(name = "DATE")
+    @Column(name = "BIRTH_DATE")
     private Date date;
     @Column(name = "PESEL")
     private int pesel;
