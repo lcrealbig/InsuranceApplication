@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 
-@EntityScan("com.example.userService.model.Users")
+@EntityScan("com.example.userService.model")
 @SpringBootApplication
 public class 	UserServiceApplication {
 
