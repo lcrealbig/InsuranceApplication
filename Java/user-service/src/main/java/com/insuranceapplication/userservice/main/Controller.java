@@ -1,8 +1,7 @@
-package com.example.userService.main;
+package com.insuranceapplication.userservice.main;
 
 
-import com.example.userService.model.Users;
-import org.apache.catalina.connector.Response;
+import com.insuranceapplication.userservice.model.Users;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

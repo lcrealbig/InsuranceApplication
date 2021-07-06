@@ -1,4 +1,4 @@
-package com.example.userService.model;
+package com.insuranceapplication.userservice.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
