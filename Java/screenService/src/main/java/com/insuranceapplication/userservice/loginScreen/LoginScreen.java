@@ -21,9 +21,5 @@ public class LoginScreen extends Screen {
                 "verify?id=" + userId
                         + "&password=" + password);
 
-
-
     }
-
-
 }

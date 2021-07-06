@@ -1,5 +1,8 @@
 package com.insuranceapplication.userservice.connectToServer;
 
+import com.insuranceapplication.userservice.loginScreen.LoginScreen;
+import com.insuranceapplication.userservice.mainInterface.mainHandler.ScreenHandler;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -21,7 +24,7 @@ public class ConnectToServer {
         try {
             fileReader = new FileReader("./src/main/resources/application.properties");
             properties.load(fileReader);
-            String gotowyUrl = serverUrl + ":"+properties.getProperty("server.port") + "/" + endpoint;
+            String gotowyUrl = serverUrl + ":" + properties.getProperty("server.port") + "/" + endpoint;
             url = new URL(gotowyUrl);
             huc = (HttpURLConnection) url.openConnection();
             huc.setRequestMethod("GET");
@@ -48,27 +51,27 @@ public class ConnectToServer {
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
 
 
     }
 
     public void postRequest(String endpoint) {
-        HttpURLConnection huc = null;
 
+        HttpURLConnection huc = null;
         URL url = null;
         try {
             fileReader = new FileReader("./src/main/resources/application.properties");
             properties.load(fileReader);
-            String gotowyUrl = serverUrl + ":"+properties.getProperty("server.port") + "/" + endpoint;
+            String gotowyUrl = serverUrl + ":" + properties.getProperty("server.port") + "/" + endpoint;
             url = new URL(gotowyUrl);
-        } catch (MalformedURLException | FileNotFoundException e) {
+        }
+        catch (MalformedURLException | FileNotFoundException e) {
             e.printStackTrace();
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
         try {
@@ -87,19 +90,22 @@ public class ConnectToServer {
                     // Append each line of the response and separate them
                     content = content + line;
                     content = content + System.lineSeparator();
+                    // If server output is 404 which means a wrong input, you need to login again, no  limit of tries yet.
+                    if (content.contains("404")) {
+                        System.out.println("Login or password is incorrect.");
+                        ScreenHandler.setCurrentScreen(new LoginScreen());
 
+                    }
                 }
             } finally {
                 huc.disconnect();
             }
 
             // Output the content to the console
-            System.out.println(content);
+            //System.out.println(content);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 }
 

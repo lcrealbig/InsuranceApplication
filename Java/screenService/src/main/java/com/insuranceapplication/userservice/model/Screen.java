@@ -9,12 +9,22 @@ public class Screen {
     String date ;
     protected String screenTitle = "";
     ScreenType screenType = ScreenType.SCREEN;
+    protected String output;
     public Screen() {}
 
     public Screen(ArrayList<Screen> optionsToSelect) {
         this.optionsToSelect = optionsToSelect;
         this.date = java.util.Calendar.getInstance().getTime() + "";
 
+
+    }
+
+    public String getOutput() {
+        return output;
+    }
+
+    public void setOutput(String output) {
+        this.output = output;
     }
 
     public ArrayList<Screen> getOptionsToSelect() {

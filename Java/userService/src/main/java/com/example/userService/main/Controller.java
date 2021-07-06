@@ -22,17 +22,17 @@ public class Controller {
 
     @Transactional
     @PostMapping("/verify")
-    public ResponseEntity<Users> verifyUserLogin(@RequestParam("id") int id,
+    public String verifyUserLogin(@RequestParam("id") int id,
                                                  @RequestParam("password") String password) {
 
         /* getting a list of records from dataBase using entity.*/
         List<Users> dbRecords = em.createQuery("select u from Users u", Users.class).getResultList();
         for (Users user : dbRecords) {
             if (user.getId() == id && user.getPassword().equals(password)) {
-                return ResponseEntity.ok().body(user);
+                return ResponseEntity.ok().body(user).toString();
             }
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.notFound().build().toString();
     }
 
     @GetMapping("/showStatus")
