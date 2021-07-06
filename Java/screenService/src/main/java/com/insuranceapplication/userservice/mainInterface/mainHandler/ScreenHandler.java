@@ -1,31 +1,40 @@
 package com.insuranceapplication.userservice.mainInterface.mainHandler;
 
+import com.insuranceapplication.userservice.connectToServer.ConnectToServer;
 import com.insuranceapplication.userservice.loginScreen.LoginScreen;
 import com.insuranceapplication.userservice.mainInterface.enums.ScreenType;
 import com.insuranceapplication.userservice.model.Screen;
 import com.insuranceapplication.userservice.model.SearchScreen;
+import com.insuranceapplication.userservice.model.user.UserScreen;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class ScreenHandler extends Screen {
+public class ScreenHandler extends Screen   {
 
     static ArrayList<Screen> previousScreens = new ArrayList<>();
     static Screen currentScreen = new LoginScreen();
 
-    public static void main(String[] args) {
 
-        chooseAScreen();
+
+    public static void main(String[] args)  {
+
+            if (currentScreen != null) {
+                currentScreen = new UserScreen();
+                chooseAScreen();
+
+            }
 
     }
 
 
     public static void chooseAScreen() {
+
         if (currentScreen.getScreenType().equals(ScreenType.SEARCH)) {
             for (int i = 0; i < ((SearchScreen) (currentScreen)).getSearchOptions().size(); i++) {
                 System.out.println((i + 1) + ". " + ((SearchScreen) (currentScreen)).getSearchOptions().get(i));
-
             }
         } else
             for (int i = 0; i < currentScreen.getOptionsToSelect().size(); i++) {
