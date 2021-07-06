@@ -2,6 +2,7 @@ package com.example.userService.main;
 
 
 import com.example.userService.model.Users;
+import org.apache.catalina.connector.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,18 +24,19 @@ public class Controller {
 
     @Transactional
     @PostMapping("/verify")
-    public String verifyUserLogin(@RequestParam("id") int id,
-                                                 @RequestParam("password") String password) {
+    public ResponseEntity verifyUserLogin(@RequestParam("id") int id,
+                                    @RequestParam("password") String password) {
 
         /* getting a list of records from dataBase using entity.*/
         List<Users> dbRecords = em.createQuery("select u from Users u", Users.class).getResultList();
         for (Users user : dbRecords) {
             if (user.getId() == id && user.getPassword().equals(password)) {
-                return ResponseEntity.ok().body(user).toString();
+                return ResponseEntity.ok().body(user);
             }
         }
-
-        return ResponseEntity.notFound().build().toString();
+        Users notExist = new Users();
+        notExist.setName("NOT_EXIST");
+        return ResponseEntity.ok().body(notExist);
     }
 
     @GetMapping("/showStatus")

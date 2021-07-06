@@ -6,10 +6,12 @@ import java.util.ArrayList;
 
 public class Screen {
     protected ArrayList<Screen> optionsToSelect = new ArrayList<>();
-    String date ;
+    String date;
     protected String screenTitle = "";
     protected ScreenType screenType = ScreenType.SCREEN;
-    public Screen() {}
+
+    public Screen() {
+    }
 
     public Screen(ArrayList<Screen> optionsToSelect) {
         this.optionsToSelect = optionsToSelect;
