@@ -10,20 +10,18 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class ScreenHandler extends Screen {
+public class ScreenHandler {
 
     static ArrayList<Screen> previousScreens = new ArrayList<>();
     static Screen currentScreen = new LoginScreen();
 
 
     public static void main(String[] args) {
-
-        if (currentScreen != null) {
-            currentScreen = new UserScreen();
-            chooseAScreen();
-
+        if(((LoginScreen)currentScreen).isLoggedIn()){
+            currentScreen = ((LoginScreen) currentScreen).getNextScreen();
         }
 
+            chooseAScreen();
     }
 
 
@@ -45,6 +43,9 @@ public class ScreenHandler extends Screen {
             userChoice = scn.nextInt();
         } catch (InputMismatchException ex) {
             System.out.println("An option does not exists.");
+        }
+        catch(Exception ex){
+            System.out.println("User or password is incorrect.");
         }
 
         if (userChoice == 0) {
