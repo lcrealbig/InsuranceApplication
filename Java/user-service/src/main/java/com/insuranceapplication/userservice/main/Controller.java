@@ -14,7 +14,6 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 
-
 @RestController
 public class Controller {
 
@@ -23,13 +22,13 @@ public class Controller {
 
     @Transactional
     @PostMapping("/verify")
-    public ResponseEntity verifyUserLogin(@RequestParam("id") int id,
-                                    @RequestParam("password") String password) {
-
+    public ResponseEntity verifyUserLogin(@RequestParam("id") String id,
+                                          @RequestParam("password") String password) {
+   
         /* getting a list of records from dataBase using entity.*/
         List<Users> dbRecords = em.createQuery("select u from Users u", Users.class).getResultList();
         for (Users user : dbRecords) {
-            if (user.getId() == id && user.getPassword().equals(password)) {
+            if (user.getId().equals(id) && user.getPassword().equals(password)) {
                 return ResponseEntity.ok().body(user);
             }
         }

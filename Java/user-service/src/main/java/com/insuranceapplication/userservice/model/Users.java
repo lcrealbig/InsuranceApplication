@@ -13,13 +13,13 @@ import java.util.Date;
 public class Users {
     @Id
     @Column(name = "USER_ID")
-    private long id;
+    private String id;
     @Column(name = "PASSWORD")
     private String password;
     @Column(name = "NAME")
     private String name;
     @Column(name = "ADRESS")
-    private String adress;
+    private String address;
     @Column(name = "TYPE")
     private String type;
     @Column(name = "BIRTH_DATE")
@@ -36,12 +36,12 @@ public class Users {
         this.name = name;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getType() {
@@ -68,11 +68,11 @@ public class Users {
         this.pesel = pesel;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
