@@ -1,6 +1,6 @@
-package com.insuranceapplication.screenservice.model.policy;
+package com.insuranceapplication.screenservice.screens.policy;
 
-import com.insuranceapplication.screenservice.model.SearchScreen;
+import com.insuranceapplication.screenservice.screens.general.SearchScreen;
 
 public class SearchPolicy extends SearchScreen {
     public SearchPolicy() {

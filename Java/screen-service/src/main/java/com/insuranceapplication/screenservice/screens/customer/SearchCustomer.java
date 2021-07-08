@@ -1,6 +1,6 @@
-package com.insuranceapplication.screenservice.model.customer;
+package com.insuranceapplication.screenservice.screens.customer;
 
-import com.insuranceapplication.screenservice.model.SearchScreen;
+import com.insuranceapplication.screenservice.screens.general.SearchScreen;
 
 public class SearchCustomer extends SearchScreen {
     public SearchCustomer() {

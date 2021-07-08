@@ -1,6 +1,7 @@
-package com.insuranceapplication.screenservice.model;
+package com.insuranceapplication.screenservice.screens.general;
 
 import com.insuranceapplication.screenservice.mainInterface.enums.ScreenType;
+import com.insuranceapplication.screenservice.screens.general.Screen;
 
 import java.util.ArrayList;
 

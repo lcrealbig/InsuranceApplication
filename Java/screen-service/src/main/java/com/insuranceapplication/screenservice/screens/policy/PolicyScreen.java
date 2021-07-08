@@ -1,6 +1,6 @@
-package com.insuranceapplication.screenservice.model.policy;
+package com.insuranceapplication.screenservice.screens.policy;
 
-import com.insuranceapplication.screenservice.model.Screen;
+import com.insuranceapplication.screenservice.screens.general.Screen;
 
 public class PolicyScreen extends Screen {
     public PolicyScreen() {
@@ -8,5 +8,7 @@ public class PolicyScreen extends Screen {
         optionsToSelect.add(new CreatePolicy());
         optionsToSelect.add(new SearchPolicy());
     }
-
 }
+
+
+

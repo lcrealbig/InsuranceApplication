@@ -1,11 +1,6 @@
-package com.insuranceapplication.policyservice.models;
+package com.insuranceapplication.screenservice.models;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "POLICIES")
-public class Policy {
-    private int policy_id;
+public class PolicyModel {
     private int owner_id;
     private String type;
     private String status;
@@ -14,12 +9,10 @@ public class Policy {
     private String product_type;
     private String alt_no;
 
-    //no argument constructor is required to create entity class
-    public Policy(){
+    public PolicyModel(){
     }
 
-    public Policy(Integer policy_id, Integer owner_id, String type, String status, String start_date, String end_date, String product_type, String alt_no) {
-        this.policy_id = policy_id;
+    public PolicyModel(int owner_id, String type, String status, String start_date, String end_date, String product_type, String alt_no) {
         this.owner_id = owner_id;
         this.type = type;
         this.status = status;
@@ -29,23 +22,11 @@ public class Policy {
         this.alt_no = alt_no;
     }
 
-    @Id
-    @Column(name = "POLICY_ID")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "policy_id")
-    @SequenceGenerator(name = "policy_id", sequenceName = "POLICIES_SEQUENCE", allocationSize = 1)
-    public Integer getPolicy_id() {
-        return policy_id;
-    }
-
-    public void setPolicy_id(Integer policy_id) {
-        this.policy_id = policy_id;
-    }
-
-    public Integer getOwner_id() {
+    public int getOwner_id() {
         return owner_id;
     }
 
-    public void setOwner_id(Integer owner_id) {
+    public void setOwner_id(int owner_id) {
         this.owner_id = owner_id;
     }
 
@@ -95,19 +76,5 @@ public class Policy {
 
     public void setAlt_no(String alt_no) {
         this.alt_no = alt_no;
-    }
-
-    @Override
-    public String toString() {
-        return "Policy{" +
-                "policy_id=" + policy_id +
-                ", owner_id=" + owner_id +
-                ", type='" + type + '\'' +
-                ", status='" + status + '\'' +
-                ", start_date='" + start_date + '\'' +
-                ", end_date='" + end_date + '\'' +
-                ", product_type='" + product_type + '\'' +
-                ", alt_no='" + alt_no + '\'' +
-                '}';
     }
 }

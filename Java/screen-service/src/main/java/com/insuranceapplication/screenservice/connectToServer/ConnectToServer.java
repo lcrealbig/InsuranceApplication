@@ -1,9 +1,6 @@
 package com.insuranceapplication.screenservice.connectToServer;
 
 import com.google.gson.Gson;
-
-import com.insuranceapplication.screenservice.model.user.UserScreen;
-
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -16,7 +13,6 @@ public class ConnectToServer {
     FileReader fileReader = null;
     String serverUrl = "http://localhost";
     Properties properties = new Properties();
-    /*Poczytaj o Eureka*/
 
     public void getRequest(String endpoint) {
 
@@ -62,20 +58,19 @@ public class ConnectToServer {
 
     public void postRequest(String endpoint, Object obj) {
         HttpURLConnection huc = null;
-
         URL url = null;
+
         try {
             fileReader = new FileReader("./src/main/resources/application.properties");
             properties.load(fileReader);
-            String gotowyUrl = serverUrl + ":" + properties.getProperty("server.port") + "/" + endpoint;
-            url = new URL(gotowyUrl);
+            String readyUrl = serverUrl + ":" + properties.getProperty("server.port") + "/" + endpoint;
+            url = new URL(readyUrl);
         } catch (MalformedURLException | FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
         try {
-
             huc = (HttpURLConnection) url.openConnection();
             huc.setRequestMethod("POST");
             huc.setRequestProperty("Content-Type", "application/json; utf-8");
@@ -109,13 +104,12 @@ public class ConnectToServer {
         } finally {
             huc.disconnect();
         }
-
     }
 
     public void postRequest(String endpoint) {
         HttpURLConnection huc = null;
-
         URL url = null;
+
         try {
             fileReader = new FileReader("./src/main/resources/application.properties");
             properties.load(fileReader);
@@ -127,7 +121,6 @@ public class ConnectToServer {
             e.printStackTrace();
         }
         try {
-
             huc = (HttpURLConnection) url.openConnection();
             huc.setRequestMethod("POST");
             huc.setRequestProperty("Content-Type", "application/json; utf-8");
@@ -137,7 +130,6 @@ public class ConnectToServer {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, "UTF-8");
 
             byte[] input = new Gson().toJson("test").getBytes("utf-8");
-
 
             outputStream.write(input, 0, input.length);
             outputStream.close();
@@ -161,9 +153,6 @@ public class ConnectToServer {
         } finally {
             huc.disconnect();
         }
-
     }
-
-
 }
 

@@ -1,9 +1,8 @@
-package com.insuranceapplication.screenservice.loginScreen;
+package com.insuranceapplication.screenservice.screens.user;
 
-
-import com.insuranceapplication.screenservice.connectToServer.ConnectToServer;
 import com.insuranceapplication.screenservice.mainInterface.enums.ScreenType;
-import com.insuranceapplication.screenservice.model.Screen;
+import com.insuranceapplication.screenservice.methods.PostRequest;
+import com.insuranceapplication.screenservice.screens.general.Screen;
 
 import java.util.Scanner;
 
@@ -16,13 +15,10 @@ public class LoginScreen extends Screen {
         int userId = userInput.nextInt();
         System.out.println("Password:");
         String password = userInput.next();
-        ConnectToServer cs = new ConnectToServer();
-        cs.postRequest(
+//        ConnectToServer cs = new ConnectToServer();
+        PostRequest.send(
                 "insert?id=" + userId
                         + "&password=" + password);
 
-
     }
-
-
 }
