@@ -28,7 +28,7 @@ public class LoginScreen extends Screen {
         try {
             Scanner userInput = new Scanner(System.in);
             System.out.println("Login:");
-            int userId = userInput.nextInt();
+            String userId = userInput.next();
             System.out.println("Password:");
             String password = userInput.next();
             ConnectToServer cs = new ConnectToServer();
