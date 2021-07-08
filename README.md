@@ -16,3 +16,9 @@ v_ for varray
 ****** JAVA ******
 
 All names in camelCase
+
+
+logowanie do heroku:
+
+login: mateuszparzys123@gmail.com
+password: Insurance123@
