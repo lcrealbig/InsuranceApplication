@@ -14,7 +14,7 @@ import java.util.Properties;
 public class ConnectToServer {
 
     FileReader fileReader = null;
-    String serverUrl = "http://localhost";
+    String serverUrl = "https://ins-user-service.herokuapp.com";
     Properties properties = new Properties();
     /*Poczytaj o Eureka*/
 
@@ -26,7 +26,7 @@ public class ConnectToServer {
         try {
             fileReader = new FileReader("./src/main/resources/application.properties");
             properties.load(fileReader);
-            String gotowyUrl = serverUrl + ":" + properties.getProperty("server.port") + "/" + endpoint;
+            String gotowyUrl = serverUrl /*+ ":" + properties.getProperty("server.port")*/ + "/" + endpoint;
             url = new URL(gotowyUrl);
             huc = (HttpURLConnection) url.openConnection();
             huc.setRequestMethod("GET");
@@ -66,7 +66,7 @@ public class ConnectToServer {
         try {
             fileReader = new FileReader("./src/main/resources/application.properties");
             properties.load(fileReader);
-            String gotowyUrl = serverUrl + ":" + properties.getProperty("user-service.port") + "/" + endpoint;
+            String gotowyUrl = serverUrl + /*":" + properties.getProperty("user-service.port") + */"/" + endpoint;
             url = new URL(gotowyUrl);
         } catch (MalformedURLException | FileNotFoundException e) {
             e.printStackTrace();
