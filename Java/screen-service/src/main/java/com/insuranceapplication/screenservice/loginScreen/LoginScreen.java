@@ -5,9 +5,9 @@ package com.insuranceapplication.screenservice.loginScreen;
 
 import com.insuranceapplication.screenservice.connectToServer.ConnectToServer;
 import com.insuranceapplication.screenservice.mainInterface.enums.ScreenType;
-import com.insuranceapplication.screenservice.model.Screen;
-import com.insuranceapplication.screenservice.model.user.UserScreen;
 import com.insuranceapplication.screenservice.mainInterface.enums.LoginStatus;
+import com.insuranceapplication.screenservice.screens.general.Screen;
+import com.insuranceapplication.screenservice.screens.user.UserScreen;
 
 
 import java.util.InputMismatchException;
