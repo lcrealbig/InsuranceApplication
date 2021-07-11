@@ -11,6 +11,7 @@ import com.insuranceapplication.screenservice.models.PolicyModel;
 import com.insuranceapplication.screenservice.models.VehiclesModel;
 import com.insuranceapplication.screenservice.screens.general.DataScreen;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -54,10 +55,20 @@ public class CreatePolicy extends DataScreen {
         Requests.setEndpoint("createpolicy");
         Requests.setResponseType(ResponseType.SINGLE);
         Requests.send(policy);
+        System.out.println("Please wait...");
+        pause(2000);  //had to make program stop for a while, because if user types too fast it creates issues with connecting to db
 
         //setting all policy line information
-        System.out.println("Please enter policy ID: ");
-        policyLine.setPolicy_no(userInput.nextInt());
+        Requests.setEndpoint("getpolicy");
+        Requests.setResponseType(ResponseType.ARRAY);
+        JSONArray policyJsonArray = (JSONArray) Requests.send(policy);
+        for (int i = 0; i < policyJsonArray.size(); i++){
+            JSONObject jsonObject = (JSONObject) policyJsonArray.get(i);
+            if (jsonObject.containsKey("policy_id")){
+                Long policy_no = (Long) jsonObject.get("policy_id");
+                policyLine.setPolicy_no((policy_no).intValue());
+            }
+        }
         System.out.println("Please enter product line type: ");
         policyLine.setProduct_line_type(userInput.next());
 
@@ -66,21 +77,7 @@ public class CreatePolicy extends DataScreen {
         Requests.setResponseType(ResponseType.SINGLE);
         Requests.send(policyLine);
 
-          /*       WORKING ON TAKING correct policy no from db            */
-//        PostRequest.setEndpoint("getpolicyid");
-//        PostRequest.setResponseType(ResponseType.SINGLE);
-//        policy_no = PostRequest.send(policy);
-//        System.out.println(policy_no);
-//        System.out.println("policy no: " + policy_no.toString());
-//        policyLine.setPolicy_no(policy_no);
-//        JSONObject policy_id = (JSONObject) PostRequest.send(policy);
-//        System.out.println("policy no: " + policy_id);
-//        policyLine.setPolicy_no(policy_id);
-//        System.out.println("Please enter policy line type: ");
-//        String policyLineType = userInput.next();
-//        policyLine.setProduct_line_type(policyLineType);
-//        policyLine.setPolicy_no(33); //find how to use correct policy no from db
-
+        //code below is responsible for creating insured object model and sending it to policy service
         JSONArray responseArray = null;
         while (true) {
             if (objectItemNo <= 7) {
@@ -134,6 +131,13 @@ public class CreatePolicy extends DataScreen {
                 }
                 objectItemNo++;
             }
+        }
+    }
+    public static void pause(int ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            System.err.format("IOException: %s%n", e);
         }
     }
 }
