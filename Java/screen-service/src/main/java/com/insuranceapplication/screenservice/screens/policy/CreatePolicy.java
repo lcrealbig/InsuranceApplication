@@ -1,19 +1,18 @@
 package com.insuranceapplication.screenservice.screens.policy;
 
 import com.insuranceapplication.screenservice.mainInterface.enums.DataHandlingMethod;
+import com.insuranceapplication.screenservice.mainInterface.enums.RequestMethod;
 import com.insuranceapplication.screenservice.mainInterface.enums.ResponseType;
 import com.insuranceapplication.screenservice.mainInterface.enums.ScreenType;
-import com.insuranceapplication.screenservice.methods.PostRequest;
+import com.insuranceapplication.screenservice.methods.Requests;
 import com.insuranceapplication.screenservice.models.InsuredObjectModel;
 import com.insuranceapplication.screenservice.models.PolicyLineModel;
 import com.insuranceapplication.screenservice.models.PolicyModel;
 import com.insuranceapplication.screenservice.models.VehiclesModel;
 import com.insuranceapplication.screenservice.screens.general.DataScreen;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import java.util.Scanner;
 
 public class CreatePolicy extends DataScreen {
@@ -27,7 +26,8 @@ public class CreatePolicy extends DataScreen {
 
     @Override
     public void create() {
-        PostRequest.setServiceName("policy-service");
+        Requests.setRequestMethod(RequestMethod.POST);
+        Requests.setServiceName("policy-service");
         ArrayList<String> vehicleInterface = new ArrayList<String>(Arrays.asList("vehicle type", "brand", "vehicle model", "generation", "engine type", "engine"));
         PolicyModel policy = new PolicyModel();
         PolicyLineModel policyLine = new PolicyLineModel();
@@ -51,9 +51,9 @@ public class CreatePolicy extends DataScreen {
         policy.setAlt_no(policy.getType() + policy.getOwner_id());
 
         //setting correct postrequest parameteres and sending policy object to policy service
-        PostRequest.setEndpoint("createpolicy");
-        PostRequest.setResponseType(ResponseType.SINGLE);
-        PostRequest.send(policy);
+        Requests.setEndpoint("createpolicy");
+        Requests.setResponseType(ResponseType.SINGLE);
+        Requests.send(policy);
 
         //setting all policy line information
         System.out.println("Please enter policy ID: ");
@@ -62,9 +62,9 @@ public class CreatePolicy extends DataScreen {
         policyLine.setProduct_line_type(userInput.next());
 
         //setting correct postrequest parameteres and sending policyline object to policy service
-        PostRequest.setEndpoint("createpolicyline");
-        PostRequest.setResponseType(ResponseType.SINGLE);
-        PostRequest.send(policyLine);
+        Requests.setEndpoint("createpolicyline");
+        Requests.setResponseType(ResponseType.SINGLE);
+        Requests.send(policyLine);
 
           /*       WORKING ON TAKING correct policy no from db            */
 //        PostRequest.setEndpoint("getpolicyid");
@@ -84,9 +84,9 @@ public class CreatePolicy extends DataScreen {
         JSONArray responseArray = null;
         while (true) {
             if (objectItemNo <= 7) {
-                PostRequest.setEndpoint("getvehicles");
-                PostRequest.setResponseType(ResponseType.ARRAY);
-                responseArray = (JSONArray) PostRequest.send(vehicleModel);
+                Requests.setEndpoint("getvehicles");
+                Requests.setResponseType(ResponseType.ARRAY);
+                responseArray = (JSONArray) Requests.send(vehicleModel);
 
                 if (objectItemNo < 7) {
                     System.out.println("Please enter " + vehicleInterface.get(objectItemNo - 1) + ":");
@@ -126,9 +126,9 @@ public class CreatePolicy extends DataScreen {
                         insuredObjectModel.setC01(userInput.next());
                         System.out.println("Please enter registration number: ");
                         insuredObjectModel.setC02(userInput.next());
-                        PostRequest.setEndpoint("createinsuredobject");
-                        PostRequest.setResponseType(ResponseType.SINGLE);
-                        PostRequest.send(insuredObjectModel);
+                        Requests.setEndpoint("createinsuredobject");
+                        Requests.setResponseType(ResponseType.SINGLE);
+                        Requests.send(insuredObjectModel);
                         System.out.println("You have succesfully created object");
                         return;
                 }

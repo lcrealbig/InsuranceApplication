@@ -1,19 +1,19 @@
 package com.insuranceapplication.screenservice.methods;
 
 import com.google.gson.Gson;
+import com.insuranceapplication.screenservice.mainInterface.enums.RequestMethod;
 import com.insuranceapplication.screenservice.mainInterface.enums.ResponseType;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Properties;
 
-abstract public class PostRequest {
-
+public class Requests {
+    private static String requestMethod = "";
     private static ResponseType responseType = ResponseType.SINGLE;
     private static FileReader fileReader = null;
     private static String serverUrl = "http://localhost";
@@ -60,7 +60,7 @@ abstract public class PostRequest {
             String readyUrl = serverUrl + ":" + servicePort + "/" + endpoint;
             url = new URL(readyUrl);
             huc = (HttpURLConnection) url.openConnection();
-            huc.setRequestMethod("POST");
+            huc.setRequestMethod(requestMethod);
             huc.setRequestProperty("Content-Type", "application/json; utf-8");
             huc.setDoOutput(true);
             outputStream = huc.getOutputStream();
@@ -127,7 +127,7 @@ abstract public class PostRequest {
     }
 
     public static void setEndpoint(String endpoint) {
-        PostRequest.endpoint = endpoint;
+        Requests.endpoint = endpoint;
     }
 
     public static String getServiceName() {
@@ -135,18 +135,29 @@ abstract public class PostRequest {
     }
 
     public static void setServiceName(String serviceName) {
-        PostRequest.serviceName = serviceName;
+        Requests.serviceName = serviceName;
     }
 
     public static void setServerUrl(String serverUrl) {
-        PostRequest.serverUrl = serverUrl;
+        Requests.serverUrl = serverUrl;
     }
 
     public static void setResponseType(ResponseType responseType) {
-        PostRequest.responseType = responseType;
+        Requests.responseType = responseType;
     }
 
     public static ResponseType getResponseType() {
         return responseType;
+    }
+
+    public static void setRequestMethod(RequestMethod requestMethod) {
+        switch (requestMethod){
+            case GET:
+                Requests.requestMethod = "GET";
+                break;
+            case POST:
+                Requests.requestMethod = "POST";
+                break;
+        }
     }
 }

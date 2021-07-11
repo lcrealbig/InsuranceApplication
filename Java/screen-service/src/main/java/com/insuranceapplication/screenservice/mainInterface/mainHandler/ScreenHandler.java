@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class ScreenHandler {
 
     static ArrayList<Screen> previousScreens = new ArrayList<>();
-//    static Screen currentScreen = new LoginScreen();
+    //    static Screen currentScreen = new LoginScreen();
     static Screen currentScreen = new UserScreen();
 
     public static void main(String[] args) {
@@ -26,12 +26,17 @@ public class ScreenHandler {
             for (int i = 0; i < ((SearchScreen) (currentScreen)).getSearchOptions().size(); i++) {
                 System.out.println((i + 1) + ". " + ((SearchScreen) (currentScreen)).getSearchOptions().get(i));
             }
-        } else if (currentScreen.getScreenType().equals(ScreenType.DATA_SCREEN)){
-            switch (((DataScreen)currentScreen).getCurrentMethod()){
-                case CREATE: ((DataScreen)currentScreen).create(); break;
-                case EDIT:  break;
-                case DELETE: break;
-                default: break;
+        } else if (currentScreen.getScreenType().equals(ScreenType.DATA_SCREEN)) {
+            switch (((DataScreen) currentScreen).getCurrentMethod()) {
+                case CREATE:
+                    ((DataScreen) currentScreen).create();
+                    break;
+                case EDIT:
+                    break;
+                case DELETE:
+                    break;
+                default:
+                    break;
             }
 
         } else
@@ -44,15 +49,19 @@ public class ScreenHandler {
         int userChoice = -1;
         try {
             userChoice = scn.nextInt();
+
+            if (userChoice == 0) {
+                currentScreen = previousScreens.get(previousScreens.size() - 1);
+                previousScreens.remove(previousScreens.get(previousScreens.size() - 1));
+            } else {
+                previousScreens.add(currentScreen);
+                currentScreen = currentScreen.getOptionsToSelect().get(userChoice - 1);
+            }
         } catch (InputMismatchException ex) {
             System.out.println("An option does not exists.");
-        }
-        if (userChoice == 0) {
-            currentScreen = previousScreens.get(previousScreens.size() - 1);
+        } catch (IndexOutOfBoundsException ex) {
+            currentScreen = previousScreens.get(previousScreens.size()-1);
             previousScreens.remove(previousScreens.get(previousScreens.size() - 1));
-        } else {
-            previousScreens.add(currentScreen);
-            currentScreen = currentScreen.getOptionsToSelect().get(userChoice - 1);
         }
         chooseAScreen();
     }
