@@ -6,7 +6,6 @@ import com.insuranceapplication.screenservice.screens.general.DataScreen;
 import com.insuranceapplication.screenservice.screens.general.Screen;
 import com.insuranceapplication.screenservice.screens.general.SearchScreen;
 import com.insuranceapplication.screenservice.screens.user.UserScreen;
-
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -19,11 +18,8 @@ public class ScreenHandler {
 
     public static void main(String[] args) {
         ConnectToServer cs = new ConnectToServer();
-//        cs.postRequest("testJson", currentScreen);
-//        cs.postRequest("testJson");
         chooseAScreen();
     }
-
 
     public static void chooseAScreen() {
         if (currentScreen.getScreenType().equals(ScreenType.SEARCH)) {

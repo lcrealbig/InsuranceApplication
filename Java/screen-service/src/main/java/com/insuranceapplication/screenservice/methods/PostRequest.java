@@ -1,35 +1,33 @@
 package com.insuranceapplication.screenservice.methods;
 
 import com.google.gson.Gson;
+import com.insuranceapplication.screenservice.mainInterface.enums.ResponseType;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Properties;
 
 abstract public class PostRequest {
 
-    static FileReader fileReader = null;
-    static String serverUrl = "http://localhost";
-    static Properties properties = new Properties();
+    private static ResponseType responseType = ResponseType.SINGLE;
+    private static FileReader fileReader = null;
+    private static String serverUrl = "http://localhost";
+    private static Properties properties = new Properties();
     private static HttpURLConnection huc = null;
     private static URL url = null;
     private static OutputStream outputStream = null;
     private static OutputStreamWriter outputStreamWriter = null;
     private static String endpoint = "";
-    protected static byte[] input = null;
+    private static byte[] input = null;
     private static String serviceName = null;
-    /* DO WYWYALENIA? */
-//    static public String parseToJson(Object body){
-//        return new Gson().toJson(body);
-//    }
 
 
-
-
-    public static void send(Object body) {
+    public static Object send(Object body) {
         //connection config
         httpPreConnection();
         try {
@@ -41,12 +39,16 @@ abstract public class PostRequest {
             e.printStackTrace();
         }
         // Get response from service
-        InputStreamReader response = (InputStreamReader) getResponse();
+        switch (responseType) {
+            case ARRAY:
+                return getResponseArray();
+            default:
+                return getResponse();
+        }
     }
 
     private static void httpPreConnection() {
         String servicePort = "";
-
         try {
             fileReader = new FileReader("./src/main/resources/application.properties");
             properties.load(fileReader);
@@ -78,15 +80,46 @@ abstract public class PostRequest {
         }
     }
 
-    private static Object getResponse() {
+    private static Object getResponseArray() {
         InputStreamReader inputStreamReader = null;
+        JSONParser jsonParser = new JSONParser();
+        JSONArray jsonArray = null;
         try {
             inputStreamReader = new InputStreamReader(huc.getInputStream());
+            try {
+                jsonArray = (JSONArray) jsonParser.parse(inputStreamReader);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             huc.disconnect();
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
-        return inputStreamReader;
+        return jsonArray;
+    }
+
+    private static Object getResponse() {
+        InputStreamReader inputStreamReader = null;
+        JSONParser jsonParser = new JSONParser();
+        JSONObject jsonObject = null;
+        try {
+            inputStreamReader = new InputStreamReader(huc.getInputStream());
+            jsonObject = (JSONObject) jsonParser.parse(inputStreamReader);
+        } catch (
+                IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            if (e.getErrorType() == 1) {
+                return null;
+            }
+            huc.disconnect();
+            e.printStackTrace();
+        } catch (Exception ex) {
+            System.out.println("Exception");
+        }
+        return jsonObject;
     }
 
     public static String getEndpoint() {
@@ -107,5 +140,13 @@ abstract public class PostRequest {
 
     public static void setServerUrl(String serverUrl) {
         PostRequest.serverUrl = serverUrl;
+    }
+
+    public static void setResponseType(ResponseType responseType) {
+        PostRequest.responseType = responseType;
+    }
+
+    public static ResponseType getResponseType() {
+        return responseType;
     }
 }
