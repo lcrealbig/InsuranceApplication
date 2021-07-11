@@ -1,18 +1,16 @@
 package com.insuranceapplication.policyservice;
 
-import com.google.gson.Gson;
 import com.insuranceapplication.policyservice.models.InsuredObject;
 import com.insuranceapplication.policyservice.models.Policy;
 import com.insuranceapplication.policyservice.models.PolicyLine;
 import com.insuranceapplication.policyservice.models.Vehicles;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 public class PolicyController {
@@ -54,52 +52,42 @@ public class PolicyController {
         emf.close();
     }
 
-    @GetMapping("/getvehicles")
+    @PostMapping("/getvehicles")
     @ResponseBody
-    public String getVehicles(@RequestBody Vehicles vehicles){
+    public ResponseEntity getVehicles(@RequestBody Vehicles vehicles){
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("PolicyService");
         EntityManager entityManager = factory.createEntityManager();
-
         entityManager.getTransaction().begin();
-        Query query = entityManager.createQuery("select distinct v.engine from Vehicles v");
-        if(vehicles.getVehicle_type()==null){
+
+        Query query = null;
+        if(vehicles.getVehicle_type() == null){
             query = entityManager.createQuery("select distinct v.vehicle_type from Vehicles v");
-        }
-        else if(vehicles.getBrand()==null){
+        } else if(vehicles.getBrand() == null){
             query = entityManager.createQuery("select distinct v.brand from Vehicles v");
+        } else if(vehicles.getVehicle_model() == null){
+            query = entityManager.createQuery("select distinct v.vehicle_model from Vehicles v WHERE v.brand = '" + vehicles.getBrand() + "'");
+        } else if(vehicles.getGeneration() == null){
+            query = entityManager.createQuery("select distinct v.generation from Vehicles v WHERE v.vehicle_model = '" + vehicles.getVehicle_model() +
+                                                "' AND v.brand = '" + vehicles.getBrand() + "'");
+        } else if(vehicles.getEngine_type() == null){
+            query = entityManager.createQuery("select distinct v.engine_type from Vehicles v WHERE v.generation = '" + vehicles.getGeneration() +
+                                                 "' and v.vehicle_model = '" + vehicles.getVehicle_model() + "' AND v.brand = '" + vehicles.getBrand() + "'");
+        } else if(vehicles.getEngine() == null){
+            query = entityManager.createQuery("select distinct v.engine from Vehicles v WHERE v.engine_type = '" + vehicles.getEngine_type() +
+                                                 "' and v.vehicle_model = '" + vehicles.getVehicle_model() + "' AND v.brand = '" + vehicles.getBrand() +
+                                                 "' AND v.generation = '" + vehicles.getGeneration() + "'");
+        } else {
+            query = entityManager.createQuery("select distinct v.vehicle_id from Vehicles v WHERE v.engine_type = '" + vehicles.getEngine_type() +
+                                                 "' and v.vehicle_model = '" + vehicles.getVehicle_model() + "' AND v.brand = '" + vehicles.getBrand() +
+                                                 "' AND v.generation = '" + vehicles.getGeneration() + "' and v.engine = '"+vehicles.getEngine()+"'");
         }
 
         ArrayList<String> results = (ArrayList<String>) query.getResultList();
-        results.forEach(System.out::println);
 
         entityManager.getTransaction().commit();
         entityManager.close();
         factory.close();
-        return new Gson().toJson(results);
+
+        return ResponseEntity.ok().body(results);
     }
-
-    @GetMapping("/getlastpolicyno")
-    @ResponseBody
-    public int getLastPolicyNo(){
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("PolicyService");
-        EntityManager entityManager = factory.createEntityManager();
-
-        entityManager.getTransaction().begin();
-        Query query = entityManager.createQuery("select i.policy_id from Policy i");
-        int lastPolicyNo = query.getFirstResult();
-//        SELECT * FROM Table ORDER BY ID DESC LIMIT 1
-
-        entityManager.getTransaction().commit();
-        entityManager.close();
-        factory.close();
-        return lastPolicyNo;
-    }
-
-//    @RequestMapping(value = "getvehicles", method = RequestMethod.GET)
-//    @ResponseBody
-//    public String parseToJson(Object body){
-//        List<Vehicles> vehicles =
-//        return new Gson().toJson(body);
-//    }
-
 }
