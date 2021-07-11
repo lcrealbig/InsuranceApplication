@@ -1,10 +1,13 @@
 package com.insuranceapplication.screenservice.connectToServer;
 
-import com.google.gson.Gson;
+import com.insuranceapplication.screenservice.mainInterface.enums.LoginStatus;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
 import java.io.*;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Properties;
 
@@ -13,6 +16,7 @@ public class ConnectToServer {
     FileReader fileReader = null;
     String serverUrl = "http://localhost";
     Properties properties = new Properties();
+    /*Poczytaj o Eureka*/
 
     public void getRequest(String endpoint) {
 
@@ -43,7 +47,6 @@ public class ConnectToServer {
                 huc.disconnect();
             }
 
-
             // Output the content to the console
             System.out.println(content);
 
@@ -56,64 +59,14 @@ public class ConnectToServer {
 
     }
 
-    public void postRequest(String endpoint, Object obj) {
+    public LoginStatus postRequest(String endpoint) {
+
         HttpURLConnection huc = null;
         URL url = null;
-
         try {
             fileReader = new FileReader("./src/main/resources/application.properties");
             properties.load(fileReader);
-            String readyUrl = serverUrl + ":" + properties.getProperty("server.port") + "/" + endpoint;
-            url = new URL(readyUrl);
-        } catch (MalformedURLException | FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            huc = (HttpURLConnection) url.openConnection();
-            huc.setRequestMethod("POST");
-            huc.setRequestProperty("Content-Type", "application/json; utf-8");
-            huc.setDoOutput(true);
-
-            OutputStream outputStream = huc.getOutputStream();
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, "UTF-8");
-
-            byte[] input = new Gson().toJson(obj).getBytes("utf-8");
-
-
-            outputStream.write(input, 0, input.length);
-            outputStream.close();
-            huc.connect();
-            String content;
-
-            // Get the input stream of the connection
-            InputStreamReader inputStreamReader = null;
-            try {
-                inputStreamReader = new InputStreamReader(huc.getInputStream());
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-
-        } catch (ProtocolException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            huc.disconnect();
-        }
-    }
-
-    public void postRequest(String endpoint) {
-        HttpURLConnection huc = null;
-        URL url = null;
-
-        try {
-            fileReader = new FileReader("./src/main/resources/application.properties");
-            properties.load(fileReader);
-            String gotowyUrl = serverUrl + ":" + properties.getProperty("server.port") + "/" + endpoint;
+            String gotowyUrl = serverUrl + ":" + properties.getProperty("user-service.port") + "/" + endpoint;
             url = new URL(gotowyUrl);
         } catch (MalformedURLException | FileNotFoundException e) {
             e.printStackTrace();
@@ -123,36 +76,28 @@ public class ConnectToServer {
         try {
             huc = (HttpURLConnection) url.openConnection();
             huc.setRequestMethod("POST");
-            huc.setRequestProperty("Content-Type", "application/json; utf-8");
-            huc.setDoOutput(true);
 
-            OutputStream outputStream = huc.getOutputStream();
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, "UTF-8");
-
-            byte[] input = new Gson().toJson("test").getBytes("utf-8");
-
-            outputStream.write(input, 0, input.length);
-            outputStream.close();
-            huc.connect();
-            String content;
-
-            // Get the input stream of the connection
-            InputStreamReader inputStreamReader = null;
+            // Get handle input stream of the connection
             try {
-                inputStreamReader = new InputStreamReader(huc.getInputStream());
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
+                JSONParser jsonParser = new JSONParser();
+                JSONObject jsonObject = (JSONObject) jsonParser.parse(new InputStreamReader(huc.getInputStream()));
+                String userName = jsonObject.get("name").toString();
+                if (userName.equals("NOT_EXIST"))
+                    return LoginStatus.NOT_lOGGED_IN;
+
+            } catch (ConnectException ex) {
+                return LoginStatus.ERROR;
+            } catch (Exception ex) {
+                System.out.println(ex);
+                return LoginStatus.ERROR;
+            } finally {
+                huc.disconnect();
             }
 
-        } catch (ProtocolException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            huc.disconnect();
         }
+        return LoginStatus.LOGGED_IN;
     }
 }
 
