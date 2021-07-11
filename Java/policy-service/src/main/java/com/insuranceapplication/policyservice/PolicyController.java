@@ -25,7 +25,6 @@ public class PolicyController {
         em.getTransaction().commit();
         em.close();
         emf.close();
-        System.out.println(newPolicy);
     }
 
     //function adding new policy line into db, it requests in body data according to PolicyLine model
@@ -91,31 +90,24 @@ public class PolicyController {
         return ResponseEntity.ok().body(results);
     }
 
- //   WORKING ON GETTING CORRECT POLICY NO FROM DB
-/*    @PostMapping("/getpolicyid")
+    @PostMapping("/getpolicy")
     @ResponseBody
-    public ResponseEntity getPolicyId(@RequestBody Policy policy){
+    public ResponseEntity getPolicy(@RequestBody Policy policy){
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("PolicyService");
         EntityManager entityManager = factory.createEntityManager();
         entityManager.getTransaction().begin();
 
-        Query query = null;
-
-        query = entityManager.createQuery("select distinct p.policy_id from Policy p WHERE p.owner_id = '" + policy.getOwner_id() +
+        Query query = entityManager.createQuery("select p from Policy p WHERE p.owner_id = '" + policy.getOwner_id() +
                     "' and p.type = '" + policy.getType() + "' AND p.status = '" + policy.getStatus() +
                     "' AND p.start_date = '" + policy.getStart_date() + "' and p.end_date = '" + policy.getEnd_date() +
                     "'and p.product_type = '" + policy.getProduct_type() + "'");
 
-
         ArrayList<String> results = (ArrayList<String>) query.getResultList();
-        Object result = query.getSingleResult();
-        System.out.println("Policy no: " + result);
 
         entityManager.getTransaction().commit();
         entityManager.close();
         factory.close();
 
-//        return ResponseEntity.ok().body(results);
-        return ResponseEntity.ok().body(result);
-    }*/
+        return ResponseEntity.ok().body(results);
+    }
 }
