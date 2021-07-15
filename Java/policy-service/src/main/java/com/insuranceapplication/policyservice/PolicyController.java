@@ -4,7 +4,6 @@ import com.insuranceapplication.policyservice.models.InsuredObject;
 import com.insuranceapplication.policyservice.models.Policy;
 import com.insuranceapplication.policyservice.models.PolicyLine;
 import com.insuranceapplication.policyservice.models.Vehicles;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class PolicyController {
-    @Autowired
+
     private final PolicyService policyService;
     public PolicyController(PolicyService policyService) {
         this.policyService = policyService;
@@ -37,17 +36,12 @@ public class PolicyController {
     @PostMapping("/getvehicles")
     @ResponseBody
     public ResponseEntity getVehicles(@RequestBody Vehicles vehicles){
-        policyService.getVehicles(vehicles);
-        return ResponseEntity.ok().body(vehicles);
+        return policyService.getVehicles(vehicles);
     }
-
 
     @PostMapping("/getpolicy")
     @ResponseBody
     public ResponseEntity getPolicy(@RequestBody Policy policy){
-        policyService.getPolicy(policy);
-        return ResponseEntity.ok().body(policy);
+        return policyService.getPolicy(policy);
     }
-
-
 }

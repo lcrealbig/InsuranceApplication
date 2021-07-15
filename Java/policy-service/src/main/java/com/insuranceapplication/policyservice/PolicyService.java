@@ -6,14 +6,14 @@ import com.insuranceapplication.policyservice.models.PolicyLine;
 import com.insuranceapplication.policyservice.models.Vehicles;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
+import javax.persistence.*;
 import java.util.ArrayList;
 
 @Service
 public class PolicyService {
+
+//    @PersistenceContext
+//    private EntityManager em;
 
     public void createPolicy(Policy newPolicy){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("PolicyService");
@@ -25,7 +25,6 @@ public class PolicyService {
         emf.close();
     }
 
-    //function adding new policy line into db, it requests in body data according to PolicyLine model
     public void createPolicyLine(PolicyLine newPolicyLine){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("PolicyService");
         EntityManager em = emf.createEntityManager();
@@ -36,7 +35,6 @@ public class PolicyService {
         emf.close();
     }
 
-    //function adding new insured object into db, it requests in body data according to InsuredObject model
     public void createInsuredObject(InsuredObject insuredObject){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("PolicyService");
         EntityManager em = emf.createEntityManager();
@@ -46,7 +44,6 @@ public class PolicyService {
         em.close();
         emf.close();
     }
-
 
     public ResponseEntity getVehicles(Vehicles vehicles){
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("PolicyService");
@@ -76,7 +73,7 @@ public class PolicyService {
                     "' AND v.generation = '" + vehicles.getGeneration() + "' and v.engine = '"+vehicles.getEngine()+"'");
         }
 
-        ArrayList<String> results = (ArrayList<String>) query.getResultList();
+        ArrayList<Vehicles> results = (ArrayList<Vehicles>) query.getResultList();
 
         entityManager.getTransaction().commit();
         entityManager.close();
@@ -90,12 +87,12 @@ public class PolicyService {
         EntityManager entityManager = factory.createEntityManager();
         entityManager.getTransaction().begin();
 
-        Query query = entityManager.createQuery("select p from Policy p WHERE p.owner_id = '" + policy.getOwner_id() +
+        Query query = entityManager.createQuery("select distinct p from Policy p WHERE p.owner_id = '" + policy.getOwner_id() +
                 "' and p.type = '" + policy.getType() + "' AND p.status = '" + policy.getStatus() +
                 "' AND p.start_date = '" + policy.getStart_date() + "' and p.end_date = '" + policy.getEnd_date() +
                 "'and p.product_type = '" + policy.getProduct_type() + "'");
 
-        ArrayList<String> results = (ArrayList<String>) query.getResultList();
+        ArrayList<Policy> results = (ArrayList<Policy>) query.getResultList();
 
         entityManager.getTransaction().commit();
         entityManager.close();
