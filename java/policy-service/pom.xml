@@ -39,11 +39,11 @@
 		</dependency>
 
 		<dependency>
-			<!--Due to Oracledb license restrictions it is mandatory to manually download jdbc driver and provide path to it-->
-			<groupId>com.oracle.database.jdbc</groupId>
-			<artifactId>ojdbc10</artifactId>
-			<version>19.11.0.0</version>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.2.20</version>
 		</dependency>
+
 	</dependencies>
 
 	<build>
