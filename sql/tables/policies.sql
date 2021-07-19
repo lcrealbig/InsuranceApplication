@@ -1,17 +1,18 @@
+--create sequence first to use it as a value for id.
+create SEQUENCE public.policy_id_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 999999;
+
 create table policies(
-POLICY_ID number,
-OWNER_ID number,
-TYPE varchar2(50),
-STATUS varchar2(40),
-START_DATE date,
-END_DATE date,
-PRODUCT_TYPE varchar2(40),
-ALT_NO varchar2(40)
+POLICY_ID int default nextval('policy_id_seq'),
+OWNER_ID int,
+TYPE varchar(50),
+STATUS varchar(40),
+START_DATE varchar(25),
+END_DATE varchar(25),
+PRODUCT_TYPE varchar(40),
+ALT_NO varchar(40)
 );
-/
-create sequence policies_sequence
-minvalue 1
-maxvalue 9999999
-start with 1
-increment by 1;
 /
