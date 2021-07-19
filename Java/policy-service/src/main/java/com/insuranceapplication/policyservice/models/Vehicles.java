@@ -27,9 +27,6 @@ public class Vehicles {
     }
 
     @Id
-    @Column(name = "VEHICLE_ID")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "vehicle_id")
-    @SequenceGenerator(name = "vehicle_id", sequenceName = "VEHICLES_SEQUENCE", allocationSize = 1)
     public int getVehicle_id() {
         return vehicle_id;
     }
