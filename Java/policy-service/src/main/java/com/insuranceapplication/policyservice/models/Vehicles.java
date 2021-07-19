@@ -27,6 +27,8 @@ public class Vehicles {
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "veh_id_seq")
+    @SequenceGenerator(name = "veh_id_seq", allocationSize = 1)
     public int getVehicle_id() {
         return vehicle_id;
     }

@@ -44,6 +44,8 @@ public class InsuredObject {
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "object_id_seq")
+    @SequenceGenerator(name = "object_id_seq", allocationSize = 1)
     public int getObject_id() {
         return object_id;
     }

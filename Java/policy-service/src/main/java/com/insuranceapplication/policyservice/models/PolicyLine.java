@@ -21,6 +21,8 @@ public class PolicyLine {
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "line_id_seq")
+    @SequenceGenerator(name = "line_id_seq", allocationSize = 1)
     public int getLine_id() {
         return line_id;
     }

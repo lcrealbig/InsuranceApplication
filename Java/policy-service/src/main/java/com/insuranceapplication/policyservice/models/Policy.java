@@ -30,6 +30,8 @@ public class Policy {
     }
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "policy_id_seq")
+    @SequenceGenerator(name = "policy_id_seq", allocationSize = 1)
     public Integer getPolicy_id() {
         return policy_id;
     }
