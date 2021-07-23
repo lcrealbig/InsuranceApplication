@@ -1,9 +1,6 @@
 package com.insuranceapplication.policyservice;
 
-import com.insuranceapplication.policyservice.models.InsuredObject;
-import com.insuranceapplication.policyservice.models.Policy;
-import com.insuranceapplication.policyservice.models.PolicyLine;
-import com.insuranceapplication.policyservice.models.Vehicles;
+import com.insuranceapplication.policyservice.models.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,20 +15,27 @@ public class PolicyController {
         this.policyService = policyService;
     }
 
+    @PostMapping("/createtransaction")
+    public void createTransaction(@RequestBody Transactions newTransactions){policyService.createTransaction(newTransactions);}
+
     @PostMapping("/createpolicy")
     public void createPolicy(@RequestBody Policy newPolicy) {
         policyService.createPolicy(newPolicy);
     }
 
     @PostMapping("/createpolicyline")
-    public void createPolicyLine(@RequestBody PolicyLine newPolicyLine){
-        policyService.createPolicyLine(newPolicyLine);
+    public void createPolicyLine(@RequestBody Policy_lines newPolicyLines){
+        policyService.createPolicyLine(newPolicyLines);
     }
 
     @PostMapping("/createinsuredobject")
     public void createInsuredObject(@RequestBody InsuredObject newInsuredObject){
         policyService.createInsuredObject(newInsuredObject);
     }
+
+    @PostMapping("/gettransactionid")
+    @ResponseBody
+    public ResponseEntity getTransactionId(@RequestBody Transactions transactions){return policyService.getTransactionId(transactions);}
 
     @PostMapping("/getvehicles")
     @ResponseBody
@@ -43,5 +47,11 @@ public class PolicyController {
     @ResponseBody
     public ResponseEntity getPolicy(@RequestBody Policy policy){
         return policyService.getPolicy(policy);
+    }
+
+    @PostMapping("/getpolicyline")
+    @ResponseBody
+    public ResponseEntity getPolicyLine(@RequestBody Policy_lines policyLines){
+        return policyService.getPolicyLine(policyLines);
     }
 }

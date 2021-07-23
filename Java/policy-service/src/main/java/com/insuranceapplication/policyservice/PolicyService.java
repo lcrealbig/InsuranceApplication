@@ -1,103 +1,91 @@
 package com.insuranceapplication.policyservice;
 
-import com.insuranceapplication.policyservice.models.InsuredObject;
-import com.insuranceapplication.policyservice.models.Policy;
-import com.insuranceapplication.policyservice.models.PolicyLine;
-import com.insuranceapplication.policyservice.models.Vehicles;
+import com.insuranceapplication.policyservice.models.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 
 @Service
 public class PolicyService {
 
-//    @PersistenceContext
-//    private EntityManager em;
+    @PersistenceContext
+    private EntityManager em;
 
+    @Transactional
+    public void createTransaction(Transactions transactions) {em.persist(transactions);}
+
+    @Transactional
     public void createPolicy(Policy newPolicy){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PolicyService");
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
         em.persist(newPolicy);
-        em.getTransaction().commit();
-        em.close();
-        emf.close();
     }
 
-    public void createPolicyLine(PolicyLine newPolicyLine){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PolicyService");
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.persist(newPolicyLine);
-        em.getTransaction().commit();
-        em.close();
-        emf.close();
+    @Transactional
+    public void createPolicyLine(Policy_lines newPolicyLines){
+        em.persist(newPolicyLines);
     }
 
+    @Transactional
     public void createInsuredObject(InsuredObject insuredObject){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PolicyService");
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
         em.persist(insuredObject);
-        em.getTransaction().commit();
-        em.close();
-        emf.close();
     }
 
-    public ResponseEntity getVehicles(Vehicles vehicles){
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("PolicyService");
-        EntityManager entityManager = factory.createEntityManager();
-        entityManager.getTransaction().begin();
+    @Transactional
+    public ResponseEntity getTransactionId(Transactions transactions) {
+        Query query = em.createQuery("select distinct t from Transactions t WHERE t.modifiedBy = '" + transactions.getModifiedBy() +
+                "' AND t.timestamp = '" + transactions.getTimestamp() + "'");
 
+        ArrayList<Transactions> resultArray = (ArrayList<Transactions>) query.getResultList();
+        Transactions result = resultArray.get(0);
+        return ResponseEntity.ok().body(result);
+    }
+
+    @Transactional
+    public ResponseEntity getVehicles(Vehicles vehicles){
         Query query = null;
-        if(vehicles.getVehicle_type() == null){
-            query = entityManager.createQuery("select distinct v.vehicle_type from Vehicles v");
+        if(vehicles.getVehicleType() == null){
+            query = em.createQuery("select distinct v.vehicleType from Vehicles v");
         } else if(vehicles.getBrand() == null){
-            query = entityManager.createQuery("select distinct v.brand from Vehicles v");
-        } else if(vehicles.getVehicle_model() == null){
-            query = entityManager.createQuery("select distinct v.vehicle_model from Vehicles v WHERE v.brand = '" + vehicles.getBrand() + "'");
+            query = em.createQuery("select distinct v.brand from Vehicles v");
+        } else if(vehicles.getVehicleModel() == null){
+            query = em.createQuery("select distinct v.vehicleModel from Vehicles v WHERE v.brand = '" + vehicles.getBrand() + "'");
         } else if(vehicles.getGeneration() == null){
-            query = entityManager.createQuery("select distinct v.generation from Vehicles v WHERE v.vehicle_model = '" + vehicles.getVehicle_model() +
+            query = em.createQuery("select distinct v.generation from Vehicles v WHERE v.vehicleModel = '" + vehicles.getVehicleModel() +
                     "' AND v.brand = '" + vehicles.getBrand() + "'");
-        } else if(vehicles.getEngine_type() == null){
-            query = entityManager.createQuery("select distinct v.engine_type from Vehicles v WHERE v.generation = '" + vehicles.getGeneration() +
-                    "' and v.vehicle_model = '" + vehicles.getVehicle_model() + "' AND v.brand = '" + vehicles.getBrand() + "'");
+        } else if(vehicles.getEngineType() == null){
+            query = em.createQuery("select distinct v.engineType from Vehicles v WHERE v.generation = '" + vehicles.getGeneration() +
+                    "' and v.vehicleModel = '" + vehicles.getVehicleModel() + "' AND v.brand = '" + vehicles.getBrand() + "'");
         } else if(vehicles.getEngine() == null){
-            query = entityManager.createQuery("select distinct v.engine from Vehicles v WHERE v.engine_type = '" + vehicles.getEngine_type() +
-                    "' and v.vehicle_model = '" + vehicles.getVehicle_model() + "' AND v.brand = '" + vehicles.getBrand() +
+            query = em.createQuery("select distinct v.engine from Vehicles v WHERE v.engineType = '" + vehicles.getEngineType() +
+                    "' and v.vehicleModel = '" + vehicles.getVehicleModel() + "' AND v.brand = '" + vehicles.getBrand() +
                     "' AND v.generation = '" + vehicles.getGeneration() + "'");
         } else {
-            query = entityManager.createQuery("select distinct v.vehicle_id from Vehicles v WHERE v.engine_type = '" + vehicles.getEngine_type() +
-                    "' and v.vehicle_model = '" + vehicles.getVehicle_model() + "' AND v.brand = '" + vehicles.getBrand() +
+            query = em.createQuery("select distinct v.vehicleId from Vehicles v WHERE v.engineType = '" + vehicles.getEngineType() +
+                    "' and v.vehicleModel = '" + vehicles.getVehicleModel() + "' AND v.brand = '" + vehicles.getBrand() +
                     "' AND v.generation = '" + vehicles.getGeneration() + "' and v.engine = '"+vehicles.getEngine()+"'");
         }
 
         ArrayList<Vehicles> results = (ArrayList<Vehicles>) query.getResultList();
 
-        entityManager.getTransaction().commit();
-        entityManager.close();
-        factory.close();
-
         return ResponseEntity.ok().body(results);
     }
 
-    public static ResponseEntity getPolicy(Policy policy){
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("PolicyService");
-        EntityManager entityManager = factory.createEntityManager();
-        entityManager.getTransaction().begin();
+    @Transactional
+    public ResponseEntity getPolicy(Policy policy){
+        Query query = em.createQuery("select p from Policy p WHERE p.transactionId = '" + policy.getTransactionId() + "'");
 
-        Query query = entityManager.createQuery("select distinct p from Policy p WHERE p.owner_id = '" + policy.getOwner_id() +
-                "' and p.type = '" + policy.getType() + "' AND p.status = '" + policy.getStatus() +
-                "' AND p.start_date = '" + policy.getStart_date() + "' and p.end_date = '" + policy.getEnd_date() +
-                "'and p.product_type = '" + policy.getProduct_type() + "'");
+        ArrayList<Policy> resultArray = (ArrayList<Policy>) query.getResultList();
+        Policy result = resultArray.get(0);
+        return ResponseEntity.ok().body(result);
+    }
 
-        ArrayList<Policy> results = (ArrayList<Policy>) query.getResultList();
+    @Transactional
+    public ResponseEntity getPolicyLine(Policy_lines policy_lines){
+        Query query = em.createQuery("select p from Policy_lines p WHERE p.transactionId = '" + policy_lines.getTransactionId() + "'");
 
-        entityManager.getTransaction().commit();
-        entityManager.close();
-        factory.close();
-
-        return ResponseEntity.ok().body(results);
+        ArrayList<Policy_lines> resultArray = (ArrayList<Policy_lines>) query.getResultList();
+        Policy_lines result = resultArray.get(0);
+        return ResponseEntity.ok().body(result);
     }
 }
