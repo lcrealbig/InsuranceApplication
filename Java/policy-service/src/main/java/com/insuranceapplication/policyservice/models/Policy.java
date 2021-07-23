@@ -105,18 +105,4 @@ public class Policy {
     public void setAltNo(String altNo) {
         this.altNo = altNo;
     }
-
-    @Override
-    public String toString() {
-        return "Policy{" +
-                "policy_id=" + policyId +
-                ", owner_id=" + ownerId +
-                ", type='" + type + '\'' +
-                ", status='" + status + '\'' +
-                ", start_date='" + startDate + '\'' +
-                ", end_date='" + endDate + '\'' +
-                ", product_type='" + productType + '\'' +
-                ", alt_no='" + altNo + '\'' +
-                '}';
-    }
 }

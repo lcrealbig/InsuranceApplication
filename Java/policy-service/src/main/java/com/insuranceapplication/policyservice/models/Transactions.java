@@ -54,14 +54,4 @@ public class Transactions {
     public void setTransactionType(String transactionType) {
         this.transactionType = transactionType;
     }
-
-    @Override
-    public String toString() {
-        return "Transaction{" +
-                "transaction_id=" + transactionId +
-                ", modified_by='" + modifiedBy + '\'' +
-                ", timestamp='" + timestamp + '\'' +
-                ", transaction_type='" + transactionType + '\'' +
-                '}';
-    }
 }

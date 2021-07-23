@@ -84,17 +84,4 @@ public class Vehicles {
     public void setEngine(String engine) {
         this.engine = engine;
     }
-
-    @Override
-    public String toString() {
-        return "Vehicles{" +
-                "vehicle_id=" + vehicleId +
-                ", vehicle_type='" + vehicleType + '\'' +
-                ", brand='" + brand + '\'' +
-                ", vehicle_model='" + vehicleModel + '\'' +
-                ", generation='" + generation + '\'' +
-                ", engine_type='" + engineType + '\'' +
-                ", engine='" + engine + '\'' +
-                '}';
-    }
 }
