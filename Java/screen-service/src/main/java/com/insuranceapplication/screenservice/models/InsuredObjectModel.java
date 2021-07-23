@@ -3,8 +3,9 @@ package com.insuranceapplication.screenservice.models;
 import java.util.Date;
 
 public class InsuredObjectModel {
-    private int object_id;
-    private int policy_line_no;
+    private int objectId;
+    private int policyLineNo;
+    private int transactionId;
     private String type;
     private String c01;
     private String c02;
@@ -21,10 +22,10 @@ public class InsuredObjectModel {
     public InsuredObjectModel() {
     }
 
-    public InsuredObjectModel(int object_id, int policy_line_no, String type, String c01, String c02, String c03,
-                         String c04, int n01, int n02, int n03, int n04, Date d01, Date d02, Date d03) {
-        this.object_id = object_id;
-        this.policy_line_no = policy_line_no;
+    public InsuredObjectModel(int objectId, int policyLineNo, int transactionId, String type, String c01, String c02, String c03, String c04, int n01, int n02, int n03, int n04, Date d01, Date d02, Date d03) {
+        this.objectId = objectId;
+        this.policyLineNo = policyLineNo;
+        this.transactionId = transactionId;
         this.type = type;
         this.c01 = c01;
         this.c02 = c02;
@@ -39,20 +40,28 @@ public class InsuredObjectModel {
         this.d03 = d03;
     }
 
-    public int getObject_id() {
-        return object_id;
+    public int getObjectId() {
+        return objectId;
     }
 
-    public void setObject_id(int object_id) {
-        this.object_id = object_id;
+    public void setObjectId(int objectId) {
+        this.objectId = objectId;
     }
 
-    public int getPolicy_line_no() {
-        return policy_line_no;
+    public int getPolicyLineNo() {
+        return policyLineNo;
     }
 
-    public void setPolicy_line_no(int policy_line_no) {
-        this.policy_line_no = policy_line_no;
+    public void setPolicyLineNo(int policyLineNo) {
+        this.policyLineNo = policyLineNo;
+    }
+
+    public int getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(int transactionId) {
+        this.transactionId = transactionId;
     }
 
     public String getType() {

@@ -1,28 +1,21 @@
-package com.insuranceapplication.policyservice.models;
+package com.insuranceapplication.screenservice.models;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "TRANSACTIONS")
-public class Transactions {
+public class TransactionModel {
     private int transactionId;
     private String modifiedBy;
     private String timestamp;
     private String transactionType;
 
-    public Transactions(int transactionId, String modifiedBy, String modified_time, String transactionType) {
+    public TransactionModel(int transactionId, String modifiedBy, String modified_time, String transactionType) {
         this.transactionId = transactionId;
         this.modifiedBy = modifiedBy;
         this.timestamp = modified_time;
         this.transactionType = transactionType;
     }
 
-    public Transactions() {
+    public TransactionModel() {
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transactions_seq")
-    @SequenceGenerator(name = "transactions_seq", allocationSize = 1)
     public int getTransactionId() {
         return transactionId;
     }
@@ -43,7 +36,7 @@ public class Transactions {
         return timestamp;
     }
 
-    public void setTimestamp(String  timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -53,15 +46,5 @@ public class Transactions {
 
     public void setTransactionType(String transactionType) {
         this.transactionType = transactionType;
-    }
-
-    @Override
-    public String toString() {
-        return "Transaction{" +
-                "transaction_id=" + transactionId +
-                ", modified_by='" + modifiedBy + '\'' +
-                ", timestamp='" + timestamp + '\'' +
-                ", transaction_type='" + transactionType + '\'' +
-                '}';
     }
 }

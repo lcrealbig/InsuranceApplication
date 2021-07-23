@@ -5,44 +5,44 @@ import javax.persistence.*;
 @Entity
 @Table(name = "VEHICLES")
 public class Vehicles {
-    private int vehicle_id;
-    private String vehicle_type;
+    private int vehicleId;
+    private String vehicleType;
     private String brand;
-    private String vehicle_model;
+    private String vehicleModel;
     private String generation;
-    private String engine_type;
+    private String engineType;
     private String engine;
 
     public Vehicles() {
     }
 
-    public Vehicles(int vehicle_id, String vehicle_type, String brand, String vehicle_model, String generation, String engine_type, String engine) {
-        this.vehicle_id = vehicle_id;
-        this.vehicle_type = vehicle_type;
+    public Vehicles(int vehicleId, String vehicleType, String brand, String vehicleModel, String generation, String engineType, String engine) {
+        this.vehicleId = vehicleId;
+        this.vehicleType = vehicleType;
         this.brand = brand;
-        this.vehicle_model = vehicle_model;
+        this.vehicleModel = vehicleModel;
         this.generation = generation;
-        this.engine_type = engine_type;
+        this.engineType = engineType;
         this.engine = engine;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "veh_id_seq")
     @SequenceGenerator(name = "veh_id_seq", allocationSize = 1)
-    public int getVehicle_id() {
-        return vehicle_id;
+    public int getVehicleId() {
+        return vehicleId;
     }
 
-    public void setVehicle_id(int vehicle_id) {
-        this.vehicle_id = vehicle_id;
+    public void setVehicleId(int vehicleId) {
+        this.vehicleId = vehicleId;
     }
 
-    public String getVehicle_type() {
-        return vehicle_type;
+    public String getVehicleType() {
+        return vehicleType;
     }
 
-    public void setVehicle_type(String vehicle_type) {
-        this.vehicle_type = vehicle_type;
+    public void setVehicleType(String vehicleType) {
+        this.vehicleType = vehicleType;
     }
 
     public String getBrand() {
@@ -53,12 +53,12 @@ public class Vehicles {
         this.brand = brand;
     }
 
-    public String getVehicle_model() {
-        return vehicle_model;
+    public String getVehicleModel() {
+        return vehicleModel;
     }
 
-    public void setVehicle_model(String vehicle_model) {
-        this.vehicle_model = vehicle_model;
+    public void setVehicleModel(String vehicleModel) {
+        this.vehicleModel = vehicleModel;
     }
 
     public String getGeneration() {
@@ -69,12 +69,12 @@ public class Vehicles {
         this.generation = generation;
     }
 
-    public String getEngine_type() {
-        return engine_type;
+    public String getEngineType() {
+        return engineType;
     }
 
-    public void setEngine_type(String engine_type) {
-        this.engine_type = engine_type;
+    public void setEngineType(String engineType) {
+        this.engineType = engineType;
     }
 
     public String getEngine() {
@@ -88,12 +88,12 @@ public class Vehicles {
     @Override
     public String toString() {
         return "Vehicles{" +
-                "vehicle_id=" + vehicle_id +
-                ", vehicle_type='" + vehicle_type + '\'' +
+                "vehicle_id=" + vehicleId +
+                ", vehicle_type='" + vehicleType + '\'' +
                 ", brand='" + brand + '\'' +
-                ", vehicle_model='" + vehicle_model + '\'' +
+                ", vehicle_model='" + vehicleModel + '\'' +
                 ", generation='" + generation + '\'' +
-                ", engine_type='" + engine_type + '\'' +
+                ", engine_type='" + engineType + '\'' +
                 ", engine='" + engine + '\'' +
                 '}';
     }

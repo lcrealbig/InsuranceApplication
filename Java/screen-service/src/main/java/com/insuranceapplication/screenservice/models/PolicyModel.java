@@ -1,33 +1,43 @@
 package com.insuranceapplication.screenservice.models;
 
 public class PolicyModel {
-    private int owner_id;
+    private int ownerId;
+    private int transactionId;
     private String type;
     private String status;
-    private String start_date;
-    private String end_date;
-    private String product_type;
-    private String alt_no;
+    private String startDate;
+    private String endDate;
+    private String productType;
+    private String altNo;
 
     public PolicyModel(){
     }
 
-    public PolicyModel(int owner_id, String type, String status, String start_date, String end_date, String product_type, String alt_no) {
-        this.owner_id = owner_id;
+    public PolicyModel(int ownerId, int transactionId, String type, String status, String startDate, String endDate, String productType, String altNo) {
+        this.ownerId = ownerId;
+        this.transactionId = transactionId;
         this.type = type;
         this.status = status;
-        this.start_date = start_date;
-        this.end_date = end_date;
-        this.product_type = product_type;
-        this.alt_no = alt_no;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.productType = productType;
+        this.altNo = altNo;
     }
 
-    public int getOwner_id() {
-        return owner_id;
+    public int getOwnerId() {
+        return ownerId;
     }
 
-    public void setOwner_id(int owner_id) {
-        this.owner_id = owner_id;
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public int getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(int transactionId) {
+        this.transactionId = transactionId;
     }
 
     public String getType() {
@@ -46,35 +56,35 @@ public class PolicyModel {
         this.status = status;
     }
 
-    public String getStart_date() {
-        return start_date;
+    public String getStartDate() {
+        return startDate;
     }
 
-    public void setStart_date(String start_date) {
-        this.start_date = start_date;
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
     }
 
-    public String getEnd_date() {
-        return end_date;
+    public String getEndDate() {
+        return endDate;
     }
 
-    public void setEnd_date(String end_date) {
-        this.end_date = end_date;
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 
-    public String getProduct_type() {
-        return product_type;
+    public String getProductType() {
+        return productType;
     }
 
-    public void setProduct_type(String product_type) {
-        this.product_type = product_type;
+    public void setProductType(String productType) {
+        this.productType = productType;
     }
 
-    public String getAlt_no() {
-        return alt_no;
+    public String getAltNo() {
+        return altNo;
     }
 
-    public void setAlt_no(String alt_no) {
-        this.alt_no = alt_no;
+    public void setAltNo(String altNo) {
+        this.altNo = altNo;
     }
 }

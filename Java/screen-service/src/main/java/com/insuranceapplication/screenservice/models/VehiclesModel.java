@@ -1,41 +1,41 @@
 package com.insuranceapplication.screenservice.models;
 
 public class VehiclesModel {
-    private int vehicle_id;
-    private String vehicle_type;
+    private int vehicleId;
+    private String vehicleType;
     private String brand;
-    private String vehicle_model;
+    private String vehicleModel;
     private String generation;
-    private String engine_type;
+    private String engineType;
     private String engine;
 
     public VehiclesModel() {
     }
 
-    public VehiclesModel(int vehicle_id, String vehicle_type, String brand, String vehicle_model, String generation, String engine_type, String engine) {
-        this.vehicle_id = vehicle_id;
-        this.vehicle_type = vehicle_type;
+    public VehiclesModel(int vehicleId, String vehicleType, String brand, String vehicleModel, String generation, String engineType, String engine) {
+        this.vehicleId = vehicleId;
+        this.vehicleType = vehicleType;
         this.brand = brand;
-        this.vehicle_model = vehicle_model;
+        this.vehicleModel = vehicleModel;
         this.generation = generation;
-        this.engine_type = engine_type;
+        this.engineType = engineType;
         this.engine = engine;
     }
 
-    public int getVehicle_id() {
-        return vehicle_id;
+    public int getVehicleId() {
+        return vehicleId;
     }
 
-    public void setVehicle_id(int vehicle_id) {
-        this.vehicle_id = vehicle_id;
+    public void setVehicleId(int vehicleId) {
+        this.vehicleId = vehicleId;
     }
 
-    public String getVehicle_type() {
-        return vehicle_type;
+    public String getVehicleType() {
+        return vehicleType;
     }
 
-    public void setVehicle_type(String vehicle_type) {
-        this.vehicle_type = vehicle_type;
+    public void setVehicleType(String vehicleType) {
+        this.vehicleType = vehicleType;
     }
 
     public String getBrand() {
@@ -46,12 +46,12 @@ public class VehiclesModel {
         this.brand = brand;
     }
 
-    public String getVehicle_model() {
-        return vehicle_model;
+    public String getVehicleModel() {
+        return vehicleModel;
     }
 
-    public void setVehicle_model(String vehicle_model) {
-        this.vehicle_model = vehicle_model;
+    public void setVehicleModel(String vehicleModel) {
+        this.vehicleModel = vehicleModel;
     }
 
     public String getGeneration() {
@@ -62,12 +62,12 @@ public class VehiclesModel {
         this.generation = generation;
     }
 
-    public String getEngine_type() {
-        return engine_type;
+    public String getEngineType() {
+        return engineType;
     }
 
-    public void setEngine_type(String engine_type) {
-        this.engine_type = engine_type;
+    public void setEngineType(String engineType) {
+        this.engineType = engineType;
     }
 
     public String getEngine() {
