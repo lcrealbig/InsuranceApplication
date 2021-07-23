@@ -7,7 +7,7 @@ CREATE SEQUENCE public.transactions_seq
 create table transactions(
 TRANSACTION_ID int default nextval('transactions_seq'),
 MODIFIED_BY varchar(30),
-MODIFIED_TIME DATE,
+TIMESTAMP varchar(40),
 TRANSACTION_TYPE varchar(20)
 );
 /

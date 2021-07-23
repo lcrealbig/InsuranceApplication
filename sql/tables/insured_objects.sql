@@ -9,6 +9,7 @@ create SEQUENCE public.object_id_seq
 create table insured_objects(
 OBJECT_ID int  default nextval('object_id_seq') ,
 POLICY_LINE_NO int,
+TRANSACTION_ID int,
 TYPE varchar(40),
 C01 varchar(40),
 C02 varchar(40),

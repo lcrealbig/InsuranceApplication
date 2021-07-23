@@ -7,6 +7,7 @@ create SEQUENCE public.policy_id_seq
 
 create table policies(
 POLICY_ID int default nextval('policy_id_seq'),
+TRANSACTION_ID int,
 OWNER_ID int,
 TYPE varchar(50),
 STATUS varchar(40),
