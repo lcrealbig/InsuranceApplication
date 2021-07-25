@@ -95,7 +95,7 @@ public class CreatePolicy extends DataScreen {
         Requests.setEndpoint("getpolicyline");
         Requests.send(policyLineModel);
         JSONObject policyLine = (JSONObject) Requests.send(policyLineModel);
-        Long policyLineNo = (Long) policyLine.get("lineId");
+        Long policyLineNo = (Long) policyLine.get("policyLineNo");
 
         //code below is responsible for creating insured object model and sending it to policy service
         JSONArray responseArray = null;

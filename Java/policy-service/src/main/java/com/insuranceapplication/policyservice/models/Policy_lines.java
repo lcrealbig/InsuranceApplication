@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "POLICY_LINES")
 public class Policy_lines {
-    private int lineId;
+    private int policyLineNo;
     private int transactionId;
     private int policyNo;
     private String productLineType;
@@ -14,8 +14,8 @@ public class Policy_lines {
     public Policy_lines(){
     }
 
-    public Policy_lines(int lineId, int transactionId, int policyNo, String productLineType) {
-        this.lineId = lineId;
+    public Policy_lines(int policyLineNo, int transactionId, int policyNo, String productLineType) {
+        this.policyLineNo = policyLineNo;
         this.transactionId = transactionId;
         this.policyNo = policyNo;
         this.productLineType = productLineType;
@@ -24,12 +24,12 @@ public class Policy_lines {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "line_id_seq")
     @SequenceGenerator(name = "line_id_seq", allocationSize = 1)
-    public int getLineId() {
-        return lineId;
+    public int getPolicyLineNo() {
+        return policyLineNo;
     }
 
-    public void setLineId(int lineId) {
-        this.lineId = lineId;
+    public void setPolicyLineNo(int policyLineNo) {
+        this.policyLineNo = policyLineNo;
     }
 
     public int getTransactionId() {

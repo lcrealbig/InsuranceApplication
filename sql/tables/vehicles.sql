@@ -1,4 +1,3 @@
---create sequence first to use it as a value for id.
 CREATE SEQUENCE public.veh_id_seq
     INCREMENT 1
     START 1

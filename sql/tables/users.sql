@@ -1,4 +1,3 @@
---create sequence first to use it as a value for id.
 create SEQUENCE public.user_id_seq
     INCREMENT 1
     START 1
