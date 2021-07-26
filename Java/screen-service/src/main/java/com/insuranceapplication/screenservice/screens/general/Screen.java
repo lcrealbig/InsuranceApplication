@@ -9,12 +9,15 @@ public class Screen {
     String date;
     protected String screenTitle = "";
     protected ScreenType screenType = ScreenType.SCREEN;
+    protected String currentUser ="";
 
     public Screen() {}
 
     public Screen(ArrayList<Screen> optionsToSelect) {
         this.optionsToSelect = optionsToSelect;
         this.date = java.util.Calendar.getInstance().getTime() + "";
+        this.displayScreenTitle();
+
     }
 
     public ArrayList<Screen> getOptionsToSelect() {
@@ -47,5 +50,8 @@ public class Screen {
 
     public void setScreenType(ScreenType screenType) {
         this.screenType = screenType;
+    }
+    public void displayScreenTitle(){
+        System.out.println("Welcome " + currentUser +" Currently at : " +screenTitle);
     }
 }

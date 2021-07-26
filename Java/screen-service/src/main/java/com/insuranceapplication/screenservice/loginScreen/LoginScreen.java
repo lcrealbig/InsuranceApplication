@@ -6,6 +6,7 @@ package com.insuranceapplication.screenservice.loginScreen;
 import com.insuranceapplication.screenservice.connectToServer.ConnectToServer;
 import com.insuranceapplication.screenservice.mainInterface.enums.ScreenType;
 import com.insuranceapplication.screenservice.mainInterface.enums.LoginStatus;
+import com.insuranceapplication.screenservice.methods.Requests;
 import com.insuranceapplication.screenservice.screens.general.Screen;
 import com.insuranceapplication.screenservice.screens.user.UserScreen;
 
@@ -31,8 +32,8 @@ public class LoginScreen extends Screen {
             String userId = userInput.next();
             System.out.println("Password:");
             String password = userInput.next();
-            ConnectToServer cs = new ConnectToServer();
-            LoginStatus status = cs.postRequest(
+
+            LoginStatus status = (LoginStatus) Requests.send(
                     "verify?id=" + userId
                             + "&password=" + password);
             if (status.equals(LoginStatus.LOGGED_IN)) {
