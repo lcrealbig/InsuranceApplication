@@ -1,11 +1,8 @@
-package com.insuranceapplication.policyservice.models;
+package com.insuranceapplication.screenservice.models;
 
 import java.util.Date;
-import javax.persistence.*;
 
-@Entity
-@Table(name = "INSURED_OBJECTS")
-public class InsuredObject {
+public class InsuredObjectModel {
     private int objectId;
     private int policyLineNo;
     private int transactionId;
@@ -22,11 +19,10 @@ public class InsuredObject {
     private Date d02;
     private Date d03;
 
-    //no argument constructor is required to create entity class
-    public InsuredObject() {
+    public InsuredObjectModel() {
     }
 
-    public InsuredObject(int objectId, int policyLineNo, int transactionId, String type, String c01, String c02, String c03, String c04, int n01, int n02, int n03, int n04, Date d01, Date d02, Date d03) {
+    public InsuredObjectModel(int objectId, int policyLineNo, int transactionId, String type, String c01, String c02, String c03, String c04, int n01, int n02, int n03, int n04, Date d01, Date d02, Date d03) {
         this.objectId = objectId;
         this.policyLineNo = policyLineNo;
         this.transactionId = transactionId;
@@ -44,9 +40,6 @@ public class InsuredObject {
         this.d03 = d03;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "object_id_seq")
-    @SequenceGenerator(name = "object_id_seq", allocationSize = 1)
     public int getObjectId() {
         return objectId;
     }

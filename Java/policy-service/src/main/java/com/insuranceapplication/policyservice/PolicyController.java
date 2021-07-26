@@ -1,59 +1,57 @@
 package com.insuranceapplication.policyservice;
 
-import com.insuranceapplication.policyservice.models.InsuredObject;
-import com.insuranceapplication.policyservice.models.Policy;
-import com.insuranceapplication.policyservice.models.PolicyLine;
+import com.insuranceapplication.policyservice.models.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 @RestController
 public class PolicyController {
 
-    //function adding new policy into db, it requests in body data according to Policy model
+    private final PolicyService policyService;
+    public PolicyController(PolicyService policyService) {
+        this.policyService = policyService;
+    }
+
+    @PostMapping("/createtransaction")
+    public void createTransaction(@RequestBody Transactions newTransactions){policyService.createTransaction(newTransactions);}
+
     @PostMapping("/createpolicy")
-    public void createPolicy(@RequestBody Policy newPolicy){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PolicyService");
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.persist(newPolicy);
-        em.getTransaction().commit();
-        em.close();
-        emf.close();
+    public void createPolicy(@RequestBody Policy newPolicy) {
+        policyService.createPolicy(newPolicy);
     }
 
-    //function adding new policy line into db, it requests in body data according to PolicyLine model
     @PostMapping("/createpolicyline")
-    public void createPolicyLine(@RequestBody PolicyLine newPolicyLine){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PolicyService");
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.persist(newPolicyLine);
-        em.getTransaction().commit();
-        em.close();
-        emf.close();
+    public void createPolicyLine(@RequestBody Policy_lines newPolicyLines){
+        policyService.createPolicyLine(newPolicyLines);
     }
 
-    //function adding new insured object into db, it requests in body data according to InsuredObject model
     @PostMapping("/createinsuredobject")
-    public void createInsuredObject(@RequestBody InsuredObject insuredObject){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PolicyService");
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.persist(insuredObject);
-        em.getTransaction().commit();
-        em.close();
-        emf.close();
+    public void createInsuredObject(@RequestBody InsuredObject newInsuredObject){
+        policyService.createInsuredObject(newInsuredObject);
     }
 
-    @PostMapping("/testJson")
-    public void testClient(@RequestBody Object obj){
+    @PostMapping("/gettransactionid")
+    @ResponseBody
+    public ResponseEntity getTransactionId(@RequestBody Transactions transactions){return policyService.getTransactionId(transactions);}
 
-        System.out.println(obj.toString());
-
+    @PostMapping("/getvehicles")
+    @ResponseBody
+    public ResponseEntity getVehicles(@RequestBody Vehicles vehicles){
+        return policyService.getVehicles(vehicles);
     }
 
+    @PostMapping("/getpolicy")
+    @ResponseBody
+    public ResponseEntity getPolicy(@RequestBody Policy policy){
+        return policyService.getPolicy(policy);
+    }
+
+    @PostMapping("/getpolicyline")
+    @ResponseBody
+    public ResponseEntity getPolicyLine(@RequestBody Policy_lines policyLines){
+        return policyService.getPolicyLine(policyLines);
+    }
 }

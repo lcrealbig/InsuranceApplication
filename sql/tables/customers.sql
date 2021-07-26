@@ -1,15 +1,19 @@
+--create sequence first, to use it as a value for id.
+
+create SEQUENCE public.cust_id_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 999999;
+
+
 create table customers(
-CUSTOMER_ID number,
-NAME varchar2(70),
-PESEL number,
-ADRESS varchar2(90),
+CUSTOMER_ID int default nextval('cust_id_seq'),
+NAME varchar(80),
+PESEL int,
+ADDRESS varchar(60),
 BIRTH_DATE date,
-PHONE_NUM number
+PHONE_NUM int
 );
 /
-create sequence customers_sequence
-minvalue 1
-maxvalue 9999999
-start with 1
-increment by 1;
-/
+

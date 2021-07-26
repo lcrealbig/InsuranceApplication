@@ -1,13 +1,8 @@
-package com.insuranceapplication.policyservice.models;
+package com.insuranceapplication.screenservice.models;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "POLICIES")
-public class Policy {
-    private int policyId;
-    private int transactionId;
+public class PolicyModel {
     private int ownerId;
+    private int transactionId;
     private String type;
     private String status;
     private String startDate;
@@ -15,14 +10,12 @@ public class Policy {
     private String productType;
     private String altNo;
 
-    //no argument constructor is required to create entity class
-    public Policy(){
+    public PolicyModel(){
     }
 
-    public Policy(int policyId, int transactionId, int ownerId, String type, String status, String startDate, String endDate, String productType, String altNo) {
-        this.policyId = policyId;
-        this.transactionId = transactionId;
+    public PolicyModel(int ownerId, int transactionId, String type, String status, String startDate, String endDate, String productType, String altNo) {
         this.ownerId = ownerId;
+        this.transactionId = transactionId;
         this.type = type;
         this.status = status;
         this.startDate = startDate;
@@ -31,15 +24,12 @@ public class Policy {
         this.altNo = altNo;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "policy_id_seq")
-    @SequenceGenerator(name = "policy_id_seq", allocationSize = 1)
-    public Integer getPolicyId() {
-        return policyId;
+    public int getOwnerId() {
+        return ownerId;
     }
 
-    public void setPolicyId(Integer policyId) {
-        this.policyId = policyId;
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
     }
 
     public int getTransactionId() {
@@ -48,14 +38,6 @@ public class Policy {
 
     public void setTransactionId(int transactionId) {
         this.transactionId = transactionId;
-    }
-
-    public Integer getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(Integer ownerId) {
-        this.ownerId = ownerId;
     }
 
     public String getType() {
