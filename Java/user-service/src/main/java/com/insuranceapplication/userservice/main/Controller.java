@@ -29,7 +29,7 @@ public class Controller {
         List<Users> dbRecords = em.createQuery("select u from Users u", Users.class).getResultList();
         for (Users user : dbRecords) {
             if (user.getId().equals(id) && user.getPassword().equals(password)) {
-                return ResponseEntity.ok().body(user);
+                return ResponseEntity.ok().body(user.getName());
             }
         }
         Users notExist = new Users();
