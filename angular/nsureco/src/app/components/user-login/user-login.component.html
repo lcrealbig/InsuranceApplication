@@ -1,7 +1,7 @@
 <div class="center">
   <p>Please enter your login:</p>
-<input class="input" type="text">
+<input class="input" type="text" #userNameInput>
   <p>Please enter your password:</p>
-<input class="input" type="text">
-  <button class="btn" type="button">Login</button>
+<input class="input" type="text" #userPasswordInput>
+  <button (click)="getUserName(userNameInput.value)" (click)="getUserPassword(userPasswordInput.value)" (click)="createRequestBody()" class="btn" type="button">Login</button>
 </div>
