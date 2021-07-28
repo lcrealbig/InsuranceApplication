@@ -3,5 +3,5 @@
 <input class="input" type="text" #userNameInput>
   <p>Please enter your password:</p>
 <input class="input" type="text" #userPasswordInput>
-  <button (click)="getUserName(userNameInput.value)" (click)="getUserPassword(userPasswordInput.value)" (click)="createRequestBody()" class="btn" type="button">Login</button>
+  <button (click)="getUserData(userNameInput.value, userPasswordInput.value)" (click)="createRequestBody()" class="btn" type="button">Login</button>
 </div>
