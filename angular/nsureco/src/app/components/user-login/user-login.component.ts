@@ -15,9 +15,10 @@ export class UserLoginComponent implements OnInit {
   userName: string;
   userPassword: string;
 
-  getUserData(userName: string, userPassword: string){
+  getUserData(userName: string, userPassword: string){  //getting users inputs from html form
     this.userName = userName;
     this.userPassword = userPassword;
+    this.createRequestBody(); //method is called to create object with user data
   }
 
   createRequestBody(){
@@ -25,10 +26,10 @@ export class UserLoginComponent implements OnInit {
       userName: this.userName,
       userPassword: this.userPassword
     };
-    this.postData();  //method is called after creating request body and sending it to user service
+    this.postUser();  //method is called after creating request body and sending it to user service
   }
 
-  postData() {
+  postUser() {
     this.http.post<any>(this.url, this.userObj).subscribe(data => {
       this.userObj = data;
       console.log(data);

@@ -1,7 +1,9 @@
 <div class="center">
+<form>
   <p>Please enter your login:</p>
-<input class="input" type="text" #userNameInput>
+<input class="input" type="text" [(ngModel)]="userName" name="userName">
   <p>Please enter your password:</p>
-<input class="input" type="text" #userPasswordInput>
-  <button (click)="getUserData(userNameInput.value, userPasswordInput.value)" (click)="createRequestBody()" class="btn" type="button">Login</button>
+<input class="input" type="password" [(ngModel)]="userPassword" name="userPassword">
+  <button [disabled]="!userName || !userPassword" (click)="getUserData(userName, userPassword)" class="btn" type="button">Login</button>
+</form>
 </div>
