@@ -18,8 +18,8 @@ public class UserService {
 
     @Transactional
     public ResponseEntity verifyUserLogin(@RequestBody JSONObject jsonObject) {
-        String user_name = jsonObject.get("user_name").toString();
-        String user_password = jsonObject.get("user_password").toString();
+        String user_name = jsonObject.get("userName").toString();
+        String user_password = jsonObject.get("userPassword").toString();
         /* getting a list of records from dataBase using entity.*/
         List<Users> dbRecords = em.createQuery("select u from Users u", Users.class).getResultList();
         for (Users user : dbRecords) {

@@ -1,6 +1,7 @@
 package com.insuranceapplication.screenservice.screens.general;
 
 import com.insuranceapplication.screenservice.mainInterface.enums.ScreenType;
+import com.insuranceapplication.screenservice.mainInterface.mainHandler.ScreenHandler;
 
 import java.util.ArrayList;
 
@@ -52,6 +53,6 @@ public class Screen {
         this.screenType = screenType;
     }
     public void displayScreenTitle(){
-        System.out.println("Welcome " + currentUser +" Currently at : " +screenTitle);
+        System.out.println("Welcome " + ScreenHandler.currentUser.getUserName() +" Currently at : " +screenTitle);
     }
 }

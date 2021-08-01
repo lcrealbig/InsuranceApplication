@@ -1,10 +1,11 @@
 package com.insuranceapplication.screenservice.mainInterface.mainHandler;
 
+import com.insuranceapplication.screenservice.models.User;
+import com.insuranceapplication.screenservice.screens.user.LoginScreen;
 import com.insuranceapplication.screenservice.mainInterface.enums.ScreenType;
 import com.insuranceapplication.screenservice.screens.general.DataScreen;
 import com.insuranceapplication.screenservice.screens.general.Screen;
 import com.insuranceapplication.screenservice.screens.general.SearchScreen;
-import com.insuranceapplication.screenservice.screens.user.UserScreen;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -12,15 +13,12 @@ import java.util.Scanner;
 
 public class ScreenHandler {
 
+    static public User currentUser = new User();
     static ArrayList<Screen> previousScreens = new ArrayList<>();
-    //    static Screen currentScreen = new LoginScreen();
-    static Screen currentScreen = new UserScreen();
-
+    static public Screen currentScreen = new LoginScreen().loginProcess();
 
     public static void main(String[] args) {
-
         chooseAScreen();
-
     }
 
     public static void chooseAScreen() {
