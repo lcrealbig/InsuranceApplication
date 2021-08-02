@@ -13,6 +13,7 @@ import java.util.List;
 
 @Service
 public class UserService {
+
     @PersistenceContext
     private EntityManager em;
 
@@ -32,4 +33,3 @@ public class UserService {
         return ResponseEntity.ok().body(notExist);
     }
 }
-
