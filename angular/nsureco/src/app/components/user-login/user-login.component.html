@@ -3,7 +3,7 @@
   <p>Please enter your login:</p>
 <input class="input" type="text" name="userName" [(ngModel)]="userName">
   <p>Please enter your password:</p>
-<input class="input" type="password" name="userPassword">
-  <button routerLink="app-user-login" [disabled]="!userName || !userPassword" (click)="getUserData(userName, userPassword)" class="btn" type="button">Login</button>
+<input class="input" type="password" [(ngModel)]="userPassword" name="userPassword">
+<button [routerLink]="['/userpanel']" [disabled]="!userName || !userPassword" (click)="getUserData(userName, userPassword)" class="btn" type="button">Login</button>
 </form>
 </div>
