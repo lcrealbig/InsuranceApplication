@@ -4,6 +4,7 @@
 <input class="input" type="text" name="userName" [(ngModel)]="userName">
   <p>Please enter your password:</p>
 <input class="input" type="password" [(ngModel)]="userPassword" name="userPassword">
-<button [routerLink]="['/userpanel']" [disabled]="!userName || !userPassword" (click)="getUserData(userName, userPassword)" class="btn" type="button">Login</button>
+<p class="incorrect">{{wrongData}}</p>
+<button [disabled]="!userName || !userPassword" (click)="getUserData(userName, userPassword)" class="btn" type="button">Login</button>
 </form>
 </div>
