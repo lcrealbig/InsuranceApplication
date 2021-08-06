@@ -7,6 +7,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -55,6 +56,9 @@ public class Requests {
             switch (serviceName) {
                 case "policy-service":
                     servicePort = properties.getProperty("policy-service.port");
+                    break;
+                case "user-service":
+                    servicePort = properties.getProperty("user-service.port");
                     break;
             }
             String readyUrl = serverUrl + ":" + servicePort + "/" + endpoint;
@@ -105,7 +109,8 @@ public class Requests {
         JSONParser jsonParser = new JSONParser();
         JSONObject jsonObject = null;
         try {
-            inputStreamReader = new InputStreamReader(huc.getInputStream());
+            InputStream inputStream = huc.getInputStream();
+            inputStreamReader = new InputStreamReader(inputStream);
             jsonObject = (JSONObject) jsonParser.parse(inputStreamReader);
         } catch (
                 IOException e) {
@@ -151,7 +156,7 @@ public class Requests {
     }
 
     public static void setRequestMethod(RequestMethod requestMethod) {
-        switch (requestMethod){
+        switch (requestMethod) {
             case GET:
                 Requests.requestMethod = "GET";
                 break;

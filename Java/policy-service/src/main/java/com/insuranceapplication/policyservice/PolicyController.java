@@ -11,12 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class PolicyController {
 
     private final PolicyService policyService;
+
     public PolicyController(PolicyService policyService) {
         this.policyService = policyService;
     }
 
     @PostMapping("/createtransaction")
-    public void createTransaction(@RequestBody Transactions newTransactions){policyService.createTransaction(newTransactions);}
+    public void createTransaction(@RequestBody Transactions newTransactions) {
+        policyService.createTransaction(newTransactions);
+    }
 
     @PostMapping("/createpolicy")
     public void createPolicy(@RequestBody Policy newPolicy) {
@@ -24,34 +27,36 @@ public class PolicyController {
     }
 
     @PostMapping("/createpolicyline")
-    public void createPolicyLine(@RequestBody Policy_lines newPolicyLines){
+    public void createPolicyLine(@RequestBody Policy_lines newPolicyLines) {
         policyService.createPolicyLine(newPolicyLines);
     }
 
     @PostMapping("/createinsuredobject")
-    public void createInsuredObject(@RequestBody InsuredObject newInsuredObject){
+    public void createInsuredObject(@RequestBody InsuredObject newInsuredObject) {
         policyService.createInsuredObject(newInsuredObject);
     }
 
     @PostMapping("/gettransactionid")
     @ResponseBody
-    public ResponseEntity getTransactionId(@RequestBody Transactions transactions){return policyService.getTransactionId(transactions);}
+    public ResponseEntity getTransactionId(@RequestBody Transactions transactions) {
+        return policyService.getTransactionId(transactions);
+    }
 
     @PostMapping("/getvehicles")
     @ResponseBody
-    public ResponseEntity getVehicles(@RequestBody Vehicles vehicles){
+    public ResponseEntity getVehicles(@RequestBody Vehicles vehicles) {
         return policyService.getVehicles(vehicles);
     }
 
     @PostMapping("/getpolicy")
     @ResponseBody
-    public ResponseEntity getPolicy(@RequestBody Policy policy){
+    public ResponseEntity getPolicy(@RequestBody Policy policy) {
         return policyService.getPolicy(policy);
     }
 
     @PostMapping("/getpolicyline")
     @ResponseBody
-    public ResponseEntity getPolicyLine(@RequestBody Policy_lines policyLines){
+    public ResponseEntity getPolicyLine(@RequestBody Policy_lines policyLines) {
         return policyService.getPolicyLine(policyLines);
     }
 }
