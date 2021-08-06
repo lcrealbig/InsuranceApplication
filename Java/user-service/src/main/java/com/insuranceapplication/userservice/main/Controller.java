@@ -10,6 +10,7 @@ public class Controller {
     @Autowired
     private UserService userService;
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @ResponseBody
     @PostMapping("/verify")
     public ResponseEntity verifyUserLogin(@RequestBody JSONObject jsonObject) {

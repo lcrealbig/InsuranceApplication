@@ -11,7 +11,7 @@ export class UserLoginComponent implements OnInit {
   constructor(private http: HttpClient, private router: Router) {
    }
 
-  url: string = `http://localhost:8083/test`; //fake api created in policy service for test purposes
+  url: string = `http://localhost:8082/verify`; 
   userObj: Object;
   userName: string;
   userPassword: string;
