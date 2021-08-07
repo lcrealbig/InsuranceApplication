@@ -1,5 +1,5 @@
 package com.insuranceapplication.userservice.main;
-import com.insuranceapplication.userservice.model.Users;
+        import com.insuranceapplication.userservice.model.Users;
 import org.json.simple.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
