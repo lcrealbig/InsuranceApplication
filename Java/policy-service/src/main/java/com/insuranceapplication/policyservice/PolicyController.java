@@ -1,7 +1,6 @@
 package com.insuranceapplication.policyservice;
 
 import com.insuranceapplication.policyservice.models.*;
-import com.insuranceapplication.policyservice.services.CreatePolicyService;
 import com.insuranceapplication.policyservice.services.PolicyService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,11 +9,9 @@ import org.springframework.web.bind.annotation.*;
 public class PolicyController {
 
     private final PolicyService policyService;
-    private final CreatePolicyService createPolicyService;
 
-    public PolicyController(PolicyService policyService, CreatePolicyService createPolicyService) {
+    public PolicyController(PolicyService policyService) {
         this.policyService = policyService;
-        this.createPolicyService = createPolicyService;
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
