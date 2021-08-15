@@ -3,10 +3,7 @@ package com.customerservice.customerservice.main;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 
@@ -19,7 +16,12 @@ public class Controller {
 
     @ResponseBody
     @PostMapping("/addCustomer")
-    public ResponseEntity addCustomer(@RequestBody JSONObject jsonObject) throws ParseException {
-        return customerService.verifyCustomerPeselAndBirth(jsonObject);
+    public ResponseEntity addCustomer(@RequestBody JSONObject customerToAdd) {
+        return customerService.verifyCustomerPeselAndBirth(customerToAdd);
+    }
+    @DeleteMapping("/deleteCustomer")
+    public ResponseEntity deleteCustomer(@RequestBody JSONObject customerToDelete){
+        return customerService.deleteCustomer(customerToDelete);
+
     }
 }

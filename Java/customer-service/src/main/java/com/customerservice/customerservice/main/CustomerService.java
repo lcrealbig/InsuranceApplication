@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -38,12 +39,13 @@ public class CustomerService {
             customer.setName("Birth date and pesel does not match.");
             return ResponseEntity.ok().body(customer);
         }
-        for (int i = 0; i <= 10; i++) {
+
+        for (int i = 0; i < 1; i++) {
             int[] weights = {1, 3, 7, 9, 1, 3, 7, 9, 1, 3};
             char[] trimPesel = pesel2String.substring(0, 10).toCharArray();
             int controlNumberOffPesel = Integer.parseInt(pesel2String.substring(10));
             int controlNumberOffAlgorithm = 0;
-            controlNumberOffAlgorithm = controlNumberOffAlgorithm + weights[i] * trimPesel[i];
+            controlNumberOffAlgorithm = weights[i] * trimPesel[i] + controlNumberOffAlgorithm;
             controlNumberOffAlgorithm = controlNumberOffAlgorithm % 10;
             controlNumberOffAlgorithm = 10 - controlNumberOffAlgorithm;
 
@@ -51,6 +53,8 @@ public class CustomerService {
                 customer.setName("Pesel is incorrect.");
                 return ResponseEntity.ok().body(customer);
             }
+
+
         }
         customer.setName(jsonObject.get("name").toString());
         customer.setPesel(pesel);
@@ -62,11 +66,19 @@ public class CustomerService {
     }
 
     @Transactional
-    public void modifyCustomer() {
+    public ResponseEntity deleteCustomer(@RequestBody JSONObject customerToDelete) {
+
+        if (!customerToDelete.get("pesel").toString().isEmpty()) {
+            Customers customers = new Customers();
+            customers.setCustomer_id(0);
+            customers = em.find(Customers.class, customers.getCustomer_id());
+            em.remove(customers);
+
+        }
+        return null;
     }
 
     @Transactional
-    public void dropCustomer() {
-
+    public void modifyCustomer() {
     }
 }
