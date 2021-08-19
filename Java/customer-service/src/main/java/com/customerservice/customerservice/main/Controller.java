@@ -4,11 +4,8 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.text.ParseException;
-
 @RestController
-//TO DO.
 
 public class Controller {
     @Autowired
@@ -16,12 +13,11 @@ public class Controller {
 
     @ResponseBody
     @PostMapping("/addCustomer")
-    public ResponseEntity addCustomer(@RequestBody JSONObject customerToAdd) {
+    public ResponseEntity addCustomer(@RequestBody JSONObject customerToAdd) throws ParseException {
         return customerService.verifyCustomerPeselAndBirth(customerToAdd);
     }
     @DeleteMapping("/deleteCustomer")
     public ResponseEntity deleteCustomer(@RequestBody JSONObject customerToDelete){
         return customerService.deleteCustomer(customerToDelete);
-
     }
 }

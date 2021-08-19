@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.math.BigInteger;
+import java.util.Date;
 
 @Entity
 @Table(name = "customers")
@@ -19,7 +20,7 @@ public class Customers {
     @Column(name = "address")
     private String address;
     @Column(name = "birth_date")
-    private String birthDate;
+    private Date birthDate;
     @Column(name = "phone_num")
     private BigInteger phoneNum;
 
@@ -47,11 +48,11 @@ public class Customers {
         this.address = address;
     }
 
-    public String getBirthDate() {
+    public Date getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(String birthDate) {
+    public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
 
