@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class CustomerService {
@@ -73,7 +75,7 @@ public class CustomerService {
         }
         return null;
     }
-    
+
     @Transactional
     public ResponseEntity modifyCustomer(@RequestBody JSONObject modifiedCustomer) {
         int query = 0;
@@ -98,6 +100,11 @@ public class CustomerService {
                     "' where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'").executeUpdate();
         }
         return null;
+    }
+    public List returnCustomersList(@RequestBody JSONObject jsonObject){
+            Query select = em.createQuery("select c.customer_id,c.name,c.pesel from Customers c");
+            return select.getResultList();
+
     }
 
 }

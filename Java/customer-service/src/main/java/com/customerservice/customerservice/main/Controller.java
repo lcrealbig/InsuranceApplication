@@ -4,7 +4,11 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.persistence.Query;
 import java.text.ParseException;
+import java.util.List;
+
 @RestController
 
 public class Controller {
@@ -23,6 +27,10 @@ public class Controller {
     @PostMapping("/modifyCustomer")
     public ResponseEntity modifyCustomer (@RequestBody JSONObject customerToModify){
         return customerService.modifyCustomer(customerToModify);
+    }
+    @GetMapping("/showCustomersList")
+    public List returnCustomersList (@RequestBody JSONObject select){
+        return customerService.returnCustomersList(select);
     }
 
 }
