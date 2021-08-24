@@ -20,4 +20,9 @@ public class Controller {
     public ResponseEntity deleteCustomer(@RequestBody JSONObject customerToDelete){
         return customerService.deleteCustomer(customerToDelete);
     }
+    @PostMapping("/modifyCustomer")
+    public ResponseEntity modifyCustomer (@RequestBody JSONObject customerToModify){
+        return customerService.modifyCustomer(customerToModify);
+    }
+
 }

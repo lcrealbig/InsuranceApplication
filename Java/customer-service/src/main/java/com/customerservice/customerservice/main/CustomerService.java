@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -60,6 +61,7 @@ public class CustomerService {
         em.persist(customer);
         return ResponseEntity.ok().body(customer);
     }
+
     @Transactional
     public ResponseEntity deleteCustomer(@RequestBody JSONObject customerToDelete) {
 
@@ -71,8 +73,31 @@ public class CustomerService {
         }
         return null;
     }
-    //To do.
+    
     @Transactional
-    public void modifyCustomer() {
+    public ResponseEntity modifyCustomer(@RequestBody JSONObject modifiedCustomer) {
+        int query = 0;
+        if (modifiedCustomer.containsKey("name")) {
+            query = em.createQuery("update Customers c set c.name = '" + modifiedCustomer.get("name") +
+                    "' where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'").executeUpdate();
+        }
+        if (modifiedCustomer.containsKey("pesel")) {
+            query = em.createQuery("update Customers c set c.pesel = '" + modifiedCustomer.get("pesel") +
+                    "' where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'").executeUpdate();
+        }
+        if (modifiedCustomer.containsKey("address")) {
+            query = em.createQuery("update Customers c set c.address = '" + modifiedCustomer.get("address") +
+                    "' where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'").executeUpdate();
+        }
+        if (modifiedCustomer.containsKey("phone_num")) {
+            query = em.createQuery("update Customers c set c.phoneNum = '" + modifiedCustomer.get("phone_num") +
+                    "' where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'").executeUpdate();
+        }
+        if (modifiedCustomer.containsKey("birth_date")) {
+            query = em.createQuery("update Customers c set c.birthDate = '" + modifiedCustomer.get("birth_date") +
+                    "' where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'").executeUpdate();
+        }
+        return null;
     }
+
 }
