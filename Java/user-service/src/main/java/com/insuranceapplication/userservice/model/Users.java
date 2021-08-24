@@ -14,10 +14,8 @@ public class Users {
     @Id
     @Column(name = "USER_ID")
     private String id;
-    @Column(name = "USER_NAME")
-    private String userName;
-    @Column(name = "USER_PASSWORD")
-    private String userPassword;
+    @Column(name = "PASSWORD")
+    private String password;
     @Column(name = "NAME")
     private String name;
     @Column(name = "ADDRESS")
@@ -78,13 +76,9 @@ public class Users {
         this.id = id;
     }
 
-    public String getUserName() { return userName; }
+    public String getPassword() { return password; }
 
-    public void setUserName(String userName) { this.userName = userName; }
-
-    public String getUserPassword() { return userPassword; }
-
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

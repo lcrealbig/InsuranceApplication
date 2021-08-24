@@ -11,6 +11,6 @@ NAME varchar(70),
 ADDRESS varchar(70),
 TYPE varchar(30),
 BIRTH_DATE date,
-PESEL int
+PESEL bigint
 );
 /

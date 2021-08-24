@@ -21,7 +21,7 @@ public class UserService {
         String userPassword = jsonObject.get("userPassword").toString();
         List<Users> dbRecords = em.createQuery("select u from Users u", Users.class).getResultList();
         for (Users user : dbRecords) {
-            if (user.getUserName().equals(userName) && user.getUserPassword().equals(userPassword)) {
+            if (user.getName().equals(userName) && user.getPassword().equals(userPassword)) {
                 return ResponseEntity.ok().body(user);
             }
         }
