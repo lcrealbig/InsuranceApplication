@@ -30,12 +30,12 @@ public class Controller {
         return customerService.modifyCustomer(customerToModify);
     }
     @GetMapping("/showCustomersList")
-    public List returnCustomersList (@RequestBody JSONObject select){
-        return customerService.returnCustomersList(select);
+    public List returnCustomersList (@RequestBody JSONObject Customer){
+        return customerService.returnCustomersList(Customer);
     }
-    @GetMapping("/customerSearchById")
-    public ResponseEntity customerByID(@RequestBody JSONObject id){
-        return customerService.searchCustomer(id);
+    @PostMapping("/customerSearchByParams")
+    public List customerByID(@RequestBody JSONObject Customer){
+        return customerService.searchCustomer(Customer);
     }
 
 }
