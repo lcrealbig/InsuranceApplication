@@ -1,5 +1,6 @@
 package com.customerservice.customerservice.main;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,10 @@ public class Controller {
     @GetMapping("/showCustomersList")
     public List returnCustomersList (@RequestBody JSONObject select){
         return customerService.returnCustomersList(select);
+    }
+    @GetMapping("/customerSearchById")
+    public ResponseEntity customerByID(@RequestBody JSONObject id){
+        return customerService.searchCustomer(id);
     }
 
 }

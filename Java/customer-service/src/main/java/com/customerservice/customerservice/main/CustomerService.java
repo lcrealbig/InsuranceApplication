@@ -1,6 +1,7 @@
 package com.customerservice.customerservice.main;
 
 import com.customerservice.customerservice.model.Customers;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -102,9 +103,13 @@ public class CustomerService {
         return null;
     }
     public List returnCustomersList(@RequestBody JSONObject jsonObject){
-            Query select = em.createQuery("select c.customer_id,c.name,c.pesel from Customers c");
+            Query select = em.createQuery("select c.customer_id,c.name,c.pesel,c.birthDate,c.phoneNum,c.address from Customers c");
             return select.getResultList();
-
+    }
+    public ResponseEntity searchCustomer(@RequestBody JSONObject entity){
+        Query showByParams = em.createQuery("select c.customer_id,c.name,c.pesel,c.birthDate,c.phoneNum,c.address from Customers c where c.customer_id = '"
+        + entity.get("customer_id") + "'");
+        return ResponseEntity.ok(showByParams.getResultList());
     }
 
 }
