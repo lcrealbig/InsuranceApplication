@@ -67,11 +67,11 @@ public class CustomerService {
     @Transactional
     public ResponseEntity deleteCustomer(@RequestBody JSONObject customerToDelete) {
 
-        if (!customerToDelete.get("pesel").toString().isEmpty()) {
-            Customers customers = new Customers();
-            customers.setCustomer_id(0);
-            customers = em.find(Customers.class, customers.getCustomer_id());
-            em.remove(customers);
+        if (!customerToDelete.get("customer_id").toString().isEmpty()) {
+            Customers customerToDelete = new Customers();
+            customerToDelete.setCustomer_id(Integer.parseInt(customerToDelete.get("customer_id").toString()));
+            customerToDelete = em.find(Customers.class, customerToDelete.getCustomer_id());
+            em.remove(customerToDelete);
         }
         return null;
     }
@@ -106,7 +106,7 @@ public class CustomerService {
         Query select = em.createQuery("select c.customer_id,c.name,c.pesel,c.birthDate,c.phoneNum,c.address from Customers c");
         return select.getResultList();
     }
-
+    
     public List searchCustomer(@RequestBody JSONObject entity) {
         if (entity.containsKey("customer_id")) {
             Query showByParams = em.createQuery("select c.customer_id,c.name,c.pesel,c.birthDate,c.phoneNum,c.address from Customers c where c.customer_id = '"
@@ -121,18 +121,11 @@ public class CustomerService {
                 return showByParams.getResultList();
             }
         }
-        if (entity.get("name").toString().length() > 0 && entity.get("name").toString().length() <= entity.get("name").toString().length()) {
+        if (!entity.get("name").toString().isEmpty()) {
             Query showByParams = em.createQuery("SELECT c.customer_id,c.name,c.pesel,c.birthDate,c.phoneNum,c.address from Customers c WHERE c.name LIKE '"
                     + entity.get("name") + "%" + "'");
-
             return showByParams.getResultList();
         }
-        if (entity.containsKey("name")) {
-            Query showByParams = em.createQuery("select c.customer_id,c.name,c.pesel,c.birthDate,c.phoneNum,c.address from Customers c where c.name = '"
-                    + entity.get("name") + "'");
-            return showByParams.getResultList();
-        }
-
-        return returnCustomersList(entity);
+        return null;
     }
 }
