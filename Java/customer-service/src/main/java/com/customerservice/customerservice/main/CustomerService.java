@@ -68,10 +68,10 @@ public class CustomerService {
     public ResponseEntity deleteCustomer(@RequestBody JSONObject customerToDelete) {
 
         if (!customerToDelete.get("customer_id").toString().isEmpty()) {
-            Customers customerToDelete = new Customers();
-            customerToDelete.setCustomer_id(Integer.parseInt(customerToDelete.get("customer_id").toString()));
-            customerToDelete = em.find(Customers.class, customerToDelete.getCustomer_id());
-            em.remove(customerToDelete);
+            Customers customers = new Customers();
+            customers.setCustomer_id(Integer.parseInt(customerToDelete.get("customer_id").toString()));
+            customers = em.find(Customers.class, customers.getCustomer_id());
+            em.remove(customers);
         }
         return null;
     }
