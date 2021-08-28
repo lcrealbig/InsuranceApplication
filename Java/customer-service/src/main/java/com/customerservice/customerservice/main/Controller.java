@@ -1,5 +1,6 @@
 package com.customerservice.customerservice.main;
 
+import com.customerservice.customerservice.model.Customers;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +34,17 @@ public class Controller {
     public List returnCustomersList (@RequestBody JSONObject Customer){
         return customerService.returnCustomersList(Customer);
     }
-    @PostMapping("/customerSearchByParams")
-    public List customerByID(@RequestBody JSONObject Customer){
-        return customerService.searchCustomer(Customer);
+    @PostMapping("/customerSearchByID")
+    public List<Customers> customerByID(@RequestBody JSONObject Customer){
+        return customerService.searchCustomerById(Customer);
+    }
+    @PostMapping("/customerSearchByPesel")
+    public List<Customers> customerByPesel(@RequestBody JSONObject Customer){
+        return customerService.searchCustomerByPesel(Customer);
+    }
+    @PostMapping("/customerSearchByName")
+    public List<Customers> customerByName(@RequestBody JSONObject Customer){
+        return customerService.searchCustomerByName(Customer);
     }
 
 }

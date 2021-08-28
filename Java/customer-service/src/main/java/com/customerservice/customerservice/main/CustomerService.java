@@ -16,6 +16,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class CustomerService {
@@ -106,26 +107,26 @@ public class CustomerService {
         Query select = em.createQuery("select c.customer_id,c.name,c.pesel,c.birthDate,c.phoneNum,c.address from Customers c");
         return select.getResultList();
     }
-    
-    public List searchCustomer(@RequestBody JSONObject entity) {
-        if (entity.containsKey("customer_id")) {
-            Query showByParams = em.createQuery("select c.customer_id,c.name,c.pesel,c.birthDate,c.phoneNum,c.address from Customers c where c.customer_id = '"
-                    + entity.get("customer_id") + "'");
-            return showByParams.getResultList();
-        }
-        if (entity.containsKey("pesel")) {
-            List returnExistingPesels = em.createQuery("select c.pesel from Customers c").getResultList();
-            if (returnExistingPesels.contains(entity.get("pesel"))) {
-                Query showByParams = em.createQuery("select c.customer_id,c.name,c.pesel,c.birthDate,c.phoneNum,c.address from Customers c where c.pesel = '"
-                        + entity.get("pesel") + "'");
-                return showByParams.getResultList();
-            }
-        }
-        if (!entity.get("name").toString().isEmpty()) {
-            Query showByParams = em.createQuery("SELECT c.customer_id,c.name,c.pesel,c.birthDate,c.phoneNum,c.address from Customers c WHERE c.name LIKE '"
-                    + entity.get("name") + "%" + "'");
-            return showByParams.getResultList();
-        }
-        return null;
+
+    public List searchCustomerById(@RequestBody JSONObject entity) {
+
+        Query showByParams = em.createQuery("select c.customer_id,c.name,c.pesel,c.birthDate,c.phoneNum,c.address from Customers c where c.customer_id = '"
+                + entity.get("customer_id") + "'");
+        return showByParams.getResultList();
     }
+
+    public List searchCustomerByPesel(@RequestBody JSONObject entity) {
+
+        Query showByParams = em.createQuery("select c.customer_id,c.name,c.pesel,c.birthDate,c.phoneNum,c.address from Customers c where c.pesel = '"
+                + entity.get("pesel") + "'");
+        return showByParams.getResultList();
+    }
+
+    public List searchCustomerByName(@RequestBody JSONObject entity) {
+        String name = entity.get("name").toString().toLowerCase(Locale.ROOT);
+        Query showByParams = em.createQuery("SELECT c.customer_id,c.name,c.pesel,c.birthDate,c.phoneNum,c.address from Customers c WHERE LOWER(c.name) LIKE '"
+                + name + "%" + "' OR LOWER(c.name) LIKE '" + "%" + name + "'");
+        return showByParams.getResultList();
+    }
+
 }
