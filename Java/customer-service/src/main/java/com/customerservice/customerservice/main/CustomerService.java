@@ -100,7 +100,9 @@ public class CustomerService {
             query = em.createQuery("update Customers c set c.birthDate = '" + modifiedCustomer.get("birth_date") +
                     "' where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'").executeUpdate();
         }
-        return null;
+        Customers emptyModification = new Customers();
+        emptyModification.setName("No modification was made.");
+        return ResponseEntity.ok().body(emptyModification);
     }
 
     public List returnCustomersList(@RequestBody JSONObject jsonObject) {
@@ -109,14 +111,12 @@ public class CustomerService {
     }
 
     public List searchCustomerById(@RequestBody JSONObject entity) {
-
         Query showByParams = em.createQuery("select c.customer_id,c.name,c.pesel,c.birthDate,c.phoneNum,c.address from Customers c where c.customer_id = '"
                 + entity.get("customer_id") + "'");
         return showByParams.getResultList();
     }
 
     public List searchCustomerByPesel(@RequestBody JSONObject entity) {
-
         Query showByParams = em.createQuery("select c.customer_id,c.name,c.pesel,c.birthDate,c.phoneNum,c.address from Customers c where c.pesel = '"
                 + entity.get("pesel") + "'");
         return showByParams.getResultList();
@@ -125,7 +125,7 @@ public class CustomerService {
     public List searchCustomerByName(@RequestBody JSONObject entity) {
         String name = entity.get("name").toString().toLowerCase(Locale.ROOT);
         Query showByParams = em.createQuery("SELECT c.customer_id,c.name,c.pesel,c.birthDate,c.phoneNum,c.address from Customers c WHERE LOWER(c.name) LIKE '"
-                + name + "%" + "' OR LOWER(c.name) LIKE '" + "%" + name + "'");
+                + name + "%" + "' OR LOWER(c.name) LIKE '" + "%" + name + "%" + "'");
         return showByParams.getResultList();
     }
 
