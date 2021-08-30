@@ -80,40 +80,41 @@ public class CustomerService {
     @Transactional
     public ResponseEntity<Customers> modifyCustomer(@RequestBody JSONObject modifiedCustomer) {
         int query = 0;
+        Customers existingValue = em.find(Customers.class, Integer.parseInt(modifiedCustomer.get("customer_id").toString()));
         Customers modificationPrompt = new Customers();
-        if (!modifiedCustomer.get("name").equals("")) {
+        if (!modifiedCustomer.get("name").equals("") && !modifiedCustomer.containsValue(existingValue.getName())) {
             query = em.createQuery("update Customers c set c.name = '" + modifiedCustomer.get("name") +
                     "' where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'").executeUpdate();
-            modificationPrompt.setName("Value : name of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed." );
+            modificationPrompt.setName("Value : name of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed.");
             return ResponseEntity.ok().body(modificationPrompt);
         }
-        if (!modifiedCustomer.get("pesel").equals("")) {
+        if (!modifiedCustomer.get("pesel").equals("") && !modifiedCustomer.containsValue(existingValue.getPesel())) {
             query = em.createQuery("update Customers c set c.pesel = '" + modifiedCustomer.get("pesel") +
                     "' where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'").executeUpdate();
-            modificationPrompt.setName("Value : pesel of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed." );
+            modificationPrompt.setName("Value : pesel of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed.");
             return ResponseEntity.ok().body(modificationPrompt);
         }
-        if (!modifiedCustomer.get("address").equals("")) {
+        if (!modifiedCustomer.get("address").equals("") && !modifiedCustomer.containsValue(existingValue.getAddress())) {
             query = em.createQuery("update Customers c set c.address = '" + modifiedCustomer.get("address") +
                     "' where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'").executeUpdate();
-            modificationPrompt.setName("Value : address of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed." );
+            modificationPrompt.setName("Value : address of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed.");
             return ResponseEntity.ok().body(modificationPrompt);
         }
-        if (!modifiedCustomer.get("phone_num").equals("")) {
+        if (!modifiedCustomer.get("phone_num").equals("") && !modifiedCustomer.containsValue(existingValue.getPhoneNum())) {
             query = em.createQuery("update Customers c set c.phoneNum = '" + modifiedCustomer.get("phone_num") +
                     "' where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'").executeUpdate();
-            modificationPrompt.setName("Value : phone_num of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed." );
+            modificationPrompt.setName("Value : phone_num of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed.");
             return ResponseEntity.ok().body(modificationPrompt);
         }
-        if (!modifiedCustomer.get("birth_date").equals("")) {
+        if (!modifiedCustomer.get("birth_date").equals("") && !modifiedCustomer.containsValue(existingValue.getBirthDate())) {
             query = em.createQuery("update Customers c set c.birthDate = '" + modifiedCustomer.get("birth_date") +
                     "' where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'").executeUpdate();
-            modificationPrompt.setName("Value : birth_date of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed." );
+            modificationPrompt.setName("Value : birth_date of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed.");
             return ResponseEntity.ok().body(modificationPrompt);
 
         }
-        
-        modificationPrompt.setName("No modification was made.");
+
+        modificationPrompt.setName("No modification was made due to no input value, or put value already exists in the column.");
         return ResponseEntity.ok().body(modificationPrompt);
     }
 
