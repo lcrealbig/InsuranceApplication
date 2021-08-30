@@ -78,31 +78,43 @@ public class CustomerService {
     }
 
     @Transactional
-    public ResponseEntity modifyCustomer(@RequestBody JSONObject modifiedCustomer) {
+    public ResponseEntity<Customers> modifyCustomer(@RequestBody JSONObject modifiedCustomer) {
         int query = 0;
-        if (modifiedCustomer.containsKey("name")) {
+        Customers modificationPrompt = new Customers();
+        if (!modifiedCustomer.get("name").equals("")) {
             query = em.createQuery("update Customers c set c.name = '" + modifiedCustomer.get("name") +
                     "' where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'").executeUpdate();
+            modificationPrompt.setName("Value : name of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed." );
+            return ResponseEntity.ok().body(modificationPrompt);
         }
-        if (modifiedCustomer.containsKey("pesel")) {
+        if (!modifiedCustomer.get("pesel").equals("")) {
             query = em.createQuery("update Customers c set c.pesel = '" + modifiedCustomer.get("pesel") +
                     "' where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'").executeUpdate();
+            modificationPrompt.setName("Value : pesel of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed." );
+            return ResponseEntity.ok().body(modificationPrompt);
         }
-        if (modifiedCustomer.containsKey("address")) {
+        if (!modifiedCustomer.get("address").equals("")) {
             query = em.createQuery("update Customers c set c.address = '" + modifiedCustomer.get("address") +
                     "' where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'").executeUpdate();
+            modificationPrompt.setName("Value : address of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed." );
+            return ResponseEntity.ok().body(modificationPrompt);
         }
-        if (modifiedCustomer.containsKey("phone_num")) {
+        if (!modifiedCustomer.get("phone_num").equals("")) {
             query = em.createQuery("update Customers c set c.phoneNum = '" + modifiedCustomer.get("phone_num") +
                     "' where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'").executeUpdate();
+            modificationPrompt.setName("Value : phone_num of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed." );
+            return ResponseEntity.ok().body(modificationPrompt);
         }
-        if (modifiedCustomer.containsKey("birth_date")) {
+        if (!modifiedCustomer.get("birth_date").equals("")) {
             query = em.createQuery("update Customers c set c.birthDate = '" + modifiedCustomer.get("birth_date") +
                     "' where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'").executeUpdate();
+            modificationPrompt.setName("Value : birth_date of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed." );
+            return ResponseEntity.ok().body(modificationPrompt);
+
         }
-        Customers emptyModification = new Customers();
-        emptyModification.setName("No modification was made.");
-        return ResponseEntity.ok().body(emptyModification);
+        
+        modificationPrompt.setName("No modification was made.");
+        return ResponseEntity.ok().body(modificationPrompt);
     }
 
     public List returnCustomersList(@RequestBody JSONObject jsonObject) {
