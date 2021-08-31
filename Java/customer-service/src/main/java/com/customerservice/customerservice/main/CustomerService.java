@@ -80,42 +80,39 @@ public class CustomerService {
     @Transactional
     public ResponseEntity<Customers> modifyCustomer(@RequestBody JSONObject modifiedCustomer) {
         int query = 0;
-        Customers existingValue = em.find(Customers.class, Integer.parseInt(modifiedCustomer.get("customer_id").toString()));
-        Customers modificationPrompt = new Customers();
-        if (!modifiedCustomer.get("name").equals("") && !modifiedCustomer.containsValue(existingValue.getName())) {
+        Customers confirmationOfAnUpdate = new Customers();
+        if (!modifiedCustomer.get("name").equals("")) {
             query = em.createQuery("update Customers c set c.name = '" + modifiedCustomer.get("name") +
                     "' where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'").executeUpdate();
-            modificationPrompt.setName("Value : name of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed.");
-            return ResponseEntity.ok().body(modificationPrompt);
+            confirmationOfAnUpdate.setName("Value : name of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed.");
+            return ResponseEntity.ok().body(confirmationOfAnUpdate);
         }
-        if (!modifiedCustomer.get("pesel").equals("") && !modifiedCustomer.containsValue(existingValue.getPesel())) {
+        if (!modifiedCustomer.get("pesel").equals("")) {
             query = em.createQuery("update Customers c set c.pesel = '" + modifiedCustomer.get("pesel") +
                     "' where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'").executeUpdate();
-            modificationPrompt.setName("Value : pesel of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed.");
-            return ResponseEntity.ok().body(modificationPrompt);
+            confirmationOfAnUpdate.setName("Value : pesel of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed.");
+            return ResponseEntity.ok().body(confirmationOfAnUpdate);
         }
-        if (!modifiedCustomer.get("address").equals("") && !modifiedCustomer.containsValue(existingValue.getAddress())) {
+        if (!modifiedCustomer.get("address").equals("")) {
             query = em.createQuery("update Customers c set c.address = '" + modifiedCustomer.get("address") +
                     "' where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'").executeUpdate();
-            modificationPrompt.setName("Value : address of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed.");
-            return ResponseEntity.ok().body(modificationPrompt);
+            confirmationOfAnUpdate.setName("Value : address of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed.");
+            return ResponseEntity.ok().body(confirmationOfAnUpdate);
         }
-        if (!modifiedCustomer.get("phone_num").equals("") && !modifiedCustomer.containsValue(existingValue.getPhoneNum())) {
+        if (!modifiedCustomer.get("phone_num").equals("")) {
             query = em.createQuery("update Customers c set c.phoneNum = '" + modifiedCustomer.get("phone_num") +
                     "' where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'").executeUpdate();
-            modificationPrompt.setName("Value : phone_num of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed.");
-            return ResponseEntity.ok().body(modificationPrompt);
+            confirmationOfAnUpdate.setName("Value : phone_num of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed.");
+            return ResponseEntity.ok().body(confirmationOfAnUpdate);
         }
-        if (!modifiedCustomer.get("birth_date").equals("") && !modifiedCustomer.containsValue(existingValue.getBirthDate())) {
+        if (!modifiedCustomer.get("birth_date").equals("")) {
             query = em.createQuery("update Customers c set c.birthDate = '" + modifiedCustomer.get("birth_date") +
                     "' where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'").executeUpdate();
-            modificationPrompt.setName("Value : birth_date of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed.");
-            return ResponseEntity.ok().body(modificationPrompt);
-
+            confirmationOfAnUpdate.setName("Value : birth_date of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed.");
+            return ResponseEntity.ok().body(confirmationOfAnUpdate);
         }
-
-        modificationPrompt.setName("No modification was made due to no input value, or put value already exists in the column.");
-        return ResponseEntity.ok().body(modificationPrompt);
+        confirmationOfAnUpdate.setName("No modification was made due to no input value.");
+        return ResponseEntity.ok().body(confirmationOfAnUpdate);
     }
 
     public List returnCustomersList(@RequestBody JSONObject jsonObject) {
@@ -141,5 +138,4 @@ public class CustomerService {
                 + name + "%" + "' OR LOWER(c.name) LIKE '" + "%" + name + "%" + "'");
         return showByParams.getResultList();
     }
-
 }
