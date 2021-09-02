@@ -11,6 +11,9 @@ BRAND varchar(40),
 VEHICLE_MODEL varchar(40),
 GENERATION varchar(30),
 ENGINE_TYPE varchar(25),
-ENGINE varchar(55)
+ENGINE varchar(55),
+POWER varchar(15),
+PROTECTION_CLASS varchar(10),
+PARTS_AVALIABILITY boolean
 );
 /
