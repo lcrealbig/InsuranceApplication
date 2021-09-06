@@ -14,6 +14,7 @@ import javax.transaction.Transactional;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -27,37 +28,53 @@ public class CustomerService {
     @Transactional
     public ResponseEntity verifyCustomerPeselAndBirth(@RequestBody JSONObject jsonObject) throws ParseException {
 
+        Customers customer = new Customers();
         String birthStr = jsonObject.get("birth_date").toString();
         Date sdf = new SimpleDateFormat("dd-MM-yyyy").parse(birthStr);
         SimpleDateFormat formatter = new SimpleDateFormat("yyMMdd");
         String reversedDate = formatter.format(sdf);
-        BigInteger pesel = BigInteger.valueOf(Long.parseLong(jsonObject.get("pesel").toString()));
-        String pesel2String = String.valueOf(pesel);
+        String pesel2String = jsonObject.get("pesel").toString();
         String subPesel = pesel2String.substring(0, 6);
-        Customers customer = new Customers();
+        String controlNumber = pesel2String.substring(10);
+        int [] weightsToArray = {1,3,7,9,1,3,7,9,1,3};
+        char [] peselToCharArray = pesel2String.toCharArray();
+        int controlNumberOffAlgorithm = 0;
+        int [] peselToArray = new int[11];
 
         if (pesel2String.length() != 11) {
             customer.setName("Incorrect pesel length.");
             return ResponseEntity.ok().body(customer);
         }
+        //handling pesel - date comparision for customers born after 00's
+        if (pesel2String.startsWith("0") && pesel2String.charAt(2) == '3' ) {
+            reversedDate = reversedDate.replaceAll("1", "3");
+            subPesel = subPesel.replaceAll("1", "3");
+           pesel2String = pesel2String.replace(pesel2String.charAt(2),'1');
+        }
+        if (pesel2String.startsWith("0") && pesel2String.charAt(2) == '2'){
+            reversedDate = reversedDate.replaceAll("0", "2");
+            subPesel = subPesel.replaceAll("0", "2");
+           pesel2String = pesel2String.replace(pesel2String.charAt(2),'0');
+
+        }
         if (!subPesel.equals(reversedDate)) {
             customer.setName("Birth date and pesel does not match.");
             return ResponseEntity.ok().body(customer);
         }
-        for (int i = 0; i < 1; i++) {
-            int[] weights = {1, 3, 7, 9, 1, 3, 7, 9, 1, 3};
-            char[] trimPesel = pesel2String.substring(0, 10).toCharArray();
-            int peselControlNumber = Integer.parseInt(pesel2String.substring(10));
-            int sumOfMultiplying = 0;
-            int controlNumberAlgorithm = 10 - (weights[i] * trimPesel[i] + sumOfMultiplying) % 10;
-
-            if (peselControlNumber != controlNumberAlgorithm) {
-                customer.setName("Pesel is incorrect.");
-                return ResponseEntity.ok().body(customer);
-            }
+        //control number algorithm
+        for (int i = 0; i < 10; i++){
+             peselToArray[i] = Character.getNumericValue(peselToCharArray[i]);
+            controlNumberOffAlgorithm =  weightsToArray[i] * peselToArray[i] +controlNumberOffAlgorithm;
         }
+        controlNumberOffAlgorithm = 10 - (controlNumberOffAlgorithm % 10);
+        
+        if (Integer.valueOf(controlNumber) != controlNumberOffAlgorithm){
+            customer.setName("Pesel is incorrect.");
+            return ResponseEntity.ok().body(customer);
+        }
+
         customer.setName(jsonObject.get("name").toString());
-        customer.setPesel(pesel);
+        customer.setPesel(pesel2String);
         customer.setAddress(jsonObject.get("address").toString());
         customer.setBirthDate(sdf);
         customer.setPhoneNum(BigInteger.valueOf(Long.parseLong(jsonObject.get("phone_num").toString())));
@@ -74,44 +91,46 @@ public class CustomerService {
             customers = em.find(Customers.class, customers.getCustomer_id());
             em.remove(customers);
         }
-        return null;
+        return ResponseEntity.ok().body("Customer has been deleted.");
     }
 
     @Transactional
     public ResponseEntity<Customers> modifyCustomer(@RequestBody JSONObject modifiedCustomer) {
         int query = 0;
+
+        int modifiedColumnsCounter = 0;
         Customers confirmationOfAnUpdate = new Customers();
         if (!modifiedCustomer.get("name").equals("")) {
             query = em.createQuery("update Customers c set c.name = '" + modifiedCustomer.get("name") +
                     "' where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'").executeUpdate();
             confirmationOfAnUpdate.setName("Value : name of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed.");
-            return ResponseEntity.ok().body(confirmationOfAnUpdate);
+            modifiedColumnsCounter++;
         }
         if (!modifiedCustomer.get("pesel").equals("")) {
             query = em.createQuery("update Customers c set c.pesel = '" + modifiedCustomer.get("pesel") +
                     "' where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'").executeUpdate();
             confirmationOfAnUpdate.setName("Value : pesel of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed.");
-            return ResponseEntity.ok().body(confirmationOfAnUpdate);
+            modifiedColumnsCounter++;
         }
         if (!modifiedCustomer.get("address").equals("")) {
             query = em.createQuery("update Customers c set c.address = '" + modifiedCustomer.get("address") +
                     "' where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'").executeUpdate();
             confirmationOfAnUpdate.setName("Value : address of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed.");
-            return ResponseEntity.ok().body(confirmationOfAnUpdate);
+            modifiedColumnsCounter++;
         }
         if (!modifiedCustomer.get("phone_num").equals("")) {
             query = em.createQuery("update Customers c set c.phoneNum = '" + modifiedCustomer.get("phone_num") +
                     "' where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'").executeUpdate();
             confirmationOfAnUpdate.setName("Value : phone_num of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed.");
-            return ResponseEntity.ok().body(confirmationOfAnUpdate);
+            modifiedColumnsCounter++;
         }
         if (!modifiedCustomer.get("birth_date").equals("")) {
             query = em.createQuery("update Customers c set c.birthDate = '" + modifiedCustomer.get("birth_date") +
                     "' where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'").executeUpdate();
             confirmationOfAnUpdate.setName("Value : birth_date of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed.");
-            return ResponseEntity.ok().body(confirmationOfAnUpdate);
+            modifiedColumnsCounter++;
         }
-        confirmationOfAnUpdate.setName("No modification was made due to no input value.");
+        confirmationOfAnUpdate.setName(modifiedColumnsCounter + " columns have been modified.");
         return ResponseEntity.ok().body(confirmationOfAnUpdate);
     }
 
