@@ -14,7 +14,6 @@ import javax.transaction.Transactional;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -33,48 +32,45 @@ public class CustomerService {
         Date sdf = new SimpleDateFormat("dd-MM-yyyy").parse(birthStr);
         SimpleDateFormat formatter = new SimpleDateFormat("yyMMdd");
         String reversedDate = formatter.format(sdf);
-        String pesel2String = jsonObject.get("pesel").toString();
-        String subPesel = pesel2String.substring(0, 6);
-        String controlNumber = pesel2String.substring(10);
-        int [] weightsToArray = {1,3,7,9,1,3,7,9,1,3};
-        char [] peselToCharArray = pesel2String.toCharArray();
+        String peselToString = jsonObject.get("pesel").toString();
+        String substrPesel = peselToString.substring(0, 6);
+        int controlNumber = Integer.valueOf(peselToString.substring(10));
         int controlNumberOffAlgorithm = 0;
-        int [] peselToArray = new int[11];
+        int[] weightsToArray = {1, 3, 7, 9, 1, 3, 7, 9, 1, 3};
+        int[] peselToArray = new int[11];
+        char[] peselToCharArray = peselToString.toCharArray();
 
-        if (pesel2String.length() != 11) {
+        //checking pesel length.
+        if (peselToString.length() != 11) {
             customer.setName("Incorrect pesel length.");
             return ResponseEntity.ok().body(customer);
         }
         //handling pesel - date comparision for customers born after 00's
-        if (pesel2String.startsWith("0") && pesel2String.charAt(2) == '3' ) {
-            reversedDate = reversedDate.replaceAll("1", "3");
-            subPesel = subPesel.replaceAll("1", "3");
-           pesel2String = pesel2String.replace(pesel2String.charAt(2),'1');
+        if (peselToString.startsWith("0")) {
+            if (peselToString.charAt(2) == '2') {
+                substrPesel = substrPesel.replace('2', '0');
+            }
+            if (peselToString.charAt(2) == '3') {
+                substrPesel = substrPesel.replace('3', '1');
+            }
         }
-        if (pesel2String.startsWith("0") && pesel2String.charAt(2) == '2'){
-            reversedDate = reversedDate.replaceAll("0", "2");
-            subPesel = subPesel.replaceAll("0", "2");
-           pesel2String = pesel2String.replace(pesel2String.charAt(2),'0');
-
-        }
-        if (!subPesel.equals(reversedDate)) {
+        if (!substrPesel.equals(reversedDate)) {
             customer.setName("Birth date and pesel does not match.");
             return ResponseEntity.ok().body(customer);
         }
         //control number algorithm
-        for (int i = 0; i < 10; i++){
-             peselToArray[i] = Character.getNumericValue(peselToCharArray[i]);
-            controlNumberOffAlgorithm =  weightsToArray[i] * peselToArray[i] +controlNumberOffAlgorithm;
+        for (int i = 0; i < 10; i++) {
+            peselToArray[i] = Character.getNumericValue(peselToCharArray[i]);
+            controlNumberOffAlgorithm = weightsToArray[i] * peselToArray[i] + controlNumberOffAlgorithm;
         }
-        controlNumberOffAlgorithm = 10 - (controlNumberOffAlgorithm % 10);
-        
-        if (Integer.valueOf(controlNumber) != controlNumberOffAlgorithm){
+        controlNumberOffAlgorithm = (controlNumberOffAlgorithm % 10) % 10;
+        if (controlNumber != controlNumberOffAlgorithm) {
             customer.setName("Pesel is incorrect.");
             return ResponseEntity.ok().body(customer);
         }
 
         customer.setName(jsonObject.get("name").toString());
-        customer.setPesel(pesel2String);
+        customer.setPesel(jsonObject.get("pesel").toString());
         customer.setAddress(jsonObject.get("address").toString());
         customer.setBirthDate(sdf);
         customer.setPhoneNum(BigInteger.valueOf(Long.parseLong(jsonObject.get("phone_num").toString())));
