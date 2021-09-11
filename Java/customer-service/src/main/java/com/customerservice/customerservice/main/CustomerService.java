@@ -32,39 +32,41 @@ public class CustomerService {
         Date sdf = new SimpleDateFormat("dd-MM-yyyy").parse(birthStr);
         SimpleDateFormat formatter = new SimpleDateFormat("yyMMdd");
         String reversedDate = formatter.format(sdf);
-        String peselToString = jsonObject.get("pesel").toString();
-        String substrPesel = peselToString.substring(0, 6);
-        int controlNumber = Integer.valueOf(peselToString.substring(10));
-        int controlNumberOffAlgorithm = 0;
-        int[] weightsToArray = {1, 3, 7, 9, 1, 3, 7, 9, 1, 3};
-        int[] peselToArray = new int[11];
-        char[] peselToCharArray = peselToString.toCharArray();
+        String pesel = jsonObject.get("pesel").toString();
+        String substrPesel = pesel.substring(0, 6);
+        StringBuilder bornAfter2000sPesel = new StringBuilder(substrPesel);
+        int controlNumber = Integer.valueOf(pesel.substring(10));
+        int checkSum = 0;
+        int[] weights = {1, 3, 7, 9, 1, 3, 7, 9, 1, 3};
+        int[] peselArray = new int[11];
+        char[] peselToCharArray = pesel.toCharArray();
 
         //checking pesel length.
-        if (peselToString.length() != 11) {
+        if (pesel.length() != 11) {
             customer.setName("Incorrect pesel length.");
             return ResponseEntity.ok().body(customer);
         }
         //handling pesel - date comparision for customers born after 00's
-        if (peselToString.startsWith("0")) {
-            if (peselToString.charAt(2) == '2') {
-                substrPesel = substrPesel.replace('2', '0');
-            }
-            if (peselToString.charAt(2) == '3') {
-                substrPesel = substrPesel.replace('3', '1');
-            }
+        if (pesel.startsWith("0") && pesel.charAt(2) == '2') {
+            bornAfter2000sPesel.replace(2, 3, "0");
         }
+        if (pesel.startsWith("0") && pesel.charAt(2) == '3') {
+            substrPesel = bornAfter2000sPesel.replace(2, 3, "1").toString();
+        }
+        System.out.println(pesel);
         if (!substrPesel.equals(reversedDate)) {
             customer.setName("Birth date and pesel does not match.");
             return ResponseEntity.ok().body(customer);
         }
         //control number algorithm
         for (int i = 0; i < 10; i++) {
-            peselToArray[i] = Character.getNumericValue(peselToCharArray[i]);
-            controlNumberOffAlgorithm = weightsToArray[i] * peselToArray[i] + controlNumberOffAlgorithm;
+            peselArray[i] = Character.getNumericValue(peselToCharArray[i]);
+            checkSum = weights[i] * peselArray[i] + checkSum;
         }
-        controlNumberOffAlgorithm = (controlNumberOffAlgorithm % 10) % 10;
-        if (controlNumber != controlNumberOffAlgorithm) {
+
+        checkSum = 10 - (checkSum % 10) % 10;
+
+        if (controlNumber != checkSum) {
             customer.setName("Pesel is incorrect.");
             return ResponseEntity.ok().body(customer);
         }
@@ -151,6 +153,7 @@ public class CustomerService {
         String name = entity.get("name").toString().toLowerCase(Locale.ROOT);
         Query showByParams = em.createQuery("SELECT c.customer_id,c.name,c.pesel,c.birthDate,c.phoneNum,c.address from Customers c WHERE LOWER(c.name) LIKE '"
                 + name + "%" + "' OR LOWER(c.name) LIKE '" + "%" + name + "%" + "'");
+
         return showByParams.getResultList();
     }
 }

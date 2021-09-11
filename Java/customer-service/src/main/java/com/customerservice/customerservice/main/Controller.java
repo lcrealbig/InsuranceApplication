@@ -43,7 +43,7 @@ public class Controller {
         return customerService.searchCustomerByPesel(Customer);
     }
     @PostMapping("/customerSearchByName")
-    public List<Customers> customerByName(@RequestBody JSONObject Customer){
+    public List customerByName(@RequestBody JSONObject Customer){
         return customerService.searchCustomerByName(Customer);
     }
 
