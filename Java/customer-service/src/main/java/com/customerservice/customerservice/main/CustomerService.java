@@ -48,12 +48,11 @@ public class CustomerService {
         }
         //handling pesel - date comparision for customers born after 00's
         if (pesel.startsWith("0") && pesel.charAt(2) == '2') {
-            bornAfter2000sPesel.replace(2, 3, "0");
+            substrPesel = bornAfter2000sPesel.replace(2, 3, "0").toString();
         }
         if (pesel.startsWith("0") && pesel.charAt(2) == '3') {
             substrPesel = bornAfter2000sPesel.replace(2, 3, "1").toString();
         }
-        System.out.println(pesel);
         if (!substrPesel.equals(reversedDate)) {
             customer.setName("Birth date and pesel does not match.");
             return ResponseEntity.ok().body(customer);
@@ -63,7 +62,6 @@ public class CustomerService {
             peselArray[i] = Character.getNumericValue(peselToCharArray[i]);
             checkSum = weights[i] * peselArray[i] + checkSum;
         }
-
         checkSum = 10 - (checkSum % 10) % 10;
 
         if (controlNumber != checkSum) {
@@ -153,7 +151,6 @@ public class CustomerService {
         String name = entity.get("name").toString().toLowerCase(Locale.ROOT);
         Query showByParams = em.createQuery("SELECT c.customer_id,c.name,c.pesel,c.birthDate,c.phoneNum,c.address from Customers c WHERE LOWER(c.name) LIKE '"
                 + name + "%" + "' OR LOWER(c.name) LIKE '" + "%" + name + "%" + "'");
-
         return showByParams.getResultList();
     }
 }
