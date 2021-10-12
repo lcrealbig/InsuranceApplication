@@ -17,8 +17,8 @@ version varchar (30)
 );
 -- configuration for driver age.
 
-insert into risks_values (risk_id,combination_name,version,value_1,value_2)
-values ('AC', 'driver_age' , '1','27','65');
+insert into risks_values (risk_id,combination_name,version,value_1,value_2,value_3)
+values ('AC', 'driver_age' , '1','27','65','400');
 
 --license_age config.
 insert into risks_values
@@ -87,14 +87,14 @@ insert into risks_values
 (risk_id,combination_name,version,value_1,
 value_2)
  values(
-'AC','license_age','1','50000',
+'AC','mileage','1','50000',
 '0' );
 
 insert into risks_values
 (risk_id,combination_name,version,value_1,
 value_2,value_3,value_4,value_5)
  values(
-'AC','license_age','1','350000','yes','yes','1%','2%' );
+'AC','mileage','1','350000','yes','yes','1%','2%' );
 --accidents_count config.
 insert into risks_values
 (risk_id,combination_name,version,value_1,

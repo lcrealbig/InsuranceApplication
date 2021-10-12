@@ -24,7 +24,7 @@ header_2,header_3)
  values(
 'AC','driver_age','1','lesser_than','bigger_than','rise_of_premium' );
 
---license_age config, copy 3 times.
+--license_age config.
 insert into risks_headers
 (risk_id,combination_name,version,header_1,
 header_2,header_3)
@@ -100,7 +100,7 @@ insert into risks_headers
 (risk_id,combination_name,version,header_1,
 header_2)
  values(
-'AC','license_age','1','lesser_than',
+'AC','mileage','1','lesser_than',
 'rise_of_premium' );
 --accidents_count config.
 insert into risks_headers
