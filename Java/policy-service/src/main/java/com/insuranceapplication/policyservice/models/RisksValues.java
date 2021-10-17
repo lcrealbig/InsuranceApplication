@@ -1,17 +1,19 @@
 package com.insuranceapplication.policyservice.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
+
 @Table(name = "risks_values")
-public class CalculationConfiguration {
+public class RisksValues {
     @Id
-    private String risk_id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "RISKS_VALUES")
+    @SequenceGenerator(name = "RISKS_VALUES", allocationSize = 1)
+    private Integer id;
+    @Column(name="risk_id",unique = false)
+    private String riskId;
     @Column(name = "combination_name")
-    private String combination_name;
+    private String combinationName;
     @Column(name = "value_1")
     private String value1;
     @Column(name = "value_2")
@@ -38,13 +40,15 @@ public class CalculationConfiguration {
     private String value12;
     @Column(name = "version")
     private String version;
+    @Column(name = "header_id")
+    String headerId;
 
-    public CalculationConfiguration() {
+    public RisksValues() {
     }
 
-    public CalculationConfiguration(String risk_id, String combination_name, String value1, String value2, String value3, String value4, String value5, String value6, String value7, String value8, String value9, String value10, String value11, String value12, String version) {
-        this.risk_id = risk_id;
-        this.combination_name = combination_name;
+    public RisksValues(Integer id,String riskId, String combination_name, String value1, String value2, String value3, String value4, String value5, String value6, String value7, String value8, String value9, String value10, String value11, String value12, String version, String headerId) {
+        this.riskId = riskId;
+        this.combinationName = combination_name;
         this.value1 = value1;
         this.value2 = value2;
         this.value3 = value3;
@@ -58,22 +62,29 @@ public class CalculationConfiguration {
         this.value11 = value11;
         this.value12 = value12;
         this.version = version;
+        this.headerId = headerId;
     }
 
-    public String getRisk_id() {
-        return risk_id;
+    public Integer getId() {
+        return id;
     }
 
-    public void setRisk_id(String risk_id) {
-        this.risk_id = risk_id;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    public String getRiskId() {
+        return riskId;
+    }
+    public void setRiskId(String riskId) {
+        this.riskId = riskId;
     }
 
-    public String getCombination_name() {
-        return combination_name;
+    public String getCombinationName() {
+        return combinationName;
     }
 
-    public void setCombination_name(String combination_name) {
-        this.combination_name = combination_name;
+    public void setCombinationName(String combinationName) {
+        this.combinationName = combinationName;
     }
 
     public String getValue1() {
@@ -177,6 +188,13 @@ public class CalculationConfiguration {
     }
 
     public void setVersion(String version) {
-        this.version = version;
+        this.version += version;
+    }
+
+    public String getHeaderId() {
+        return headerId;
+    }
+    public void setHeaderId(String headerId) {
+        this.headerId =headerId;
     }
 }

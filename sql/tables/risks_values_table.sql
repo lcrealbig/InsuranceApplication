@@ -1,4 +1,6 @@
-create table risks_values (
+select * from risks_headers;create table risks_values (
+id numeric,
+combo_id varchar(30),
 risk_id varchar(10),
 combination_name varchar(30),
 value_1 varchar (30),
@@ -15,104 +17,108 @@ value_11 varchar (30),
 value_12 varchar (30),
 version varchar (30)
 );
+
+--combo_id guide.
+--FULL ID'S ARE MADE OF FIRST 3 CHARS FROM COMBO_NAME + L -lesser_than,B -bigger_than BE -bigger_or_equal
+
 -- configuration for driver age.
 
-insert into risks_values (risk_id,combination_name,version,value_1,value_2,value_3)
-values ('AC', 'driver_age' , '1','27','65','400');
+insert into risks_values (combo_id,risk_id,combination_name,version,value_1,value_2,value_3)
+values ('DRI_LB','AC', 'driver_age' , '1','27','65','400');
 
 --license_age config.
 insert into risks_values
-(risk_id,combination_name,version,value_1,value_2,value_3)
+(combo_id,risk_id,combination_name,version,value_1,value_2,value_3)
  values(
-'AC','license_age','1','8',
+'LIC_LBE','AC','license_age','1','8',
 '2','100' );
 
 insert into risks_values
-(risk_id,combination_name,version,value_1,value_2)
+(combo_id,risk_id,combination_name,version,value_1,value_2)
  values(
-'AC','license_age','1','2'
+'LIC_L','AC','license_age','1','2'
 ,'400' );
 
 insert into risks_values
-(risk_id,combination_name,version,value_1,value_2)
+(combo_id,risk_id,combination_name,version,value_1,value_2)
  values(
-'AC','license_age','1',
+'LIC_BE','AC','license_age','1',
 '8','0' );
 
 --car_age config.
 insert into risks_values
-(risk_id,combination_name,version,value_1,
+(combo_id,risk_id,combination_name,version,value_1,
 value_2)
  values(
-'AC','car_age','1','3',
+'CAR_L','AC','car_age','1','3',
 '0' );
 
 insert into risks_values
-(risk_id,combination_name,version,value_1,
+(combo_id,risk_id,combination_name,version,value_1,
 value_2,value_3)
  values(
-'AC','car_age','1','6',
+'CAR_LBE','AC','car_age','1','6',
 '3','0,5%' );
 
 insert into risks_values
-(risk_id,combination_name,version,value_1,
+(combo_id,risk_id,combination_name,version,value_1,
 value_2,value_3)
  values(
-'AC','car_age','1','10',
+'CAR_LBE','AC','car_age','1','10',
 '6','1%' );
 
 insert into risks_values
-(risk_id,combination_name,version,value_1,
+(combo_id,risk_id,combination_name,version,value_1,
 value_2)
  values(
-'AC','car_age','1',
+'CAR_BE','AC','car_age','1',
 '10','2%' );
 
 --mileage config copy 3 times.
 insert into risks_values
-(risk_id,combination_name,version,value_1,
+(combo_id,risk_id,combination_name,version,value_1,
 value_2,value_3,value_4,value_5,value_6)
  values(
-'AC','mileage','1','100000',
+'MIL_LBE','AC','mileage','1','100000',
 '50000','yes','yes','0,1%','0,5%');
 
 insert into risks_values
-(risk_id,combination_name,version,value_1,
+(combo_id,risk_id,combination_name,version,value_1,
 value_2,value_3,value_4,value_5,value_6)
  values(
-'AC','mileage','1','350000',
+'MIL_LBE','AC','mileage','1','350000',
 '100000','yes','yes','0,5%','1%' );
 
 insert into risks_values
-(risk_id,combination_name,version,value_1,
+(combo_id,risk_id,combination_name,version,value_1,
 value_2)
  values(
-'AC','mileage','1','50000',
+'MIL_L','AC','mileage','1','50000',
 '0' );
 
 insert into risks_values
-(risk_id,combination_name,version,value_1,
+(combo_id,risk_id,combination_name,version,value_1,
 value_2,value_3,value_4,value_5)
  values(
-'AC','mileage','1','350000','yes','yes','1%','2%' );
+'MIL_BE','AC','mileage','1','350000','yes','yes','1%','2%' );
 --accidents_count config.
 insert into risks_values
-(risk_id,combination_name,version,value_1,
+(combo_id,risk_id,combination_name,version,value_1,
 value_2,value_3)
  values(
-'AC','accidents_count','1','1,2',
+'ACC_LBE','AC','accidents_count','1','1,2',
 '1','0,5%' );
 
 insert into risks_values
-(risk_id,combination_name,version,value_1,
+(combo_id,risk_id,combination_name,version,value_1,
 value_2)
  values(
-'AC','accidents_count','1','1',
+'ACC_L','AC','accidents_count','1','1',
 '0' );
 
 insert into risks_values
-(risk_id,combination_name,version,value_1,
+(combo_id,risk_id,combination_name,version,value_1,
 value_2)
  values(
-'AC','accidents_count','1',
+'ACC_BE','AC','accidents_count','1',
 '1,2','1,5%' );
