@@ -81,23 +81,23 @@ header_2)
 
 insert into risks_headers
 (combo_id,risk_id,combination_name,version,header_1,
-header_2,header_3,header_4,header_5)
+header_2,header_3,header_4)
  values('MIL_LBE',
 'AC','mileage','1','lesser_than',
-'bigger_or_equal','on_list','absent','rise_of_premium' );
+'bigger_or_equal','parts_availability','rise_of_premium' );
 
 insert into risks_headers
 (combo_id,risk_id,combination_name,version,header_1,
-header_2,header_3,header_4,header_5)
+header_2,header_3,header_4)
  values('MIL_LBE',
 'AC','mileage','1','lesser_than',
-'bigger_or_equal','on_list','absent','rise_of_premium' );
+'bigger_or_equal','parts_availability','rise_of_premium' );
 insert into risks_headers
 (combo_id,risk_id,combination_name,version,header_1,
-header_2,header_3,header_4)
+header_2,header_3)
  values('MIL_BE',
 'AC','mileage','1',
-'bigger_or_equal','on_list','absent','rise_of_premium' );
+'bigger_or_equal','parts_availability','rise_of_premium' );
 
 insert into risks_headers
 (combo_id,risk_id,combination_name,version,header_1,
@@ -125,11 +125,3 @@ header_2)
  values('ACC_BE','AC','accidents_count','1',
 'bigger_or_equal','rise_of_premium' );
 
-/*
-select v.combination_name, header_1,value_1,header_2,value_2, header_3,value_3,header_4,value_4, header_5,value_5,header_6,value_6, header_7,value_7,header_8,value_8, v.version from risks_headers h,risks_values v 
-where v.combination_name = h.combination_name 
-and v.version = h.version
-and v.combination_name = 'license_age'
---and h.header_id = 'LIC_AGE_LBE'
-AND V.HEADER_ID = H.HEADER_ID;
-*/
