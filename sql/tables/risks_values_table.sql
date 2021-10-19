@@ -1,5 +1,5 @@
 create table risks_values (
-id numeric,
+id serial,
 combo_id varchar(30),
 risk_id varchar(10),
 combination_name varchar(30),
@@ -77,17 +77,17 @@ value_2)
 --mileage config copy 3 times.
 insert into risks_values
 (combo_id,risk_id,combination_name,version,value_1,
-value_2,value_3,value_4,value_5)
+value_2,value_3,value_4)
  values(
 'MIL_LBE','AC','mileage','1','100000',
-'50000','true','0,1%','0,5%');
+'50000','0,1%','0,5%');
 
 insert into risks_values
 (combo_id,risk_id,combination_name,version,value_1,
-value_2,value_3,value_4,value_5)
+value_2,value_3,value_4)
  values(
 'MIL_LBE','AC','mileage','1','350000',
-'100000','true','0,5%','1%' );
+'100000','0,5%','1%' );
 
 insert into risks_values
 (combo_id,risk_id,combination_name,version,value_1,
@@ -98,9 +98,9 @@ value_2)
 
 insert into risks_values
 (combo_id,risk_id,combination_name,version,value_1,
-value_2,value_3,value_4)
+value_2,value_3)
  values(
-'MIL_BE','AC','mileage','1','350000','true','1%','2%' );
+'MIL_BE','AC','mileage','1','350000','1%','2%' );
 --accidents_count config.
 insert into risks_values
 (combo_id,risk_id,combination_name,version,value_1,

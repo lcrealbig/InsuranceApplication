@@ -1,5 +1,5 @@
 create table risks_headers (
-id numeric,
+id serial,
 combo_id varchar(30),
 risk_id varchar(10),
 combination_name varchar(30),
@@ -81,23 +81,23 @@ header_2)
 
 insert into risks_headers
 (combo_id,risk_id,combination_name,version,header_1,
-header_2,header_3,header_4)
+header_2,header_3)
  values('MIL_LBE',
 'AC','mileage','1','lesser_than',
-'bigger_or_equal','parts_availability','rise_of_premium' );
+'bigger_or_equal','rise_of_premium' );
 
 insert into risks_headers
 (combo_id,risk_id,combination_name,version,header_1,
-header_2,header_3,header_4)
+header_2,header_3)
  values('MIL_LBE',
 'AC','mileage','1','lesser_than',
-'bigger_or_equal','parts_availability','rise_of_premium' );
+'bigger_or_equal','rise_of_premium' );
 insert into risks_headers
 (combo_id,risk_id,combination_name,version,header_1,
-header_2,header_3)
+header_2)
  values('MIL_BE',
 'AC','mileage','1',
-'bigger_or_equal','parts_availability','rise_of_premium' );
+'bigger_or_equal','rise_of_premium' );
 
 insert into risks_headers
 (combo_id,risk_id,combination_name,version,header_1,
