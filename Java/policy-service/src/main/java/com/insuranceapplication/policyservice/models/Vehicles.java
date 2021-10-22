@@ -12,11 +12,12 @@ public class Vehicles {
     private String generation;
     private String engineType;
     private String engine;
+    private boolean partsAvailability;
 
     public Vehicles() {
     }
 
-    public Vehicles(int vehicleId, String vehicleType, String brand, String vehicleModel, String generation, String engineType, String engine) {
+    public Vehicles(boolean partsAvailability,int vehicleId, String vehicleType, String brand, String vehicleModel, String generation, String engineType, String engine) {
         this.vehicleId = vehicleId;
         this.vehicleType = vehicleType;
         this.brand = brand;
@@ -24,6 +25,7 @@ public class Vehicles {
         this.generation = generation;
         this.engineType = engineType;
         this.engine = engine;
+        this.partsAvailability = partsAvailability;
     }
 
     @Id
@@ -83,5 +85,12 @@ public class Vehicles {
 
     public void setEngine(String engine) {
         this.engine = engine;
+    }
+
+    public boolean isPartsAvailability() {
+        return partsAvailability;
+    }
+    public void setPartsAvailability(boolean partsAvailability) {
+        this.partsAvailability = partsAvailability;
     }
 }
