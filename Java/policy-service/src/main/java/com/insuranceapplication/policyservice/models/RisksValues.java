@@ -10,8 +10,10 @@ public class RisksValues {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "RISKS_VALUES")
     @SequenceGenerator(name = "RISKS_VALUES", allocationSize = 1)
     private Integer id;
-    @Column(name="risk_id",unique = false)
+    @Column(name="risk_id")
     private String riskId;
+    @Column(name="combo_id")
+    private String comboId;
     @Column(name = "combination_name")
     private String combinationName;
     @Column(name = "value_1")
@@ -40,15 +42,15 @@ public class RisksValues {
     private String value12;
     @Column(name = "version")
     private String version;
-    @Column(name = "header_id")
-    String headerId;
 
     public RisksValues() {
     }
 
-    public RisksValues(Integer id,String riskId, String combination_name, String value1, String value2, String value3, String value4, String value5, String value6, String value7, String value8, String value9, String value10, String value11, String value12, String version, String headerId) {
+    public RisksValues(String comboId,Integer id, String riskId, String combinationName, String value1, String value2, String value3, String value4, String value5, String value6, String value7, String value8, String value9, String value10, String value11, String value12, String version) {
+        this.id = id;
         this.riskId = riskId;
-        this.combinationName = combination_name;
+        this.comboId = comboId;
+        this.combinationName = combinationName;
         this.value1 = value1;
         this.value2 = value2;
         this.value3 = value3;
@@ -62,7 +64,6 @@ public class RisksValues {
         this.value11 = value11;
         this.value12 = value12;
         this.version = version;
-        this.headerId = headerId;
     }
 
     public Integer getId() {
@@ -191,10 +192,11 @@ public class RisksValues {
         this.version += version;
     }
 
-    public String getHeaderId() {
-        return headerId;
+    public String getComboId() {
+        return comboId;
     }
-    public void setHeaderId(String headerId) {
-        this.headerId =headerId;
+
+    public void setComboId(String comboId) {
+        this.comboId = comboId;
     }
 }

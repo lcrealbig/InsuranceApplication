@@ -5,7 +5,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "INSURED_OBJECTS")
-public class InsuredObject {
+public class InsuredObjects {
     private Integer objectId;
     private Integer policyLineNo;
     private Integer transactionId;
@@ -23,10 +23,10 @@ public class InsuredObject {
     private Date d03;
 
     //no argument constructor is required to create entity class
-    public InsuredObject() {
+    public InsuredObjects() {
     }
 
-    public InsuredObject(Integer objectId, Integer policyLineNo, Integer transactionId, String type, String c01, String c02, String c03, String c04, Integer n01, Integer n02, Integer n03, Integer n04, Date d01, Date d02, Date d03) {
+    public InsuredObjects(Integer objectId, Integer policyLineNo, Integer transactionId, String type, String c01, String c02, String c03, String c04, Integer n01, Integer n02, Integer n03, Integer n04, Date d01, Date d02, Date d03) {
         this.objectId = objectId;
         this.policyLineNo = policyLineNo;
         this.transactionId = transactionId;

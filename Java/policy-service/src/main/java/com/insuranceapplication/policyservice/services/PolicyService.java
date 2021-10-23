@@ -28,13 +28,13 @@ public class PolicyService {
     }
 
     @Transactional
-    public void createPolicyLine(Policy_lines newPolicyLines) {
+    public void createPolicyLine(PolicyLines newPolicyLines) {
         em.persist(newPolicyLines);
     }
 
     @Transactional
-    public void createInsuredObject(InsuredObject insuredObject) {
-        em.persist(insuredObject);
+    public void createInsuredObject(InsuredObjects insuredObjects) {
+        em.persist(insuredObjects);
     }
 
     @Transactional
@@ -87,17 +87,17 @@ public class PolicyService {
     }
 
     @Transactional
-    public ResponseEntity getPolicyLine(Policy_lines policy_lines) {
+    public ResponseEntity getPolicyLine(PolicyLines policy_lines) {
         Query query = em.createQuery("select p from Policy_lines p WHERE p.transactionId = '" + policy_lines.getTransactionId() + "'");
 
-        ArrayList<Policy_lines> resultArray = (ArrayList<Policy_lines>) query.getResultList();
-        Policy_lines result = resultArray.get(0);
+        ArrayList<PolicyLines> resultArray = (ArrayList<PolicyLines>) query.getResultList();
+        PolicyLines result = resultArray.get(0);
         return ResponseEntity.ok().body(result);
     }
 
-    public void test() {
+    public void test()  {
         PremiumCalculation calculation = new PremiumCalculation();
         calculation.em = this.em;
-        calculation.dupa();
+        calculation.calculateMOT();
     }
 }
