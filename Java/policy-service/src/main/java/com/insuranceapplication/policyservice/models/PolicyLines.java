@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "POLICY_LINES")
-public class Policy_lines {
+public class PolicyLines {
     private int policyLineId;
     private int transactionId;
     private int policyId;
@@ -12,10 +12,10 @@ public class Policy_lines {
     private String version;
 
     //no argument constructor is required to create entity class
-    public Policy_lines(){
+    public PolicyLines(){
     }
 
-    public Policy_lines(int policyLineId, int transactionId, int policyNo, String productLineType, String version) {
+    public PolicyLines(int policyLineId, int transactionId, int policyNo, String productLineType, String version) {
         this.policyLineId = policyLineId;
         this.transactionId = transactionId;
         this.policyId = policyNo;
