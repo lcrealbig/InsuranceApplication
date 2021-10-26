@@ -1,4 +1,4 @@
-create table products (
+create table products_config (
 PRODUCT_ID varchar(5),
 VERSION varchar(5),
 START_DATE date,
