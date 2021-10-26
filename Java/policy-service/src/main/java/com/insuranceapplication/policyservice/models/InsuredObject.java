@@ -21,12 +21,13 @@ public class InsuredObject {
     private Date d01;
     private Date d02;
     private Date d03;
+    private String version;
 
     //no argument constructor is required to create entity class
     public InsuredObject() {
     }
 
-    public InsuredObject(int objectId, int policyLineNo, int transactionId, String type, String c01, String c02, String c03, String c04, int n01, int n02, int n03, int n04, Date d01, Date d02, Date d03) {
+    public InsuredObject(int objectId, int policyLineNo, int transactionId, String type, String c01, String c02, String c03, String c04, int n01, int n02, int n03, int n04, Date d01, Date d02, Date d03, String version) {
         this.objectId = objectId;
         this.policyLineNo = policyLineNo;
         this.transactionId = transactionId;
@@ -42,6 +43,7 @@ public class InsuredObject {
         this.d01 = d01;
         this.d02 = d02;
         this.d03 = d03;
+        this.version = version;
     }
 
     @Id
@@ -165,5 +167,13 @@ public class InsuredObject {
 
     public void setD03(Date d03) {
         this.d03 = d03;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 }

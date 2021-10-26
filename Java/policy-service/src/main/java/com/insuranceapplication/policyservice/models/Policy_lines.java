@@ -5,31 +5,33 @@ import javax.persistence.*;
 @Entity
 @Table(name = "POLICY_LINES")
 public class Policy_lines {
-    private int policyLineNo;
+    private int policyLineId;
     private int transactionId;
-    private int policyNo;
+    private int policyId;
     private String productLineType;
+    private String version;
 
     //no argument constructor is required to create entity class
     public Policy_lines(){
     }
 
-    public Policy_lines(int policyLineNo, int transactionId, int policyNo, String productLineType) {
-        this.policyLineNo = policyLineNo;
+    public Policy_lines(int policyLineId, int transactionId, int policyNo, String productLineType, String version) {
+        this.policyLineId = policyLineId;
         this.transactionId = transactionId;
-        this.policyNo = policyNo;
+        this.policyId = policyNo;
         this.productLineType = productLineType;
+        this.version = version;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "line_id_seq")
     @SequenceGenerator(name = "line_id_seq", allocationSize = 1)
-    public int getPolicyLineNo() {
-        return policyLineNo;
+    public int getPolicyLineId() {
+        return policyLineId;
     }
 
-    public void setPolicyLineNo(int policyLineNo) {
-        this.policyLineNo = policyLineNo;
+    public void setPolicyLineId(int policyLineId) {
+        this.policyLineId = policyLineId;
     }
 
     public int getTransactionId() {
@@ -41,11 +43,11 @@ public class Policy_lines {
     }
 
     public int getPolicyNo() {
-        return policyNo;
+        return policyId;
     }
 
     public void setPolicyNo(int policyNo) {
-        this.policyNo = policyNo;
+        this.policyId = policyNo;
     }
 
     public String getProductLineType() {
@@ -54,5 +56,13 @@ public class Policy_lines {
 
     public void setProductLineType(String productLineType) {
         this.productLineType = productLineType;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 }

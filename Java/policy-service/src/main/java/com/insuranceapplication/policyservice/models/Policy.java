@@ -14,12 +14,13 @@ public class Policy {
     private String endDate;
     private String productType;
     private String altNo;
+    private String version;
 
     //no argument constructor is required to create entity class
     public Policy(){
     }
 
-    public Policy(int policyId, int transactionId, int ownerId, String type, String status, String startDate, String endDate, String productType, String altNo) {
+    public Policy(int policyId, int transactionId, int ownerId, String type, String status, String startDate, String endDate, String productType, String altNo, String version) {
         this.policyId = policyId;
         this.transactionId = transactionId;
         this.ownerId = ownerId;
@@ -29,6 +30,7 @@ public class Policy {
         this.endDate = endDate;
         this.productType = productType;
         this.altNo = altNo;
+        this.version = version;
     }
 
     @Id
@@ -104,5 +106,13 @@ public class Policy {
 
     public void setAltNo(String altNo) {
         this.altNo = altNo;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 }
