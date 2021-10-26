@@ -13,6 +13,7 @@ STATUS varchar(40),
 START_DATE varchar(25),
 END_DATE varchar(25),
 PRODUCT_TYPE varchar(40),
-ALT_NO varchar(40)
+ALT_NO varchar(40),
+VERSION varchar(5)
 );
 /
