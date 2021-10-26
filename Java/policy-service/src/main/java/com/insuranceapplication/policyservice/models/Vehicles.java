@@ -12,11 +12,14 @@ public class Vehicles {
     private String generation;
     private String engineType;
     private String engine;
+    private String power;
+    private String protectionClass;
+    private boolean partsAvailability;
 
     public Vehicles() {
     }
 
-    public Vehicles(int vehicleId, String vehicleType, String brand, String vehicleModel, String generation, String engineType, String engine) {
+    public Vehicles(int vehicleId, String vehicleType, String brand, String vehicleModel, String generation, String engineType, String engine, String power, String protectionClass, boolean partsAvailability) {
         this.vehicleId = vehicleId;
         this.vehicleType = vehicleType;
         this.brand = brand;
@@ -24,6 +27,9 @@ public class Vehicles {
         this.generation = generation;
         this.engineType = engineType;
         this.engine = engine;
+        this.power = power;
+        this.protectionClass = protectionClass;
+        this.partsAvailability = partsAvailability;
     }
 
     @Id
@@ -83,5 +89,29 @@ public class Vehicles {
 
     public void setEngine(String engine) {
         this.engine = engine;
+    }
+
+    public String getPower() {
+        return power;
+    }
+
+    public void setPower(String power) {
+        this.power = power;
+    }
+
+    public String getProtectionClass() {
+        return protectionClass;
+    }
+
+    public void setProtectionClass(String protectionClass) {
+        this.protectionClass = protectionClass;
+    }
+
+    public boolean isPartsAvailability() {
+        return partsAvailability;
+    }
+
+    public void setPartsAvailability(boolean partsAvailability) {
+        this.partsAvailability = partsAvailability;
     }
 }
