@@ -15,8 +15,8 @@ public class PolicyService {
     private EntityManager em;
 
     @Transactional
-    public void createTransaction(Transactions transactions) {
-        em.persist(transactions);
+    public void createTransaction(Transaction transaction) {
+        em.persist(transaction);
     }
 
     @Transactional
@@ -25,8 +25,8 @@ public class PolicyService {
     }
 
     @Transactional
-    public void createPolicyLine(PolicyLines newPolicyLines) {
-        em.persist(newPolicyLines);
+    public void createPolicyLine(PolicyLine newPolicyLine) {
+        em.persist(newPolicyLine);
     }
 
     @Transactional
@@ -35,39 +35,39 @@ public class PolicyService {
     }
 
     @Transactional
-    public ResponseEntity getTransactionId(Transactions transactions) {
-        Query query = em.createQuery("select distinct t from Transactions t WHERE t.modifiedBy = '" + transactions.getModifiedBy() +
-                "' AND t.timestamp = '" + transactions.getTimestamp() + "'");
+    public ResponseEntity getTransactionId(Transaction transaction) {
+        Query query = em.createQuery("select distinct t from Transactions t WHERE t.modifiedBy = '" + transaction.getModifiedBy() +
+                "' AND t.timestamp = '" + transaction.getTimestamp() + "'");
 
-        ArrayList<Transactions> resultArray = (ArrayList<Transactions>) query.getResultList();
-        Transactions result = resultArray.get(0);
+        ArrayList<Transaction> resultArray = (ArrayList<Transaction>) query.getResultList();
+        Transaction result = resultArray.get(0);
         return ResponseEntity.ok().body(result);
     }
 
     @Transactional
-    public ResponseEntity getVehicles(Vehicles vehicles) {
+    public ResponseEntity getVehicles(Vehicle vehicle) {
         Query query = null;
-        if (vehicles.getBrand() == null) {
-            query = em.createQuery("select distinct v.brand from Vehicles v WHERE v.vehicleType = '" + vehicles.getVehicleType() + "'");
-        } else if (vehicles.getVehicleModel() == null) {
-            query = em.createQuery("select distinct v.vehicleModel from Vehicles v WHERE v.brand = '" + vehicles.getBrand() + "' AND v.vehicleType = '" + vehicles.getVehicleType() + "'");
-        } else if (vehicles.getGeneration() == null) {
-            query = em.createQuery("select distinct v.generation from Vehicles v WHERE v.vehicleModel = '" + vehicles.getVehicleModel() +
-                    "' AND v.brand = '" + vehicles.getBrand() + "'");
-        } else if (vehicles.getEngineType() == null) {
-            query = em.createQuery("select distinct v.engineType from Vehicles v WHERE v.generation = '" + vehicles.getGeneration() +
-                    "' and v.vehicleModel = '" + vehicles.getVehicleModel() + "' AND v.brand = '" + vehicles.getBrand() + "'");
-        } else if (vehicles.getEngine() == null) {
-            query = em.createQuery("select distinct v.engine from Vehicles v WHERE v.engineType = '" + vehicles.getEngineType() +
-                    "' and v.vehicleModel = '" + vehicles.getVehicleModel() + "' AND v.brand = '" + vehicles.getBrand() +
-                    "' AND v.generation = '" + vehicles.getGeneration() + "'");
+        if (vehicle.getBrand() == null) {
+            query = em.createQuery("select distinct v.brand from Vehicles v WHERE v.vehicleType = '" + vehicle.getVehicleType() + "'");
+        } else if (vehicle.getVehicleModel() == null) {
+            query = em.createQuery("select distinct v.vehicleModel from Vehicles v WHERE v.brand = '" + vehicle.getBrand() + "' AND v.vehicleType = '" + vehicle.getVehicleType() + "'");
+        } else if (vehicle.getGeneration() == null) {
+            query = em.createQuery("select distinct v.generation from Vehicles v WHERE v.vehicleModel = '" + vehicle.getVehicleModel() +
+                    "' AND v.brand = '" + vehicle.getBrand() + "'");
+        } else if (vehicle.getEngineType() == null) {
+            query = em.createQuery("select distinct v.engineType from Vehicles v WHERE v.generation = '" + vehicle.getGeneration() +
+                    "' and v.vehicleModel = '" + vehicle.getVehicleModel() + "' AND v.brand = '" + vehicle.getBrand() + "'");
+        } else if (vehicle.getEngine() == null) {
+            query = em.createQuery("select distinct v.engine from Vehicles v WHERE v.engineType = '" + vehicle.getEngineType() +
+                    "' and v.vehicleModel = '" + vehicle.getVehicleModel() + "' AND v.brand = '" + vehicle.getBrand() +
+                    "' AND v.generation = '" + vehicle.getGeneration() + "'");
         } else {
-            query = em.createQuery("select distinct v.vehicleId from Vehicles v WHERE v.engineType = '" + vehicles.getEngineType() +
-                    "' and v.vehicleModel = '" + vehicles.getVehicleModel() + "' AND v.brand = '" + vehicles.getBrand() +
-                    "' AND v.generation = '" + vehicles.getGeneration() + "' and v.engine = '" + vehicles.getEngine() + "'");
+            query = em.createQuery("select distinct v.vehicleId from Vehicles v WHERE v.engineType = '" + vehicle.getEngineType() +
+                    "' and v.vehicleModel = '" + vehicle.getVehicleModel() + "' AND v.brand = '" + vehicle.getBrand() +
+                    "' AND v.generation = '" + vehicle.getGeneration() + "' and v.engine = '" + vehicle.getEngine() + "'");
         }
 
-        ArrayList<Vehicles> results = (ArrayList<Vehicles>) query.getResultList();
+        ArrayList<Vehicle> results = (ArrayList<Vehicle>) query.getResultList();
         return ResponseEntity.ok().body(results);
     }
 
@@ -81,37 +81,37 @@ public class PolicyService {
     }
 
     @Transactional
-    public ResponseEntity getPolicyLine(PolicyLines policyLines) {
-        Query query = em.createQuery("select p from PolicyLines p WHERE p.transactionId = '" + policyLines.getTransactionId() + "'");
-
-        ArrayList<PolicyLines> resultArray = (ArrayList<PolicyLines>) query.getResultList();
-        PolicyLines result = resultArray.get(0);
+    public ResponseEntity getPolicyLine(PolicyLine policyLine) {
+        Query query = em.createQuery("select p from PolicyLines p WHERE p.transactionId = '" + policyLine.getTransactionId() + "'");
+        //FIND WAY HOW TO GET FIRST RESULT FROM DB INSTEAD OF FULL ARRAY AND THEN GETTING INDEX 0 FROM IT
+        ArrayList<PolicyLine> resultArray = (ArrayList<PolicyLine>) query.getResultList();
+        PolicyLine result = resultArray.get(0);
         return ResponseEntity.ok().body(result);
     }
 
-
     @Transactional
-    public ArrayList getProducts() {
+    public ResponseEntity getProducts() {
         Query query = em.createQuery("select p from ProductsConfig p");
 
         ArrayList<ProductsConfig> resultArray = (ArrayList) query.getResultList();
-        return resultArray;
+
+        return ResponseEntity.ok().body(resultArray);
     }
 
     @Transactional
-    public ArrayList getPolicyLineTypes(ProductsConfig productsConfig) {
+    public ResponseEntity getPolicyLineTypes(ProductsConfig productsConfig) {
         Query query = em.createQuery("select p from PolicyLineTypesConfig p WHERE p.productId = '" + productsConfig.getProductId() + "'");
 
         ArrayList<PolicyLineTypesConfig> resultArray = (ArrayList<PolicyLineTypesConfig>) query.getResultList();
-        return resultArray;
+        return ResponseEntity.ok().body(resultArray);
     }
 
     @Transactional
-    public ArrayList getObjectTypes(PolicyLineTypesConfig policyLineTypesConfig) {
+    public ResponseEntity getObjectTypes(PolicyLineTypesConfig policyLineTypesConfig) {
         Query query = em.createQuery("select o from ObjectTypesConfig o WHERE o.policyLineId = '" + policyLineTypesConfig.getPolicyLineId() + "'");
 
         ArrayList<ObjectTypesConfig> resultArray = (ArrayList<ObjectTypesConfig>) query.getResultList();
-        return resultArray;
+        return ResponseEntity.ok().body(resultArray);
     }
 
 }

@@ -17,8 +17,8 @@ public class PolicyController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/createtransaction")
-    public void createTransaction(@RequestBody Transactions newTransactions) {
-        policyService.createTransaction(newTransactions);
+    public void createTransaction(@RequestBody Transaction newTransaction) {
+        policyService.createTransaction(newTransaction);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
@@ -29,8 +29,8 @@ public class PolicyController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/createpolicyline")
-    public void createPolicyLine(@RequestBody PolicyLines newPolicyLines) {
-        policyService.createPolicyLine(newPolicyLines);
+    public void createPolicyLine(@RequestBody PolicyLine newPolicyLine) {
+        policyService.createPolicyLine(newPolicyLine);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
@@ -43,15 +43,15 @@ public class PolicyController {
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/gettransactionid")
     @ResponseBody
-    public ResponseEntity getTransactionId(@RequestBody Transactions transactions) {
-        return policyService.getTransactionId(transactions);
+    public ResponseEntity getTransactionId(@RequestBody Transaction transaction) {
+        return policyService.getTransactionId(transaction);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/getvehicles")
     @ResponseBody
-    public ResponseEntity getVehicles(@RequestBody Vehicles vehicles) {
-        return policyService.getVehicles(vehicles);
+    public ResponseEntity getVehicles(@RequestBody Vehicle vehicle) {
+        return policyService.getVehicles(vehicle);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
@@ -64,28 +64,28 @@ public class PolicyController {
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/getpolicyline")
     @ResponseBody
-    public ResponseEntity getPolicyLine(@RequestBody PolicyLines policyLines) {
-        return policyService.getPolicyLine(policyLines);
+    public ResponseEntity getPolicyLine(@RequestBody PolicyLine policyLine) {
+        return policyService.getPolicyLine(policyLine);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/getproducts")
     @ResponseBody
-    public ArrayList getProducts() {
+    public ResponseEntity getProducts() {
         return policyService.getProducts();
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/getpolicylinetypes")
     @ResponseBody
-    public ArrayList getPolicyLineTypes(@RequestBody ProductsConfig productsConfig) {
+    public ResponseEntity getPolicyLineTypes(@RequestBody ProductsConfig productsConfig) {
         return policyService.getPolicyLineTypes(productsConfig);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/getobjecttypes")
     @ResponseBody
-    public ArrayList getObjectTypes(@RequestBody PolicyLineTypesConfig policyLineTypesConfig) {
+    public ResponseEntity getObjectTypes(@RequestBody PolicyLineTypesConfig policyLineTypesConfig) {
         return policyService.getObjectTypes(policyLineTypesConfig);
     }
 
