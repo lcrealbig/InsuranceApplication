@@ -44,12 +44,10 @@ public class PolicyService {
     @Transactional
     public ResponseEntity getVehicles(Vehicles vehicles){
         Query query = null;
-        if(vehicles.getVehicleType() == null){
-            query = em.createQuery("select distinct v.vehicleType from Vehicles v");
-        } else if(vehicles.getBrand() == null){
-            query = em.createQuery("select distinct v.brand from Vehicles v");
+        if(vehicles.getBrand() == null){
+            query = em.createQuery("select distinct v.brand from Vehicles v WHERE v.vehicleType = '" + vehicles.getVehicleType() + "'");
         } else if(vehicles.getVehicleModel() == null){
-            query = em.createQuery("select distinct v.vehicleModel from Vehicles v WHERE v.brand = '" + vehicles.getBrand() + "'");
+            query = em.createQuery("select distinct v.vehicleModel from Vehicles v WHERE v.brand = '" + vehicles.getBrand() + "' AND v.vehicleType = '" + vehicles.getVehicleType() + "'");
         } else if(vehicles.getGeneration() == null){
             query = em.createQuery("select distinct v.generation from Vehicles v WHERE v.vehicleModel = '" + vehicles.getVehicleModel() +
                     "' AND v.brand = '" + vehicles.getBrand() + "'");
@@ -67,7 +65,6 @@ public class PolicyService {
         }
 
         ArrayList<Vehicles> results = (ArrayList<Vehicles>) query.getResultList();
-
         return ResponseEntity.ok().body(results);
     }
 

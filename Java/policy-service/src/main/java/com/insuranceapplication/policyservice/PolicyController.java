@@ -1,7 +1,6 @@
 package com.insuranceapplication.policyservice;
 
 import com.insuranceapplication.policyservice.models.*;
-import com.insuranceapplication.policyservice.services.PolicyService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
