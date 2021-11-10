@@ -1,9 +1,6 @@
 package com.customerservice.customerservice.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigInteger;
 import java.util.Date;
 
@@ -11,12 +8,16 @@ import java.util.Date;
 @Table(name = "customers")
 public class Customers {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cust_id_seq")
+    @SequenceGenerator(name = "cust_id_seq", allocationSize = 1)
+
+    //spraw generator id korzystal z sequencera.
     @Column(name = "customer_id")
     private int customer_id;
     @Column(name = "name")
     private String name;
     @Column(name = "pesel")
-    private BigInteger pesel;
+    private String pesel;
     @Column(name = "address")
     private String address;
     @Column(name = "birth_date")
@@ -32,11 +33,11 @@ public class Customers {
         this.name = name;
     }
 
-    public BigInteger getPesel() {
+    public String getPesel() {
         return pesel;
     }
 
-    public void setPesel(BigInteger pesel) {
+    public void setPesel(String pesel) {
         this.pesel = pesel;
     }
 

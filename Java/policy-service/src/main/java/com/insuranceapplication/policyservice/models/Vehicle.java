@@ -12,14 +12,21 @@ public class Vehicle {
     private String generation;
     private String engineType;
     private String engine;
+<<<<<<< HEAD:Java/policy-service/src/main/java/com/insuranceapplication/policyservice/models/Vehicle.java
     private String power;
     private String protectionClass;
+=======
+>>>>>>> feature/ins-42:Java/policy-service/src/main/java/com/insuranceapplication/policyservice/models/Vehicles.java
     private boolean partsAvailability;
 
     public Vehicle() {
     }
 
+<<<<<<< HEAD:Java/policy-service/src/main/java/com/insuranceapplication/policyservice/models/Vehicle.java
     public Vehicle(int vehicleId, String vehicleType, String brand, String vehicleModel, String generation, String engineType, String engine, String power, String protectionClass, boolean partsAvailability) {
+=======
+    public Vehicles(boolean partsAvailability,int vehicleId, String vehicleType, String brand, String vehicleModel, String generation, String engineType, String engine) {
+>>>>>>> feature/ins-42:Java/policy-service/src/main/java/com/insuranceapplication/policyservice/models/Vehicles.java
         this.vehicleId = vehicleId;
         this.vehicleType = vehicleType;
         this.brand = brand;
@@ -27,8 +34,11 @@ public class Vehicle {
         this.generation = generation;
         this.engineType = engineType;
         this.engine = engine;
+<<<<<<< HEAD:Java/policy-service/src/main/java/com/insuranceapplication/policyservice/models/Vehicle.java
         this.power = power;
         this.protectionClass = protectionClass;
+=======
+>>>>>>> feature/ins-42:Java/policy-service/src/main/java/com/insuranceapplication/policyservice/models/Vehicles.java
         this.partsAvailability = partsAvailability;
     }
 
@@ -91,6 +101,7 @@ public class Vehicle {
         this.engine = engine;
     }
 
+<<<<<<< HEAD:Java/policy-service/src/main/java/com/insuranceapplication/policyservice/models/Vehicle.java
     public String getPower() {
         return power;
     }
@@ -111,6 +122,11 @@ public class Vehicle {
         return partsAvailability;
     }
 
+=======
+    public boolean isPartsAvailability() {
+        return partsAvailability;
+    }
+>>>>>>> feature/ins-42:Java/policy-service/src/main/java/com/insuranceapplication/policyservice/models/Vehicles.java
     public void setPartsAvailability(boolean partsAvailability) {
         this.partsAvailability = partsAvailability;
     }
