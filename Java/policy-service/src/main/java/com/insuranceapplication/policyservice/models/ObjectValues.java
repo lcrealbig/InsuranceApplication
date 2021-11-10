@@ -4,10 +4,9 @@ package com.insuranceapplication.policyservice.models;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
-@Table(name = "object_values")
+@Table(name = "object_risks")
 public class ObjectValues {
     @Id
     private Integer id;
@@ -20,18 +19,18 @@ public class ObjectValues {
     @Column(name = "premium_for_period")
     private Integer premiumForPeriod;
     @Type(type="true_false")
-    private boolean isInsured;
+    private boolean isSelected;
 
     public ObjectValues() {
     }
 
-    public ObjectValues(Integer id, String riskId, Integer objectNo, Integer premium, Integer premiumForPeriod, boolean isInsured) {
+    public ObjectValues(Integer id, String riskId, Integer objectNo, Integer premium, Integer premiumForPeriod, boolean isSelected) {
         this.id = id;
         this.riskId = riskId;
         this.objectNo = objectNo;
         this.premium = premium;
         this.premiumForPeriod = premiumForPeriod;
-        this.isInsured = isInsured;
+        this.isSelected = isSelected;
     }
 
     public Integer getId() {
@@ -74,11 +73,11 @@ public class ObjectValues {
         this.premiumForPeriod = premiumForPeriod;
     }
 
-    public boolean isInsured() {
-        return isInsured;
+    public boolean isSelected() {
+        return isSelected;
     }
 
-    public void setInsured(boolean insured) {
-        isInsured = insured;
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }

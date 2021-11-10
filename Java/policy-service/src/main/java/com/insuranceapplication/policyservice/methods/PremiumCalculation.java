@@ -2,7 +2,6 @@ package com.insuranceapplication.policyservice.methods;
 
 import com.insuranceapplication.policyservice.models.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;

@@ -23,7 +23,6 @@ public class InsuredObjects {
     private Date d02;
     private Date d03;
 
-    //no argument constructor is required to create entity class
     public InsuredObjects() {
     }
 
