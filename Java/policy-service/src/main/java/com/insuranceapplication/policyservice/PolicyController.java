@@ -67,10 +67,9 @@ public class PolicyController {
         return policyService.getPolicyLine(policyLines);
     }
 
-    @GetMapping("/dupa")
+    @PostMapping("/calculations")
     @ResponseBody
-    public ResponseEntity getPolicyLine() {
-        policyService.test();
-        return null;
+    public void premiumCalc(@RequestParam("policyLineNo") Integer policyLineNo) {
+    policyService.calculation(policyLineNo);
     }
 }

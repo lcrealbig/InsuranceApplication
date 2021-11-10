@@ -1,7 +1,8 @@
 package com.insuranceapplication.policyservice.methods;
 
-import com.insuranceapplication.policyservice.models.InsuredObjects;
-import com.insuranceapplication.policyservice.models.RisksValues;
+import com.insuranceapplication.policyservice.models.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -12,99 +13,214 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
-
 public class PremiumCalculation {
-    public Double riseOfPremium = 0D;
+
     public EntityManager em;
+    private InsuredObjects vehicle;
+    private InsuredObjects driver;
+    private String isInsured;
+    private Query query;
+    private Integer premiumBase;
+    private List<PremiumCalcConfigValues> configValues;
 
-    /*stworz funkcje calculate, ktora bedzie dobierala odpowiednia funkcje dla product_line */
-    public void calculateMOT(/*odhardkoduj w query - policy line no,VERSION i umiesc je tutaj , dodaj rowniez vehicle id do sprawdzania parts availability*/) {
+    public void calculate(Integer policyLineNo) {
 
-        Query query = em.createQuery("select i from InsuredObjects i where policy_line_no = 888");
-        List<InsuredObjects> objectsList = query.getResultList();
-        InsuredObjects vehicle = new InsuredObjects();
-        InsuredObjects driver = new InsuredObjects();
-        for (InsuredObjects inOb : objectsList) {
-            if (inOb.getType().equals("VEH")) {
-                vehicle = inOb;
-            } else if (inOb.getType().equals("DRI")) {
-                driver = inOb;
-            }
-        }
-        query = em.createQuery("select r from RisksValues r ");
-        System.out.println("");
-        List<RisksValues> comboValuesList = query.getResultList();
-        for (RisksValues risksValType : comboValuesList) {
-            if (risksValType.getCombinationName().equals("driver_age")) {
+        calculateOC(policyLineNo);
+        calculateNNW(policyLineNo);
+        getAssistance(policyLineNo);
 
-                if (getPeriod(driver.getD01()) < Integer.valueOf(risksValType.getValue1())
-                        || getPeriod(driver.getD01()) > Integer.valueOf(risksValType.getValue2())
-                        && risksValType.getVersion().equals("1")) {
-                    riseOfPremium = riseOfPremium + Integer.valueOf(risksValType.getValue3());
-                }
-            }
-            if (risksValType.getCombinationName().equals("license_age")) {
-                if (getPeriod(driver.getD02()) < Integer.valueOf(risksValType.getValue1())
-                        && getPeriod(driver.getD02()) >= Integer.valueOf(risksValType.getValue2())
-                        && risksValType.getComboId().equals("LIC_LBE")) {
-                    riseOfPremium = riseOfPremium + Integer.valueOf(risksValType.getValue3());
-                }
-                if (getPeriod(driver.getD02()) < Integer.valueOf(risksValType.getValue1())
-                        && risksValType.getComboId().equals("LIC_L")) {
-                    riseOfPremium = riseOfPremium + Integer.valueOf(risksValType.getValue2());
-                }
-            }
-            if (risksValType.getCombinationName().equals("car_age")) {
-                if (risksValType.getComboId().equals("CAR_BE")) {
-                    if (getPeriod(vehicle.getD01()) >= Integer.valueOf(risksValType.getValue1())) {
-
-                        riseOfPremium = riseOfPremium + precentToPremium(risksValType.getValue2(), vehicle.getN02());
-                    }
-                }
-
-                if (risksValType.getComboId().equals("CAR_LBE") && risksValType.getId().equals(Integer.valueOf(7))) {
-                    if (getPeriod(vehicle.getD01()) < Integer.valueOf(risksValType.getValue1()) && getPeriod(vehicle.getD01()) >= Integer.valueOf(risksValType.getValue2())) {
-                        riseOfPremium = riseOfPremium + precentToPremium(risksValType.getValue3(), vehicle.getN02());
-                    }
-                }
-                if (risksValType.getComboId().equals("CAR_LBE") && risksValType.getId().equals(Integer.valueOf(6))) {
-                    if (getPeriod(vehicle.getD01()) < Integer.valueOf(risksValType.getValue1()) && getPeriod(vehicle.getD01()) >= Integer.valueOf(risksValType.getValue2())) {
-                        riseOfPremium = riseOfPremium + precentToPremium(risksValType.getValue3(), vehicle.getN02());
-                    }
-                }
-                if (risksValType.getComboId().equals("CAR_L")) {
-                    if (getPeriod(vehicle.getD01()) < Integer.valueOf(risksValType.getValue1())) {
-                        riseOfPremium = riseOfPremium + precentToPremium(risksValType.getValue2(), vehicle.getN02());
-                    }
-                }
-            }
-            if (risksValType.getCombinationName().equals("mileage")) {
-                query = em.createQuery("select  v.partsAvailability  from Vehicles v where v.vehicleId = 888");//DODAJ ID Z FRONTU
-
-                if (risksValType.getComboId().equals("MIL_L")) {
-                    if (vehicle.getN01() < Integer.valueOf(risksValType.getValue1())) {
-                        riseOfPremium = riseOfPremium + precentToPremium(risksValType.getValue2(), vehicle.getN02());
-                    }
-                }
-                if (risksValType.getComboId().equals("MIL_BE")) {
-                    if (vehicle.getN01() >= Integer.valueOf(risksValType.getValue1()) && query.toString().equals("true")) {
-                        riseOfPremium = riseOfPremium + precentToPremium(risksValType.getValue2(), vehicle.getN02());
-                    }
-                    if (vehicle.getN01() >= Integer.valueOf(risksValType.getValue1()) && !query.toString().equals("true")) {
-                        riseOfPremium = riseOfPremium + precentToPremium(risksValType.getValue3(), vehicle.getN02());
-                    }
-                }
-                if (risksValType.getComboId().equals("MIL_LBE")) {
-                    if (vehicle.getN01() < Integer.valueOf(risksValType.getValue1()) && vehicle.getN01() >= Integer.valueOf(risksValType.getValue2()) && query.toString().equals("true")) {
-                        riseOfPremium = riseOfPremium + precentToPremium(risksValType.getValue3(), vehicle.getN02());
-                    } else {
-                        riseOfPremium = riseOfPremium + precentToPremium(risksValType.getValue4(), vehicle.getN02());
-                    }
-                }
-            }
-        }
     }
 
+    public Integer calculateOC(Integer policyLineNo) {
+
+        Double riseOfPremium = 0D;
+        vehicle = returnVehicles(policyLineNo).get(0);
+        driver = getDriver(policyLineNo).get(0);
+        query = em.createQuery("select c from Customers c, InsuredObjects io where io.type = 'DRI' and c.customerId = io.n01 and io.policyLineNo = " + policyLineNo);
+        Customers customer = (Customers) query.getResultList().get(0);
+        query = em.createQuery("select p.version from Policy p, PolicyLines pl where p.policyId = pl.policyNo and pl.policyLineNo = " + policyLineNo);
+        String version = query.getResultList().get(0).toString();
+        query = em.createQuery("select ov.isInsured from ObjectValues ov where ov.objectNo = '" + policyLineNo + "' and risk_id = 'OC' ");
+        isInsured = query.getResultList().toString().replace("[", "").replace("]", "");
+
+        if (isInsured.equals("false") ) {
+            configValues = getCalcConfigValues();
+            for (PremiumCalcConfigValues riskValue : configValues) {
+                if (riskValue.getCombinationName().equals("driver_age")) {
+
+                    if (getPeriod(customer.getBirthDate()) < Integer.valueOf(riskValue.getValue1())
+                            || getPeriod(customer.getBirthDate()) > Integer.valueOf(riskValue.getValue2())) {
+                        riseOfPremium = riseOfPremium + Integer.valueOf(riskValue.getValue3());
+                    }
+                }
+                if (riskValue.getCombinationName().equals("license_age")) {
+                    if (getPeriod(driver.getD01()) < Integer.valueOf(riskValue.getValue1())
+                            && riskValue.getComboId().equals("LIC_BE")) {
+                        riseOfPremium = riseOfPremium + Integer.valueOf(riskValue.getValue2());
+                    }
+                    if (getPeriod(driver.getD01()) < Integer.valueOf(riskValue.getValue1())
+                            && getPeriod(driver.getD01()) >= Integer.valueOf(riskValue.getValue2())
+                            && riskValue.getComboId().equals("LIC_LBE")) {
+                        riseOfPremium = riseOfPremium + Integer.valueOf(riskValue.getValue3());
+                    }
+                    if (getPeriod(driver.getD01()) < Integer.valueOf(riskValue.getValue1())
+                            && riskValue.getComboId().equals("LIC_L")) {
+                        riseOfPremium = riseOfPremium + Integer.valueOf(riskValue.getValue2());
+                    }
+                }
+
+                if (riskValue.getCombinationName().equals("car_age")) {
+                    if (riskValue.getComboId().equals("CAR_BE")) {
+                        if (getPeriod(vehicle.getD01()) >= Integer.valueOf(riskValue.getValue1())) {
+                            riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue2(), vehicle.getN02());
+                        }
+                    }
+                    if (riskValue.getComboId().equals("CAR_LBE") && riskValue.getId().equals(Integer.valueOf(7))) {
+                        if (getPeriod(vehicle.getD01()) < Integer.valueOf(riskValue.getValue1()) && getPeriod(vehicle.getD01()) >= Integer.valueOf(riskValue.getValue2())) {
+                            riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue3(), vehicle.getN02());
+                        }
+                    }
+                    if (riskValue.getComboId().equals("CAR_LBE") && riskValue.getId().equals(Integer.valueOf(6))) {
+                        if (getPeriod(vehicle.getD01()) < Integer.valueOf(riskValue.getValue1()) && getPeriod(vehicle.getD01()) >= Integer.valueOf(riskValue.getValue2())) {
+                            riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue3(), vehicle.getN02());
+                        }
+                    }
+                    if (riskValue.getComboId().equals("CAR_L")) {
+                        if (getPeriod(vehicle.getD01()) < Integer.valueOf(riskValue.getValue1())) {
+                            riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue2(), vehicle.getN02());
+                        }
+                    }
+                }
+                query = em.createQuery("select io.n01 from InsuredObjects io where io.policyLineNo =" + policyLineNo + " and io.type ='VEH'");
+                Integer vehicleId = Integer.valueOf(query.getResultList().toString().replace("[", "").replace("]", ""));
+                query = em.createQuery("select v.partsAvailability from Vehicles v where v.vehicleId = " + vehicleId);
+                String partsAvailability = query.getResultList().toString();
+
+                if (riskValue.getCombinationName().equals("mileage")) {
+                    if (riskValue.getComboId().equals("MIL_L")) {
+                        if (vehicle.getN04() < Integer.valueOf(riskValue.getValue1())) {
+                            riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue2(), vehicle.getN02());
+                        }
+                    }
+                    if (riskValue.getComboId().equals("MIL_BE")) {
+                        if (vehicle.getN04() >= Integer.valueOf(riskValue.getValue1()) && partsAvailability.equals("[true]")) {
+                            riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue2(), vehicle.getN04());
+                        }
+                        if (vehicle.getN04() >= Integer.valueOf(riskValue.getValue1()) && !partsAvailability.equals("[true]")) {
+                            riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue3(), vehicle.getN02());
+                        }
+                    }
+
+                    if (riskValue.getComboId().equals("MIL_LBE") && riskValue.getId() == 9) {
+                        if (vehicle.getN04() < Integer.valueOf(riskValue.getValue1())
+                                && vehicle.getN04() >= Integer.valueOf(riskValue.getValue2())
+                        ) {
+                            if (partsAvailability.equals("[true]")) {
+                                riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue3(), vehicle.getN02());
+                            } else {
+                                riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue4(), vehicle.getN02());
+                            }
+                        }
+                    }
+                    if (riskValue.getComboId().equals("MIL_LBE") && riskValue.getId() == 10) {
+                        if (vehicle.getN04() < Integer.valueOf(riskValue.getValue1())
+                                && vehicle.getN04() >= Integer.valueOf(riskValue.getValue2())) {
+                            if (partsAvailability.equals("[true]")) {
+                                riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue3(), vehicle.getN02());
+                            } else {
+                                riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue4(), vehicle.getN02());
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return em.createQuery("UPDATE ObjectValues ov set ov.premium ='" + riseOfPremium + "' where ov.riskId ='OC' and ov.objectNo = '" + policyLineNo + "'").executeUpdate();
+    }
+
+    public Integer calculateNNW(Integer policyLineNo) {
+        Double riseOfPremium = 0D;
+        query = em.createQuery("Select v from Vehicles v, InsuredObjects o where o.n01=v.vehicleId and o.policyLineNo = " + policyLineNo);
+        List<Vehicles> selectedVehicle = query.getResultList();
+        Vehicles selectedVeh = selectedVehicle.get(0);
+        String protectionClass = selectedVeh.getProtectionClass();
+        configValues = getCalcConfigValues();
+        query = em.createQuery("select ov.isInsured from ObjectValues ov where ov.objectNo = '" + policyLineNo + "' and riskId = 'NNW'");
+
+        isInsured = query.getResultList().toString().replace("[", "").replace("]", "");
+        if (isInsured.equals("false")) {
+            if (!protectionClass.equals("I")) {
+                if (protectionClass.equals("II")) {
+                    riseOfPremium = riseOfPremium + precentToPremium(configValues.get(0).getValue1(), getPremiumBase(policyLineNo));
+                }
+                if (protectionClass.equals("III")) {
+                    riseOfPremium = riseOfPremium + precentToPremium(configValues.get(0).getValue1(), getPremiumBase(policyLineNo));
+                } else if (protectionClass.equals("IV")) {
+                    Vehicles notSupported = new Vehicles();
+                    notSupported.setProtectionClass("The protection class 4th or lower is not supported.");
+                    return ResponseEntity.ok().body(notSupported).hashCode();
+                }
+            }
+        }
+            List<PremiumCalcConfigValues> nnwConfig = em.createQuery("select pccv from PremiumCalcConfigValues pccv where pccv.comboId LIKE 'NNW_%'").getResultList();
+            for (PremiumCalcConfigValues riskValue : nnwConfig) {
+                if (riskValue.getComboId().equals("NNW_L")) {
+                    if (getPeriod(vehicle.getD01()) < Integer.valueOf(riskValue.getValue1())) {
+                        riseOfPremium = 0d;
+                    }
+                }
+                if (riskValue.getComboId().equals("NNW_LBE")) {
+                    if (getPeriod(vehicle.getD01()) < Integer.valueOf(riskValue.getValue1())
+                            && getPeriod(vehicle.getD01()) >= Integer.valueOf(riskValue.getValue2())) {
+                        riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue3(), getPremiumBase(policyLineNo));
+                    }
+                }
+                if (riskValue.getComboId().equals("NNW_BE")) {
+                    if (getPeriod(vehicle.getD01()) >= Integer.valueOf(riskValue.getValue1())) {
+                        riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue2(), getPremiumBase(policyLineNo));
+                    }
+                }
+            }
+
+
+        return em.createQuery("UPDATE ObjectValues ov set ov.premium ='" + riseOfPremium + "' where ov.riskId ='NNW' and ov.objectNo = " + policyLineNo).executeUpdate();
+
+    }
+
+    public Integer getAssistance(Integer policyLineNo) {
+
+        query = em.createQuery("select ov.isInsured from ObjectValues ov where ov.objectNo = '" + policyLineNo + "' and riskId = 'ASI'");
+
+        isInsured = query.getResultList().toString().replace("[", "").replace("]", "");
+        if (isInsured.equals("false")) {
+            List<PremiumCalcConfigValues> asiConfig = em.createQuery("select pccv from PremiumCalcConfigValues pccv where pccv.riskId = 'ASSISTANCE'").getResultList();
+            for (PremiumCalcConfigValues riskValue : asiConfig) {
+                if (riskValue.getComboId().equals("ASI")) {
+                    Double riseOfPremium = Double.valueOf(riskValue.getValue1());
+                    return em.createQuery("UPDATE ObjectValues ov set ov.premium ='" + riseOfPremium + "' where ov.riskId ='ASI' and ov.objectNo = " + policyLineNo).executeUpdate();
+                }
+            }
+        }
+        return null;
+    }
+
+    public Integer getPremiumBase(Integer policyLineNo) {
+        query = em.createQuery("select io.n05 from InsuredObjects io where policyLineNo ='" + policyLineNo + "' and io.type ='DRI' " );
+        premiumBase = Integer.valueOf(query.getResultList().toString().replace("[", "").replace("]", ""));
+        System.out.println(premiumBase);
+        return premiumBase;
+
+    }
+
+    public List<InsuredObjects> returnVehicles(Integer policyLineNo) {
+        List<InsuredObjects> vehicles = em.createQuery("SELECT io FROM InsuredObjects io WHERE io.type = 'VEH' AND io.policyLineNo =" + policyLineNo).getResultList();
+        return vehicles;
+    }
+
+    public List<InsuredObjects> getDriver(Integer policyLineNo) {
+        List<InsuredObjects> driver = em.createQuery("SELECT io FROM InsuredObjects io WHERE io.type = 'DRI' AND io.policyLineNo =" + policyLineNo).getResultList();
+        return driver;
+    }
 
     public Integer getPeriod(Date date) {
 
@@ -123,6 +239,11 @@ public class PremiumCalculation {
         Double addition = Double.valueOf(df.format(sumToAdd));
         return addition;
 
+    }
+
+    public List<PremiumCalcConfigValues> getCalcConfigValues() {
+        List<PremiumCalcConfigValues> configValues = em.createQuery("select pccv from PremiumCalcConfigValues pccv").getResultList();
+        return configValues;
     }
 
 

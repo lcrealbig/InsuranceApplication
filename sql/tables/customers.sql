@@ -8,12 +8,12 @@ create SEQUENCE public.cust_id_seq
 
 
 create table customers(
-CUSTOMER_ID int default nextval('cust_id_seq'),
+CUSTOMER_ID integer default nextval('cust_id_seq'),
 NAME varchar(80),
-PESEL int,
-ADDRESS varchar(60),
+PESEL varchar(11),
+ADDRESS varchar(80),
 BIRTH_DATE date,
-PHONE_NUM int
+PHONE_NUM bigint
 );
 /
 

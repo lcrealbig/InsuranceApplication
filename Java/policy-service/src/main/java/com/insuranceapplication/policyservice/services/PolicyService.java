@@ -5,6 +5,7 @@ import com.insuranceapplication.policyservice.models.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -95,9 +96,11 @@ public class PolicyService {
         return ResponseEntity.ok().body(result);
     }
 
-    public void test()  {
+    @Transactional
+    public void calculation(Integer policyLineNo) {
         PremiumCalculation calculation = new PremiumCalculation();
         calculation.em = this.em;
-        calculation.calculateMOT();
+        calculation.calculate(policyLineNo);
     }
+
 }

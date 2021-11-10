@@ -1,5 +1,5 @@
 --TABLE
-create table object_risks (
+create table objects_risks_config (
 object_type varchar(10),
 object_risks varchar(30),
 version varchar(30)

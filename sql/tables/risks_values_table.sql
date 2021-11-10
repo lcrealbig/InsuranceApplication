@@ -153,19 +153,28 @@ insert into premium_calculation_config_values
 (combo_id,risk_id,combination_name,version,value_1,
 value_2)
  values('NNW_L',
-'AC','nnw_<5','1','5',
+'NNW','nnw_<5','1','5',
 '0' );
 
 insert into premium_calculation_config_values
 (combo_id,risk_id,combination_name,version,value_1,
 value_2,value_3)
  values('NNW_LBE',
-'AC','nnw_<10','1','10','5',
+'NNW','nnw_<10','1','10','5',
 '1%' );	
 
 insert into premium_calculation_config_values
 (combo_id,risk_id,combination_name,version,value_1,
 value_2)
  values('NNW_BE',
-'AC','nnw_>=10','1','10',
+'NNW','nnw_>=10','1','10',
 '2%' );
+
+--asistance
+insert into premium_calculation_config_values
+(combo_id,risk_id,combination_name,version,value_1
+)
+ values('ASI',
+'ASSISTANCE','nnw_>=10','1',
+'150' );
+
