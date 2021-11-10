@@ -5,7 +5,7 @@ CREATE SEQUENCE public.veh_id_seq
     MAXVALUE 999999;
 
 create table vehicles(
-VEHICLE_ID int default nextval('veh_id_seq'),
+VEHICLE_ID integer default nextval('veh_id_seq'),
 VEHICLE_TYPE varchar(25),
 BRAND varchar(40),
 VEHICLE_MODEL varchar(40),

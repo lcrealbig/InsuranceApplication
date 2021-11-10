@@ -10,10 +10,10 @@ create SEQUENCE public.cust_id_seq
 create table customers(
 CUSTOMER_ID int default nextval('cust_id_seq'),
 NAME varchar(80),
-PESEL int,
+PESEL integer,
 ADDRESS varchar(60),
 BIRTH_DATE date,
-PHONE_NUM int
+PHONE_NUM integer
 );
 /
 
