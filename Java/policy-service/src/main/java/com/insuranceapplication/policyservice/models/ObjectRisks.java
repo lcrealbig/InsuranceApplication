@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "object_risks")
-public class ObjectValues {
+public class ObjectRisks {
     @Id
     private Integer id;
     @Column(name = "risk_id")
@@ -21,10 +21,10 @@ public class ObjectValues {
     @Type(type="true_false")
     private boolean isSelected;
 
-    public ObjectValues() {
+    public ObjectRisks() {
     }
 
-    public ObjectValues(Integer id, String riskId, Integer objectNo, Integer premium, Integer premiumForPeriod, boolean isSelected) {
+    public ObjectRisks(Integer id, String riskId, Integer objectNo, Integer premium, Integer premiumForPeriod, boolean isSelected) {
         this.id = id;
         this.riskId = riskId;
         this.objectNo = objectNo;
