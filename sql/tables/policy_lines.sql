@@ -1,3 +1,5 @@
+--InsuranceApp2021 by Marzag, Słowik, Czarny
+
 create SEQUENCE public.line_id_seq
     INCREMENT 1
     START 1
@@ -10,5 +12,6 @@ TRANSACTION_ID int,
 POLICY_ID int,
 PRODUCT_LINE_TYPE varchar(30),
 VERSION varchar(5)
-);
-/
+)
+
+

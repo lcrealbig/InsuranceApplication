@@ -1,3 +1,5 @@
+--InsuranceApp2021 by Marzag, Słowik, Czarny
+
 CREATE SEQUENCE public.veh_id_seq
     INCREMENT 1
     START 1
@@ -16,4 +18,3 @@ POWER varchar(15),
 PROTECTION_CLASS varchar(10),
 PARTS_AVAILABILITY boolean
 );
-/

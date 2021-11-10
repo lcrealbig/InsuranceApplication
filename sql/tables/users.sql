@@ -1,3 +1,5 @@
+--InsuranceApp2021 by Marzag, Słowik, Czarny
+
 create SEQUENCE public.user_id_seq
     INCREMENT 1
     START 1

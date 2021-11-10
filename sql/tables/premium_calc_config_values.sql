@@ -1,5 +1,14 @@
+--InsuranceApp2021 by Marzag, Słowik, Czarny
+
+create SEQUENCE public.pccv_id_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 999999;
+
+
 create table premium_calc_config_values (
-id serial,
+id integer default nextval('pccv_id_seq'),
 combo_id varchar(30),
 risk_id varchar(10),
 combination_name varchar(30),
@@ -23,51 +32,51 @@ version varchar (30)
 
 -- configuration for driver age.
 
-insert into premium_calculation_config_values (combo_id,risk_id,combination_name,version,value_1,value_2,value_3)
+insert into premium_calc_config_values (combo_id,risk_id,combination_name,version,value_1,value_2,value_3)
 values ('DRI_LB','AC', 'driver_age' , '1','27','65','400');
 
 --license_age config.
-insert into premium_calculation_config_values
+insert into premium_calc_config_values
 (combo_id,risk_id,combination_name,version,value_1,value_2,value_3)
  values(
 'LIC_LBE','AC','license_age','1','8',
 '2','100' );
 
-insert into premium_calculation_config_values
+insert into premium_calc_config_values
 (combo_id,risk_id,combination_name,version,value_1,value_2)
  values(
 'LIC_L','AC','license_age','1','2'
 ,'400' );
 
-insert into premium_calculation_config_values
+insert into premium_calc_config_values
 (combo_id,risk_id,combination_name,version,value_1,value_2)
  values(
 'LIC_BE','AC','license_age','1',
 '8','0' );
 
 --car_age config.
-insert into premium_calculation_config_values
+insert into premium_calc_config_values
 (combo_id,risk_id,combination_name,version,value_1,
 value_2)
  values(
 'CAR_L','AC','car_age','1','3',
 '0' );
 
-insert into premium_calculation_config_values
+insert into premium_calc_config_values
 (combo_id,risk_id,combination_name,version,value_1,
 value_2,value_3)
  values(
 'CAR_LBE','AC','car_age','1','6',
 '3','0,5%' );
 
-insert into premium_calculation_config_values
+insert into premium_calc_config_values
 (combo_id,risk_id,combination_name,version,value_1,
 value_2,value_3)
  values(
 'CAR_LBE','AC','car_age','1','10',
 '6','1%' );
 
-insert into premium_calculation_config_values
+insert into premium_calc_config_values
 (combo_id,risk_id,combination_name,version,value_1,
 value_2)
  values(
@@ -75,48 +84,48 @@ value_2)
 '10','2%' );
 
 --mileage config copy 3 times.
-insert into premium_calculation_config_values
+insert into premium_calc_config_values
 (combo_id,risk_id,combination_name,version,value_1,
 value_2,value_3,value_4)
  values(
 'MIL_LBE','AC','mileage','1','100000',
 '50000','0,1%','0,5%');
 
-insert into premium_calculation_config_values
+insert into premium_calc_config_values
 (combo_id,risk_id,combination_name,version,value_1,
 value_2,value_3,value_4)
  values(
 'MIL_LBE','AC','mileage','1','350000',
 '100000','0,5%','1%' );
 
-insert into premium_calculation_config_values
+insert into premium_calc_config_values
 (combo_id,risk_id,combination_name,version,value_1,
 value_2)
  values(
 'MIL_L','AC','mileage','1','50000',
 '0' );
 
-insert into premium_calculation_config_values
+insert into premium_calc_config_values
 (combo_id,risk_id,combination_name,version,value_1,
 value_2,value_3)
  values(
 'MIL_BE','AC','mileage','1','350000','1%','2%' );
 --accidents_count config.
-insert into premium_calculation_config_values
+insert into premium_calc_config_values
 (combo_id,risk_id,combination_name,version,value_1,
 value_2,value_3)
  values(
 'ACC_LBE','AC','accidents_count','1','1,2',
 '1','0,5%' );
 
-insert into premium_calculation_config_values
+insert into premium_calc_config_values
 (combo_id,risk_id,combination_name,version,value_1,
 value_2)
  values(
 'ACC_L','AC','accidents_count','1','1',
 '0' );
 
-insert into premium_calculation_config_values
+insert into premium_calc_config_values
 (combo_id,risk_id,combination_name,version,value_1,
 value_2)
  values(
@@ -125,47 +134,55 @@ value_2)
 
 --NNW CONFIG
 
-insert into premium_calculation_config_values
+insert into premium_calc_config_values
 (combo_id,risk_id,combination_name,version,value_1
 )
  values('NNW_PRC1','NNW','protection_class1','1',
 '0' );
 
-insert into premium_calculation_config_values
+insert into premium_calc_config_values
 (combo_id,risk_id,combination_name,version,value_1
 )
  values('NNW_PRC2','NNW','protection_class2','1',
 '0,2%' );
 
-insert into premium_calculation_config_values
+insert into premium_calc_config_values
 (combo_id,risk_id,combination_name,version,value_1
 )
  values('NNW_PRC3','NNW','protection_class3','1',
 '0,5%' );
 
-insert into premium_calculation_config_values
+insert into premium_calc_config_values
 (combo_id,risk_id,combination_name,version,value_1
 )
  values('NNW_PRC4','NNW','protection_class4','1',
 'not_supported' );
 
-insert into premium_calculation_config_values
+insert into premium_calc_config_values
 (combo_id,risk_id,combination_name,version,value_1,
 value_2)
  values('NNW_L',
 'AC','nnw_<5','1','5',
 '0' );
 
-insert into premium_calculation_config_values
+insert into premium_calc_config_values
 (combo_id,risk_id,combination_name,version,value_1,
 value_2,value_3)
  values('NNW_LBE',
 'AC','nnw_<10','1','10','5',
 '1%' );	
 
-insert into premium_calculation_config_values
+insert into premium_calc_config_values
 (combo_id,risk_id,combination_name,version,value_1,
 value_2)
  values('NNW_BE',
 'AC','nnw_>=10','1','10',
 '2%' );
+--assistance
+
+insert into premium_calc_config_values
+(combo_id,risk_id,combination_name,version,value_1
+)
+ values('ASI',
+'ASSISTANCE','ASSISTANCE','1',
+'150' );
