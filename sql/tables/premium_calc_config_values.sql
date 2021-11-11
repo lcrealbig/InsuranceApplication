@@ -26,7 +26,7 @@ value_11 varchar (30),
 value_12 varchar (30),
 version varchar (30)
 );
-
+delete from premium_calc_config_values;
 --combo_id guide.
 --FULL ID'S ARE MADE OF FIRST 3 CHARS FROM COMBO_NAME + L -lesser_than,B -bigger_than BE -bigger_or_equal
 

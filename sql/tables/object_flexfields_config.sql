@@ -12,7 +12,7 @@ TYPE varchar(40),
 OBJECT_KEY varchar(40),
 OBJECT_VALUE varchar(40)
 );
-
+delete from object_flexfields_config;
 insert into object_flexfields_config (type,object_key,object_value)
 values ('DRI','N01','Driver id in customers table.');
 insert into object_flexfields_config (type,object_key,object_value)

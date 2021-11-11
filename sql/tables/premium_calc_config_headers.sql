@@ -29,7 +29,7 @@ version varchar(30)
 --combo_id guide.
 --FOR OC/AC FULL ID IS FIRST 3 CHARS FROM COMBO_NAME + L -lesser_than,B -bigger_than BE -bigger_or_equal
 --FOR NNW PRC1,PRC2 ETC. STANDS FOR PROTECTION CLASS I, PROTECTION CLASS II ETC;
-
+delete from premium_calc_config_headers;
 --driver age config copy once.
 insert into premium_calc_config_headers
 (combo_id,risk_id,combination_name,version,header_1,
