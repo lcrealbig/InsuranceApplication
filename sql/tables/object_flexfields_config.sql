@@ -48,6 +48,8 @@ values ('MTB','N02','MTB value.');
 insert into object_flexfields_config (type,object_key,object_value)
 values ('MTB','D01','Manufacturing date.');
 insert into object_flexfields_config (type,object_key,object_value)
+values ('MTB','N04','Mileage.');
+insert into object_flexfields_config (type,object_key,object_value)
 values ('MTB','N05','Amount of an insurance deposit.');
 
 insert into object_flexfields_config (type,object_key,object_value)

@@ -10,7 +10,7 @@ create SEQUENCE public.cust_id_seq
 create table customers(
 CUSTOMER_ID integer default nextval('cust_id_seq'),
 NAME varchar(150),
-PESEL integer,
+PESEL varchar(11),
 ADDRESS varchar(150),
 BIRTH_DATE date,
 PHONE_NUM bigint
