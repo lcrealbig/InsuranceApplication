@@ -17,13 +17,3 @@ CREATE TABLE public.object_risks
 );
 
 
---only for backend testing purpouses.
-delete from object_risks;
-insert into object_risks (risk_id,object_no,is_selected)
-values ('AC',28,'yes');
-insert into object_risks (risk_id,object_no,is_selected)
-values ('OC',28,'yes');
-insert into object_risks (risk_id,object_no,is_selected)
-values ('NNW',28,'yes');
-insert into object_risks (risk_id,object_no,is_selected)
-values ('ASI',28,'yes');
