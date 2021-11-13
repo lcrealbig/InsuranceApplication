@@ -1,6 +1,7 @@
 package com.insuranceapplication.policyservice;
 
 import com.insuranceapplication.policyservice.models.*;
+import com.insuranceapplication.policyservice.services.PolicyService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,15 +28,15 @@ public class PolicyController {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/createpolicyline")
-    public void createPolicyLine(@RequestBody Policy_lines newPolicyLines) {
+    public void createPolicyLine(@RequestBody PolicyLines newPolicyLines) {
         policyService.createPolicyLine(newPolicyLines);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/createinsuredobject")
     @ResponseBody
-    public void createInsuredObject(@RequestBody InsuredObject newInsuredObject) {
-        policyService.createInsuredObject(newInsuredObject);
+    public void createInsuredObject(@RequestBody InsuredObjects newInsuredObjects) {
+        policyService.createInsuredObject(newInsuredObjects);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
@@ -62,7 +63,13 @@ public class PolicyController {
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/getpolicyline")
     @ResponseBody
-    public ResponseEntity getPolicyLine(@RequestBody Policy_lines policyLines) {
+    public ResponseEntity getPolicyLine(@RequestBody PolicyLines policyLines) {
         return policyService.getPolicyLine(policyLines);
+    }
+
+    @PostMapping("/calculations")
+    @ResponseBody
+    public void premiumCalc(@RequestParam("policyLineNo") Integer policyLineNo) {
+    policyService.calculation(policyLineNo);
     }
 }
