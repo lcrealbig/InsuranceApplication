@@ -19,6 +19,8 @@ public class InsuredObjects {
     private Integer n03;
     private Integer n04;
     private Integer n05;
+    private Integer n06;
+    private Integer n07;
     private Date d01;
     private Date d02;
     private Date d03;
@@ -26,7 +28,7 @@ public class InsuredObjects {
     public InsuredObjects() {
     }
 
-    public InsuredObjects(Integer objectId, Integer policyLineNo, Integer transactionId, String type, String c01, String c02, String c03, String c04, Integer n01, Integer n02, Integer n03, Integer n04,Integer n05, Date d01, Date d02, Date d03) {
+    public InsuredObjects(Integer objectId, Integer policyLineNo, Integer transactionId, String type, String c01, String c02, String c03, String c04, Integer n01, Integer n02, Integer n03, Integer n04,Integer n05,Integer n06,Integer n07, Date d01, Date d02, Date d03) {
         this.objectId = objectId;
         this.policyLineNo = policyLineNo;
         this.transactionId = transactionId;
@@ -40,6 +42,8 @@ public class InsuredObjects {
         this.n03 = n03;
         this.n04 = n04;
         this.n05 = n05;
+        this.n06 = n06;
+        this.n06 = n07;
         this.d01 = d01;
         this.d02 = d02;
         this.d03 = d03;
@@ -174,5 +178,21 @@ public class InsuredObjects {
 
     public void setN05(Integer n05) {
         this.n05 = n05;
+    }
+
+    public Integer getN06() {
+        return n06;
+    }
+
+    public void setN06(Integer n06) {
+        this.n06 = n06;
+    }
+
+    public Integer getN07() {
+        return n07;
+    }
+
+    public void setN07(Integer n07) {
+        this.n07 = n07;
     }
 }
