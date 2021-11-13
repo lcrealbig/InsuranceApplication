@@ -4,7 +4,12 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "VEHICLES")
+<<<<<<< HEAD:Java/policy-service/src/main/java/com/insuranceapplication/policyservice/models/Vehicle.java
 public class Vehicle {
+=======
+
+public class Vehicles {
+>>>>>>> feature/ins-42:Java/policy-service/src/main/java/com/insuranceapplication/policyservice/models/Vehicles.java
     private int vehicleId;
     private String vehicleType;
     private String brand;
@@ -12,6 +17,7 @@ public class Vehicle {
     private String generation;
     private String engineType;
     private String engine;
+<<<<<<< HEAD:Java/policy-service/src/main/java/com/insuranceapplication/policyservice/models/Vehicle.java
 <<<<<<< HEAD:Java/policy-service/src/main/java/com/insuranceapplication/policyservice/models/Vehicle.java
     private String power;
     private String protectionClass;
@@ -26,6 +32,15 @@ public class Vehicle {
     public Vehicle(int vehicleId, String vehicleType, String brand, String vehicleModel, String generation, String engineType, String engine, String power, String protectionClass, boolean partsAvailability) {
 =======
     public Vehicles(boolean partsAvailability,int vehicleId, String vehicleType, String brand, String vehicleModel, String generation, String engineType, String engine) {
+>>>>>>> feature/ins-42:Java/policy-service/src/main/java/com/insuranceapplication/policyservice/models/Vehicles.java
+=======
+    @org.hibernate.annotations.Type(type="true_false")
+    private boolean partsAvailability;
+    private String protectionClass;
+    public Vehicles() {
+    }
+
+    public Vehicles(String protectionClass,boolean partsAvailability,int vehicleId, String vehicleType, String brand, String vehicleModel, String generation, String engineType, String engine) {
 >>>>>>> feature/ins-42:Java/policy-service/src/main/java/com/insuranceapplication/policyservice/models/Vehicles.java
         this.vehicleId = vehicleId;
         this.vehicleType = vehicleType;
@@ -130,4 +145,13 @@ public class Vehicle {
     public void setPartsAvailability(boolean partsAvailability) {
         this.partsAvailability = partsAvailability;
     }
+
+    public String getProtectionClass() {
+        return protectionClass;
+    }
+
+    public void setProtectionClass(String protectionClass) {
+        this.protectionClass = protectionClass;
+    }
 }
+

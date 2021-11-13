@@ -1,5 +1,9 @@
 package com.insuranceapplication.policyservice.models;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> feature/ins-42
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -54,4 +58,8 @@ public class PolicyLineTypesConfig {
     public void setVersion(String version) {
         this.version = version;
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> feature/ins-42

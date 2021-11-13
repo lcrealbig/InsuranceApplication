@@ -1,18 +1,15 @@
 package com.insuranceapplication.policyservice.models;
-
 import javax.persistence.*;
-
 @Entity
-
-@Table(name = "risks_values")
-public class RisksValues {
+@Table(name = "premium_calc_config_values")
+public class PremiumCalcConfigValues {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "RISKS_VALUES")
     @SequenceGenerator(name = "RISKS_VALUES", allocationSize = 1)
     private Integer id;
-    @Column(name="risk_id")
+    @Column(name = "risk_id")
     private String riskId;
-    @Column(name="combo_id")
+    @Column(name = "combo_id")
     private String comboId;
     @Column(name = "combination_name")
     private String combinationName;
@@ -43,10 +40,11 @@ public class RisksValues {
     @Column(name = "version")
     private String version;
 
-    public RisksValues() {
+    public PremiumCalcConfigValues() {
     }
 
-    public RisksValues(String comboId,Integer id, String riskId, String combinationName, String value1, String value2, String value3, String value4, String value5, String value6, String value7, String value8, String value9, String value10, String value11, String value12, String version) {
+    public PremiumCalcConfigValues(String comboId, Integer id, String riskId, String combinationName, String value1, String value2, String value3, String value4, String value5, String value6, String value7, String value8, String value9, String value10, String value11, String value12, String version)
+    {
         this.id = id;
         this.riskId = riskId;
         this.comboId = comboId;
@@ -73,11 +71,21 @@ public class RisksValues {
     public void setId(Integer id) {
         this.id = id;
     }
+
     public String getRiskId() {
         return riskId;
     }
+
     public void setRiskId(String riskId) {
         this.riskId = riskId;
+    }
+
+    public String getComboId() {
+        return comboId;
+    }
+
+    public void setComboId(String comboId) {
+        this.comboId = comboId;
     }
 
     public String getCombinationName() {
@@ -189,14 +197,6 @@ public class RisksValues {
     }
 
     public void setVersion(String version) {
-        this.version += version;
-    }
-
-    public String getComboId() {
-        return comboId;
-    }
-
-    public void setComboId(String comboId) {
-        this.comboId = comboId;
+        this.version = version;
     }
 }
