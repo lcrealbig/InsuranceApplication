@@ -17,7 +17,7 @@ public class PremiumCalculation {
     public EntityManager em;
     private InsuredObjects vehicle;
     private InsuredObjects driver;
-    private String isInsured;
+    private String isSelected;
     private Query query;
     private Integer premiumBase;
     private List<PremiumCalcConfigValues> configValues;
@@ -37,12 +37,10 @@ public class PremiumCalculation {
         driver = getDriver(policyLineNo).get(0);
         query = em.createQuery("select c from Customers c, InsuredObjects io where io.type = 'DRI' and c.customerId = io.n01 and io.policyLineNo = " + policyLineNo);
         Customers customer = (Customers) query.getResultList().get(0);
-        query = em.createQuery("select p.version from Policy p, PolicyLines pl where p.policyId = pl.policyNo and pl.policyLineNo = " + policyLineNo);
-        String version = query.getResultList().get(0).toString();
-        query = em.createQuery("select ov.isInsured from ObjectValues ov where ov.objectNo = '" + policyLineNo + "' and risk_id = 'OC' ");
-        isInsured = query.getResultList().toString().replace("[", "").replace("]", "");
+        query = em.createQuery("select ov.isSelected from ObjectRisks ov where ov.objectNo = '" + policyLineNo + "' and riskId = 'AC' ");
+        isSelected = query.getResultList().toString().replace("[", "").replace("]", "");
 
-        if (isInsured.equals("false") ) {
+        if (isSelected.equals("true") ) {
             configValues = getCalcConfigValues();
             for (PremiumCalcConfigValues riskValue : configValues) {
                 if (riskValue.getCombinationName().equals("driver_age")) {
@@ -134,7 +132,7 @@ public class PremiumCalculation {
                 }
             }
         }
-        return em.createQuery("UPDATE ObjectValues ov set ov.premium ='" + riseOfPremium + "' where ov.riskId ='OC' and ov.objectNo = '" + policyLineNo + "'").executeUpdate();
+        return em.createQuery("UPDATE ObjectRisks ov set ov.premium ='" + riseOfPremium + "' where ov.riskId ='OC' and ov.objectNo = '" + policyLineNo + "'").executeUpdate();
     }
 
     public Integer calculateNNW(Integer policyLineNo) {
@@ -144,10 +142,10 @@ public class PremiumCalculation {
         Vehicles selectedVeh = selectedVehicle.get(0);
         String protectionClass = selectedVeh.getProtectionClass();
         configValues = getCalcConfigValues();
-        query = em.createQuery("select ov.isInsured from ObjectValues ov where ov.objectNo = '" + policyLineNo + "' and riskId = 'NNW'");
+        query = em.createQuery("select ov.isSelected from ObjectRisks ov where ov.objectNo = '" + policyLineNo + "' and riskId = 'NNW'");
 
-        isInsured = query.getResultList().toString().replace("[", "").replace("]", "");
-        if (isInsured.equals("false")) {
+        isSelected = query.getResultList().toString().replace("[", "").replace("]", "");
+        if (isSelected.equals("true")) {
             if (!protectionClass.equals("I")) {
                 if (protectionClass.equals("II")) {
                     riseOfPremium = riseOfPremium + precentToPremium(configValues.get(0).getValue1(), getPremiumBase(policyLineNo));
@@ -182,21 +180,21 @@ public class PremiumCalculation {
             }
 
 
-        return em.createQuery("UPDATE ObjectValues ov set ov.premium ='" + riseOfPremium + "' where ov.riskId ='NNW' and ov.objectNo = " + policyLineNo).executeUpdate();
+        return em.createQuery("UPDATE ObjectRisks ov set ov.premium ='" + riseOfPremium + "' where ov.riskId ='NNW' and ov.objectNo = " + policyLineNo).executeUpdate();
 
     }
 
     public Integer getAssistance(Integer policyLineNo) {
 
-        query = em.createQuery("select ov.isInsured from ObjectValues ov where ov.objectNo = '" + policyLineNo + "' and riskId = 'ASI'");
+        query = em.createQuery("select ov.isSelected from ObjectRisks ov where ov.objectNo = '" + policyLineNo + "' and riskId = 'ASI'");
 
-        isInsured = query.getResultList().toString().replace("[", "").replace("]", "");
-        if (isInsured.equals("false")) {
+        isSelected = query.getResultList().toString().replace("[", "").replace("]", "");
+        if (isSelected.equals("true")) {
             List<PremiumCalcConfigValues> asiConfig = em.createQuery("select pccv from PremiumCalcConfigValues pccv where pccv.riskId = 'ASSISTANCE'").getResultList();
             for (PremiumCalcConfigValues riskValue : asiConfig) {
                 if (riskValue.getComboId().equals("ASI")) {
                     Double riseOfPremium = Double.valueOf(riskValue.getValue1());
-                    return em.createQuery("UPDATE ObjectValues ov set ov.premium ='" + riseOfPremium + "' where ov.riskId ='ASI' and ov.objectNo = " + policyLineNo).executeUpdate();
+                    return em.createQuery("UPDATE ObjectRisks ov set ov.premium ='" + riseOfPremium + "' where ov.riskId ='ASI' and ov.objectNo = " + policyLineNo).executeUpdate();
                 }
             }
         }
@@ -204,7 +202,7 @@ public class PremiumCalculation {
     }
 
     public Integer getPremiumBase(Integer policyLineNo) {
-        query = em.createQuery("select io.n05 from InsuredObjects io where policyLineNo ='" + policyLineNo + "' and io.type ='DRI' " );
+        query = em.createQuery("select io.n05 from InsuredObjects io where policyLineNo ='" + policyLineNo + "' and io.type ='VEH' " );
         premiumBase = Integer.valueOf(query.getResultList().toString().replace("[", "").replace("]", ""));
         System.out.println(premiumBase);
         return premiumBase;

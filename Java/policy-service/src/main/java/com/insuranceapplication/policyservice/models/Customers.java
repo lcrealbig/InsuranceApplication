@@ -12,7 +12,7 @@ public class Customers {
 
     //spraw generator id korzystal z sequencera.
     @Column(name = "customer_id")
-    private int customer_id;
+    private int customerId;
     @Column(name = "name")
     private String name;
     @Column(name = "pesel")
@@ -64,11 +64,11 @@ public class Customers {
         this.phoneNum = phoneNum;
     }
 
-    public int getCustomer_id() {
-        return customer_id;
+    public int getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomer_id(int customer_id) {
-        this.customer_id = customer_id;
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 }
