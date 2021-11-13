@@ -1,17 +1,14 @@
 package com.insuranceapplication.policyservice;
 
 import com.insuranceapplication.policyservice.models.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class PolicyController {
-
-    private final PolicyService policyService;
-
-    public PolicyController(PolicyService policyService) {
-        this.policyService = policyService;
-    }
+    @Autowired
+    private PolicyService policyService;
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/createtransaction")

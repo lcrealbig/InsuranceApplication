@@ -43,29 +43,29 @@ public class Controller {
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/gettransactionid")
     @ResponseBody
-    public ResponseEntity getTransactionId(@RequestBody Transactions transactions) {
-        return CRUDService.getTransactionId(transactions);
+    public ResponseEntity getTransactionId(@RequestBody String query) {
+        return CRUDService.getTransactionId(query);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/getvehicles")
     @ResponseBody
-    public ResponseEntity getVehicles(@RequestBody Vehicles vehicles) {
-        return CRUDService.getVehicles(vehicles);
+    public ResponseEntity getVehicles(@RequestBody String query) {
+        return CRUDService.getVehicles(query);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/getpolicy")
     @ResponseBody
-    public ResponseEntity getPolicy(@RequestBody Policy policy) {
-        return CRUDService.getPolicy(policy);
+    public Policy getPolicy(@RequestBody String query) {
+        return CRUDService.getPolicy(query);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/getpolicyline")
     @ResponseBody
-    public ResponseEntity getPolicyLine(@RequestBody Policy_lines policyLines) {
-        return CRUDService.getPolicyLine(policyLines);
+    public ResponseEntity getPolicyLine(@RequestBody String query) {
+        return CRUDService.getPolicyLine(query);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
@@ -90,4 +90,9 @@ public class Controller {
         return CRUDService.showCustomersList(query);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping("/verify")
+    public ResponseEntity verifyUserLogin(@RequestBody Users user) {
+        return CRUDService.verifyUserLogin(user);
+    }
 }

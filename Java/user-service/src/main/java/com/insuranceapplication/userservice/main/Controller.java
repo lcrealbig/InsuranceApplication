@@ -1,4 +1,5 @@
 package com.insuranceapplication.userservice.main;
+import com.insuranceapplication.userservice.model.Users;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +14,8 @@ public class Controller {
     @CrossOrigin(origins = "http://localhost:4200")
     @ResponseBody
     @PostMapping("/verify")
-    public ResponseEntity verifyUserLogin(@RequestBody JSONObject jsonObject) {
-        return userService.verifyUserLogin(jsonObject);
+    public ResponseEntity verifyUserLogin(@RequestBody Users user) {
+        return userService.verifyUserLogin(user);
     }
 
     @GetMapping("/showStatus")

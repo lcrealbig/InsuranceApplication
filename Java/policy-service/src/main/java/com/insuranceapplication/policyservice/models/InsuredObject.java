@@ -1,10 +1,7 @@
 package com.insuranceapplication.policyservice.models;
 
 import java.util.Date;
-import javax.persistence.*;
 
-@Entity
-@Table(name = "INSURED_OBJECTS")
 public class InsuredObject {
     private int objectId;
     private int policyLineNo;
@@ -44,9 +41,6 @@ public class InsuredObject {
         this.d03 = d03;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "object_id_seq")
-    @SequenceGenerator(name = "object_id_seq", allocationSize = 1)
     public int getObjectId() {
         return objectId;
     }

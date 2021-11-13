@@ -1,9 +1,5 @@
 package com.insuranceapplication.policyservice.models;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "VEHICLES")
 public class Vehicles {
     private int vehicleId;
     private String vehicleType;
@@ -26,9 +22,7 @@ public class Vehicles {
         this.engine = engine;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "veh_id_seq")
-    @SequenceGenerator(name = "veh_id_seq", allocationSize = 1)
+
     public int getVehicleId() {
         return vehicleId;
     }
