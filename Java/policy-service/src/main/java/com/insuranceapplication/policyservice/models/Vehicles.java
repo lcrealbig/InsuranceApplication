@@ -4,12 +4,8 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "VEHICLES")
-<<<<<<< HEAD:Java/policy-service/src/main/java/com/insuranceapplication/policyservice/models/Vehicle.java
-public class Vehicle {
-=======
 
 public class Vehicles {
->>>>>>> feature/ins-42:Java/policy-service/src/main/java/com/insuranceapplication/policyservice/models/Vehicles.java
     private int vehicleId;
     private String vehicleType;
     private String brand;
@@ -17,23 +13,6 @@ public class Vehicles {
     private String generation;
     private String engineType;
     private String engine;
-<<<<<<< HEAD:Java/policy-service/src/main/java/com/insuranceapplication/policyservice/models/Vehicle.java
-<<<<<<< HEAD:Java/policy-service/src/main/java/com/insuranceapplication/policyservice/models/Vehicle.java
-    private String power;
-    private String protectionClass;
-=======
->>>>>>> feature/ins-42:Java/policy-service/src/main/java/com/insuranceapplication/policyservice/models/Vehicles.java
-    private boolean partsAvailability;
-
-    public Vehicle() {
-    }
-
-<<<<<<< HEAD:Java/policy-service/src/main/java/com/insuranceapplication/policyservice/models/Vehicle.java
-    public Vehicle(int vehicleId, String vehicleType, String brand, String vehicleModel, String generation, String engineType, String engine, String power, String protectionClass, boolean partsAvailability) {
-=======
-    public Vehicles(boolean partsAvailability,int vehicleId, String vehicleType, String brand, String vehicleModel, String generation, String engineType, String engine) {
->>>>>>> feature/ins-42:Java/policy-service/src/main/java/com/insuranceapplication/policyservice/models/Vehicles.java
-=======
     @org.hibernate.annotations.Type(type="true_false")
     private boolean partsAvailability;
     private String protectionClass;
@@ -41,7 +20,6 @@ public class Vehicles {
     }
 
     public Vehicles(String protectionClass,boolean partsAvailability,int vehicleId, String vehicleType, String brand, String vehicleModel, String generation, String engineType, String engine) {
->>>>>>> feature/ins-42:Java/policy-service/src/main/java/com/insuranceapplication/policyservice/models/Vehicles.java
         this.vehicleId = vehicleId;
         this.vehicleType = vehicleType;
         this.brand = brand;
@@ -49,11 +27,6 @@ public class Vehicles {
         this.generation = generation;
         this.engineType = engineType;
         this.engine = engine;
-<<<<<<< HEAD:Java/policy-service/src/main/java/com/insuranceapplication/policyservice/models/Vehicle.java
-        this.power = power;
-        this.protectionClass = protectionClass;
-=======
->>>>>>> feature/ins-42:Java/policy-service/src/main/java/com/insuranceapplication/policyservice/models/Vehicles.java
         this.partsAvailability = partsAvailability;
     }
 
@@ -116,32 +89,9 @@ public class Vehicles {
         this.engine = engine;
     }
 
-<<<<<<< HEAD:Java/policy-service/src/main/java/com/insuranceapplication/policyservice/models/Vehicle.java
-    public String getPower() {
-        return power;
-    }
-
-    public void setPower(String power) {
-        this.power = power;
-    }
-
-    public String getProtectionClass() {
-        return protectionClass;
-    }
-
-    public void setProtectionClass(String protectionClass) {
-        this.protectionClass = protectionClass;
-    }
-
     public boolean isPartsAvailability() {
         return partsAvailability;
     }
-
-=======
-    public boolean isPartsAvailability() {
-        return partsAvailability;
-    }
->>>>>>> feature/ins-42:Java/policy-service/src/main/java/com/insuranceapplication/policyservice/models/Vehicles.java
     public void setPartsAvailability(boolean partsAvailability) {
         this.partsAvailability = partsAvailability;
     }
@@ -154,4 +104,3 @@ public class Vehicles {
         this.protectionClass = protectionClass;
     }
 }
-

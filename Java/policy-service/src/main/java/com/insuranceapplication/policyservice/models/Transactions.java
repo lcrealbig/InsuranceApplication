@@ -4,20 +4,20 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "TRANSACTIONS")
-public class Transaction {
+public class Transactions {
     private int transactionId;
     private String modifiedBy;
     private String timestamp;
     private String transactionType;
 
-    public Transaction(int transactionId, String modifiedBy, String modified_time, String transactionType) {
+    public Transactions(int transactionId, String modifiedBy, String modified_time, String transactionType) {
         this.transactionId = transactionId;
         this.modifiedBy = modifiedBy;
         this.timestamp = modified_time;
         this.transactionType = transactionType;
     }
 
-    public Transaction() {
+    public Transactions() {
     }
 
     @Id
