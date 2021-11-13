@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>MPdev</groupId>
-	<artifactId>serverApp</artifactId>
+	<artifactId>user-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>serverApp</name>
+	<name>user-service</name>
 	<description>serverApp learning project for Spring Boot</description>
 	<properties>
 		<java.version>1.8</java.version>
