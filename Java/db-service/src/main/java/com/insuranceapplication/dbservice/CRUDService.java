@@ -4,6 +4,7 @@ import com.insuranceapplication.dbservice.models.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -18,20 +19,22 @@ public class CRUDService {
     private EntityManager em;
 
     @Transactional
-    public void createTransaction(Transactions transactions) {em.persist(transactions);}
+    public void createTransaction(Transactions transactions) {
+        em.persist(transactions);
+    }
 
     @Transactional
-    public void createPolicy(Policy newPolicy){
+    public void createPolicy(Policy newPolicy) {
         em.persist(newPolicy);
     }
 
     @Transactional
-    public void createPolicyLine(PolicyLines newPolicyLines){
+    public void createPolicyLine(PolicyLines newPolicyLines) {
         em.persist(newPolicyLines);
     }
 
     @Transactional
-    public void createInsuredObject(InsuredObjects insuredObjects){
+    public void createInsuredObject(InsuredObjects insuredObjects) {
         em.persist(insuredObjects);
     }
 
@@ -45,16 +48,16 @@ public class CRUDService {
     }
 
     @Transactional
-    public ResponseEntity getVehicles(String query){
+    public ResponseEntity getVehicles(String query) {
 
-           Query q = em.createQuery(query);
+        Query q = em.createQuery(query);
 
         ArrayList<Vehicles> results = (ArrayList<Vehicles>) q.getResultList();
         return ResponseEntity.ok().body(results);
     }
 
     @Transactional
-    public Policy getPolicy(String query){
+    public Policy getPolicy(String query) {
         Query q = em.createQuery(query);
 
         ArrayList<Policy> resultArray = (ArrayList<Policy>) q.getResultList();
@@ -63,7 +66,7 @@ public class CRUDService {
     }
 
     @Transactional
-    public ResponseEntity getPolicyLine(String query){
+    public ResponseEntity getPolicyLine(String query) {
         Query q = em.createQuery(query);
 
         ArrayList<PolicyLines> resultArray = (ArrayList<PolicyLines>) q.getResultList();
@@ -72,26 +75,28 @@ public class CRUDService {
     }
 
     @Transactional
-    public ResponseEntity createCustomer(Customers newCustomer){
+    public ResponseEntity createCustomer(Customers newCustomer) {
         em.persist(newCustomer);
         return ResponseEntity.ok().build();
     }
+
     @Transactional
     public ResponseEntity deleteCustomer(Customers customerToDelete) {
 
-        if (customerToDelete.getCustomer_id()!=0) {
-            /*send json to db-service*/
+        if (customerToDelete.getCustomer_id() != 0) {
+            /* send json to db-service */
             em.remove(customerToDelete);
         }
         return ResponseEntity.ok().body("Customer has been deleted.");
     }
+
     @Transactional
     public ResponseEntity modifyCustomer(String modifyQuery) {
         em.createQuery(modifyQuery).executeUpdate();
         return ResponseEntity.ok().body("Customer has been deleted.");
     }
 
-    public List showCustomersList(String query){
+    public List showCustomersList(String query) {
         Query select = em.createQuery(query);
         return select.getResultList();
     }
@@ -110,22 +115,20 @@ public class CRUDService {
         return ResponseEntity.ok().body(notExist);
     }
 
-    public Object customQuery(String query){
+    public List customQuery(String query) {
         Query select = em.createQuery(query);
         List l = select.getResultList();
-        if(l.size()==1){
-            return select.getResultList().get(0);
-        }
         return select.getResultList();
     }
+
     @Transactional
-    public int updateQuery(String query){
+    public int updateQuery(String query) {
         int result = em.createQuery(query).executeUpdate();
         return result;
     }
 
     @Transactional
-    public ResponseEntity insertVehicle(InsuredObjects newVehicle){
+    public ResponseEntity insertVehicle(InsuredObjects newVehicle) {
         em.persist(newVehicle);
         return ResponseEntity.ok().build();
     }

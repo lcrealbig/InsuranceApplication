@@ -76,17 +76,19 @@ public class Controller {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @DeleteMapping("/deletecustomer")
-    public ResponseEntity deleteCustomer(@RequestBody Customers customerToDelete){
+    public ResponseEntity deleteCustomer(@RequestBody Customers customerToDelete) {
         return CRUDService.deleteCustomer(customerToDelete);
     }
+
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/modifycustomer")
-    public ResponseEntity modifyCustomer (@RequestBody String modifyQuery){
+    public ResponseEntity modifyCustomer(@RequestBody String modifyQuery) {
         return CRUDService.modifyCustomer(modifyQuery);
     }
+
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/showcustomerslist")
-    public List showCustomersList (@RequestBody String query){
+    public List showCustomersList(@RequestBody String query) {
         return CRUDService.showCustomersList(query);
     }
 
@@ -98,19 +100,19 @@ public class Controller {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/customGET")
-    public Object customQueryGET (@RequestBody String query){
+    public Object customQueryGET(@RequestBody String query) {
         return CRUDService.customQuery(query);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/customPOST")
-    public Object customQueryPOST (@RequestBody String query){
+    public Object customQueryPOST(@RequestBody String query) {
         return CRUDService.customQuery(query);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/custUpdateQuery")
-    public int updateQuery (@RequestBody String query){
+    public int updateQuery(@RequestBody String query) {
         return CRUDService.updateQuery(query);
     }
 
