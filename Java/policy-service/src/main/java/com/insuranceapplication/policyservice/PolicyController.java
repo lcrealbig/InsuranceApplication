@@ -63,8 +63,15 @@ public class PolicyController {
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/getpolicyline")
     @ResponseBody
-    public ResponseEntity getPolicyLine(@RequestBody PolicyLines policyLines) {
-        return policyService.getPolicyLine(policyLines);
+    public ResponseEntity getPolicyLine(@RequestBody PolicyLine policyLine) {
+        return policyService.getPolicyLine(policyLine);
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/getproducts")
+    @ResponseBody
+    public ResponseEntity getProducts() {
+        return policyService.getProducts();
     }
 
     @PostMapping("/calculations")
@@ -72,4 +79,19 @@ public class PolicyController {
     public void premiumCalc(@RequestParam("policyLineNo") Integer policyLineNo) {
     policyService.calculation(policyLineNo);
     }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping("/getobjecttypes")
+    @ResponseBody
+    public ResponseEntity getObjectTypes(@RequestBody PolicyLineTypesConfig policyLineTypesConfig) {
+        return policyService.getObjectTypes(policyLineTypesConfig);
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping("/insertvehicle")
+    @ResponseBody
+    public void insertVehicle(@RequestBody InsuredObject insuredObject) {
+        policyService.insertVehicle(insuredObject);
+    }
+
 }
