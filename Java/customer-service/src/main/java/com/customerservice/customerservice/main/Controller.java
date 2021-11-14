@@ -16,6 +16,7 @@ public class Controller {
     @Autowired
     private CustomerService customerService;
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @ResponseBody
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/addCustomer")

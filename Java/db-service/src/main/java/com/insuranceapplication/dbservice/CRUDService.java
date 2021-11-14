@@ -119,9 +119,15 @@ public class CRUDService {
         }
         return select.getResultList();
     }
-
+    @Transactional
     public int updateQuery(String query){
         int result = em.createQuery(query).executeUpdate();
         return result;
+    }
+
+    @Transactional
+    public ResponseEntity insertVehicle(InsuredObjects newVehicle){
+        em.persist(newVehicle);
+        return ResponseEntity.ok().build();
     }
 }

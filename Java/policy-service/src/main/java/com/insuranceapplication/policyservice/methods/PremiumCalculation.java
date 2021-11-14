@@ -28,25 +28,25 @@ public class PremiumCalculation {
     private Integer premiumBase;
     private List<PremiumCalcConfigValues> configValues;
 
-    public void calculate(Integer policyLineNo) {
+    public void calculate(Integer policyLineId) {
 
-        calculateOC(policyLineNo);
-        calculateNNW(policyLineNo);
-        getAssistance(policyLineNo);
+        calculateOC(policyLineId);
+        calculateNNW(policyLineId);
+        getAssistance(policyLineId);
 
     }
 
-    public void calculateOC(Integer policyLineNo) {
+    public void calculateOC(Integer policyLineId) {
 
         Double riseOfPremium = 0D;
-        vehicle = returnVehicles(policyLineNo).get(0);
-        driver = getDriver(policyLineNo).get(0);
-        query = "select c from Customers c, InsuredObjects io where io.type = 'DRI' and c.customerId = io.n01 and io.policyLineNo = " + policyLineNo;
+        vehicle = returnVehicles(policyLineId).get(0);
+        driver = getDriver(policyLineId).get(0);
+        query = "select c from Customers c, InsuredObjects io where io.type = 'DRI' and c.customerId = io.n01 and io.policyLineId = " + policyLineId;
         RestTemplate template = new RestTemplate();
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE")
                 .getInstances().get(0).getHomePageUrl()+"/customPOST",query,Customers.class);
         Customers customer = (Customers) response.getBody();
-        query = "select ov.isSelected from ObjectRisks ov where ov.objectNo = '" + policyLineNo + "' and riskId = 'AC' ";
+        query = "select ov.isSelected from ObjectRisks ov where ov.objectNo = '" + policyLineId + "' and riskId = 'AC' ";
         template = new RestTemplate();
         response = template.postForEntity(eurekaClient.getApplication("DATABASE")
                 .getInstances().get(0).getHomePageUrl()+"/customPOST",query,String.class);
@@ -100,7 +100,7 @@ public class PremiumCalculation {
                         }
                     }
                 }
-                query = "select io.n01 from InsuredObjects io where io.policyLineNo =" + policyLineNo + " and io.type ='VEH'";
+                query = "select io.n01 from InsuredObjects io where io.policyLineId =" + policyLineId + " and io.type ='VEH'";
                 template = new RestTemplate();
                 response = template.postForEntity(eurekaClient.getApplication("DATABASE")
                         .getInstances().get(0).getHomePageUrl()+"/customPOST",query,Integer.class);
@@ -153,9 +153,9 @@ public class PremiumCalculation {
 
     }
 
-    public Integer calculateNNW(Integer policyLineNo) {
+    public Integer calculateNNW(Integer policyLineId) {
         Double riseOfPremium = 0D;
-        query = "Select v from Vehicles v, InsuredObjects o where o.n01=v.vehicleId and o.policyLineNo = " + policyLineNo;
+        query = "Select v from Vehicles v, InsuredObjects o where o.n01=v.vehicleId and o.policyLineId = " + policyLineId;
         RestTemplate template = new RestTemplate();
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE")
                 .getInstances().get(0).getHomePageUrl()+"/customPOST",query,List.class);
@@ -163,7 +163,7 @@ public class PremiumCalculation {
         Vehicles selectedVeh = selectedVehicle.get(0);
         String protectionClass = selectedVeh.getProtectionClass();
         configValues = getCalcConfigValues();
-        query = "select ov.isSelected from ObjectRisks ov where ov.objectNo = '" + policyLineNo + "' and riskId = 'NNW'";
+        query = "select ov.isSelected from ObjectRisks ov where ov.objectNo = '" + policyLineId + "' and riskId = 'NNW'";
         template = new RestTemplate();
         response = template.postForEntity(eurekaClient.getApplication("DATABASE")
                 .getInstances().get(0).getHomePageUrl()+"/customPOST",query,String.class);
@@ -171,10 +171,10 @@ public class PremiumCalculation {
         if (isSelected.equals("true")) {
             if (!protectionClass.equals("I")) {
                 if (protectionClass.equals("II")) {
-                    riseOfPremium = riseOfPremium + precentToPremium(configValues.get(0).getValue1(), getPremiumBase(policyLineNo));
+                    riseOfPremium = riseOfPremium + precentToPremium(configValues.get(0).getValue1(), getPremiumBase(policyLineId));
                 }
                 if (protectionClass.equals("III")) {
-                    riseOfPremium = riseOfPremium + precentToPremium(configValues.get(0).getValue1(), getPremiumBase(policyLineNo));
+                    riseOfPremium = riseOfPremium + precentToPremium(configValues.get(0).getValue1(), getPremiumBase(policyLineId));
                 } else if (protectionClass.equals("IV")) {
                     Vehicles notSupported = new Vehicles();
                     notSupported.setProtectionClass("The protection class 4th or lower is not supported.");
@@ -196,12 +196,12 @@ public class PremiumCalculation {
                 if (riskValue.getComboId().equals("NNW_LBE")) {
                     if (getPeriod(vehicle.getD01()) < Integer.valueOf(riskValue.getValue1())
                             && getPeriod(vehicle.getD01()) >= Integer.valueOf(riskValue.getValue2())) {
-                        riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue3(), getPremiumBase(policyLineNo));
+                        riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue3(), getPremiumBase(policyLineId));
                     }
                 }
                 if (riskValue.getComboId().equals("NNW_BE")) {
                     if (getPeriod(vehicle.getD01()) >= Integer.valueOf(riskValue.getValue1())) {
-                        riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue2(), getPremiumBase(policyLineNo));
+                        riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue2(), getPremiumBase(policyLineId));
                     }
                 }
             }
@@ -212,9 +212,9 @@ public class PremiumCalculation {
         return (Integer)response.getBody();
     }
 
-    public Integer getAssistance(Integer policyLineNo) {
+    public Integer getAssistance(Integer policyLineId) {
 
-        query = "select ov.isSelected from ObjectRisks ov where ov.objectNo = '" + policyLineNo + "' and riskId = 'ASI'";
+        query = "select ov.isSelected from ObjectRisks ov where ov.objectNo = '" + policyLineId + "' and riskId = 'ASI'";
         RestTemplate template = new RestTemplate();
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE")
                 .getInstances().get(0).getHomePageUrl()+"/customPOST",query,String.class);
@@ -228,7 +228,7 @@ public class PremiumCalculation {
             for (PremiumCalcConfigValues riskValue : asiConfig) {
                 if (riskValue.getComboId().equals("ASI")) {
                     Double riseOfPremium = Double.valueOf(riskValue.getValue1());
-                    query = "UPDATE ObjectRisks ov set ov.premium ='" + riseOfPremium + "' where ov.riskId ='ASI' and ov.objectNo = " + policyLineNo;
+                    query = "UPDATE ObjectRisks ov set ov.premium ='" + riseOfPremium + "' where ov.riskId ='ASI' and ov.objectNo = " + policyLineId;
                     template = new RestTemplate();
                     response = template.postForEntity(eurekaClient.getApplication("DATABASE")
                             .getInstances().get(0).getHomePageUrl()+"/custUpdateQuery",query,Integer.class);
@@ -239,8 +239,8 @@ public class PremiumCalculation {
         return null;
     }
 
-    public Integer getPremiumBase(Integer policyLineNo) {
-        query = "select io.n05 from InsuredObjects io where policyLineNo ='" + policyLineNo + "' and io.type ='VEH' ";
+    public Integer getPremiumBase(Integer policyLineId) {
+        query = "select io.n05 from InsuredObjects io where policyLineId ='" + policyLineId + "' and io.type ='VEH' ";
         RestTemplate template = new RestTemplate();
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE")
                 .getInstances().get(0).getHomePageUrl()+"/customPOST",query,Integer.class);
@@ -250,8 +250,8 @@ public class PremiumCalculation {
 
     }
 
-    public List<InsuredObjects> returnVehicles(Integer policyLineNo) {
-        query = "SELECT io FROM InsuredObjects io WHERE io.type = 'VEH' AND io.policyLineNo =" + policyLineNo;
+    public List<InsuredObjects> returnVehicles(Integer policyLineId) {
+        query = "SELECT io FROM InsuredObjects io WHERE io.type = 'VEH' AND io.policyLineId =" + policyLineId;
         RestTemplate template = new RestTemplate();
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE")
                 .getInstances().get(0).getHomePageUrl()+"/customPOST",query,List.class);
@@ -259,8 +259,8 @@ public class PremiumCalculation {
         return vehicles;
     }
 
-    public List<InsuredObjects> getDriver(Integer policyLineNo) {
-        query = "SELECT io FROM InsuredObjects io WHERE io.type = 'DRI' AND io.policyLineNo =" + policyLineNo;
+    public List<InsuredObjects> getDriver(Integer policyLineId) {
+        query = "SELECT io FROM InsuredObjects io WHERE io.type = 'DRI' AND io.policyLineId =" + policyLineId;
         RestTemplate template = new RestTemplate();
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE")
                 .getInstances().get(0).getHomePageUrl()+"/customPOST",query,List.class);

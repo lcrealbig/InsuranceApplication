@@ -6,6 +6,7 @@ import com.insuranceapplication.policyservice.services.PolicyService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
 public class PolicyController {
     @Autowired
@@ -60,13 +61,41 @@ public class PolicyController {
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/getpolicyline")
     @ResponseBody
-    public ResponseEntity getPolicyLine(@RequestBody PolicyLines policyLines) {
-        return policyService.getPolicyLine(policyLines);
+    public ResponseEntity getPolicyLine(@RequestBody PolicyLines policyLine) {
+        return policyService.getPolicyLine(policyLine);
     }
 
-    @PostMapping("/calculations")
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/getproducts")
     @ResponseBody
-    public void premiumCalc(@RequestParam("policyLineNo") Integer policyLineNo) {
-    policyService.calculation(policyLineNo);
+    public ResponseEntity getProducts() {
+        return policyService.getProducts();
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping("/getpolicylinetypes")
+    @ResponseBody
+    public ResponseEntity getPolicyLineTypes(@RequestBody PolicyLineTypesConfig policyLineTypes) {
+        return policyService.getPolicyLineTypes(policyLineTypes);
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping("/getobjecttypes")
+    @ResponseBody
+    public ResponseEntity getObjectTypes(@RequestBody PolicyLineTypesConfig policyLineTypesConfig) {
+        return policyService.getObjectTypes(policyLineTypesConfig);
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping("/insertvehicle")
+    @ResponseBody
+    public void insertVehicle(@RequestBody InsuredObjects insuredObject) {
+        policyService.insertVehicle(insuredObject);
+    }
+
+
+    @PostMapping("/calculations")
+    public void premiumCalc(@RequestParam("policyLineId") Integer policyLineId) {
+        policyService.calculation(policyLineId);
     }
 }

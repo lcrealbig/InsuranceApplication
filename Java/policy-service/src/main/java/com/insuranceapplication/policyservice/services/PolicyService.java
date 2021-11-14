@@ -104,4 +104,37 @@ public class PolicyService {
         calculation.calculate(policyLineNo);
     }
 
+    public ResponseEntity getProducts() {
+        String query = "select p from ProductsConfig p";
+        RestTemplate template = new RestTemplate();
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl() + "/customPOST", query, List.class);
+
+        ArrayList<ProductsConfig> resultArray = (ArrayList<ProductsConfig>) response.getBody();
+
+        return ResponseEntity.ok().body(resultArray);
+    }
+
+    public ResponseEntity getPolicyLineTypes(PolicyLineTypesConfig productsConfig) {
+        String query = "select p from PolicyLineTypesConfig p WHERE p.productId = '" + productsConfig.getProductId() + "'";
+        RestTemplate template = new RestTemplate();
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl() + "/customPOST", query, List.class);
+
+        ArrayList<PolicyLineTypesConfig> resultArray = (ArrayList<PolicyLineTypesConfig>) response.getBody();
+        return ResponseEntity.ok().body(resultArray);
+    }
+
+    public ResponseEntity getObjectTypes(PolicyLineTypesConfig policyLineTypesConfig) {
+        String query = "select o from ObjectTypesConfig o WHERE o.policyLineId = '" + policyLineTypesConfig.getPolicyLineId() + "'";
+        RestTemplate template = new RestTemplate();
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl() + "/customPOST", query, List.class);
+
+        ArrayList<ObjectTypesConfig> resultArray = (ArrayList<ObjectTypesConfig>) response.getBody();
+        return ResponseEntity.ok().body(resultArray);
+    }
+
+    public void insertVehicle(InsuredObjects insuredObject) {
+        RestTemplate template = new RestTemplate();
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl() + "/insertvehicle", insuredObject, String.class);
+    }
+
 }

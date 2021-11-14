@@ -114,4 +114,10 @@ public class Controller {
         return CRUDService.updateQuery(query);
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping("/insertvehicle")
+    public void createCustomer(@RequestBody InsuredObjects newVehicle) {
+        CRUDService.insertVehicle(newVehicle);
+    }
+
 }

@@ -11,13 +11,13 @@ public class InsuredObjects {
     private String c02;
     private String c03;
     private String c04;
-    private Integer n01;
-    private Integer n02;
-    private Integer n03;
-    private Integer n04;
-    private Integer n05;
-    private Integer n06;
-    private Integer n07;
+    private int n01;
+    private int n02;
+    private int n03;
+    private int n04;
+    private int n05;
+    private int n06;
+    private int n07;
     private Date d01;
     private Date d02;
     private Date d03;
@@ -25,7 +25,7 @@ public class InsuredObjects {
     public InsuredObjects() {
     }
 
-    public InsuredObjects(Integer objectId, Integer policyLineId, Integer transactionId, String type, String c01, String c02, String c03, String c04, Integer n01, Integer n02, Integer n03, Integer n04, Integer n05, Integer n06, Integer n07, Date d01, Date d02, Date d03) {
+    public InsuredObjects(int objectId, int policyLineId, int transactionId, String type, String c01, String c02, String c03, String c04, int n01, int n02, int n03, int n04, int n05, int n06, int n07, Date d01, Date d02, Date d03, String version) {
         this.objectId = objectId;
         this.policyLineId = policyLineId;
         this.transactionId = transactionId;
@@ -40,7 +40,7 @@ public class InsuredObjects {
         this.n04 = n04;
         this.n05 = n05;
         this.n06 = n06;
-        this.n06 = n07;
+        this.n07 = n07;
         this.d01 = d01;
         this.d02 = d02;
         this.d03 = d03;
@@ -54,11 +54,11 @@ public class InsuredObjects {
         this.objectId = objectId;
     }
 
-    public Integer getPolicyLineId() {
+    public int getPolicyLineId() {
         return policyLineId;
     }
 
-    public void setPolicyLineId(Integer policyLineId) {
+    public void setPolicyLineId(int policyLineId) {
         this.policyLineId = policyLineId;
     }
 
@@ -142,6 +142,30 @@ public class InsuredObjects {
         this.n04 = n04;
     }
 
+    public int getN05() {
+        return n05;
+    }
+
+    public void setN05(int n05) {
+        this.n05 = n05;
+    }
+
+    public int getN06() {
+        return n06;
+    }
+
+    public void setN06(int n06) {
+        this.n06 = n06;
+    }
+
+    public int getN07() {
+        return n07;
+    }
+
+    public void setN07(int n07) {
+        this.n07 = n07;
+    }
+
     public Date getD01() {
         return d01;
     }
@@ -164,29 +188,5 @@ public class InsuredObjects {
 
     public void setD03(Date d03) {
         this.d03 = d03;
-    }
-
-    public Integer getN05() {
-        return n05;
-    }
-
-    public void setN05(Integer n05) {
-        this.n05 = n05;
-    }
-
-    public Integer getN06() {
-        return n06;
-    }
-
-    public void setN06(Integer n06) {
-        this.n06 = n06;
-    }
-
-    public Integer getN07() {
-        return n07;
-    }
-
-    public void setN07(Integer n07) {
-        this.n07 = n07;
     }
 }
