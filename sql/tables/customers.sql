@@ -1,4 +1,4 @@
---create sequence first, to use it as a value for id.
+--InsuranceApp2021 by Marzag, Słowik, Czarny
 
 create SEQUENCE public.cust_id_seq
     INCREMENT 1
@@ -8,12 +8,12 @@ create SEQUENCE public.cust_id_seq
 
 
 create table customers(
-CUSTOMER_ID int default nextval('cust_id_seq'),
-NAME varchar(80),
-PESEL int,
-ADDRESS varchar(60),
+CUSTOMER_ID integer default nextval('cust_id_seq'),
+NAME varchar(150),
+PESEL varchar(11),
+ADDRESS varchar(150),
 BIRTH_DATE date,
-PHONE_NUM int
+PHONE_NUM bigint
 );
-/
+
 

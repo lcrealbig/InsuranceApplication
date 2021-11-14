@@ -29,15 +29,15 @@ public class Controller {
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/createpolicyline")
-    public void createPolicyLine(@RequestBody Policy_lines newPolicyLines) {
+    public void createPolicyLine(@RequestBody PolicyLines newPolicyLines) {
         CRUDService.createPolicyLine(newPolicyLines);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/createinsuredobject")
     @ResponseBody
-    public void createInsuredObject(@RequestBody InsuredObject newInsuredObject) {
-        CRUDService.createInsuredObject(newInsuredObject);
+    public void createInsuredObject(@RequestBody InsuredObjects newInsuredObjects) {
+        CRUDService.createInsuredObject(newInsuredObjects);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
@@ -95,4 +95,23 @@ public class Controller {
     public ResponseEntity verifyUserLogin(@RequestBody Users user) {
         return CRUDService.verifyUserLogin(user);
     }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/customGET")
+    public Object customQueryGET (@RequestBody String query){
+        return CRUDService.customQuery(query);
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping("/customPOST")
+    public Object customQueryPOST (@RequestBody String query){
+        return CRUDService.customQuery(query);
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping("/custUpdateQuery")
+    public int updateQuery (@RequestBody String query){
+        return CRUDService.updateQuery(query);
+    }
+
 }

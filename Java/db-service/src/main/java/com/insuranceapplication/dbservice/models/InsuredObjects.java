@@ -1,10 +1,13 @@
-package com.insuranceapplication.policyservice.models;
+package com.insuranceapplication.dbservice.models;
 
+import javax.persistence.*;
 import java.util.Date;
 
-public class InsuredObject {
+@Entity
+@Table(name = "INSURED_OBJECTS")
+public class InsuredObjects {
     private int objectId;
-    private int policyLineNo;
+    private int policyLineId;
     private int transactionId;
     private String type;
     private String c01;
@@ -15,17 +18,20 @@ public class InsuredObject {
     private int n02;
     private int n03;
     private int n04;
+    private int n05;
+    private int n06;
+    private int n07;
     private Date d01;
     private Date d02;
     private Date d03;
 
     //no argument constructor is required to create entity class
-    public InsuredObject() {
+    public InsuredObjects() {
     }
 
-    public InsuredObject(int objectId, int policyLineNo, int transactionId, String type, String c01, String c02, String c03, String c04, int n01, int n02, int n03, int n04, Date d01, Date d02, Date d03) {
+    public InsuredObjects(int objectId, int policyLineNo, int transactionId, String type, String c01, String c02, String c03, String c04, int n01, int n02, int n03, int n04, Date d01, Date d02, Date d03) {
         this.objectId = objectId;
-        this.policyLineNo = policyLineNo;
+        this.policyLineId = policyLineNo;
         this.transactionId = transactionId;
         this.type = type;
         this.c01 = c01;
@@ -41,6 +47,9 @@ public class InsuredObject {
         this.d03 = d03;
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "object_id_seq")
+    @SequenceGenerator(name = "object_id_seq", allocationSize = 1)
     public int getObjectId() {
         return objectId;
     }
@@ -49,12 +58,12 @@ public class InsuredObject {
         this.objectId = objectId;
     }
 
-    public int getPolicyLineNo() {
-        return policyLineNo;
+    public int getPolicyLineId() {
+        return policyLineId;
     }
 
-    public void setPolicyLineNo(int policyLineNo) {
-        this.policyLineNo = policyLineNo;
+    public void setPolicyLineId(int policyLineId) {
+        this.policyLineId = policyLineId;
     }
 
     public int getTransactionId() {

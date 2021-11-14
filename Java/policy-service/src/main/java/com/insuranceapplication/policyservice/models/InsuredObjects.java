@@ -1,34 +1,33 @@
-package com.insuranceapplication.dbservice.models;
+package com.insuranceapplication.policyservice.models;
 
-import javax.persistence.*;
 import java.util.Date;
 
-@Entity
-@Table(name = "INSURED_OBJECTS")
-public class InsuredObject {
+public class InsuredObjects {
     private int objectId;
-    private int policyLineNo;
+    private int policyLineId;
     private int transactionId;
     private String type;
     private String c01;
     private String c02;
     private String c03;
     private String c04;
-    private int n01;
-    private int n02;
-    private int n03;
-    private int n04;
+    private Integer n01;
+    private Integer n02;
+    private Integer n03;
+    private Integer n04;
+    private Integer n05;
+    private Integer n06;
+    private Integer n07;
     private Date d01;
     private Date d02;
     private Date d03;
 
-    //no argument constructor is required to create entity class
-    public InsuredObject() {
+    public InsuredObjects() {
     }
 
-    public InsuredObject(int objectId, int policyLineNo, int transactionId, String type, String c01, String c02, String c03, String c04, int n01, int n02, int n03, int n04, Date d01, Date d02, Date d03) {
+    public InsuredObjects(Integer objectId, Integer policyLineId, Integer transactionId, String type, String c01, String c02, String c03, String c04, Integer n01, Integer n02, Integer n03, Integer n04, Integer n05, Integer n06, Integer n07, Date d01, Date d02, Date d03) {
         this.objectId = objectId;
-        this.policyLineNo = policyLineNo;
+        this.policyLineId = policyLineId;
         this.transactionId = transactionId;
         this.type = type;
         this.c01 = c01;
@@ -39,35 +38,35 @@ public class InsuredObject {
         this.n02 = n02;
         this.n03 = n03;
         this.n04 = n04;
+        this.n05 = n05;
+        this.n06 = n06;
+        this.n06 = n07;
         this.d01 = d01;
         this.d02 = d02;
         this.d03 = d03;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "object_id_seq")
-    @SequenceGenerator(name = "object_id_seq", allocationSize = 1)
     public int getObjectId() {
         return objectId;
     }
 
-    public void setObjectId(int objectId) {
+    public void setObjectId(Integer objectId) {
         this.objectId = objectId;
     }
 
-    public int getPolicyLineNo() {
-        return policyLineNo;
+    public Integer getPolicyLineId() {
+        return policyLineId;
     }
 
-    public void setPolicyLineNo(int policyLineNo) {
-        this.policyLineNo = policyLineNo;
+    public void setPolicyLineId(Integer policyLineId) {
+        this.policyLineId = policyLineId;
     }
 
-    public int getTransactionId() {
+    public Integer getTransactionId() {
         return transactionId;
     }
 
-    public void setTransactionId(int transactionId) {
+    public void setTransactionId(Integer transactionId) {
         this.transactionId = transactionId;
     }
 
@@ -111,35 +110,35 @@ public class InsuredObject {
         this.c04 = c04;
     }
 
-    public int getN01() {
+    public Integer getN01() {
         return n01;
     }
 
-    public void setN01(int n01) {
+    public void setN01(Integer n01) {
         this.n01 = n01;
     }
 
-    public int getN02() {
+    public Integer getN02() {
         return n02;
     }
 
-    public void setN02(int n02) {
+    public void setN02(Integer n02) {
         this.n02 = n02;
     }
 
-    public int getN03() {
+    public Integer getN03() {
         return n03;
     }
 
-    public void setN03(int n03) {
+    public void setN03(Integer n03) {
         this.n03 = n03;
     }
 
-    public int getN04() {
+    public Integer getN04() {
         return n04;
     }
 
-    public void setN04(int n04) {
+    public void setN04(Integer n04) {
         this.n04 = n04;
     }
 
@@ -165,5 +164,29 @@ public class InsuredObject {
 
     public void setD03(Date d03) {
         this.d03 = d03;
+    }
+
+    public Integer getN05() {
+        return n05;
+    }
+
+    public void setN05(Integer n05) {
+        this.n05 = n05;
+    }
+
+    public Integer getN06() {
+        return n06;
+    }
+
+    public void setN06(Integer n06) {
+        this.n06 = n06;
+    }
+
+    public Integer getN07() {
+        return n07;
+    }
+
+    public void setN07(Integer n07) {
+        this.n07 = n07;
     }
 }

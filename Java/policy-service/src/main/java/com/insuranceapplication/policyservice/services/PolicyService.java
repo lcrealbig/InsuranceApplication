@@ -1,5 +1,6 @@
-package com.insuranceapplication.policyservice;
+package com.insuranceapplication.policyservice.services;
 
+import com.insuranceapplication.policyservice.methods.PremiumCalculation;
 import com.insuranceapplication.policyservice.models.*;
 import com.netflix.discovery.EurekaClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +27,13 @@ public class PolicyService {
 
     }
 
-    public void createPolicyLine(Policy_lines newPolicyLines) {
+    public void createPolicyLine(PolicyLines newPolicyLines) {
         RestTemplate template = new RestTemplate();
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl() + "/createpolicyline", newPolicyLines, String.class);
 
     }
 
-    public void createInsuredObject(InsuredObject insuredObject) {
+    public void createInsuredObject(InsuredObjects insuredObject) {
         RestTemplate template = new RestTemplate();
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl() + "/createinsuredobject", insuredObject, String.class);
 
@@ -88,13 +89,19 @@ public class PolicyService {
         return ResponseEntity.ok().body(result);
     }
 
-    public ResponseEntity getPolicyLine(Policy_lines policy_lines) {
+    public ResponseEntity getPolicyLine(PolicyLines policy_lines) {
         String query = "select p from Policy_lines p WHERE p.transactionId = '" + policy_lines.getTransactionId() + "'";
 
         RestTemplate template = new RestTemplate();
-        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl() + "/getpolicyline", query, Policy_lines.class);
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl() + "/getpolicyline", query, PolicyLines.class);
 
-        Policy_lines result = (Policy_lines) response.getBody();
+        PolicyLines result = (PolicyLines) response.getBody();
         return ResponseEntity.ok().body(result);
     }
+
+    public void calculation(Integer policyLineNo) {
+        PremiumCalculation calculation = new PremiumCalculation();
+        calculation.calculate(policyLineNo);
+    }
+
 }

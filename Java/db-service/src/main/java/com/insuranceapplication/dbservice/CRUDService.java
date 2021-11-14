@@ -27,13 +27,13 @@ public class CRUDService {
     }
 
     @Transactional
-    public void createPolicyLine(Policy_lines newPolicyLines){
+    public void createPolicyLine(PolicyLines newPolicyLines){
         em.persist(newPolicyLines);
     }
 
     @Transactional
-    public void createInsuredObject(InsuredObject insuredObject){
-        em.persist(insuredObject);
+    public void createInsuredObject(InsuredObjects insuredObjects){
+        em.persist(insuredObjects);
     }
 
     @Transactional
@@ -67,8 +67,8 @@ public class CRUDService {
     public ResponseEntity getPolicyLine(String query){
         Query q = em.createQuery(query);
 
-        ArrayList<Policy_lines> resultArray = (ArrayList<Policy_lines>) q.getResultList();
-        Policy_lines result = resultArray.get(0);
+        ArrayList<PolicyLines> resultArray = (ArrayList<PolicyLines>) q.getResultList();
+        PolicyLines result = resultArray.get(0);
         return ResponseEntity.ok().body(result);
     }
 
@@ -109,5 +109,19 @@ public class CRUDService {
         Users notExist = new Users();
         notExist.setName("NOT_EXIST");
         return ResponseEntity.ok().body(notExist);
+    }
+
+    public Object customQuery(String query){
+        Query select = em.createQuery(query);
+        List l = select.getResultList();
+        if(l.size()==1){
+            return select.getResultList().get(0);
+        }
+        return select.getResultList();
+    }
+
+    public int updateQuery(String query){
+        int result = em.createQuery(query).executeUpdate();
+        return result;
     }
 }

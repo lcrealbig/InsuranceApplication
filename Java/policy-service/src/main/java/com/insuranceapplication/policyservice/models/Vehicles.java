@@ -8,11 +8,13 @@ public class Vehicles {
     private String generation;
     private String engineType;
     private String engine;
-
+    @org.hibernate.annotations.Type(type="true_false")
+    private boolean partsAvailability;
+    private String protectionClass;
     public Vehicles() {
     }
 
-    public Vehicles(int vehicleId, String vehicleType, String brand, String vehicleModel, String generation, String engineType, String engine) {
+    public Vehicles(String protectionClass,boolean partsAvailability,int vehicleId, String vehicleType, String brand, String vehicleModel, String generation, String engineType, String engine) {
         this.vehicleId = vehicleId;
         this.vehicleType = vehicleType;
         this.brand = brand;
@@ -20,6 +22,7 @@ public class Vehicles {
         this.generation = generation;
         this.engineType = engineType;
         this.engine = engine;
+        this.partsAvailability = partsAvailability;
     }
 
 
@@ -77,5 +80,20 @@ public class Vehicles {
 
     public void setEngine(String engine) {
         this.engine = engine;
+    }
+
+    public boolean isPartsAvailability() {
+        return partsAvailability;
+    }
+    public void setPartsAvailability(boolean partsAvailability) {
+        this.partsAvailability = partsAvailability;
+    }
+
+    public String getProtectionClass() {
+        return protectionClass;
+    }
+
+    public void setProtectionClass(String protectionClass) {
+        this.protectionClass = protectionClass;
     }
 }
