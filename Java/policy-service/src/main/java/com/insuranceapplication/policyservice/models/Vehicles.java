@@ -8,7 +8,6 @@ public class Vehicles {
     private String generation;
     private String engineType;
     private String engine;
-    @org.hibernate.annotations.Type(type="true_false")
     private boolean partsAvailability;
     private String protectionClass;
     public Vehicles() {
