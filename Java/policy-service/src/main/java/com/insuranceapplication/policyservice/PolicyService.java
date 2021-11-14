@@ -47,22 +47,24 @@ public class PolicyService {
     @Transactional
     public ResponseEntity getVehicles(Vehicle vehicle) {
         Query query = null;
-        if (vehicle.getBrand() == null) {
-            query = em.createQuery("select distinct v.brand from Vehicles v WHERE v.vehicleType = '" + vehicle.getVehicleType() + "'");
+        if (vehicle.getVehicleType() == null){
+            query = em.createQuery("select distinct v.vehicleType from Vehicle v");
+        } else if (vehicle.getBrand() == null) {
+            query = em.createQuery("select distinct v.brand from Vehicle v WHERE v.vehicleType = '" + vehicle.getVehicleType() + "'");
         } else if (vehicle.getVehicleModel() == null) {
-            query = em.createQuery("select distinct v.vehicleModel from Vehicles v WHERE v.brand = '" + vehicle.getBrand() + "' AND v.vehicleType = '" + vehicle.getVehicleType() + "'");
+            query = em.createQuery("select distinct v.vehicleModel from Vehicle v WHERE v.brand = '" + vehicle.getBrand() + "' AND v.vehicleType = '" + vehicle.getVehicleType() + "'");
         } else if (vehicle.getGeneration() == null) {
-            query = em.createQuery("select distinct v.generation from Vehicles v WHERE v.vehicleModel = '" + vehicle.getVehicleModel() +
+            query = em.createQuery("select distinct v.generation from Vehicle v WHERE v.vehicleModel = '" + vehicle.getVehicleModel() +
                     "' AND v.brand = '" + vehicle.getBrand() + "'");
         } else if (vehicle.getEngineType() == null) {
-            query = em.createQuery("select distinct v.engineType from Vehicles v WHERE v.generation = '" + vehicle.getGeneration() +
+            query = em.createQuery("select distinct v.engineType from Vehicle v WHERE v.generation = '" + vehicle.getGeneration() +
                     "' and v.vehicleModel = '" + vehicle.getVehicleModel() + "' AND v.brand = '" + vehicle.getBrand() + "'");
         } else if (vehicle.getEngine() == null) {
-            query = em.createQuery("select distinct v.engine from Vehicles v WHERE v.engineType = '" + vehicle.getEngineType() +
+            query = em.createQuery("select distinct v.engine from Vehicle v WHERE v.engineType = '" + vehicle.getEngineType() +
                     "' and v.vehicleModel = '" + vehicle.getVehicleModel() + "' AND v.brand = '" + vehicle.getBrand() +
                     "' AND v.generation = '" + vehicle.getGeneration() + "'");
         } else {
-            query = em.createQuery("select distinct v.vehicleId from Vehicles v WHERE v.engineType = '" + vehicle.getEngineType() +
+            query = em.createQuery("select distinct v.vehicleId from Vehicle v WHERE v.engineType = '" + vehicle.getEngineType() +
                     "' and v.vehicleModel = '" + vehicle.getVehicleModel() + "' AND v.brand = '" + vehicle.getBrand() +
                     "' AND v.generation = '" + vehicle.getGeneration() + "' and v.engine = '" + vehicle.getEngine() + "'");
         }
@@ -93,7 +95,7 @@ public class PolicyService {
     public ResponseEntity getProducts() {
         Query query = em.createQuery("select p from ProductsConfig p");
 
-        ArrayList<ProductsConfig> resultArray = (ArrayList) query.getResultList();
+        ArrayList<ProductsConfig> resultArray = (ArrayList<ProductsConfig>) query.getResultList();
 
         return ResponseEntity.ok().body(resultArray);
     }
@@ -114,4 +116,7 @@ public class PolicyService {
         return ResponseEntity.ok().body(resultArray);
     }
 
+    public void insertVehicle(InsuredObject insuredObject) {
+       em.persist(insuredObject);
+    }
 }
