@@ -69,7 +69,7 @@ public class PolicyController {
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
-    @PostMapping("/getproducts")
+    @GetMapping("/getproducts")
     @ResponseBody
     public ResponseEntity getProducts() {
         return policyService.getProducts();
@@ -87,6 +87,13 @@ public class PolicyController {
     @ResponseBody
     public ResponseEntity getObjectTypes(@RequestBody PolicyLineTypesConfig policyLineTypesConfig) {
         return policyService.getObjectTypes(policyLineTypesConfig);
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping("/insertvehicle")
+    @ResponseBody
+    public void insertVehicle(@RequestBody InsuredObject insuredObject) {
+        policyService.insertVehicle(insuredObject);
     }
 
 }
