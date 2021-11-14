@@ -5,7 +5,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "INSURED_OBJECTS")
-public class InsuredObject {
+public class InsuredObjects {
     private int objectId;
     private int policyLineId;
     private int transactionId;
@@ -28,7 +28,7 @@ public class InsuredObject {
     public InsuredObjects() {
     }
 
-    public InsuredObject(int objectId, int policyLineId, int transactionId, String type, String c01, String c02, String c03, String c04, int n01, int n02, int n03, int n04, int n05, int n06, int n07, Date d01, Date d02, Date d03, String version) {
+    public InsuredObjects(int objectId, int policyLineId, int transactionId, String type, String c01, String c02, String c03, String c04, int n01, int n02, int n03, int n04, int n05, int n06, int n07, Date d01, Date d02, Date d03, String version) {
         this.objectId = objectId;
         this.policyLineId = policyLineId;
         this.transactionId = transactionId;
@@ -194,29 +194,5 @@ public class InsuredObject {
 
     public void setD03(Date d03) {
         this.d03 = d03;
-    }
-
-    public Integer getN05() {
-        return n05;
-    }
-
-    public void setN05(Integer n05) {
-        this.n05 = n05;
-    }
-
-    public Integer getN06() {
-        return n06;
-    }
-
-    public void setN06(Integer n06) {
-        this.n06 = n06;
-    }
-
-    public Integer getN07() {
-        return n07;
-    }
-
-    public void setN07(Integer n07) {
-        this.n07 = n07;
     }
 }

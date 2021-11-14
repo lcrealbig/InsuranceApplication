@@ -1,9 +1,12 @@
 package com.insuranceapplication.policyservice;
 
+import com.insuranceapplication.policyservice.methods.PremiumCalculation;
 import com.insuranceapplication.policyservice.models.*;
-import com.insuranceapplication.policyservice.services.PolicyService;
+import com.insuranceapplication.policyservice.PolicyService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.transaction.Transactional;
 
 @RestController
 public class PolicyController {
@@ -63,7 +66,7 @@ public class PolicyController {
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/getpolicyline")
     @ResponseBody
-    public ResponseEntity getPolicyLine(@RequestBody PolicyLine policyLine) {
+    public ResponseEntity getPolicyLine(@RequestBody PolicyLines policyLine) {
         return policyService.getPolicyLine(policyLine);
     }
 
@@ -74,10 +77,11 @@ public class PolicyController {
         return policyService.getProducts();
     }
 
-    @PostMapping("/calculations")
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping("/getpolicylinetypes")
     @ResponseBody
-    public void premiumCalc(@RequestParam("policyLineNo") Integer policyLineNo) {
-    policyService.calculation(policyLineNo);
+    public ResponseEntity getPolicyLineTypes(@RequestBody PolicyLineTypesConfig policyLineTypes) {
+        return policyService.getPolicyLineTypes(policyLineTypes);
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
@@ -90,8 +94,22 @@ public class PolicyController {
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/insertvehicle")
     @ResponseBody
-    public void insertVehicle(@RequestBody InsuredObject insuredObject) {
+    public void insertVehicle(@RequestBody InsuredObjects insuredObject) {
         policyService.insertVehicle(insuredObject);
     }
+
+
+//    @PostMapping("/calculations")
+//    @ResponseBody
+//    public void premiumCalc(@RequestParam("policyLineNo") Integer policyLineNo) {
+//        policyService.calculation(policyLineNo);
+//    }
+
+//    @Transactional
+//    public void calculation(Integer policyLineNo) {
+//        PremiumCalculation calculation = new PremiumCalculation();
+//        calculation.em = this.em;
+//        calculation.calculate(policyLineNo);
+//    }
 
 }
