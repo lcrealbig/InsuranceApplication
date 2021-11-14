@@ -13,6 +13,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>customer-service</name>
 	<description>serverApp learning project for Spring Boot</description>
+	<packaging>jar</packaging>
 	<properties>
 		<java.version>1.8</java.version>
 		<maven.version>3.6.2</maven.version>

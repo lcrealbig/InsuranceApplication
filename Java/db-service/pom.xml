@@ -11,10 +11,10 @@
 	<groupId>com.insuranceapplication</groupId>
 	<artifactId>db-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>db-service</name>
 	<description>Database service for Insurance Application</description>
 	<properties>
-		<java.version>11</java.version>
 		<spring-cloud.version>2020.0.4</spring-cloud.version>
 	</properties>
 	<dependencies>
