@@ -52,7 +52,9 @@ public class PolicyService {
 
     public ResponseEntity getVehicles(Vehicles vehicles) {
         String query = null;
-        if (vehicles.getBrand() == null) {
+        if (vehicles.getVehicleType() == null) {
+            query = "select distinct v.vehicleType from Vehicles v";
+        } else if (vehicles.getBrand() == null) {
             query = "select distinct v.brand from Vehicles v WHERE v.vehicleType = '" + vehicles.getVehicleType() + "'";
         } else if (vehicles.getVehicleModel() == null) {
             query = "select distinct v.vehicleModel from Vehicles v WHERE v.brand = '" + vehicles.getBrand() + "' AND v.vehicleType = '" + vehicles.getVehicleType() + "'";
@@ -74,7 +76,7 @@ public class PolicyService {
 
         //ArrayList<Vehicles> results = (ArrayList<Vehicles>) query.getResultList();
         RestTemplate template = new RestTemplate();
-        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl() + "/getvehicles", query, ArrayList.class);
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl() + "/getvehicles", query, List.class);
 
         return ResponseEntity.ok().body(response.getBody());
     }
@@ -109,7 +111,7 @@ public class PolicyService {
         RestTemplate template = new RestTemplate();
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl() + "/customPOST", query, List.class);
 
-        ArrayList<ProductsConfig> resultArray = (ArrayList<ProductsConfig>) response.getBody();
+        List<ProductsConfig> resultArray = (List) response.getBody();
 
         return ResponseEntity.ok().body(resultArray);
     }
