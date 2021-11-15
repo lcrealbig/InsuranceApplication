@@ -96,7 +96,7 @@ public class PolicyController {
         policyService.insertVehicle(insuredObject);
     }
 
-
+    @CrossOrigin(origins = appOrigins)
     @PostMapping("/calculations")
     public void premiumCalc(@RequestParam("policyLineId") Integer policyLineId) {
         policyService.calculation(policyLineId);
