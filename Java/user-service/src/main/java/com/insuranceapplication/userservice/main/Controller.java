@@ -1,4 +1,5 @@
 package com.insuranceapplication.userservice.main;
+import com.insuranceapplication.userservice.globalconstants.DeployConstants;
 import com.insuranceapplication.userservice.model.Users;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,15 +12,18 @@ public class Controller {
     @Autowired
     private UserService userService;
 
-    @CrossOrigin(origins = "http://localhost:4200")
+    private final String appOrigins = DeployConstants.herokuLink;
+
+    @CrossOrigin(origins = appOrigins)
     @ResponseBody
     @PostMapping("/verify")
     public ResponseEntity verifyUserLogin(@RequestBody Users user) {
         return userService.verifyUserLogin(user);
     }
 
+    @CrossOrigin(origins = appOrigins)
     @GetMapping("/showStatus")
     public String showStatus() {
-        return "Server is online.";
+        return "User service is online.";
     }
 }
