@@ -17,11 +17,11 @@ public class PolicyLines {
         this.productLineType = productLineType;
     }
 
-    public int getPolicyLineNo() {
+    public int getPolicyLineId() {
         return policyLineNo;
     }
 
-    public void setPolicyLineNo(int policyLineNo) {
+    public void setPolicyLineId(int policyLineNo) {
         this.policyLineNo = policyLineNo;
     }
 

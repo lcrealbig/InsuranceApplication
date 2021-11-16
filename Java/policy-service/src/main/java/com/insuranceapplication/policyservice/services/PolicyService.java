@@ -1,5 +1,6 @@
 package com.insuranceapplication.policyservice.services;
 
+import com.insuranceapplication.policyservice.globals.Variables;
 import com.insuranceapplication.policyservice.methods.PremiumCalculation;
 import com.insuranceapplication.policyservice.models.*;
 import com.netflix.discovery.EurekaClient;
@@ -13,29 +14,30 @@ import java.util.List;
 
 @Service
 public class PolicyService {
+    
     @Autowired
     EurekaClient eurekaClient;
 
     public void createTransaction(Transactions transactions) {
         RestTemplate template = new RestTemplate();
-        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl() + "/createtransaction", transactions, String.class);
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/createtransaction", transactions, String.class);
     }
 
     public void createPolicy(Policy newPolicy) {
         RestTemplate template = new RestTemplate();
-        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl() + "/createpolicy", newPolicy, String.class);
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/createpolicy", newPolicy, String.class);
 
     }
 
     public void createPolicyLine(PolicyLines newPolicyLines) {
         RestTemplate template = new RestTemplate();
-        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl() + "/createpolicyline", newPolicyLines, String.class);
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/createpolicyline", newPolicyLines, String.class);
 
     }
 
     public void createInsuredObject(InsuredObjects insuredObject) {
         RestTemplate template = new RestTemplate();
-        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl() + "/createinsuredobject", insuredObject, String.class);
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/createinsuredobject", insuredObject, String.class);
 
     }
 
@@ -44,7 +46,7 @@ public class PolicyService {
                 "' AND t.timestamp = '" + transactions.getTimestamp() + "'";
 
         RestTemplate template = new RestTemplate();
-        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl() + "/createinsuredobject", transactions, List.class);
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/createinsuredobject", transactions, List.class);
 
         Transactions result = (Transactions) ((List)response.getBody()).get(0);
         return ResponseEntity.ok().body(result);
@@ -76,7 +78,7 @@ public class PolicyService {
 
         //ArrayList<Vehicles> results = (ArrayList<Vehicles>) query.getResultList();
         RestTemplate template = new RestTemplate();
-        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl() + "/getvehicles", query, List.class);
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getvehicles", query, List.class);
 
         return ResponseEntity.ok().body(response.getBody());
     }
@@ -85,7 +87,7 @@ public class PolicyService {
         String query = "select p from Policy p WHERE p.transactionId = '" + policy.getTransactionId() + "'";
 
         RestTemplate template = new RestTemplate();
-        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl() + "/getpolicy", query, Policy.class);
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getpolicy", query, Policy.class);
 
         Policy result = (Policy) response.getBody();
         return ResponseEntity.ok().body(result);
@@ -95,7 +97,7 @@ public class PolicyService {
         String query = "select p from Policy_lines p WHERE p.transactionId = '" + policy_lines.getTransactionId() + "'";
 
         RestTemplate template = new RestTemplate();
-        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl() + "/getpolicyline", query, PolicyLines.class);
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getpolicyline", query, PolicyLines.class);
 
         PolicyLines result = (PolicyLines) response.getBody();
         return ResponseEntity.ok().body(result);
@@ -103,13 +105,14 @@ public class PolicyService {
 
     public void calculation(Integer policyLineNo) {
         PremiumCalculation calculation = new PremiumCalculation();
+        calculation.eurekaClient = this.eurekaClient;
         calculation.calculate(policyLineNo);
     }
 
     public ResponseEntity getProducts() {
         String query = "select p from ProductsConfig p";
         RestTemplate template = new RestTemplate();
-        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl() + "/customPOST", query, List.class);
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/customPOST", query, List.class);
 
         List<ProductsConfig> resultArray = (List) response.getBody();
 
@@ -119,7 +122,7 @@ public class PolicyService {
     public ResponseEntity getPolicyLineTypes(PolicyLineTypesConfig productsConfig) {
         String query = "select p from PolicyLineTypesConfig p WHERE p.productId = '" + productsConfig.getProductId() + "'";
         RestTemplate template = new RestTemplate();
-        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl() + "/customPOST", query, List.class);
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/customPOST", query, List.class);
 
         ArrayList<PolicyLineTypesConfig> resultArray = (ArrayList<PolicyLineTypesConfig>) response.getBody();
         return ResponseEntity.ok().body(resultArray);
@@ -128,7 +131,7 @@ public class PolicyService {
     public ResponseEntity getObjectTypes(PolicyLineTypesConfig policyLineTypesConfig) {
         String query = "select o from ObjectTypesConfig o WHERE o.policyLineId = '" + policyLineTypesConfig.getPolicyLineId() + "'";
         RestTemplate template = new RestTemplate();
-        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl() + "/customPOST", query, List.class);
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/customPOST", query, List.class);
 
         ArrayList<ObjectTypesConfig> resultArray = (ArrayList<ObjectTypesConfig>) response.getBody();
         return ResponseEntity.ok().body(resultArray);
@@ -136,7 +139,7 @@ public class PolicyService {
 
     public void insertVehicle(InsuredObjects insuredObject) {
         RestTemplate template = new RestTemplate();
-        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl() + "/insertvehicle", insuredObject, String.class);
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/insertvehicle", insuredObject, String.class);
     }
 
 }
