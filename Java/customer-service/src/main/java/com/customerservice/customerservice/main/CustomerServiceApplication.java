@@ -1,5 +1,6 @@
 package com.customerservice.customerservice.main;
 
+import com.customerservice.customerservice.globals.Variables;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -13,6 +14,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 public class CustomerServiceApplication {
 
 	public static void main(String[] args) {
+		Variables.init();
 		SpringApplication.run(CustomerServiceApplication.class, args);
 	}
 

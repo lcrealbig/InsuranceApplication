@@ -1,6 +1,6 @@
 package com.customerservice.customerservice.main;
 
-import com.customerservice.customerservice.globalconstants.DeployConstants;
+import com.customerservice.customerservice.globals.Constants;
 import com.customerservice.customerservice.model.Customers;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,46 +17,44 @@ public class Controller {
     @Autowired
     private CustomerService customerService;
 
-    private final String appOrigins = DeployConstants.herokuLink;
-
-    @CrossOrigin(origins = appOrigins)
+    @CrossOrigin(origins = Constants.origin)
     @ResponseBody
     @PostMapping("/addCustomer")
     public ResponseEntity addCustomer(@RequestBody JSONObject customerToAdd) throws ParseException {
         return customerService.verifyCustomerPeselAndBirth(customerToAdd);
     }
 
-    @CrossOrigin(origins = appOrigins)
+    @CrossOrigin(origins = Constants.origin)
     @DeleteMapping("/deleteCustomer")
     public ResponseEntity deleteCustomer(@RequestBody JSONObject customerToDelete){
         return customerService.deleteCustomer(customerToDelete);
     }
 
-    @CrossOrigin(origins = appOrigins)
+    @CrossOrigin(origins = Constants.origin)
     @PostMapping("/modifyCustomer")
     public ResponseEntity modifyCustomer (@RequestBody JSONObject customerToModify){
         return customerService.modifyCustomer(customerToModify);
     }
 
-    @CrossOrigin(origins = appOrigins)
+    @CrossOrigin(origins = Constants.origin)
     @GetMapping("/showCustomersList")
     public List returnCustomersList (@RequestBody JSONObject Customer){
         return customerService.returnCustomersList();
     }
 
-    @CrossOrigin(origins = appOrigins)
+    @CrossOrigin(origins = Constants.origin)
     @PostMapping("/customerSearchByID")
     public List<Customers> customerByID(@RequestBody JSONObject Customer){
         return customerService.searchCustomerById(Customer);
     }
 
-    @CrossOrigin(origins = appOrigins)
+    @CrossOrigin(origins = Constants.origin)
     @PostMapping("/customerSearchByPesel")
     public List<Customers> customerByPesel(@RequestBody JSONObject Customer){
         return customerService.searchCustomerByPesel(Customer);
     }
 
-    @CrossOrigin(origins = appOrigins)
+    @CrossOrigin(origins = Constants.origin)
     @PostMapping("/customerSearchByName")
     public List customerByName(@RequestBody JSONObject Customer){
         return customerService.searchCustomerByName(Customer);
