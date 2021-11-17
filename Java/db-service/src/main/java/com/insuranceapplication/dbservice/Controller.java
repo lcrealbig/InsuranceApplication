@@ -123,4 +123,12 @@ public class Controller {
         CRUDService.insertVehicle(newVehicle);
     }
 
+    @CrossOrigin(origins = Constants.origin)
+    @GetMapping("/serviceStatus")
+    public String getStatus() {
+        return  "db-service is online";
+    }
+
+
+
 }
