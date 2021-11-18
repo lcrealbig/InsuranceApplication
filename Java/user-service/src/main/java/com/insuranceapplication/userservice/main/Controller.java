@@ -7,19 +7,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class Controller {
 
     @Autowired
     private UserService userService;
 
-    @CrossOrigin(origins = Constants.origin)
     @ResponseBody
     @PostMapping("/verify")
     public ResponseEntity verifyUserLogin(@RequestBody Users user) {
         return userService.verifyUserLogin(user);
     }
 
-    @CrossOrigin(origins = Constants.origin)
     @GetMapping("/showStatus")
     public String showStatus() {
         return "User service is online.";
