@@ -1,6 +1,4 @@
 package com.insuranceapplication.userservice.main;
-import com.insuranceapplication.userservice.globals.Constants;
-import com.insuranceapplication.userservice.model.Users;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,16 +10,15 @@ public class Controller {
     @Autowired
     private UserService userService;
 
-    @CrossOrigin(origins = Constants.origin)
+    @CrossOrigin(origins = "http://localhost:4200")
     @ResponseBody
     @PostMapping("/verify")
-    public ResponseEntity verifyUserLogin(@RequestBody Users user) {
-        return userService.verifyUserLogin(user);
+    public ResponseEntity verifyUserLogin(@RequestBody JSONObject jsonObject) {
+        return userService.verifyUserLogin(jsonObject);
     }
 
-    @CrossOrigin(origins = Constants.origin)
     @GetMapping("/showStatus")
     public String showStatus() {
-        return "User service is online.";
+        return "Server is online.";
     }
 }

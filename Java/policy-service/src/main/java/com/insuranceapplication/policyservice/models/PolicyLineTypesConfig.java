@@ -1,6 +1,12 @@
 package com.insuranceapplication.policyservice.models;
 
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "POLICY_LINE_TYPES_CONFIG")
 public class PolicyLineTypesConfig {
     private int id;
     private String productId;
@@ -17,6 +23,7 @@ public class PolicyLineTypesConfig {
         this.version = version;
     }
 
+    @Id
     public int getId() {
         return id;
     }

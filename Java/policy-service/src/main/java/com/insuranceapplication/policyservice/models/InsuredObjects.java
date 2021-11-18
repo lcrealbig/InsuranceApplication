@@ -1,23 +1,26 @@
 package com.insuranceapplication.policyservice.models;
 
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
+@Table(name = "INSURED_OBJECTS")
 public class InsuredObjects {
-    private int objectId;
-    private int policyLineId;
-    private int transactionId;
+    private Integer objectId;
+    private Integer policyLineNo;
+    private Integer transactionId;
     private String type;
     private String c01;
     private String c02;
     private String c03;
     private String c04;
-    private int n01;
-    private int n02;
-    private int n03;
-    private int n04;
-    private int n05;
-    private int n06;
-    private int n07;
+    private Integer n01;
+    private Integer n02;
+    private Integer n03;
+    private Integer n04;
+    private Integer n05;
+    private Integer n06;
+    private Integer n07;
     private Date d01;
     private Date d02;
     private Date d03;
@@ -25,9 +28,9 @@ public class InsuredObjects {
     public InsuredObjects() {
     }
 
-    public InsuredObjects(int objectId, int policyLineId, int transactionId, String type, String c01, String c02, String c03, String c04, int n01, int n02, int n03, int n04, int n05, int n06, int n07, Date d01, Date d02, Date d03, String version) {
+    public InsuredObjects(Integer objectId, Integer policyLineNo, Integer transactionId, String type, String c01, String c02, String c03, String c04, Integer n01, Integer n02, Integer n03, Integer n04,Integer n05,Integer n06,Integer n07, Date d01, Date d02, Date d03) {
         this.objectId = objectId;
-        this.policyLineId = policyLineId;
+        this.policyLineNo = policyLineNo;
         this.transactionId = transactionId;
         this.type = type;
         this.c01 = c01;
@@ -40,13 +43,16 @@ public class InsuredObjects {
         this.n04 = n04;
         this.n05 = n05;
         this.n06 = n06;
-        this.n07 = n07;
+        this.n06 = n07;
         this.d01 = d01;
         this.d02 = d02;
         this.d03 = d03;
     }
 
-    public int getObjectId() {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "object_id_seq")
+    @SequenceGenerator(name = "object_id_seq", allocationSize = 1)
+    public Integer getObjectId() {
         return objectId;
     }
 
@@ -54,12 +60,12 @@ public class InsuredObjects {
         this.objectId = objectId;
     }
 
-    public int getPolicyLineId() {
-        return policyLineId;
+    public Integer getPolicyLineNo() {
+        return policyLineNo;
     }
 
-    public void setPolicyLineId(int policyLineId) {
-        this.policyLineId = policyLineId;
+    public void setPolicyLineNo(Integer policyLineNo) {
+        this.policyLineNo = policyLineNo;
     }
 
     public Integer getTransactionId() {
@@ -142,30 +148,6 @@ public class InsuredObjects {
         this.n04 = n04;
     }
 
-    public int getN05() {
-        return n05;
-    }
-
-    public void setN05(int n05) {
-        this.n05 = n05;
-    }
-
-    public int getN06() {
-        return n06;
-    }
-
-    public void setN06(int n06) {
-        this.n06 = n06;
-    }
-
-    public int getN07() {
-        return n07;
-    }
-
-    public void setN07(int n07) {
-        this.n07 = n07;
-    }
-
     public Date getD01() {
         return d01;
     }
@@ -188,5 +170,29 @@ public class InsuredObjects {
 
     public void setD03(Date d03) {
         this.d03 = d03;
+    }
+
+    public Integer getN05() {
+        return n05;
+    }
+
+    public void setN05(Integer n05) {
+        this.n05 = n05;
+    }
+
+    public Integer getN06() {
+        return n06;
+    }
+
+    public void setN06(Integer n06) {
+        this.n06 = n06;
+    }
+
+    public Integer getN07() {
+        return n07;
+    }
+
+    public void setN07(Integer n07) {
+        this.n07 = n07;
     }
 }

@@ -1,6 +1,12 @@
 package com.insuranceapplication.policyservice.models;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
+@Entity
+@Table(name = "PRODUCTS_CONFIG")
 public class ProductsConfig {
     private int id;
     private String productId;
@@ -19,6 +25,7 @@ public class ProductsConfig {
         this.endDate = endDate;
     }
 
+    @Id
     public int getId() {
         return id;
     }

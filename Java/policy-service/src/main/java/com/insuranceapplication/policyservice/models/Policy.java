@@ -1,6 +1,9 @@
 package com.insuranceapplication.policyservice.models;
 
+import javax.persistence.*;
 
+@Entity
+@Table(name = "POLICIES")
 public class Policy {
     private int policyId;
     private int transactionId;
@@ -30,6 +33,9 @@ public class Policy {
         this.version = version;
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "policy_id_seq")
+    @SequenceGenerator(name = "policy_id_seq", allocationSize = 1)
     public Integer getPolicyId() {
         return policyId;
     }
