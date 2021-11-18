@@ -1,43 +1,22 @@
 package com.insuranceapplication.policyservice.models;
-import javax.persistence.*;
-@Entity
-@Table(name = "premium_calc_config_values")
+
 public class PremiumCalcConfigValues {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "RISKS_VALUES")
-    @SequenceGenerator(name = "RISKS_VALUES", allocationSize = 1)
     private Integer id;
-    @Column(name = "risk_id")
     private String riskId;
-    @Column(name = "combo_id")
     private String comboId;
-    @Column(name = "combination_name")
     private String combinationName;
-    @Column(name = "value_1")
     private String value1;
-    @Column(name = "value_2")
     private String value2;
-    @Column(name = "value_3")
     private String value3;
-    @Column(name = "value_4")
     private String value4;
-    @Column(name = "value_5")
     private String value5;
-    @Column(name = "value_6")
     private String value6;
-    @Column(name = "value_7")
     private String value7;
-    @Column(name = "value_8")
     private String value8;
-    @Column(name = "value_9")
     private String value9;
-    @Column(name = "value_10")
     private String value10;
-    @Column(name = "value_11")
     private String value11;
-    @Column(name = "value_12")
     private String value12;
-    @Column(name = "version")
     private String version;
 
     public PremiumCalcConfigValues() {

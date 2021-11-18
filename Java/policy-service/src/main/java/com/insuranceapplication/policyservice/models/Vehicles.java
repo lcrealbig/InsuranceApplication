@@ -1,10 +1,5 @@
 package com.insuranceapplication.policyservice.models;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "VEHICLES")
-
 public class Vehicles {
     private int vehicleId;
     private String vehicleType;
@@ -13,7 +8,6 @@ public class Vehicles {
     private String generation;
     private String engineType;
     private String engine;
-    @org.hibernate.annotations.Type(type="true_false")
     private boolean partsAvailability;
     private String protectionClass;
     public Vehicles() {
@@ -30,9 +24,7 @@ public class Vehicles {
         this.partsAvailability = partsAvailability;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "veh_id_seq")
-    @SequenceGenerator(name = "veh_id_seq", allocationSize = 1)
+
     public int getVehicleId() {
         return vehicleId;
     }

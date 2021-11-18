@@ -1,24 +1,12 @@
 package com.insuranceapplication.policyservice.models;
 
 
-import org.hibernate.annotations.Type;
-
-import javax.persistence.*;
-
-@Entity
-@Table(name = "object_risks")
 public class ObjectRisks {
-    @Id
     private Integer id;
-    @Column(name = "risk_id")
     private String riskId;
-    @Column(name = "object_no")
     private Integer objectNo;
-    @Column(name = "premium")
     private Integer premium;
-    @Column(name = "premium_for_period")
     private Integer premiumForPeriod;
-    @Type(type="true_false")
     private boolean isSelected;
 
     public ObjectRisks() {
