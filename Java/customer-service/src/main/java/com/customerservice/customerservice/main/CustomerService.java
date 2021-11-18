@@ -1,5 +1,6 @@
 package com.customerservice.customerservice.main;
 
+import com.customerservice.customerservice.globals.Variables;
 import com.customerservice.customerservice.model.Customers;
 import com.netflix.discovery.DiscoveryClient;
 import com.netflix.discovery.EurekaClient;
@@ -74,7 +75,7 @@ public class CustomerService {
 
         /*send Customer to db-service*/
         RestTemplate template = new RestTemplate();
-        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl()+"/createcustomer",customer,String.class);
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl()+"/createcustomer",customer,String.class);
         return ResponseEntity.ok().body(customer);
     }
 
@@ -83,7 +84,7 @@ public class CustomerService {
         if (!customerToDelete.get("customer_id").toString().isEmpty()) {
             /*send json to db-service*/
             RestTemplate template = new RestTemplate();
-            ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE")
+            ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
                     .getInstances().get(0).getHomePageUrl()+"/deletecustomer",customerToDelete,String.class);
         }
         return ResponseEntity.ok().body("Customer has been deleted.");
@@ -120,7 +121,7 @@ public class CustomerService {
 
 
         RestTemplate template = new RestTemplate();
-        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE")
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
                 .getInstances().get(0).getHomePageUrl()+"/modifycustomer",queryString,String.class);
         confirmationOfAnUpdate.setName(modifiedColumnsCounter + " columns have been modified.");
         return ResponseEntity.ok().body(confirmationOfAnUpdate);
@@ -130,7 +131,7 @@ public class CustomerService {
         String queryString = "select c.customer_id,c.name,c.pesel,c.birthDate,c.phoneNum,c.address from Customers c";
         /*get json from db-service*/
         RestTemplate template = new RestTemplate();
-        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE")
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
                 .getInstances().get(0).getHomePageUrl()+"/showcustomerslist",queryString,List.class);
 
         return (List)response.getBody();
@@ -140,7 +141,7 @@ public class CustomerService {
         /*get json from db-service*/
         String queryString = "select c.customer_id,c.name,c.pesel,c.birthDate,c.phoneNum,c.address from Customers c where c.customer_id = '" + entity.get("customer_id") + "'";
         RestTemplate template = new RestTemplate();
-        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE")
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
                 .getInstances().get(0).getHomePageUrl()+"/showcustomerslist",queryString,List.class);
 
         return (List)response.getBody();
@@ -150,7 +151,7 @@ public class CustomerService {
         /*get json from db-service*/
         String queryString = "select c.customer_id,c.name,c.pesel,c.birthDate,c.phoneNum,c.address from Customers c where c.pesel = '" + entity.get("pesel") + "'";
         RestTemplate template = new RestTemplate();
-        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE")
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
                 .getInstances().get(0).getHomePageUrl()+"/showcustomerslist",queryString,List.class);
 
         return (List)response.getBody();
@@ -162,7 +163,7 @@ public class CustomerService {
         String queryString = "SELECT c.customer_id,c.name,c.pesel,c.birthDate,c.phoneNum,c.address from Customers c WHERE LOWER(c.name) LIKE '"
                 + name + "%" + "' OR LOWER(c.name) LIKE '" + "%" + name + "%" + "'";
         RestTemplate template = new RestTemplate();
-        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE")
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
                 .getInstances().get(0).getHomePageUrl()+"/showcustomerslist",queryString,List.class);
 
         return (List)response.getBody();
