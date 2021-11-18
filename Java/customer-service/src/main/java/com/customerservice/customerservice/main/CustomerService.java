@@ -1,16 +1,15 @@
 package com.customerservice.customerservice.main;
 
 import com.customerservice.customerservice.model.Customers;
+import com.netflix.discovery.DiscoveryClient;
+import com.netflix.discovery.EurekaClient;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.client.RestTemplate;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.transaction.Transactional;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,10 +20,8 @@ import java.util.Locale;
 @Service
 public class CustomerService {
     @Autowired
-    @PersistenceContext
-    private EntityManager em;
+    EurekaClient eurekaClient;
 
-    @Transactional
     public ResponseEntity verifyCustomerPeselAndBirth(@RequestBody JSONObject jsonObject) throws ParseException {
 
         Customers customer = new Customers();
@@ -74,83 +71,100 @@ public class CustomerService {
         customer.setAddress(jsonObject.get("address").toString());
         customer.setBirthDate(sdf);
         customer.setPhoneNum(BigInteger.valueOf(Long.parseLong(jsonObject.get("phone_num").toString())));
-        em.persist(customer);
+
+        /*send Customer to db-service*/
+        RestTemplate template = new RestTemplate();
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl()+"/createcustomer",customer,String.class);
         return ResponseEntity.ok().body(customer);
     }
 
-    @Transactional
     public ResponseEntity deleteCustomer(@RequestBody JSONObject customerToDelete) {
 
         if (!customerToDelete.get("customer_id").toString().isEmpty()) {
-            Customers customers = new Customers();
-            customers.setCustomer_id(Integer.parseInt(customerToDelete.get("customer_id").toString()));
-            customers = em.find(Customers.class, customers.getCustomer_id());
-            em.remove(customers);
+            /*send json to db-service*/
+            RestTemplate template = new RestTemplate();
+            ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE")
+                    .getInstances().get(0).getHomePageUrl()+"/deletecustomer",customerToDelete,String.class);
         }
         return ResponseEntity.ok().body("Customer has been deleted.");
     }
 
-    @Transactional
     public ResponseEntity<Customers> modifyCustomer(@RequestBody JSONObject modifiedCustomer) {
-        int query = 0;
+        String queryString = "";
+        String updateArgs = "";
 
         int modifiedColumnsCounter = 0;
         Customers confirmationOfAnUpdate = new Customers();
         if (!modifiedCustomer.get("name").equals("")) {
-            query = em.createQuery("update Customers c set c.name = '" + modifiedCustomer.get("name") +
-                    "' where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'").executeUpdate();
-            confirmationOfAnUpdate.setName("Value : name of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed.");
+            updateArgs += "c.name = '" + modifiedCustomer.get("name") + "'";
             modifiedColumnsCounter++;
         }
         if (!modifiedCustomer.get("pesel").equals("")) {
-            query = em.createQuery("update Customers c set c.pesel = '" + modifiedCustomer.get("pesel") +
-                    "' where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'").executeUpdate();
-            confirmationOfAnUpdate.setName("Value : pesel of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed.");
+            updateArgs += ", c.pesel = '" + modifiedCustomer.get("pesel") + "'";
             modifiedColumnsCounter++;
         }
         if (!modifiedCustomer.get("address").equals("")) {
-            query = em.createQuery("update Customers c set c.address = '" + modifiedCustomer.get("address") +
-                    "' where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'").executeUpdate();
-            confirmationOfAnUpdate.setName("Value : address of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed.");
+            updateArgs += ", c.address = ," + modifiedCustomer.get("address") + "'";
             modifiedColumnsCounter++;
         }
         if (!modifiedCustomer.get("phone_num").equals("")) {
-            query = em.createQuery("update Customers c set c.phoneNum = '" + modifiedCustomer.get("phone_num") +
-                    "' where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'").executeUpdate();
-            confirmationOfAnUpdate.setName("Value : phone_num of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed.");
-            modifiedColumnsCounter++;
+            updateArgs += ", c.phoneNum = '" + modifiedCustomer.get("phoneNum") + "'";
+                       modifiedColumnsCounter++;
         }
         if (!modifiedCustomer.get("birth_date").equals("")) {
-            query = em.createQuery("update Customers c set c.birthDate = '" + modifiedCustomer.get("birth_date") +
-                    "' where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'").executeUpdate();
-            confirmationOfAnUpdate.setName("Value : birth_date of customer, with an id: " + modifiedCustomer.get("customer_id").toString() + " have been changed.");
+            updateArgs += ", c.birthDate = " + modifiedCustomer.get("birthDate");
             modifiedColumnsCounter++;
         }
+        queryString = "update Customers c set " + updateArgs + " where c.customer_id = '" + modifiedCustomer.get("customer_id") + "'";
+        /*send query with args to db*/
+
+
+        RestTemplate template = new RestTemplate();
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE")
+                .getInstances().get(0).getHomePageUrl()+"/modifycustomer",queryString,String.class);
         confirmationOfAnUpdate.setName(modifiedColumnsCounter + " columns have been modified.");
         return ResponseEntity.ok().body(confirmationOfAnUpdate);
     }
 
-    public List returnCustomersList(@RequestBody JSONObject jsonObject) {
-        Query select = em.createQuery("select c.customer_id,c.name,c.pesel,c.birthDate,c.phoneNum,c.address from Customers c");
-        return select.getResultList();
+    public List returnCustomersList() {
+        String queryString = "select c.customer_id,c.name,c.pesel,c.birthDate,c.phoneNum,c.address from Customers c";
+        /*get json from db-service*/
+        RestTemplate template = new RestTemplate();
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE")
+                .getInstances().get(0).getHomePageUrl()+"/showcustomerslist",queryString,List.class);
+
+        return (List)response.getBody();
     }
 
     public List searchCustomerById(@RequestBody JSONObject entity) {
-        Query showByParams = em.createQuery("select c.customer_id,c.name,c.pesel,c.birthDate,c.phoneNum,c.address from Customers c where c.customer_id = '"
-                + entity.get("customer_id") + "'");
-        return showByParams.getResultList();
+        /*get json from db-service*/
+        String queryString = "select c.customer_id,c.name,c.pesel,c.birthDate,c.phoneNum,c.address from Customers c where c.customer_id = '" + entity.get("customer_id") + "'";
+        RestTemplate template = new RestTemplate();
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE")
+                .getInstances().get(0).getHomePageUrl()+"/showcustomerslist",queryString,List.class);
+
+        return (List)response.getBody();
     }
 
     public List searchCustomerByPesel(@RequestBody JSONObject entity) {
-        Query showByParams = em.createQuery("select c.customer_id,c.name,c.pesel,c.birthDate,c.phoneNum,c.address from Customers c where c.pesel = '"
-                + entity.get("pesel") + "'");
-        return showByParams.getResultList();
+        /*get json from db-service*/
+        String queryString = "select c.customer_id,c.name,c.pesel,c.birthDate,c.phoneNum,c.address from Customers c where c.pesel = '" + entity.get("pesel") + "'";
+        RestTemplate template = new RestTemplate();
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE")
+                .getInstances().get(0).getHomePageUrl()+"/showcustomerslist",queryString,List.class);
+
+        return (List)response.getBody();
     }
 
     public List searchCustomerByName(@RequestBody JSONObject entity) {
         String name = entity.get("name").toString().toLowerCase(Locale.ROOT);
-        Query showByParams = em.createQuery("SELECT c.customer_id,c.name,c.pesel,c.birthDate,c.phoneNum,c.address from Customers c WHERE LOWER(c.name) LIKE '"
-                + name + "%" + "' OR LOWER(c.name) LIKE '" + "%" + name + "%" + "'");
-        return showByParams.getResultList();
+        /*get json from db-service*/
+        String queryString = "SELECT c.customer_id,c.name,c.pesel,c.birthDate,c.phoneNum,c.address from Customers c WHERE LOWER(c.name) LIKE '"
+                + name + "%" + "' OR LOWER(c.name) LIKE '" + "%" + name + "%" + "'";
+        RestTemplate template = new RestTemplate();
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE")
+                .getInstances().get(0).getHomePageUrl()+"/showcustomerslist",queryString,List.class);
+
+        return (List)response.getBody();
     }
 }

@@ -1,14 +1,11 @@
 package com.insuranceapplication.policyservice.models;
 
-import javax.persistence.*;
 import java.util.Date;
 
-@Entity
-@Table(name = "INSURED_OBJECTS")
 public class InsuredObjects {
-    private Integer objectId;
-    private Integer policyLineNo;
-    private Integer transactionId;
+    private int objectId;
+    private int policyLineId;
+    private int transactionId;
     private String type;
     private String c01;
     private String c02;
@@ -28,9 +25,9 @@ public class InsuredObjects {
     public InsuredObjects() {
     }
 
-    public InsuredObjects(Integer objectId, Integer policyLineNo, Integer transactionId, String type, String c01, String c02, String c03, String c04, Integer n01, Integer n02, Integer n03, Integer n04,Integer n05,Integer n06,Integer n07, Date d01, Date d02, Date d03) {
+    public InsuredObjects(Integer objectId, Integer policyLineId, Integer transactionId, String type, String c01, String c02, String c03, String c04, Integer n01, Integer n02, Integer n03, Integer n04, Integer n05, Integer n06, Integer n07, Date d01, Date d02, Date d03) {
         this.objectId = objectId;
-        this.policyLineNo = policyLineNo;
+        this.policyLineId = policyLineId;
         this.transactionId = transactionId;
         this.type = type;
         this.c01 = c01;
@@ -49,10 +46,7 @@ public class InsuredObjects {
         this.d03 = d03;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "object_id_seq")
-    @SequenceGenerator(name = "object_id_seq", allocationSize = 1)
-    public Integer getObjectId() {
+    public int getObjectId() {
         return objectId;
     }
 
@@ -60,12 +54,12 @@ public class InsuredObjects {
         this.objectId = objectId;
     }
 
-    public Integer getPolicyLineNo() {
-        return policyLineNo;
+    public Integer getPolicyLineId() {
+        return policyLineId;
     }
 
-    public void setPolicyLineNo(Integer policyLineNo) {
-        this.policyLineNo = policyLineNo;
+    public void setPolicyLineId(Integer policyLineId) {
+        this.policyLineId = policyLineId;
     }
 
     public Integer getTransactionId() {

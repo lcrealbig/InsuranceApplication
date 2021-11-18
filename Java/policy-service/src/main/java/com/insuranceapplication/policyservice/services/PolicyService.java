@@ -2,104 +2,105 @@ package com.insuranceapplication.policyservice.services;
 
 import com.insuranceapplication.policyservice.methods.PremiumCalculation;
 import com.insuranceapplication.policyservice.models.*;
+import com.netflix.discovery.EurekaClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PolicyService {
+    @Autowired
+    EurekaClient eurekaClient;
 
-    @PersistenceContext
-    private EntityManager em;
-
-    @Transactional
     public void createTransaction(Transactions transactions) {
-        em.persist(transactions);
+        RestTemplate template = new RestTemplate();
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl() + "/createtransaction", transactions, String.class);
     }
 
-    @Transactional
     public void createPolicy(Policy newPolicy) {
-        em.persist(newPolicy);
+        RestTemplate template = new RestTemplate();
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl() + "/createpolicy", newPolicy, String.class);
+
     }
 
-    @Transactional
     public void createPolicyLine(PolicyLines newPolicyLines) {
-        em.persist(newPolicyLines);
+        RestTemplate template = new RestTemplate();
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl() + "/createpolicyline", newPolicyLines, String.class);
+
     }
 
-    @Transactional
-    public void createInsuredObject(InsuredObjects insuredObjects) {
-        em.persist(insuredObjects);
+    public void createInsuredObject(InsuredObjects insuredObject) {
+        RestTemplate template = new RestTemplate();
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl() + "/createinsuredobject", insuredObject, String.class);
+
     }
 
-    @Transactional
     public ResponseEntity getTransactionId(Transactions transactions) {
-        Query query = em.createQuery("select distinct t from Transactions t WHERE t.modifiedBy = '" + transactions.getModifiedBy() +
-                "' AND t.timestamp = '" + transactions.getTimestamp() + "'");
+        String query = "select distinct t from Transactions t WHERE t.modifiedBy = '" + transactions.getModifiedBy() +
+                "' AND t.timestamp = '" + transactions.getTimestamp() + "'";
 
-        ArrayList<Transactions> resultArray = (ArrayList<Transactions>) query.getResultList();
-        Transactions result = resultArray.get(0);
+        RestTemplate template = new RestTemplate();
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl() + "/createinsuredobject", transactions, List.class);
+
+        Transactions result = (Transactions) ((List)response.getBody()).get(0);
         return ResponseEntity.ok().body(result);
     }
 
-    @Transactional
     public ResponseEntity getVehicles(Vehicles vehicles) {
-        Query query = null;
-        if (vehicles.getVehicleType() == null) {
-            query = em.createQuery("select distinct v.vehicleType from Vehicles v");
-        } else if (vehicles.getBrand() == null) {
-            query = em.createQuery("select distinct v.brand from Vehicles v");
+        String query = null;
+        if (vehicles.getBrand() == null) {
+            query = "select distinct v.brand from Vehicles v WHERE v.vehicleType = '" + vehicles.getVehicleType() + "'";
         } else if (vehicles.getVehicleModel() == null) {
-            query = em.createQuery("select distinct v.vehicleModel from Vehicles v WHERE v.brand = '" + vehicles.getBrand() + "'");
+            query = "select distinct v.vehicleModel from Vehicles v WHERE v.brand = '" + vehicles.getBrand() + "' AND v.vehicleType = '" + vehicles.getVehicleType() + "'";
         } else if (vehicles.getGeneration() == null) {
-            query = em.createQuery("select distinct v.generation from Vehicles v WHERE v.vehicleModel = '" + vehicles.getVehicleModel() +
-                    "' AND v.brand = '" + vehicles.getBrand() + "'");
+            query = "select distinct v.generation from Vehicles v WHERE v.vehicleModel = '" + vehicles.getVehicleModel() +
+                    "' AND v.brand = '" + vehicles.getBrand() + "'";
         } else if (vehicles.getEngineType() == null) {
-            query = em.createQuery("select distinct v.engineType from Vehicles v WHERE v.generation = '" + vehicles.getGeneration() +
-                    "' and v.vehicleModel = '" + vehicles.getVehicleModel() + "' AND v.brand = '" + vehicles.getBrand() + "'");
+            query = "select distinct v.engineType from Vehicles v WHERE v.generation = '" + vehicles.getGeneration() +
+                    "' and v.vehicleModel = '" + vehicles.getVehicleModel() + "' AND v.brand = '" + vehicles.getBrand() + "'";
         } else if (vehicles.getEngine() == null) {
-            query = em.createQuery("select distinct v.engine from Vehicles v WHERE v.engineType = '" + vehicles.getEngineType() +
+            query = "select distinct v.engine from Vehicles v WHERE v.engineType = '" + vehicles.getEngineType() +
                     "' and v.vehicleModel = '" + vehicles.getVehicleModel() + "' AND v.brand = '" + vehicles.getBrand() +
-                    "' AND v.generation = '" + vehicles.getGeneration() + "'");
+                    "' AND v.generation = '" + vehicles.getGeneration() + "'";
         } else {
-            query = em.createQuery("select distinct v.vehicleId from Vehicles v WHERE v.engineType = '" + vehicles.getEngineType() +
+            query = "select distinct v.vehicleId from Vehicles v WHERE v.engineType = '" + vehicles.getEngineType() +
                     "' and v.vehicleModel = '" + vehicles.getVehicleModel() + "' AND v.brand = '" + vehicles.getBrand() +
-                    "' AND v.generation = '" + vehicles.getGeneration() + "' and v.engine = '" + vehicles.getEngine() + "'");
+                    "' AND v.generation = '" + vehicles.getGeneration() + "' and v.engine = '" + vehicles.getEngine() + "'";
         }
 
-        ArrayList<Vehicles> results = (ArrayList<Vehicles>) query.getResultList();
+        //ArrayList<Vehicles> results = (ArrayList<Vehicles>) query.getResultList();
+        RestTemplate template = new RestTemplate();
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl() + "/getvehicles", query, ArrayList.class);
 
-        return ResponseEntity.ok().body(results);
+        return ResponseEntity.ok().body(response.getBody());
     }
 
-    @Transactional
     public ResponseEntity getPolicy(Policy policy) {
-        Query query = em.createQuery("select p from Policy p WHERE p.transactionId = '" + policy.getTransactionId() + "'");
+        String query = "select p from Policy p WHERE p.transactionId = '" + policy.getTransactionId() + "'";
 
-        ArrayList<Policy> resultArray = (ArrayList<Policy>) query.getResultList();
-        Policy result = resultArray.get(0);
+        RestTemplate template = new RestTemplate();
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl() + "/getpolicy", query, Policy.class);
+
+        Policy result = (Policy) response.getBody();
         return ResponseEntity.ok().body(result);
     }
 
-    @Transactional
     public ResponseEntity getPolicyLine(PolicyLines policy_lines) {
-        Query query = em.createQuery("select p from Policy_lines p WHERE p.transactionId = '" + policy_lines.getTransactionId() + "'");
+        String query = "select p from Policy_lines p WHERE p.transactionId = '" + policy_lines.getTransactionId() + "'";
 
-        ArrayList<PolicyLines> resultArray = (ArrayList<PolicyLines>) query.getResultList();
-        PolicyLines result = resultArray.get(0);
+        RestTemplate template = new RestTemplate();
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication("DATABASE").getInstances().get(0).getHomePageUrl() + "/getpolicyline", query, PolicyLines.class);
+
+        PolicyLines result = (PolicyLines) response.getBody();
         return ResponseEntity.ok().body(result);
     }
 
-    @Transactional
     public void calculation(Integer policyLineNo) {
         PremiumCalculation calculation = new PremiumCalculation();
-        calculation.em = this.em;
         calculation.calculate(policyLineNo);
     }
 

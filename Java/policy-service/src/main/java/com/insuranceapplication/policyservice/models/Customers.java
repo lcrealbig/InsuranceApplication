@@ -1,27 +1,14 @@
 package com.insuranceapplication.policyservice.models;
-import javax.persistence.*;
 import java.math.BigInteger;
 import java.util.Date;
 
-@Entity
-@Table(name = "customers")
 public class Customers {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cust_id_seq")
-    @SequenceGenerator(name = "cust_id_seq", allocationSize = 1)
 
-    //spraw generator id korzystal z sequencera.
-    @Column(name = "customer_id")
     private int customerId;
-    @Column(name = "name")
     private String name;
-    @Column(name = "pesel")
     private String pesel;
-    @Column(name = "address")
     private String address;
-    @Column(name = "birth_date")
     private Date birthDate;
-    @Column(name = "phone_num")
     private BigInteger phoneNum;
 
     public String getName() {
