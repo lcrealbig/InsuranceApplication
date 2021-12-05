@@ -74,6 +74,14 @@ public class CRUDService {
     }
 
     @Transactional
+    public ResponseEntity getObjectRisksConfig(String query) {
+        Query q = em.createQuery(query);
+
+        ArrayList<ObjectRisksConfig> resultArray = (ArrayList<ObjectRisksConfig>) q.getResultList();
+        return ResponseEntity.ok().body(resultArray);
+    }
+
+    @Transactional
     public ResponseEntity createCustomer(Customers newCustomer) {
         em.persist(newCustomer);
         return ResponseEntity.ok().build();
@@ -127,8 +135,27 @@ public class CRUDService {
     }
 
     @Transactional
-    public ResponseEntity insertVehicle(InsuredObjects newVehicle) {
-        em.persist(newVehicle);
+    public ResponseEntity insertInsuredObject(InsuredObjects newInsuredObject) {
+        em.persist(newInsuredObject);
+        return ResponseEntity.ok().body(newInsuredObject);
+    }
+
+    @Transactional
+    public ResponseEntity createRisks(ObjectRisks risks) {
+        em.persist(risks);
         return ResponseEntity.ok().build();
+    }
+
+    @Transactional
+    public ResponseEntity updateRisk(ObjectRisks risk) {
+        em.merge(risk);
+        return ResponseEntity.ok().body(risk);
+    }
+
+    @Transactional
+    public ResponseEntity getRisks(InsuredObjects insuredObject) {
+        /*objectNo zostatnie zamienione na objectId*/
+        List<InsuredObjects> resultList = (List<InsuredObjects>)em.createQuery("select o from ObjectRisks o where o.objectNo = "+insuredObject.getObjectId()).getResultList();
+        return ResponseEntity.ok().body(resultList);
     }
 }

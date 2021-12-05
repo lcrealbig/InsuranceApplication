@@ -1,6 +1,5 @@
 package com.insuranceapplication.policyservice;
 
-import com.insuranceapplication.policyservice.globals.Constants;
 import com.insuranceapplication.policyservice.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.insuranceapplication.policyservice.services.PolicyService;
@@ -77,10 +76,34 @@ public class PolicyController {
         return policyService.getObjectTypes(policyLineTypesConfig);
     }
 
-    @PostMapping("/insertvehicle")
+    @PostMapping("/insertinsuredobject")
     @ResponseBody
-    public void insertVehicle(@RequestBody InsuredObjects insuredObject) {
-        policyService.insertVehicle(insuredObject);
+    public ResponseEntity insertInsuredObject(@RequestBody InsuredObjects insuredObject) {
+        return policyService.insertInsuredObject(insuredObject);
+    }
+
+    @PostMapping("/createrisks")
+    @ResponseBody
+    public ResponseEntity createRisks(@RequestBody ObjectRisks risks) {
+        return policyService.createRisks(risks);
+    }
+
+    @PostMapping("/updaterisk")
+    @ResponseBody
+    public void updateRisk(@RequestBody ObjectRisks risk) {
+        policyService.updateRisk(risk);
+    }
+
+    @PostMapping("/getrisks")
+    @ResponseBody
+    public ResponseEntity getRisks(@RequestBody InsuredObjects insuredObject) {
+        return policyService.getRisks(insuredObject);
+    }
+
+    @PostMapping("/getrisksconfig")
+    @ResponseBody
+    public ResponseEntity getObjectRisksConfig(@RequestBody ObjectRisksConfig objectRisksConfig) {
+        return policyService.getObjectRisksConfig(objectRisksConfig);
     }
 
     @PostMapping("/calculations")
