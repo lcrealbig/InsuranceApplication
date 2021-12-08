@@ -5,12 +5,12 @@ import javax.persistence.*;
 @Entity
 @Table(name = "TRANSACTIONS")
 public class Transactions {
-    private int transactionId;
+    private Integer transactionId;
     private String modifiedBy;
     private String timestamp;
     private String transactionType;
 
-    public Transactions(int transactionId, String modifiedBy, String modified_time, String transactionType) {
+    public Transactions(Integer transactionId, String modifiedBy, String modified_time, String transactionType) {
         this.transactionId = transactionId;
         this.modifiedBy = modifiedBy;
         this.timestamp = modified_time;
@@ -23,11 +23,11 @@ public class Transactions {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transactions_seq")
     @SequenceGenerator(name = "transactions_seq", allocationSize = 1)
-    public int getTransactionId() {
+    public Integer getTransactionId() {
         return transactionId;
     }
 
-    public void setTransactionId(int transactionId) {
+    public void setTransactionId(Integer transactionId) {
         this.transactionId = transactionId;
     }
 

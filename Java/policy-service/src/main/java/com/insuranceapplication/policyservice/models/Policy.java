@@ -1,10 +1,9 @@
 package com.insuranceapplication.policyservice.models;
 
-
 public class Policy {
-    private int policyId;
-    private int transactionId;
-    private int ownerId;
+    private Integer policyId;
+    private Integer transactionId;
+    private Integer ownerId;
     private String type;
     private String status;
     private String startDate;
@@ -17,7 +16,7 @@ public class Policy {
     public Policy(){
     }
 
-    public Policy(int policyId, int transactionId, int ownerId, String type, String status, String startDate, String endDate, String productType, String altNo, String version) {
+    public Policy(Integer policyId, Integer transactionId, Integer ownerId, String type, String status, String startDate, String endDate, String productType, String altNo, String version) {
         this.policyId = policyId;
         this.transactionId = transactionId;
         this.ownerId = ownerId;
@@ -38,11 +37,11 @@ public class Policy {
         this.policyId = policyId;
     }
 
-    public int getTransactionId() {
+    public Integer getTransactionId() {
         return transactionId;
     }
 
-    public void setTransactionId(int transactionId) {
+    public void setTransactionId(Integer transactionId) {
         this.transactionId = transactionId;
     }
 

@@ -1,6 +1,5 @@
 package com.insuranceapplication.dbservice;
 
-import com.insuranceapplication.dbservice.globals.Constants;
 import com.insuranceapplication.dbservice.models.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -102,16 +101,37 @@ public class Controller {
         return CRUDService.updateQuery(query);
     }
 
-    @PostMapping("/insertvehicle")
-    public void createCustomer(@RequestBody InsuredObjects newVehicle) {
-        CRUDService.insertVehicle(newVehicle);
+    @PostMapping("/insertinsuredobject")
+    public ResponseEntity insertInsuredObject(@RequestBody InsuredObjects newInsuredObject) {
+        return CRUDService.insertInsuredObject(newInsuredObject);
+    }
+
+    @PostMapping("/getrisksconfig")
+    @ResponseBody
+    public ResponseEntity getObjectRisksConfig(@RequestBody String query) {
+        return CRUDService.getObjectRisksConfig(query);
+    }
+
+    @PostMapping("/createrisks")
+    public ResponseEntity createRisks(@RequestBody ObjectRisks risks) {
+        return CRUDService.createRisks(risks);
+    }
+
+    @PostMapping("/updaterisk")
+    public void updateRisk(@RequestBody ObjectRisks risk) {
+        CRUDService.updateRisk(risk);
+    }
+
+    @PostMapping("/getrisks")
+    @ResponseBody
+    public ResponseEntity getRisks(@RequestBody InsuredObjects insuredObject) {
+        return CRUDService.getRisks(insuredObject);
     }
 
     @GetMapping("/serviceStatus")
     public String getStatus() {
-        return  "db-service is online";
+        return "db-service is online";
     }
-
 
 
 }

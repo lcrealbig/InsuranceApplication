@@ -1,12 +1,10 @@
 package com.customerservice.customerservice.main;
 
-import com.customerservice.customerservice.globals.Constants;
 import com.customerservice.customerservice.model.Customers;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.text.ParseException;
 import java.util.List;
 

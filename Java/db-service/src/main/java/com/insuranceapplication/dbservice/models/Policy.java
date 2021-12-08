@@ -5,21 +5,22 @@ import javax.persistence.*;
 @Entity
 @Table(name = "POLICIES")
 public class Policy {
-    private int policyId;
-    private int transactionId;
-    private int ownerId;
+    private Integer policyId;
+    private Integer transactionId;
+    private Integer ownerId;
     private String type;
     private String status;
     private String startDate;
     private String endDate;
     private String productType;
     private String altNo;
+    private String version;
 
     //no argument constructor is required to create entity class
     public Policy(){
     }
 
-    public Policy(int policyId, int transactionId, int ownerId, String type, String status, String startDate, String endDate, String productType, String altNo) {
+    public Policy(Integer policyId, Integer transactionId, Integer ownerId, String type, String status, String startDate, String endDate, String productType, String altNo, String version) {
         this.policyId = policyId;
         this.transactionId = transactionId;
         this.ownerId = ownerId;
@@ -29,6 +30,7 @@ public class Policy {
         this.endDate = endDate;
         this.productType = productType;
         this.altNo = altNo;
+        this.version = version;
     }
 
     @Id
@@ -42,11 +44,11 @@ public class Policy {
         this.policyId = policyId;
     }
 
-    public int getTransactionId() {
+    public Integer getTransactionId() {
         return transactionId;
     }
 
-    public void setTransactionId(int transactionId) {
+    public void setTransactionId(Integer transactionId) {
         this.transactionId = transactionId;
     }
 
@@ -104,5 +106,13 @@ public class Policy {
 
     public void setAltNo(String altNo) {
         this.altNo = altNo;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 }

@@ -46,9 +46,10 @@ public class PolicyService {
                 "' AND t.timestamp = '" + transactions.getTimestamp() + "'";
 
         RestTemplate template = new RestTemplate();
-        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/createinsuredobject", transactions, List.class);
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/gettransactionid", query, Transactions.class);
 
-        Transactions result = (Transactions) ((List)response.getBody()).get(0);
+        Transactions result = (Transactions) response.getBody();
+        System.out.println(result.getTransactionId());
         return ResponseEntity.ok().body(result);
     }
 
@@ -94,7 +95,7 @@ public class PolicyService {
     }
 
     public ResponseEntity getPolicyLine(PolicyLines policy_lines) {
-        String query = "select p from Policy_lines p WHERE p.transactionId = '" + policy_lines.getTransactionId() + "'";
+        String query = "select p from PolicyLines p WHERE p.transactionId = '" + policy_lines.getTransactionId() + "'";
 
         RestTemplate template = new RestTemplate();
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getpolicyline", query, PolicyLines.class);
@@ -137,9 +138,34 @@ public class PolicyService {
         return ResponseEntity.ok().body(resultArray);
     }
 
-    public void insertVehicle(InsuredObjects insuredObject) {
+    public ResponseEntity getObjectRisksConfig(ObjectRisksConfig objectRisksConfig) {
+        String query = "select o from ObjectRisksConfig o";
         RestTemplate template = new RestTemplate();
-        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/insertvehicle", insuredObject, String.class);
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getrisksconfig", query, List.class);
+
+        ArrayList<ObjectTypesConfig> resultArray = (ArrayList<ObjectTypesConfig>) response.getBody();
+        return ResponseEntity.ok().body(resultArray);
+    }
+
+    public ResponseEntity insertInsuredObject(InsuredObjects insuredObject) {
+        RestTemplate template = new RestTemplate();
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/insertinsuredobject", insuredObject, String.class);
+        return response;
+    }
+
+    public ResponseEntity createRisks(ObjectRisks objectRisks) {
+        RestTemplate template = new RestTemplate();
+        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/createrisks", objectRisks, String.class);
+    }
+
+    public ResponseEntity getRisks(InsuredObjects insuredObject) {
+        RestTemplate template = new RestTemplate();
+        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getrisks", insuredObject, List.class);
+    }
+
+    public void updateRisk(ObjectRisks risk) {
+        RestTemplate template = new RestTemplate();
+        template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/updaterisk", risk, ObjectRisks.class);
     }
 
 }

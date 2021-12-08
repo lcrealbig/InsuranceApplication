@@ -7,12 +7,12 @@ public class ObjectRisks {
     private Integer objectNo;
     private Integer premium;
     private Integer premiumForPeriod;
-    private boolean isSelected;
+    private String isSelected;
 
     public ObjectRisks() {
     }
 
-    public ObjectRisks(Integer id, String riskId, Integer objectNo, Integer premium, Integer premiumForPeriod, boolean isSelected) {
+    public ObjectRisks(Integer id, String riskId, Integer objectNo, Integer premium, Integer premiumForPeriod, String isSelected) {
         this.id = id;
         this.riskId = riskId;
         this.objectNo = objectNo;
@@ -61,11 +61,11 @@ public class ObjectRisks {
         this.premiumForPeriod = premiumForPeriod;
     }
 
-    public boolean isSelected() {
+    public String getIsSelected() {
         return isSelected;
     }
 
-    public void setSelected(boolean selected) {
-        isSelected = selected;
+    public void setIsSelected(String isSelected) {
+        this.isSelected = isSelected;
     }
 }

@@ -1,44 +1,46 @@
 package com.insuranceapplication.policyservice.models;
 
 public class PolicyLines {
-    private int policyLineNo;
-    private int transactionId;
-    private int policyNo;
+    private Integer policyLineId;
+    private Integer transactionId;
+    private Integer policyId;
     private String productLineType;
+    private String version;
 
     //no argument constructor is required to create entity class
     public PolicyLines(){
     }
 
-    public PolicyLines(int policyLineNo, int transactionId, int policyNo, String productLineType) {
-        this.policyLineNo = policyLineNo;
+    public PolicyLines(Integer policyLineId, Integer transactionId, Integer policyId, String productLineType, String version) {
+        this.policyLineId = policyLineId;
         this.transactionId = transactionId;
-        this.policyNo = policyNo;
+        this.policyId = policyId;
         this.productLineType = productLineType;
+        this.version = version;
     }
 
-    public int getPolicyLineId() {
-        return policyLineNo;
+    public Integer getPolicyLineId() {
+        return policyLineId;
     }
 
-    public void setPolicyLineId(int policyLineNo) {
-        this.policyLineNo = policyLineNo;
+    public void setPolicyLineId(Integer policyLineId) {
+        this.policyLineId = policyLineId;
     }
 
-    public int getTransactionId() {
+    public Integer getTransactionId() {
         return transactionId;
     }
 
-    public void setTransactionId(int transactionId) {
+    public void setTransactionId(Integer transactionId) {
         this.transactionId = transactionId;
     }
 
-    public int getPolicyNo() {
-        return policyNo;
+    public Integer getPolicyId() {
+        return policyId;
     }
 
-    public void setPolicyNo(int policyNo) {
-        this.policyNo = policyNo;
+    public void setPolicyId(Integer policyId) {
+        this.policyId = policyId;
     }
 
     public String getProductLineType() {
@@ -47,5 +49,13 @@ public class PolicyLines {
 
     public void setProductLineType(String productLineType) {
         this.productLineType = productLineType;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 }

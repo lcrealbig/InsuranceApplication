@@ -12,8 +12,8 @@ CREATE TABLE public.object_risks
     object_no integer NOT NULL,
     premium numeric,
     premium_for_period integer,
-    is_selected boolean NOT NULL,
-    id integer NOT NULL DEFAULT nextval('or_id_seq')
+    is_selected character varying(5) NOT NULL,
+    id integer DEFAULT nextval('or_id_seq')
 );
 
 
