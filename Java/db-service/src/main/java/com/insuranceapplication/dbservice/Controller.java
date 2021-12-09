@@ -112,6 +112,12 @@ public class Controller {
         return CRUDService.getObjectRisksConfig(query);
     }
 
+    @PostMapping("/getvehicletypes")
+    @ResponseBody
+    public ResponseEntity getVehicleTypes(@RequestBody VehicleTypesConfig vehicleTypesConfig) {
+        return CRUDService.getVehicleTypes(vehicleTypesConfig);
+    }
+
     @PostMapping("/createrisks")
     public ResponseEntity createRisks(@RequestBody ObjectRisks risks) {
         return CRUDService.createRisks(risks);

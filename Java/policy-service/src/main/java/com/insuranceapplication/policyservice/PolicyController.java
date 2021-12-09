@@ -76,6 +76,12 @@ public class PolicyController {
         return policyService.getObjectTypes(policyLineTypesConfig);
     }
 
+    @PostMapping("/getvehicletypes")
+    @ResponseBody
+    public ResponseEntity getVehicleTypes(@RequestBody VehicleTypesConfig vehicleTypesConfig) {
+        return policyService.getVehicleTypes(vehicleTypesConfig);
+    }
+
     @PostMapping("/insertinsuredobject")
     @ResponseBody
     public ResponseEntity insertInsuredObject(@RequestBody InsuredObjects insuredObject) {

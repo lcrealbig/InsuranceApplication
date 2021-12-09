@@ -55,9 +55,7 @@ public class PolicyService {
 
     public ResponseEntity getVehicles(Vehicles vehicles) {
         String query = null;
-        if (vehicles.getVehicleType() == null) {
-            query = "select distinct v.vehicleType from Vehicles v";
-        } else if (vehicles.getBrand() == null) {
+        if (vehicles.getBrand() == null) {
             query = "select distinct v.brand from Vehicles v WHERE v.vehicleType = '" + vehicles.getVehicleType() + "'";
         } else if (vehicles.getVehicleModel() == null) {
             query = "select distinct v.vehicleModel from Vehicles v WHERE v.brand = '" + vehicles.getBrand() + "' AND v.vehicleType = '" + vehicles.getVehicleType() + "'";
@@ -136,6 +134,11 @@ public class PolicyService {
 
         ArrayList<ObjectTypesConfig> resultArray = (ArrayList<ObjectTypesConfig>) response.getBody();
         return ResponseEntity.ok().body(resultArray);
+    }
+
+    public ResponseEntity getVehicleTypes(VehicleTypesConfig vehicleTypesConfig) {
+        RestTemplate template = new RestTemplate();
+        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getvehicletypes", vehicleTypesConfig, List.class);
     }
 
     public ResponseEntity getObjectRisksConfig(ObjectRisksConfig objectRisksConfig) {
