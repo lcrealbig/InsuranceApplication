@@ -5,19 +5,19 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "VEHICLE_TYPES_CONFIG")
+@Table(name = "VEHICLE_TYPES_CONFIG", schema = "public")
 public class VehicleTypesConfig {
     private Integer id;
-    private String policyLineId;
+    private String productLineType;
     private String vehicleType;
     private String version;
 
     public VehicleTypesConfig() {
     }
 
-    public VehicleTypesConfig(Integer id, String policyLineId, String vehicleType, String version) {
+    public VehicleTypesConfig(Integer id, String productLineType, String vehicleType, String version) {
         this.id = id;
-        this.policyLineId = policyLineId;
+        this.productLineType = productLineType;
         this.vehicleType = vehicleType;
         this.version = version;
     }
@@ -31,12 +31,12 @@ public class VehicleTypesConfig {
         this.id = id;
     }
 
-    public String getPolicyLineId() {
-        return policyLineId;
+    public String getProductLineType() {
+        return productLineType;
     }
 
-    public void setPolicyLineId(String policyLineId) {
-        this.policyLineId = policyLineId;
+    public void setProductLineType(String productLineType) {
+        this.productLineType = productLineType;
     }
 
     public String getVehicleType() {
