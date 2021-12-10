@@ -1,8 +1,6 @@
 package com.insuranceapplication.dbservice.models;
 
 
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 
 @Entity
@@ -12,8 +10,8 @@ public class ObjectRisks {
     private Integer id;
     @Column(name = "risk_id")
     private String riskId;
-    @Column(name = "object_no")
-    private Integer objectNo;
+    @Column(name = "object_id")
+    private Integer objectId;
     @Column(name = "premium")
     private Integer premium;
     @Column(name = "premium_for_period")
@@ -24,10 +22,10 @@ public class ObjectRisks {
     public ObjectRisks() {
     }
 
-    public ObjectRisks(Integer id, String riskId, Integer objectNo, Integer premium, Integer premiumForPeriod, String isSelected) {
+    public ObjectRisks(Integer id, String riskId, Integer objectId, Integer premium, Integer premiumForPeriod, String isSelected) {
         this.id = id;
         this.riskId = riskId;
-        this.objectNo = objectNo;
+        this.objectId = objectId;
         this.premium = premium;
         this.premiumForPeriod = premiumForPeriod;
         this.isSelected = isSelected;
@@ -52,12 +50,12 @@ public class ObjectRisks {
         this.riskId = riskId;
     }
 
-    public Integer getObjectNo() {
-        return objectNo;
+    public Integer getObjectId() {
+        return objectId;
     }
 
-    public void setObjectNo(Integer objectNo) {
-        this.objectNo = objectNo;
+    public void setObjectId(Integer objectId) {
+        this.objectId = objectId;
     }
 
     public Integer getPremium() {
