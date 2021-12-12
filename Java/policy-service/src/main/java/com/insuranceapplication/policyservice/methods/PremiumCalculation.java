@@ -123,10 +123,10 @@ public class PremiumCalculation extends Exception {
                         }
                     }
                     if (riskValue.getComboId().equals("MIL_BE")) {
-                        if (insuredVehicle.getN04() >= Integer.valueOf(riskValue.getValue1()) && partsAvailability.equals("[true]")) {
+                        if (insuredVehicle.getN04() >= Integer.valueOf(riskValue.getValue1()) && partsAvailability.equals("true")) {
                             riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue2(), insuredVehicle.getN04());
                         }
-                        if (insuredVehicle.getN04() >= Integer.valueOf(riskValue.getValue1()) && !partsAvailability.equals("[true]")) {
+                        if (insuredVehicle.getN04() >= Integer.valueOf(riskValue.getValue1()) && !partsAvailability.equals("true")) {
                             riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue3(), insuredVehicle.getN02());
                         }
                     }
@@ -135,7 +135,7 @@ public class PremiumCalculation extends Exception {
                         if (insuredVehicle.getN04() < Integer.valueOf(riskValue.getValue1())
                                 && insuredVehicle.getN04() >= Integer.valueOf(riskValue.getValue2())
                         ) {
-                            if (partsAvailability.equals("[true]")) {
+                            if (partsAvailability.equals("true")) {
                                 riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue3(), insuredVehicle.getN02());
                             } else {
                                 riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue4(), insuredVehicle.getN02());
@@ -145,7 +145,7 @@ public class PremiumCalculation extends Exception {
                     if (riskValue.getComboId().equals("MIL_LBE") && riskValue.getId() == 10) {
                         if (insuredVehicle.getN04() < Integer.valueOf(riskValue.getValue1())
                                 && insuredVehicle.getN04() >= Integer.valueOf(riskValue.getValue2())) {
-                            if (partsAvailability.equals("[true]")) {
+                            if (partsAvailability.equals("true")) {
                                 riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue3(), insuredVehicle.getN02());
                             } else {
                                 riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue4(), insuredVehicle.getN02());
@@ -275,9 +275,8 @@ public class PremiumCalculation extends Exception {
 
     public Integer getPeriod(Date date) {
 
-        String dateToString = date.toString();
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        //LocalDate d1 = LocalDate.parse(dateToString.substring(0, 10), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         LocalDate d1 = LocalDate.parse(sdf.format(date));
         LocalDate d2 = LocalDate.now();
         Period period = Period.between(d1, d2);
