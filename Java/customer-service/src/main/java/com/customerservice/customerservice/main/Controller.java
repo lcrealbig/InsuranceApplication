@@ -51,4 +51,10 @@ public class Controller {
         return customerService.searchCustomerByName(Customer);
     }
 
+    @GetMapping("/serviceStatus")
+    @ResponseBody
+    public ResponseEntity getStatus() {
+        return ResponseEntity.ok().body("customer-service is [ONLINE]");
+    }
+
 }

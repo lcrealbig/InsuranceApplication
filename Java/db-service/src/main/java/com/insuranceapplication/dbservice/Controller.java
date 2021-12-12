@@ -135,8 +135,9 @@ public class Controller {
     }
 
     @GetMapping("/serviceStatus")
-    public String getStatus() {
-        return "db-service is online";
+    @ResponseBody
+    public ResponseEntity getStatus() {
+        return ResponseEntity.ok().body("db-service is [ONLINE]");
     }
 
 
