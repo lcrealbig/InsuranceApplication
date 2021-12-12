@@ -5,18 +5,20 @@ import javax.persistence.*;
 @Entity
 @Table(name = "VEHICLES")
 public class Vehicles {
-    private int vehicleId;
+    private Integer vehicleId;
     private String vehicleType;
     private String brand;
     private String vehicleModel;
     private String generation;
     private String engineType;
     private String engine;
+    private String protectionClass;
+    private String partsAvailability;
 
     public Vehicles() {
     }
 
-    public Vehicles(int vehicleId, String vehicleType, String brand, String vehicleModel, String generation, String engineType, String engine) {
+    public Vehicles(String protectionClass,String partsAvailability, Integer vehicleId, String vehicleType, String brand, String vehicleModel, String generation, String engineType, String engine) {
         this.vehicleId = vehicleId;
         this.vehicleType = vehicleType;
         this.brand = brand;
@@ -24,16 +26,18 @@ public class Vehicles {
         this.generation = generation;
         this.engineType = engineType;
         this.engine = engine;
+        this.partsAvailability = partsAvailability;
+        this.protectionClass = protectionClass;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "veh_id_seq")
     @SequenceGenerator(name = "veh_id_seq", allocationSize = 1)
-    public int getVehicleId() {
+    public Integer getVehicleId() {
         return vehicleId;
     }
 
-    public void setVehicleId(int vehicleId) {
+    public void setVehicleId(Integer vehicleId) {
         this.vehicleId = vehicleId;
     }
 
@@ -83,5 +87,21 @@ public class Vehicles {
 
     public void setEngine(String engine) {
         this.engine = engine;
+    }
+
+    public String getPartsAvailability() {
+        return partsAvailability;
+    }
+
+    public void setPartsAvailability(String partsAvailability) {
+        this.partsAvailability = partsAvailability;
+    }
+
+    public String getProtectionClass() {
+        return protectionClass;
+    }
+
+    public void setProtectionClass(String protectionClass) {
+        this.protectionClass = protectionClass;
     }
 }

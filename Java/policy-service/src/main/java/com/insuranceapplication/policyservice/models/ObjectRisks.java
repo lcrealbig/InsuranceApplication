@@ -4,7 +4,7 @@ package com.insuranceapplication.policyservice.models;
 public class ObjectRisks {
     private Integer id;
     private String riskId;
-    private Integer objectNo;
+    private Integer objectId;
     private Integer premium;
     private Integer premiumForPeriod;
     private String isSelected;
@@ -15,7 +15,7 @@ public class ObjectRisks {
     public ObjectRisks(Integer id, String riskId, Integer objectNo, Integer premium, Integer premiumForPeriod, String isSelected) {
         this.id = id;
         this.riskId = riskId;
-        this.objectNo = objectNo;
+        this.objectId = objectNo;
         this.premium = premium;
         this.premiumForPeriod = premiumForPeriod;
         this.isSelected = isSelected;
@@ -37,12 +37,12 @@ public class ObjectRisks {
         this.riskId = riskId;
     }
 
-    public Integer getObjectNo() {
-        return objectNo;
+    public Integer getObjectId() {
+        return objectId;
     }
 
-    public void setObjectNo(Integer objectNo) {
-        this.objectNo = objectNo;
+    public void setObjectId(Integer objectId) {
+        this.objectId = objectId;
     }
 
     public Integer getPremium() {

@@ -86,18 +86,15 @@ public class Controller {
         return CRUDService.verifyUserLogin(user);
     }
 
-    @GetMapping("/customGET")
-    public Object customQueryGET(@RequestBody String query) {
+
+    @PostMapping ("/premiumCalcConfigVars")
+    public ResponseEntity premiumConfigList(@RequestBody String query) {
         return CRUDService.customQuery(query);
     }
 
-    @PostMapping("/customPOST")
-    public Object customQueryPOST(@RequestBody String query) {
-        return CRUDService.customQuery(query);
-    }
 
-    @PostMapping("/custUpdateQuery")
-    public int updateQuery(@RequestBody String query) {
+    @PutMapping("/updatePremium")
+    public Object updateObjectRisks(@RequestBody String query) {
         return CRUDService.updateQuery(query);
     }
 
