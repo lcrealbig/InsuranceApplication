@@ -9,7 +9,7 @@ create SEQUENCE public.or_id_seq
 CREATE TABLE public.object_risks
 (
     risk_id character varying(5) COLLATE pg_catalog."default" NOT NULL,
-    object_no integer NOT NULL,
+    object_id integer NOT NULL,
     premium numeric,
     premium_for_period integer,
     is_selected character varying(5) NOT NULL,

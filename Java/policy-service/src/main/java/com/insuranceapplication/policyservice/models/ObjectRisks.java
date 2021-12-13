@@ -12,10 +12,10 @@ public class ObjectRisks {
     public ObjectRisks() {
     }
 
-    public ObjectRisks(Integer id, String riskId, Integer objectNo, Integer premium, Integer premiumForPeriod, String isSelected) {
+    public ObjectRisks(Integer id, String riskId, Integer objectId, Integer premium, Integer premiumForPeriod, String isSelected) {
         this.id = id;
         this.riskId = riskId;
-        this.objectId = objectNo;
+        this.objectId = objectId;
         this.premium = premium;
         this.premiumForPeriod = premiumForPeriod;
         this.isSelected = isSelected;

@@ -4,6 +4,7 @@ import com.insuranceapplication.dbservice.models.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -142,6 +143,12 @@ public class CRUDService {
     }
 
     @Transactional
+    public ResponseEntity getVehicleTypes(VehicleTypesConfig vehicleTypesConfig) {
+        List<VehicleTypesConfig> resultList = (List<VehicleTypesConfig>)em.createQuery("select v from VehicleTypesConfig v WHERE v.productLineType = '" + vehicleTypesConfig.getProductLineType() + "'").getResultList();
+        return ResponseEntity.ok().body(resultList);
+    }
+
+    @Transactional
     public ResponseEntity createRisks(ObjectRisks risks) {
         em.persist(risks);
         return ResponseEntity.ok().build();
@@ -155,8 +162,7 @@ public class CRUDService {
 
     @Transactional
     public ResponseEntity getRisks(InsuredObjects insuredObject) {
-        /*objectNo zostatnie zamienione na objectId*/
-        List<InsuredObjects> resultList = (List<InsuredObjects>)em.createQuery("select o from ObjectRisks o where o.objectNo = "+insuredObject.getObjectId()).getResultList();
+        List<InsuredObjects> resultList = (List<InsuredObjects>)em.createQuery("select o from ObjectRisks o where o.objectId = "+insuredObject.getObjectId()).getResultList();
         return ResponseEntity.ok().body(resultList);
     }
 }
