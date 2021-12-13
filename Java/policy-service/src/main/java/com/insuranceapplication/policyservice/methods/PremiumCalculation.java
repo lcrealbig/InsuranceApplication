@@ -275,7 +275,9 @@ public class PremiumCalculation {
 
     public Integer getPeriod(Date date) {
 
-
+        if(date == null){
+            date = new Date();
+        }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         LocalDate d1 = LocalDate.parse(sdf.format(date));
         LocalDate d2 = LocalDate.now();
