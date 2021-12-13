@@ -90,7 +90,7 @@ public class CRUDService {
     @Transactional
     public ResponseEntity deleteCustomer(Customers customerToDelete) {
 
-        if (customerToDelete.getCustomer_id() != 0) {
+        if (customerToDelete.getCustomerId() != 0) {
             /* send json to db-service */
             em.remove(customerToDelete);
         }
@@ -125,8 +125,9 @@ public class CRUDService {
     public List customQuery(String query) {
         Query select = em.createQuery(query);
         List l = select.getResultList();
-        return select.getResultList();
+        return l;
     }
+
 
     @Transactional
     public int updateQuery(String query) {

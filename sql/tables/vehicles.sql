@@ -16,5 +16,5 @@ ENGINE_TYPE varchar(25),
 ENGINE varchar(55),
 POWER varchar(15),
 PROTECTION_CLASS varchar(10),
-PARTS_AVAILABILITY boolean
+PARTS_AVAILABILITY varchar(5)
 );

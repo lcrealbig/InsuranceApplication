@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class PremiumCalculation extends Exception {
+public class PremiumCalculation {
 
 
     public EurekaClient eurekaClient;

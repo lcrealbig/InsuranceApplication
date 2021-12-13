@@ -86,15 +86,18 @@ public class Controller {
         return CRUDService.verifyUserLogin(user);
     }
 
-
-    @PostMapping ("/premiumCalcConfigVars")
-    public ResponseEntity premiumConfigList(@RequestBody String query) {
+    @GetMapping("/customGET")
+    public Object customQueryGET(@RequestBody String query) {
         return CRUDService.customQuery(query);
     }
 
+    @PostMapping("/customPOST")
+    public Object customQueryPOST(@RequestBody String query) {
+        return CRUDService.customQuery(query);
+    }
 
-    @PutMapping("/updatePremium")
-    public Object updateObjectRisks(@RequestBody String query) {
+    @PostMapping("/custUpdateQuery")
+    public int updateQuery(@RequestBody String query) {
         return CRUDService.updateQuery(query);
     }
 
@@ -130,5 +133,13 @@ public class Controller {
         return "db-service is online";
     }
 
+    @PostMapping ("/premiumCalcConfigVars")
+    public List premiumConfigList(@RequestBody String query) {
+        return CRUDService.customQuery(query);
+    }
 
+    @PutMapping("/updatePremium")
+    public Object updateObjectRisks(@RequestBody String query) {
+        return CRUDService.updateQuery(query);
+    }
 }
