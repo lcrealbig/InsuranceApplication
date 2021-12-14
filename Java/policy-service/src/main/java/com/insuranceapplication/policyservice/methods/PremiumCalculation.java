@@ -50,7 +50,7 @@ public class PremiumCalculation {
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
                 .getInstances().get(0).getHomePageUrl() + "/premiumCalcConfigVars", query, List.class);
         Customers customer = (Customers) Utils.mapToObject((LinkedHashMap) ((List) response.getBody()).get(0), Customers.class);
-        query = "select ov.isSelected from ObjectRisks ov where ov.objectId = '" + policyLineId + "' and riskId = 'AC' ";
+        query = "select ov.isSelected from ObjectRisks ov where ov.objectId = '" + insuredVehicle.getObjectId() + "' and riskId = 'AC' ";
         template = new RestTemplate();
         response = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
                 .getInstances().get(0).getHomePageUrl() + "/premiumCalcConfigVars", query, List.class);
@@ -154,7 +154,7 @@ public class PremiumCalculation {
                     }
                 }
             }
-            query = "UPDATE ObjectRisks ov set ov.premium ='" + riseOfPremium + "' where ov.riskId ='OC' and ov.objectId = " + policyLineId;
+            query = "UPDATE ObjectRisks ov set ov.premium ='" + riseOfPremium + "' where ov.riskId ='OC' and ov.objectId = " + insuredVehicle.getObjectId();
             template = new RestTemplate();
             template.put(eurekaClient.getApplication(Variables.dbName)
                     .getInstances().get(0).getHomePageUrl() + "/updatePremium",query);
@@ -171,7 +171,7 @@ public class PremiumCalculation {
         String protectionClass = selectedVehicle.getProtectionClass();
         configValues = getCalcConfigValues();
 
-        query = "select ov.isSelected from ObjectRisks ov where ov.objectId = '" + policyLineId + "' and riskId = 'NNW'";
+        query = "select ov.isSelected from ObjectRisks ov where ov.objectId = '" + insuredVehicle.getObjectId() + "' and riskId = 'NNW'";
         template = new RestTemplate();
         response = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
                 .getInstances().get(0).getHomePageUrl() + "/premiumCalcConfigVars", query, List.class);
@@ -212,7 +212,7 @@ public class PremiumCalculation {
             }
         }
 
-        query = "UPDATE ObjectRisks ov set ov.premium ='" + riseOfPremium + "' where ov.riskId ='NNW' and ov.objectId = " + policyLineId;
+        query = "UPDATE ObjectRisks ov set ov.premium ='" + riseOfPremium + "' where ov.riskId ='NNW' and ov.objectId = " + insuredVehicle.getObjectId();
         template = new RestTemplate();
         template.put(eurekaClient.getApplication(Variables.dbName)
                 .getInstances().get(0).getHomePageUrl() + "/updatePremium",query);
@@ -220,7 +220,7 @@ public class PremiumCalculation {
 
     public void getAssistance(Integer policyLineId) {
 
-        query = "select ov.isSelected from ObjectRisks ov where ov.objectId = '" + policyLineId + "' and riskId = 'ASI'";
+        query = "select ov.isSelected from ObjectRisks ov where ov.objectId = '" + insuredVehicle.getObjectId() + "' and riskId = 'ASI'";
         RestTemplate template = new RestTemplate();
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
                 .getInstances().get(0).getHomePageUrl() + "/premiumCalcConfigVars", query, List.class);
@@ -234,7 +234,7 @@ public class PremiumCalculation {
             for (PremiumCalcConfigValues riskValue : asiConfig) {
                 if (riskValue.getComboId().equals("ASI")) {
                     Double riseOfPremium = Double.valueOf(riskValue.getValue1());
-                    query = "UPDATE ObjectRisks ov set ov.premium ='" + riseOfPremium + "' where ov.riskId ='ASI' and ov.objectId = " + policyLineId;
+                    query = "UPDATE ObjectRisks ov set ov.premium ='" + riseOfPremium + "' where ov.riskId ='ASI' and ov.objectId = " + insuredVehicle.getObjectId();
                     template = new RestTemplate();
                     template.put(eurekaClient.getApplication(Variables.dbName)
                             .getInstances().get(0).getHomePageUrl() + "/updatePremium",query);
