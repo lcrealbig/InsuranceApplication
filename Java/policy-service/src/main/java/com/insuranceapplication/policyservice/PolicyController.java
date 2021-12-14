@@ -3,6 +3,7 @@ package com.insuranceapplication.policyservice;
 import com.insuranceapplication.policyservice.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.insuranceapplication.policyservice.services.PolicyService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -115,5 +116,11 @@ public class PolicyController {
     @PostMapping("/calculations")
     public void premiumCalc(@RequestBody PolicyLines policyLine) {
         policyService.calculation(policyLine.getPolicyLineId());
+    }
+
+    @GetMapping("/serviceStatus")
+    @ResponseBody
+    public ResponseEntity getStatus() {
+        return ResponseEntity.ok().body("policy-service is [ONLINE]");
     }
 }
