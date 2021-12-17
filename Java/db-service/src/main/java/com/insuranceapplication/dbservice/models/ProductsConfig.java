@@ -8,7 +8,7 @@ import java.util.Date;
 @Entity
 @Table(name = "PRODUCTS_CONFIG")
 public class ProductsConfig {
-    private int id;
+    private Integer id;
     private String productId;
     private String version;
     private Date startDate;
@@ -26,11 +26,11 @@ public class ProductsConfig {
     }
 
     @Id
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

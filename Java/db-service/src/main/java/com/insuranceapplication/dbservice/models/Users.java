@@ -25,8 +25,7 @@ public class Users {
     @Column(name = "BIRTH_DATE")
     private Date date;
     @Column(name = "PESEL")
-    private long pesel;
-    /*zmapuj wszystkie kolumny usera i powinno dzialac*/
+    private String pesel;
 
     public String getName() {
         return name;
@@ -60,11 +59,11 @@ public class Users {
         this.date = date;
     }
 
-    public long getPesel() {
+    public String getPesel() {
         return pesel;
     }
 
-    public void setPesel(long pesel) {
+    public void setPesel(String pesel) {
         this.pesel = pesel;
     }
 

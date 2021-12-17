@@ -8,7 +8,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "OBJECT_TYPES_CONFIG")
 public class ObjectTypesConfig {
-    private int id;
+    private Integer id;
     private String policyLineId;
     private String objType;
     private String version;
@@ -24,11 +24,11 @@ public class ObjectTypesConfig {
     }
 
     @Id
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

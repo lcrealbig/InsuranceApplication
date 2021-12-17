@@ -2,7 +2,7 @@ package com.insuranceapplication.policyservice.models;
 import java.util.Date;
 
 public class ProductsConfig {
-    private int id;
+    private Integer id;
     private String productId;
     private String version;
     private Date startDate;

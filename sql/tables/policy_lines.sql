@@ -7,9 +7,9 @@ create SEQUENCE public.line_id_seq
     MAXVALUE 999999;
 
 create table policy_lines(
-POLICY_LINE_ID int default nextval('line_id_seq'),
-TRANSACTION_ID int,
-POLICY_ID int,
+POLICY_LINE_ID integer default nextval('line_id_seq'),
+TRANSACTION_ID integer,
+POLICY_ID integer,
 PRODUCT_LINE_TYPE varchar(30),
 VERSION varchar(5)
 )

@@ -8,13 +8,14 @@ public class Vehicles {
     private String generation;
     private String engineType;
     private String engine;
+    private String power;
     private String partsAvailability;
     private String protectionClass;
 
     public Vehicles() {
     }
 
-    public Vehicles(String protectionClass, String partsAvailability, int vehicleId, String vehicleType, String brand, String vehicleModel, String generation, String engineType, String engine) {
+    public Vehicles(String power,String protectionClass, String partsAvailability, int vehicleId, String vehicleType, String brand, String vehicleModel, String generation, String engineType, String engine) {
         this.vehicleId = vehicleId;
         this.vehicleType = vehicleType;
         this.brand = brand;
@@ -23,6 +24,7 @@ public class Vehicles {
         this.engineType = engineType;
         this.engine = engine;
         this.partsAvailability = partsAvailability;
+        this.power = power;
     }
 
 
@@ -95,5 +97,17 @@ public class Vehicles {
 
     public void setProtectionClass(String protectionClass) {
         this.protectionClass = protectionClass;
+    }
+
+    public String getPower() {
+        return power;
+    }
+
+    public void setPower(String power) {
+        this.power = power;
+    }
+
+    public String getPartsAvailability() {
+        return partsAvailability;
     }
 }

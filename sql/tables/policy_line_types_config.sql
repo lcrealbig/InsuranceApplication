@@ -12,11 +12,3 @@ PRODUCT_ID varchar(5),
 POLICY_LINE_ID varchar(5),
 VERSION varchar(5)
 );
---config
-delete from policy_line_types_config;
-insert into policy_line_types_config
-(product_id,policy_line_id,version)
-values ('M','MOT','1.0');
-insert into policy_line_types_config
-(product_id,policy_line_id,version)
-values ('M','TRA','1.0');

@@ -9,7 +9,7 @@ public class Users {
     private String address;
     private String type;
     private Date date;
-    private long pesel;
+    private String pesel;
 
     public String getName() {
         return name;
@@ -35,10 +35,10 @@ public class Users {
     public void setDate(Date date) {
         this.date = date;
     }
-    public long getPesel() {
+    public String getPesel() {
         return pesel;
     }
-    public void setPesel(long pesel) {
+    public void setPesel(String pesel) {
         this.pesel = pesel;
     }
     public String getId() {

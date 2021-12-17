@@ -2,14 +2,17 @@ package com.insuranceapplication.policyservice.services;
 
 import com.insuranceapplication.policyservice.globals.Variables;
 import com.insuranceapplication.policyservice.methods.PremiumCalculation;
+import com.insuranceapplication.policyservice.methods.Utils;
 import com.insuranceapplication.policyservice.models.*;
 import com.netflix.discovery.EurekaClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 @Service
@@ -163,12 +166,35 @@ public class PolicyService {
 
     public ResponseEntity getRisks(InsuredObjects insuredObject) {
         RestTemplate template = new RestTemplate();
-        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getrisks", insuredObject, List.class);
+        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).
+                getHomePageUrl() + "/getrisks", insuredObject, List.class);
     }
 
     public void updateRisk(ObjectRisks risk) {
         RestTemplate template = new RestTemplate();
         template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/updaterisk", risk, ObjectRisks.class);
     }
+    public List<PremiumCalcConfigValues> premiumConfigList() {
+        String query = "select pccv from PremiumCalcConfigValues pccv";
+        RestTemplate template = new RestTemplate();
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/premiumCalcConfigVars", query, List.class);
+        ArrayList<LinkedHashMap> lhs = (ArrayList<LinkedHashMap>) response.getBody();
+        List<PremiumCalcConfigValues> calcConfig =(List<PremiumCalcConfigValues>) Utils.mapToList(lhs,PremiumCalcConfigValues.class);
+        return calcConfig;
+    }
+    public ResponseEntity<List> getCustomerFromInsuredObject (Integer policyLineId){
+        String query = "select c from Customers c, InsuredObjects io where io.type = 'DRI' and c.customerId = io.n01 and io.policyLineId = " + policyLineId;
+        RestTemplate template = new RestTemplate();
+        return template.postForEntity(eurekaClient.getApplication(Variables.dbName)
+        //todo        .getInstances().get(0).getHomePageUrl() + "/premiumCalcConfigVars", query, List.class);
+    }
+    public ResponseEntity coveragesSelected(Integer policyLineId){
+        String query = "select or.isSelected from ObjectRisks or where or.objectId = '" + policyLineId  + "' and riskId = 'OC' ";
+        RestTemplate template = new RestTemplate();
+        return template.postForEntity(eurekaClient.getApplication(Variables.dbName)
+       //todo         .getInstances().get(0).getHomePageUrl() + "/premiumCalcConfigVars", query, List.class);
+    }
+
+
 
 }

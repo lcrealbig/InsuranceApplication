@@ -5,14 +5,14 @@ public class ObjectRisks {
     private Integer id;
     private String riskId;
     private Integer objectId;
-    private Integer premium;
-    private Integer premiumForPeriod;
+    private Double premium;
+    private Double premiumForPeriod;
     private String isSelected;
 
     public ObjectRisks() {
     }
 
-    public ObjectRisks(Integer id, String riskId, Integer objectId, Integer premium, Integer premiumForPeriod, String isSelected) {
+    public ObjectRisks(Integer id, String riskId, Integer objectId, Double premium, Double premiumForPeriod, String isSelected) {
         this.id = id;
         this.riskId = riskId;
         this.objectId = objectId;
@@ -45,19 +45,19 @@ public class ObjectRisks {
         this.objectId = objectId;
     }
 
-    public Integer getPremium() {
+    public Double getPremium() {
         return premium;
     }
 
-    public void setPremium(Integer premium) {
+    public void setPremium(Double premium) {
         this.premium = premium;
     }
 
-    public Integer getPremiumForPeriod() {
+    public Double getPremiumForPeriod() {
         return premiumForPeriod;
     }
 
-    public void setPremiumForPeriod(Integer premiumForPeriod) {
+    public void setPremiumForPeriod(Double premiumForPeriod) {
         this.premiumForPeriod = premiumForPeriod;
     }
 

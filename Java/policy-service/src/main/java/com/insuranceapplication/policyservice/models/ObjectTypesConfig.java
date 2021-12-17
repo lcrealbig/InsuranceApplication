@@ -2,7 +2,7 @@ package com.insuranceapplication.policyservice.models;
 
 
 public class ObjectTypesConfig {
-    private int id;
+    private Integer id;
     private String policyLineId;
     private String objType;
     private String version;
