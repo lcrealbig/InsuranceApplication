@@ -49,7 +49,6 @@ public class PolicyService {
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/gettransactionid", query, Transactions.class);
 
         Transactions result = (Transactions) response.getBody();
-        System.out.println(result.getTransactionId());
         return ResponseEntity.ok().body(result);
     }
 
