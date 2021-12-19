@@ -66,6 +66,12 @@ public class CRUDService {
     }
 
     @Transactional
+    public ResponseEntity searchPolicy(Policy policy) {
+        List<Policy> resultList = (List<Policy>)em.createQuery("select p from Policy p WHERE p.ownerId = " + policy.getOwnerId()).getResultList();
+        return ResponseEntity.ok().body(resultList);
+    }
+
+    @Transactional
     public ResponseEntity getPolicyLine(String query) {
         Query q = em.createQuery(query);
 

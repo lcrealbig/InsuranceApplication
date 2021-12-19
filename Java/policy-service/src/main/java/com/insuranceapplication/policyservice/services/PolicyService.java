@@ -87,8 +87,13 @@ public class PolicyService {
         RestTemplate template = new RestTemplate();
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getpolicy", query, Policy.class);
 
-        Policy result = (Policy) response.getBody();
-        return ResponseEntity.ok().body(result);
+        List<Policy> resultArray = (List) response.getBody();
+        return ResponseEntity.ok().body(resultArray);
+    }
+
+    public ResponseEntity searchPolicy(Policy policy) {
+        RestTemplate template = new RestTemplate();
+        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/searchpolicy", policy, List.class);
     }
 
     public ResponseEntity getPolicyLine(PolicyLines policy_lines) {
