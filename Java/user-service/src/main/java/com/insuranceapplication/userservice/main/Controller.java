@@ -19,8 +19,9 @@ public class Controller {
         return userService.verifyUserLogin(user);
     }
 
-    @GetMapping("/showStatus")
-    public String showStatus() {
-        return "User service is online.";
+    @GetMapping("/serviceStatus")
+    @ResponseBody
+    public ResponseEntity getStatus() {
+        return ResponseEntity.ok().body("user-service is [ONLINE]");
     }
 }
