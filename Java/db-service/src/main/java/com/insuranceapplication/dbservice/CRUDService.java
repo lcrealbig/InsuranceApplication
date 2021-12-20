@@ -162,7 +162,7 @@ public class CRUDService {
 
     @Transactional
     public ResponseEntity getRisks(InsuredObjects insuredObject) {
-        List<InsuredObjects> resultList = (List<InsuredObjects>)em.createQuery("select o from ObjectRisks o where o.objectId = "+insuredObject.getObjectId()).getResultList();
+        List<ObjectRisks> resultList = (List<ObjectRisks>)em.createQuery("select o from ObjectRisks o where o.objectId = "+insuredObject.getObjectId()).getResultList();
         return ResponseEntity.ok().body(resultList);
     }
 }
