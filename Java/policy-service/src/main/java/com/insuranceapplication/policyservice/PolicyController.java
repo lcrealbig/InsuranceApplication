@@ -53,6 +53,12 @@ public class PolicyController {
         return policyService.getPolicy(policy);
     }
 
+    @PostMapping("/searchpolicy")
+    @ResponseBody
+    public ResponseEntity searchPolicy(@RequestBody Policy policy) {
+        return policyService.searchPolicy(policy);
+    }
+
     @PostMapping("/getpolicyline")
     @ResponseBody
     public ResponseEntity getPolicyLine(@RequestBody PolicyLines policyLine) {

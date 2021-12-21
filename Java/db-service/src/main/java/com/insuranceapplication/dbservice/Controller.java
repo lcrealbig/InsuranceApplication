@@ -55,6 +55,12 @@ public class Controller {
         return CRUDService.getPolicy(query);
     }
 
+    @PostMapping("/searchpolicy")
+    @ResponseBody
+    public ResponseEntity searchPolicy(@RequestBody Policy policy) {
+        return CRUDService.searchPolicy(policy);
+    }
+
     @PostMapping("/getpolicyline")
     @ResponseBody
     public ResponseEntity getPolicyLine(@RequestBody String query) {
