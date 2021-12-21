@@ -134,6 +134,21 @@ public class Controller {
         CRUDService.updateRisk(risk);
     }
 
+    @PostMapping("/updatepolicy")
+    public void updatePolicy(@RequestBody Policy policy) {
+        CRUDService.updatePolicy(policy);
+    }
+
+    @PostMapping("/updatepolicyline")
+    public void updatePolicyLine(@RequestBody PolicyLines policyLine) {
+        CRUDService.updatePolicyLine(policyLine);
+    }
+
+    @PostMapping("/updateinsuredvehicle")
+    public void updateInsuredVehicle(@RequestBody InsuredObjects insuredObject) {
+        CRUDService.updateInsuredVehicle(insuredObject);
+    }
+
     @PostMapping("/getrisks")
     @ResponseBody
     public ResponseEntity getRisks(@RequestBody InsuredObjects insuredObject) {

@@ -167,6 +167,24 @@ public class CRUDService {
     }
 
     @Transactional
+    public ResponseEntity updatePolicy(Policy policy) {
+        em.merge(policy);
+        return ResponseEntity.ok().body(policy);
+    }
+
+    @Transactional
+    public ResponseEntity updatePolicyLine(PolicyLines policyLine) {
+        em.merge(policyLine);
+        return ResponseEntity.ok().body(policyLine);
+    }
+
+    @Transactional
+    public ResponseEntity updateInsuredVehicle(InsuredObjects insuredObject) {
+        em.merge(insuredObject);
+        return ResponseEntity.ok().body(insuredObject);
+    }
+
+    @Transactional
     public ResponseEntity getRisks(InsuredObjects insuredObject) {
         List<InsuredObjects> resultList = (List<InsuredObjects>)em.createQuery("select o from ObjectRisks o where o.objectId = "+insuredObject.getObjectId()).getResultList();
         return ResponseEntity.ok().body(resultList);

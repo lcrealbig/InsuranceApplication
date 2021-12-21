@@ -107,6 +107,24 @@ public class PolicyController {
         policyService.updateRisk(risk);
     }
 
+    @PostMapping("/updatepolicy")
+    @ResponseBody
+    public void updatePolicy(@RequestBody Policy policy) {
+        policyService.updatePolicy(policy);
+    }
+
+    @PostMapping("/updatepolicyline")
+    @ResponseBody
+    public void updatePolicyLine(@RequestBody PolicyLines policyLine) {
+        policyService.updatePolicyLine(policyLine);
+    }
+
+    @PostMapping("/updateinsuredvehicle")
+    @ResponseBody
+    public void updateInsuredVehicle(@RequestBody InsuredObjects insuredObject) {
+        policyService.updateInsuredVehicle(insuredObject);
+    }
+
     @PostMapping("/getrisks")
     @ResponseBody
     public ResponseEntity getRisks(@RequestBody InsuredObjects insuredObject) {

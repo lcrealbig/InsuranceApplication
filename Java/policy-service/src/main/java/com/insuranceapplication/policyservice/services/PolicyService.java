@@ -175,4 +175,19 @@ public class PolicyService {
         template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/updaterisk", risk, ObjectRisks.class);
     }
 
+    public void updatePolicy(Policy policy) {
+        RestTemplate template = new RestTemplate();
+        template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/updatepolicy", policy, Policy.class);
+    }
+
+    public void updatePolicyLine(PolicyLines policyLine) {
+        RestTemplate template = new RestTemplate();
+        template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/updatepolicyline", policyLine, PolicyLines.class);
+    }
+
+    public void updateInsuredVehicle(InsuredObjects insuredObject) {
+        RestTemplate template = new RestTemplate();
+        template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/updateinsuredvehicle", insuredObject, InsuredObjects.class);
+    }
+
 }
