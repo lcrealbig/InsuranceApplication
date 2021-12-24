@@ -46,10 +46,10 @@ public class PremiumCalculation {
             if (risk.getRiskId().equals("OC") && risk.getIsSelected().equals("true")) {
                updatePremium(calculateOC(insuredObjects));
             }
-            if (risk.getRiskId().equals("NNW") && risk.getIsSelected().equals("true")) {
+            else if (risk.getRiskId().equals("NNW") && risk.getIsSelected().equals("true")) {
                 updatePremium(calculateNNW(insuredObjects));
             }
-            if (risk.getRiskId().equals("ASI") && risk.getIsSelected().equals("true")) {
+            else if (risk.getRiskId().equals("ASI") && risk.getIsSelected().equals("true")) {
                 updatePremium(getAssistance());
             }
             else updatePremium(0d);
