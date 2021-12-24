@@ -132,7 +132,7 @@ public class CustomerService {
         /*get json from db-service*/
         RestTemplate template = new RestTemplate();
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
-                .getInstances().get(0).getHomePageUrl()+"/showcustomerslist",queryString,List.class);
+                .getInstances().get(0).getHomePageUrl()+"/getcustomerslist",queryString,List.class);
 
         return (List)response.getBody();
     }

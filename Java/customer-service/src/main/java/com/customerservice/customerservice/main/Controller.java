@@ -31,7 +31,7 @@ public class Controller {
         return customerService.modifyCustomer(customerToModify);
     }
 
-    @GetMapping("/showCustomersList")
+    @GetMapping("/getCustomersList")
     public List returnCustomersList (@RequestBody JSONObject Customer){
         return customerService.returnCustomersList();
     }

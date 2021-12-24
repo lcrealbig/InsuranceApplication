@@ -10,7 +10,7 @@ public class PolicyLineTypesConfig {
     public PolicyLineTypesConfig() {
     }
 
-    public PolicyLineTypesConfig(int id, String productId, String policyLineId, String version) {
+    public PolicyLineTypesConfig(Integer id, String productId, String policyLineId, String version) {
         this.id = id;
         this.productId = productId;
         this.policyLineId = policyLineId;

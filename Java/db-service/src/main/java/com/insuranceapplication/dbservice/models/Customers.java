@@ -11,7 +11,6 @@ public class Customers {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cust_id_seq")
     @SequenceGenerator(name = "cust_id_seq", allocationSize = 1)
 
-    //spraw generator id korzystal z sequencera.
     @Column(name = "customer_id")
     private Integer customerId;
     @Column(name = "name")

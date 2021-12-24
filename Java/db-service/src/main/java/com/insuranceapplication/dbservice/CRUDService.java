@@ -67,7 +67,7 @@ public class CRUDService {
 
     @Transactional
     public ResponseEntity searchPolicy(Policy policy) {
-        List<Policy> resultList = (List<Policy>)em.createQuery("select p from Policy p WHERE p.ownerId = " + policy.getOwnerId()).getResultList();
+        List<Policy> resultList = (List<Policy>) em.createQuery("select p from Policy p WHERE p.ownerId = " + policy.getOwnerId()).getResultList();
         return ResponseEntity.ok().body(resultList);
     }
 
@@ -98,7 +98,6 @@ public class CRUDService {
     public ResponseEntity deleteCustomer(Customers customerToDelete) {
 
         if (customerToDelete.getCustomerId() != 0) {
-            /* send json to db-service */
             em.remove(customerToDelete);
         }
         return ResponseEntity.ok().body("Customer has been deleted.");
@@ -110,7 +109,7 @@ public class CRUDService {
         return ResponseEntity.ok().body("Customer has been deleted.");
     }
 
-    public List showCustomersList(String query) {
+    public List getCustomersList(String query) {
         Query select = em.createQuery(query);
         return select.getResultList();
     }
@@ -150,7 +149,7 @@ public class CRUDService {
 
     @Transactional
     public ResponseEntity getVehicleTypes(VehicleTypesConfig vehicleTypesConfig) {
-        List<VehicleTypesConfig> resultList = (List<VehicleTypesConfig>)em.createQuery("select v from VehicleTypesConfig v WHERE v.productLineType = '" + vehicleTypesConfig.getProductLineType() + "'").getResultList();
+        List<VehicleTypesConfig> resultList = (List<VehicleTypesConfig>) em.createQuery("select v from VehicleTypesConfig v WHERE v.productLineType = '" + vehicleTypesConfig.getProductLineType() + "'").getResultList();
         return ResponseEntity.ok().body(resultList);
     }
 
@@ -168,7 +167,26 @@ public class CRUDService {
 
     @Transactional
     public ResponseEntity getRisks(InsuredObjects insuredObject) {
-        List<ObjectRisks> resultList = (List<ObjectRisks>)em.createQuery("select o from ObjectRisks o where o.objectId = "+insuredObject.getObjectId()).getResultList();
+        List<ObjectRisks> resultList = (List<ObjectRisks>) em.createQuery("select o from ObjectRisks o where o.objectId = " + insuredObject.getObjectId()).getResultList();
         return ResponseEntity.ok().body(resultList);
     }
+
+    @Transactional
+    public List getPremCalcVals() {
+        List<PremiumCalcConfigValues> configValues = (List<PremiumCalcConfigValues>) em.createQuery("select pccv from PremiumCalcConfigValues pccv").getResultList();
+        return configValues;
+    }
+
+    @Transactional
+    public List getInsuredObjects(PolicyLines policyLines) {
+        List<InsuredObjects> insuredObjects = (List<InsuredObjects>) em.createQuery("select io from InsuredObjects io where policyLineId =" + policyLines.getPolicyLineId()).getResultList();
+        return insuredObjects;
+    }
+    //stworz funkcje wyciagajaca insured object zwracajaca liste obiektow, przyjmie w argumencie obiekt policy line.
+
+   /* @Transactional
+    public ResponseEntity getSelectedCoverages(InsuredObjects insuredObjects) {
+        List<ObjectRisks> selectedCoverages = em.createQuery("select or isSelected from  ObjectRisks or where or.objectId ="+insuredObjects.getObjectId()).getResultList();
+        return ResponseEntity.ok().body(selectedCoverages);
+    }*/
 }

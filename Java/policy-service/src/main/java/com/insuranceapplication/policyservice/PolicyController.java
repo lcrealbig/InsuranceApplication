@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -120,13 +122,16 @@ public class PolicyController {
     }
 
     @PostMapping("/calculations")
-    public void premiumCalc(@RequestBody PolicyLines policyLine) {
-        policyService.calculation(policyLine.getPolicyLineId());
+    public void premiumCalc(@RequestBody PolicyLines policyLine,InsuredObjects insuredObjects) {
+        policyService.calculation(policyLine,insuredObjects);
     }
 
     @GetMapping("/serviceStatus")
     @ResponseBody
     public ResponseEntity getStatus() {
         return ResponseEntity.ok().body("policy-service is [ONLINE]");
+
     }
 }
+
+

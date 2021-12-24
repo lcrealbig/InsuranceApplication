@@ -82,9 +82,9 @@ public class Controller {
         return CRUDService.modifyCustomer(modifyQuery);
     }
 
-    @PostMapping("/showcustomerslist")
-    public List showCustomersList(@RequestBody String query) {
-        return CRUDService.showCustomersList(query);
+    @PostMapping("/getcustomerslist")
+    public List getCustomersList(@RequestBody String query) {
+        return CRUDService.getCustomersList(query);
     }
 
     @PostMapping("/verify")
@@ -146,13 +146,13 @@ public class Controller {
         return ResponseEntity.ok().body("db-service is [ONLINE]");
     }
 
-    @PostMapping ("/premiumCalcConfigVars")
-    public List premiumConfigList(@RequestBody String query) {
-        return CRUDService.customQuery(query);
+    @GetMapping ("/premiumCalcConfigVars")
+    public List premiumConfigList() {
+        return CRUDService.getPremCalcVals();
+    }
+    @GetMapping("/getInsuredObjects")
+    public List getInsuredObjects(PolicyLines policyLines){
+        return CRUDService.getInsuredObjects(policyLines);
     }
 
-    @PutMapping("/updatePremium")
-    public Object updateObjectRisks(@RequestBody String query) {
-        return CRUDService.updateQuery(query);
-    }
 }
