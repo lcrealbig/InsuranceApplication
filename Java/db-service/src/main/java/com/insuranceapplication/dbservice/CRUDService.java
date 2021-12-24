@@ -39,6 +39,11 @@ public class CRUDService {
     }
 
     @Transactional
+    public ResponseEntity searchInsuredObject(InsuredObjects insuredObject) {
+        InsuredObjects result = (InsuredObjects)em.createQuery("select io from InsuredObjects io WHERE io.policyLineId = '" + insuredObject.getPolicyLineId() + "' AND io.type = '" + insuredObject.getType() + "'").getSingleResult();
+        return ResponseEntity.ok().body(result);
+    }
+    @Transactional
     public ResponseEntity getTransactionId(String query) {
         Query q = em.createQuery(query);
 
@@ -55,6 +60,13 @@ public class CRUDService {
         ArrayList<Vehicles> results = (ArrayList<Vehicles>) q.getResultList();
         return ResponseEntity.ok().body(results);
     }
+
+    @Transactional
+    public ResponseEntity getVehicle(Vehicles vehicle) {
+        Vehicles result = (Vehicles) em.createQuery("select v from Vehicles v WHERE v.vehicleId = " + vehicle.getVehicleId()).getSingleResult();
+        return ResponseEntity.ok().body(result);
+    }
+
 
     @Transactional
     public Policy getPolicy(String query) {
@@ -77,6 +89,12 @@ public class CRUDService {
 
         ArrayList<PolicyLines> resultArray = (ArrayList<PolicyLines>) q.getResultList();
         PolicyLines result = resultArray.get(0);
+        return ResponseEntity.ok().body(result);
+    }
+
+    @Transactional
+    public ResponseEntity searchPolicyLine(PolicyLines policyLine) {
+        PolicyLines result = (PolicyLines) em.createQuery("select p from PolicyLines p WHERE p.policyId = " + policyLine.getPolicyId()).getSingleResult();
         return ResponseEntity.ok().body(result);
     }
 

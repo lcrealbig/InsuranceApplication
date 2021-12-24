@@ -41,6 +41,11 @@ public class PolicyService {
 
     }
 
+    public ResponseEntity searchInsuredObject(InsuredObjects insuredObject) {
+        RestTemplate template = new RestTemplate();
+        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/searchinsuredobject", insuredObject, InsuredObjects.class);
+    }
+
     public ResponseEntity getTransactionId(Transactions transactions) {
         String query = "select distinct t from Transactions t WHERE t.modifiedBy = '" + transactions.getModifiedBy() +
                 "' AND t.timestamp = '" + transactions.getTimestamp() + "'";
@@ -81,6 +86,11 @@ public class PolicyService {
         return ResponseEntity.ok().body(response.getBody());
     }
 
+    public ResponseEntity getVehicle(Vehicles vehicle) {
+        RestTemplate template = new RestTemplate();
+        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getvehicle", vehicle, Vehicles.class);
+    }
+
     public ResponseEntity getPolicy(Policy policy) {
         String query = "select p from Policy p WHERE p.transactionId = '" + policy.getTransactionId() + "'";
 
@@ -104,6 +114,11 @@ public class PolicyService {
 
         PolicyLines result = (PolicyLines) response.getBody();
         return ResponseEntity.ok().body(result);
+    }
+
+    public ResponseEntity searchPolicyLine(PolicyLines policyLine) {
+        RestTemplate template = new RestTemplate();
+        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/searchpolicyline", policyLine, PolicyLines.class);
     }
 
     public void calculation(Integer policyLineNo) {
