@@ -37,6 +37,12 @@ public class Controller {
         CRUDService.createInsuredObject(newInsuredObjects);
     }
 
+    @PostMapping("/searchinsuredobject")
+    @ResponseBody
+    public ResponseEntity searchInsuredObject(@RequestBody InsuredObjects insuredObject) {
+        return CRUDService.searchInsuredObject(insuredObject);
+    }
+
     @PostMapping("/gettransactionid")
     @ResponseBody
     public ResponseEntity getTransactionId(@RequestBody String query) {
@@ -48,6 +54,13 @@ public class Controller {
     public ResponseEntity getVehicles(@RequestBody String query) {
         return CRUDService.getVehicles(query);
     }
+
+    @PostMapping("/getvehicle")
+    @ResponseBody
+    public ResponseEntity getVehicle(@RequestBody Vehicles vehicle) {
+        return CRUDService.getVehicle(vehicle);
+    }
+
 
     @PostMapping("/getpolicy")
     @ResponseBody
@@ -65,6 +78,12 @@ public class Controller {
     @ResponseBody
     public ResponseEntity getPolicyLine(@RequestBody String query) {
         return CRUDService.getPolicyLine(query);
+    }
+
+    @PostMapping("/searchpolicyline")
+    @ResponseBody
+    public ResponseEntity searchPolicyLine(@RequestBody PolicyLines policyLines) {
+        return CRUDService.searchPolicyLine(policyLines);
     }
 
     @PostMapping("/createcustomer")
@@ -132,6 +151,21 @@ public class Controller {
     @PostMapping("/updaterisk")
     public void updateRisk(@RequestBody ObjectRisks risk) {
         CRUDService.updateRisk(risk);
+    }
+
+    @PostMapping("/updatepolicy")
+    public void updatePolicy(@RequestBody Policy policy) {
+        CRUDService.updatePolicy(policy);
+    }
+
+    @PostMapping("/updatepolicyline")
+    public void updatePolicyLine(@RequestBody PolicyLines policyLine) {
+        CRUDService.updatePolicyLine(policyLine);
+    }
+
+    @PostMapping("/updateinsuredvehicle")
+    public void updateInsuredVehicle(@RequestBody InsuredObjects insuredObject) {
+        CRUDService.updateInsuredVehicle(insuredObject);
     }
 
     @PostMapping("/getrisks")

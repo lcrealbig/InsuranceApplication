@@ -37,6 +37,13 @@ public class PolicyController {
         policyService.createInsuredObject(newInsuredObjects);
     }
 
+    @PostMapping("/searchinsuredobject")
+    @ResponseBody
+    public ResponseEntity searchPolicy(@RequestBody InsuredObjects insuredObjects) {
+        return policyService.searchInsuredObject(insuredObjects);
+    }
+
+
     @PostMapping("/gettransactionid")
     @ResponseBody
     public ResponseEntity getTransactionId(@RequestBody Transactions transactions) {
@@ -47,6 +54,12 @@ public class PolicyController {
     @ResponseBody
     public ResponseEntity getVehicles(@RequestBody Vehicles vehicles) {
         return policyService.getVehicles(vehicles);
+    }
+
+    @PostMapping("/getvehicle")
+    @ResponseBody
+    public ResponseEntity getVehicle(@RequestBody Vehicles vehicle) {
+        return policyService.getVehicle(vehicle);
     }
 
     @PostMapping("/getpolicy")
@@ -65,6 +78,12 @@ public class PolicyController {
     @ResponseBody
     public ResponseEntity getPolicyLine(@RequestBody PolicyLines policyLine) {
         return policyService.getPolicyLine(policyLine);
+    }
+
+    @PostMapping("/searchpolicyline")
+    @ResponseBody
+    public ResponseEntity searchPolicyLine(@RequestBody PolicyLines policyLine) {
+        return policyService.searchPolicyLine(policyLine);
     }
 
     @GetMapping("/getproducts")
@@ -107,6 +126,24 @@ public class PolicyController {
     @ResponseBody
     public void updateRisk(@RequestBody ObjectRisks risk) {
         policyService.updateRisk(risk);
+    }
+
+    @PostMapping("/updatepolicy")
+    @ResponseBody
+    public void updatePolicy(@RequestBody Policy policy) {
+        policyService.updatePolicy(policy);
+    }
+
+    @PostMapping("/updatepolicyline")
+    @ResponseBody
+    public void updatePolicyLine(@RequestBody PolicyLines policyLine) {
+        policyService.updatePolicyLine(policyLine);
+    }
+
+    @PostMapping("/updateinsuredvehicle")
+    @ResponseBody
+    public void updateInsuredVehicle(@RequestBody InsuredObjects insuredObject) {
+        policyService.updateInsuredVehicle(insuredObject);
     }
 
     @PostMapping("/getrisks")
