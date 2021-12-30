@@ -17,32 +17,28 @@ public class PolicyService {
     
     @Autowired
     EurekaClient eurekaClient;
+     private RestTemplate template;
 
     public void createTransaction(Transactions transactions) {
-        RestTemplate template = new RestTemplate();
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/createtransaction", transactions, String.class);
     }
 
     public void createPolicy(Policy newPolicy) {
-        RestTemplate template = new RestTemplate();
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/createpolicy", newPolicy, String.class);
 
     }
 
     public void createPolicyLine(PolicyLines newPolicyLines) {
-        RestTemplate template = new RestTemplate();
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/createpolicyline", newPolicyLines, String.class);
 
     }
 
     public void createInsuredObject(InsuredObjects insuredObject) {
-        RestTemplate template = new RestTemplate();
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/createinsuredobject", insuredObject, String.class);
 
     }
 
     public ResponseEntity searchInsuredObject(InsuredObjects insuredObject) {
-        RestTemplate template = new RestTemplate();
         return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/searchinsuredobject", insuredObject, InsuredObjects.class);
     }
 
@@ -50,7 +46,6 @@ public class PolicyService {
         String query = "select distinct t from Transactions t WHERE t.modifiedBy = '" + transactions.getModifiedBy() +
                 "' AND t.timestamp = '" + transactions.getTimestamp() + "'";
 
-        RestTemplate template = new RestTemplate();
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/gettransactionid", query, Transactions.class);
 
         Transactions result = (Transactions) response.getBody();
@@ -80,36 +75,29 @@ public class PolicyService {
         }
 
         //ArrayList<Vehicles> results = (ArrayList<Vehicles>) query.getResultList();
-        RestTemplate template = new RestTemplate();
+
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getvehicles", query, List.class);
 
         return ResponseEntity.ok().body(response.getBody());
     }
 
     public ResponseEntity getVehicle(Vehicles vehicle) {
-        RestTemplate template = new RestTemplate();
         return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getvehicle", vehicle, Vehicles.class);
     }
 
     public ResponseEntity getPolicy(Policy policy) {
         String query = "select p from Policy p WHERE p.transactionId = '" + policy.getTransactionId() + "'";
-
-        RestTemplate template = new RestTemplate();
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getpolicy", query, Policy.class);
-
         Policy result = (Policy) response.getBody();
         return ResponseEntity.ok().body(result);
     }
 
     public ResponseEntity searchPolicy(Policy policy) {
-        RestTemplate template = new RestTemplate();
         return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/searchpolicy", policy, List.class);
     }
 
     public ResponseEntity getPolicyLine(PolicyLines policy_lines) {
         String query = "select p from PolicyLines p WHERE p.transactionId = '" + policy_lines.getTransactionId() + "'";
-
-        RestTemplate template = new RestTemplate();
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getpolicyline", query, PolicyLines.class);
 
         PolicyLines result = (PolicyLines) response.getBody();
@@ -117,21 +105,19 @@ public class PolicyService {
     }
 
     public ResponseEntity searchPolicyLine(PolicyLines policyLine) {
-        RestTemplate template = new RestTemplate();
-        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/searchpolicyline", policyLine, PolicyLines.class);
-    }
+         return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/searchpolicyline", policyLine, PolicyLines.class);
+     }
 
-    public void calculation(Integer policyLineNo) {
+    public void calculation(PolicyLines policyLines) {
         PremiumCalculation calculation = new PremiumCalculation();
         calculation.eurekaClient = this.eurekaClient;
-        calculation.calculate(policyLineNo);
+        calculation.policyService = this;
+        calculation.calculate(policyLines);
     }
 
     public ResponseEntity getProducts() {
         String query = "select p from ProductsConfig p";
-        RestTemplate template = new RestTemplate();
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/customPOST", query, List.class);
-
         List<ProductsConfig> resultArray = (List) response.getBody();
 
         return ResponseEntity.ok().body(resultArray);
@@ -139,7 +125,6 @@ public class PolicyService {
 
     public ResponseEntity getPolicyLineTypes(PolicyLineTypesConfig productsConfig) {
         String query = "select p from PolicyLineTypesConfig p WHERE p.productId = '" + productsConfig.getProductId() + "'";
-        RestTemplate template = new RestTemplate();
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/customPOST", query, List.class);
 
         ArrayList<PolicyLineTypesConfig> resultArray = (ArrayList<PolicyLineTypesConfig>) response.getBody();
@@ -148,7 +133,6 @@ public class PolicyService {
 
     public ResponseEntity getObjectTypes(PolicyLineTypesConfig policyLineTypesConfig) {
         String query = "select o from ObjectTypesConfig o WHERE o.policyLineId = '" + policyLineTypesConfig.getPolicyLineId() + "'";
-        RestTemplate template = new RestTemplate();
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/customPOST", query, List.class);
 
         ArrayList<ObjectTypesConfig> resultArray = (ArrayList<ObjectTypesConfig>) response.getBody();
@@ -156,13 +140,11 @@ public class PolicyService {
     }
 
     public ResponseEntity getVehicleTypes(VehicleTypesConfig vehicleTypesConfig) {
-        RestTemplate template = new RestTemplate();
         return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getvehicletypes", vehicleTypesConfig, List.class);
     }
 
     public ResponseEntity getObjectRisksConfig(ObjectRisksConfig objectRisksConfig) {
         String query = "select o from ObjectRisksConfig o";
-        RestTemplate template = new RestTemplate();
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getrisksconfig", query, List.class);
 
         ArrayList<ObjectTypesConfig> resultArray = (ArrayList<ObjectTypesConfig>) response.getBody();
@@ -170,39 +152,41 @@ public class PolicyService {
     }
 
     public ResponseEntity insertInsuredObject(InsuredObjects insuredObject) {
-        RestTemplate template = new RestTemplate();
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/insertinsuredobject", insuredObject, String.class);
         return response;
     }
 
     public ResponseEntity createRisks(ObjectRisks objectRisks) {
-        RestTemplate template = new RestTemplate();
         return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/createrisks", objectRisks, String.class);
     }
 
-    public ResponseEntity getRisks(InsuredObjects insuredObject) {
-        RestTemplate template = new RestTemplate();
+    public ResponseEntity<List> getRisks(InsuredObjects insuredObject) {
         return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getrisks", insuredObject, List.class);
     }
 
     public void updateRisk(ObjectRisks risk) {
-        RestTemplate template = new RestTemplate();
         template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/updaterisk", risk, ObjectRisks.class);
     }
 
     public void updatePolicy(Policy policy) {
-        RestTemplate template = new RestTemplate();
         template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/updatepolicy", policy, Policy.class);
     }
 
     public void updatePolicyLine(PolicyLines policyLine) {
-        RestTemplate template = new RestTemplate();
         template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/updatepolicyline", policyLine, PolicyLines.class);
     }
 
     public void updateInsuredVehicle(InsuredObjects insuredObject) {
-        RestTemplate template = new RestTemplate();
         template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/updateinsuredvehicle", insuredObject, InsuredObjects.class);
     }
 
+    public List<PremiumCalcConfigValues> premiumConfigList() {
+        ResponseEntity response = template.getForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/premiumCalcConfigVars", List.class);
+        return (List<PremiumCalcConfigValues>) response.getBody();
+    }
+
+    public Object getInsuredObjects(PolicyLines policyLines) {
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getInsuredObjects",policyLines, List.class);
+        return (List<PremiumCalcConfigValues>) response.getBody();
+    }
 }
