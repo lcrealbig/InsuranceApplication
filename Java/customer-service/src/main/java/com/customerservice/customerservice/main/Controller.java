@@ -1,13 +1,9 @@
 package com.customerservice.customerservice.main;
 
 import com.customerservice.customerservice.model.Customers;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.text.ParseException;
-import java.util.List;
-
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -16,39 +12,24 @@ public class Controller {
     private CustomerService customerService;
 
     @ResponseBody
-    @PostMapping("/addCustomer")
-    public ResponseEntity addCustomer(@RequestBody JSONObject customerToAdd) throws ParseException {
-        return customerService.verifyCustomerPeselAndBirth(customerToAdd);
+    @PostMapping("/createcustomer")
+    public ResponseEntity addCustomer(@RequestBody Customers customer) {
+        return customerService.verifyCustomerPeselAndBirth(customer);
     }
 
-    @DeleteMapping("/deleteCustomer")
-    public ResponseEntity deleteCustomer(@RequestBody JSONObject customerToDelete){
-        return customerService.deleteCustomer(customerToDelete);
+    @PostMapping("/deletecustomer")
+    public ResponseEntity deleteCustomer(@RequestBody Customers customer) {
+        return customerService.deleteCustomer(customer);
     }
 
-    @PostMapping("/modifyCustomer")
-    public ResponseEntity modifyCustomer (@RequestBody JSONObject customerToModify){
-        return customerService.modifyCustomer(customerToModify);
+    @PostMapping("/modifycustomer")
+    public ResponseEntity modifyCustomer(@RequestBody Customers customer) {
+        return customerService.modifyCustomer(customer);
     }
 
-    @GetMapping("/showCustomersList")
-    public List returnCustomersList (@RequestBody JSONObject Customer){
-        return customerService.returnCustomersList();
-    }
-
-    @PostMapping("/customerSearchByID")
-    public List<Customers> customerByID(@RequestBody JSONObject Customer){
-        return customerService.searchCustomerById(Customer);
-    }
-
-    @PostMapping("/customerSearchByPesel")
-    public List<Customers> customerByPesel(@RequestBody JSONObject Customer){
-        return customerService.searchCustomerByPesel(Customer);
-    }
-
-    @PostMapping("/customerSearchByName")
-    public List customerByName(@RequestBody JSONObject Customer){
-        return customerService.searchCustomerByName(Customer);
+    @PostMapping("/searchcustomers")
+    public ResponseEntity searchCustomers(@RequestBody Customers customer) {
+        return customerService.searchCustomers(customer);
     }
 
     @GetMapping("/serviceStatus")
