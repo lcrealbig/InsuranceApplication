@@ -5,25 +5,37 @@ import java.math.BigInteger;
 import java.util.Date;
 
 @Entity
-@Table(name = "customers")
+@Table(name = "CUSTOMERS")
 public class Customers {
+    private Integer customerId;
+    private String name;
+    private String pesel;
+    private String address;
+    private Date birthDate;
+    private BigInteger phoneNum;
+
+    public Customers(Integer customerId, String name, String pesel, String address, Date birthDate, BigInteger phoneNum) {
+        this.customerId = customerId;
+        this.name = name;
+        this.pesel = pesel;
+        this.address = address;
+        this.birthDate = birthDate;
+        this.phoneNum = phoneNum;
+    }
+
+    public Customers() {
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cust_id_seq")
     @SequenceGenerator(name = "cust_id_seq", allocationSize = 1)
+    public Integer getCustomerId() {
+        return customerId;
+    }
 
-    //spraw generator id korzystal z sequencera.
-    @Column(name = "customer_id")
-    private Integer customerId;
-    @Column(name = "name")
-    private String name;
-    @Column(name = "pesel")
-    private String pesel;
-    @Column(name = "address")
-    private String address;
-    @Column(name = "birth_date")
-    private Date birthDate;
-    @Column(name = "phone_num")
-    private BigInteger phoneNum;
+    public void setCustomerId(Integer customerId) {
+        this.customerId = customerId;
+    }
 
     public String getName() {
         return name;
@@ -63,13 +75,5 @@ public class Customers {
 
     public void setPhoneNum(BigInteger phoneNum) {
         this.phoneNum = phoneNum;
-    }
-
-    public Integer getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
     }
 }

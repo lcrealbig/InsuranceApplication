@@ -87,23 +87,23 @@ public class Controller {
     }
 
     @PostMapping("/createcustomer")
-    public void createCustomer(@RequestBody Customers newCustomer) {
-        CRUDService.createCustomer(newCustomer);
+    public void createCustomer(@RequestBody Customers customer) {
+        CRUDService.createCustomer(customer);
     }
 
-    @DeleteMapping("/deletecustomer")
-    public ResponseEntity deleteCustomer(@RequestBody Customers customerToDelete) {
-        return CRUDService.deleteCustomer(customerToDelete);
+    @PostMapping("/deletecustomer")
+    public ResponseEntity deleteCustomer(@RequestBody Customers customer) {
+        return CRUDService.deleteCustomer(customer);
     }
 
     @PostMapping("/modifycustomer")
-    public ResponseEntity modifyCustomer(@RequestBody String modifyQuery) {
-        return CRUDService.modifyCustomer(modifyQuery);
+    public ResponseEntity modifyCustomer(@RequestBody Customers customer) {
+        return CRUDService.modifyCustomer(customer);
     }
 
-    @PostMapping("/showcustomerslist")
-    public List showCustomersList(@RequestBody String query) {
-        return CRUDService.showCustomersList(query);
+    @PostMapping("/searchcustomers")
+    public ResponseEntity searchCustomers(@RequestBody Customers customer) {
+        return CRUDService.searchCustomers(customer);
     }
 
     @PostMapping("/verify")
@@ -180,7 +180,7 @@ public class Controller {
         return ResponseEntity.ok().body("db-service is [ONLINE]");
     }
 
-    @PostMapping ("/premiumCalcConfigVars")
+    @PostMapping("/premiumCalcConfigVars")
     public List premiumConfigList(@RequestBody String query) {
         return CRUDService.customQuery(query);
     }

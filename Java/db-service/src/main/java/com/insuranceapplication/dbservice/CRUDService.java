@@ -4,7 +4,6 @@ import com.insuranceapplication.dbservice.models.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -40,9 +39,10 @@ public class CRUDService {
 
     @Transactional
     public ResponseEntity searchInsuredObject(InsuredObjects insuredObject) {
-        InsuredObjects result = (InsuredObjects)em.createQuery("select io from InsuredObjects io WHERE io.policyLineId = '" + insuredObject.getPolicyLineId() + "' AND io.type = '" + insuredObject.getType() + "'").getSingleResult();
+        InsuredObjects result = (InsuredObjects) em.createQuery("select io from InsuredObjects io WHERE io.policyLineId = '" + insuredObject.getPolicyLineId() + "' AND io.type = '" + insuredObject.getType() + "'").getSingleResult();
         return ResponseEntity.ok().body(result);
     }
+
     @Transactional
     public ResponseEntity getTransactionId(String query) {
         Query q = em.createQuery(query);
@@ -79,7 +79,7 @@ public class CRUDService {
 
     @Transactional
     public ResponseEntity searchPolicy(Policy policy) {
-        List<Policy> resultList = (List<Policy>)em.createQuery("select p from Policy p WHERE p.ownerId = " + policy.getOwnerId()).getResultList();
+        List<Policy> resultList = (List<Policy>) em.createQuery("select p from Policy p WHERE p.ownerId = " + policy.getOwnerId()).getResultList();
         return ResponseEntity.ok().body(resultList);
     }
 
@@ -107,30 +107,34 @@ public class CRUDService {
     }
 
     @Transactional
-    public ResponseEntity createCustomer(Customers newCustomer) {
-        em.persist(newCustomer);
-        return ResponseEntity.ok().build();
+    public ResponseEntity createCustomer(Customers customer) {
+        em.persist(customer);
+        return ResponseEntity.ok().body(customer);
     }
 
     @Transactional
-    public ResponseEntity deleteCustomer(Customers customerToDelete) {
+    public ResponseEntity deleteCustomer(Customers customer) {
+        em.createQuery("delete from Customers c where c.customerId = " + customer.getCustomerId()).executeUpdate();
+        return ResponseEntity.ok().body(customer);
+    }
 
-        if (customerToDelete.getCustomerId() != 0) {
-            /* send json to db-service */
-            em.remove(customerToDelete);
+    @Transactional
+    public ResponseEntity modifyCustomer(Customers customer) {
+        em.merge(customer);
+        return ResponseEntity.ok().body(customer);
+    }
+
+    @Transactional
+    public ResponseEntity searchCustomers(Customers customer) {
+        List<Customers> result;
+        if (customer.getCustomerId() != null) {
+            result = em.createQuery("select c from Customers c where c.customerId = '" + customer.getCustomerId() + "'").getResultList();
+        } else if (customer.getName() != null) {
+            result = em.createQuery("select c from Customers c where c.name like '" + customer.getName() + "%'").getResultList();
+        } else {
+            result = em.createQuery("select c from Customers c where c.pesel like '" + customer.getPesel() + "%'").getResultList();
         }
-        return ResponseEntity.ok().body("Customer has been deleted.");
-    }
-
-    @Transactional
-    public ResponseEntity modifyCustomer(String modifyQuery) {
-        em.createQuery(modifyQuery).executeUpdate();
-        return ResponseEntity.ok().body("Customer has been deleted.");
-    }
-
-    public List showCustomersList(String query) {
-        Query select = em.createQuery(query);
-        return select.getResultList();
+        return ResponseEntity.ok().body(result);
     }
 
     public ResponseEntity verifyUserLogin(@RequestBody Users user) {
@@ -168,7 +172,7 @@ public class CRUDService {
 
     @Transactional
     public ResponseEntity getVehicleTypes(VehicleTypesConfig vehicleTypesConfig) {
-        List<VehicleTypesConfig> resultList = (List<VehicleTypesConfig>)em.createQuery("select v from VehicleTypesConfig v WHERE v.productLineType = '" + vehicleTypesConfig.getProductLineType() + "'").getResultList();
+        List<VehicleTypesConfig> resultList = (List<VehicleTypesConfig>) em.createQuery("select v from VehicleTypesConfig v WHERE v.productLineType = '" + vehicleTypesConfig.getProductLineType() + "'").getResultList();
         return ResponseEntity.ok().body(resultList);
     }
 
@@ -204,7 +208,7 @@ public class CRUDService {
 
     @Transactional
     public ResponseEntity getRisks(InsuredObjects insuredObject) {
-        List<ObjectRisks> resultList = (List<ObjectRisks>)em.createQuery("select o from ObjectRisks o where o.objectId = "+insuredObject.getObjectId()).getResultList();
+        List<ObjectRisks> resultList = (List<ObjectRisks>) em.createQuery("select o from ObjectRisks o where o.objectId = " + insuredObject.getObjectId()).getResultList();
         return ResponseEntity.ok().body(resultList);
     }
 }
