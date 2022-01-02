@@ -20,20 +20,19 @@ public class CustomerService {
         RestTemplate template = new RestTemplate();
 
         String pesel = customer.getPesel();
-        if (pesel.length() != 11) {
-            return ResponseEntity.ok().body("Incorrect pesel length.");
-        }
-
         SimpleDateFormat formatter = new SimpleDateFormat("yyMMdd");
         String formattedDate = formatter.format(customer.getBirthDate());
         String substrPesel = pesel.substring(0, 6);
         StringBuilder bornAfter2000sPesel = new StringBuilder(substrPesel);
+
+        if (pesel.length() != 11) {
+            return ResponseEntity.badRequest().body("Incorrect pesel length.");
+        }
         int controlNumber = Integer.valueOf(pesel.substring(10));
         int checkSum = 0;
         int[] weights = {1, 3, 7, 9, 1, 3, 7, 9, 1, 3};
         int[] peselArray = new int[11];
         char[] peselToCharArray = pesel.toCharArray();
-
 
         if (pesel.startsWith("0") && pesel.charAt(2) == '2') {
             substrPesel = bornAfter2000sPesel.replace(2, 3, "0").toString();
@@ -42,10 +41,9 @@ public class CustomerService {
             substrPesel = bornAfter2000sPesel.replace(2, 3, "1").toString();
         }
         if (!substrPesel.equals(formattedDate)) {
-            return ResponseEntity.ok().body("Birth date and pesel does not match.");
-
+            return ResponseEntity.badRequest().body("Birth date and pesel does not match.");
         }
-        //control number algorithm
+
         for (int i = 0; i < 10; i++) {
             peselArray[i] = Character.getNumericValue(peselToCharArray[i]);
             checkSum = weights[i] * peselArray[i] + checkSum;
@@ -53,8 +51,8 @@ public class CustomerService {
         checkSum = 10 - (checkSum % 10) % 10;
 
         if (controlNumber != checkSum) {
-            return ResponseEntity.ok().body("Pesel is incorrect");
-        }    //inny kod
+           return ResponseEntity.badRequest().body("Pesel is incorrect");
+        }
 
         return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl()+ "/createcustomer", customer, Customers.class);
     }
