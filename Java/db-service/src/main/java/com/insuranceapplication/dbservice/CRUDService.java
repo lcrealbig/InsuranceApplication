@@ -132,7 +132,7 @@ public class CRUDService {
         } else if (customer.getPesel() != null){
             result = em.createQuery("select c from Customers c where c.pesel like '%" + customer.getPesel() + "%'").getResultList();
         } else {
-            result = em.createQuery("select c from Customers c where c.name like upper('%" + customer.getName() + "%')").getResultList();
+            result = em.createQuery("select c from Customers c where upper(c.name) like '%" + customer.getName() + "%' or lower(c.name) like '%" + customer.getName() + "%'").getResultList();
         }
         return ResponseEntity.ok().body(result);
     }
