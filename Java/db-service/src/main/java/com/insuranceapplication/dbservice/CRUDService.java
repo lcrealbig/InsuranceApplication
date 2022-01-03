@@ -129,10 +129,10 @@ public class CRUDService {
         List<Customers> result;
         if (customer.getCustomerId() != null) {
             result = em.createQuery("select c from Customers c where c.customerId = '" + customer.getCustomerId() + "'").getResultList();
-        } else if (customer.getName() != null) {
-            result = em.createQuery("select c from Customers c where c.name like '%" + customer.getName() + "%'").getResultList();
-        } else {
+        } else if (customer.getPesel() != null){
             result = em.createQuery("select c from Customers c where c.pesel like '%" + customer.getPesel() + "%'").getResultList();
+        } else {
+            result = em.createQuery("select c from Customers c where c.name like upper('%" + customer.getName() + "%')").getResultList();
         }
         return ResponseEntity.ok().body(result);
     }
