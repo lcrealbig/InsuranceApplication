@@ -16,9 +16,7 @@ public class CustomerService {
     @Autowired
     EurekaClient eurekaClient;
 
-    public ResponseEntity verifyCustomerPeselAndBirth(@RequestBody Customers customer) {
-        RestTemplate template = new RestTemplate();
-
+    public ResponseEntity verifyCustomerPeselAndBirth(Customers customer) {
         String pesel = customer.getPesel();
         SimpleDateFormat formatter = new SimpleDateFormat("yyMMdd");
         String formattedDate = formatter.format(customer.getBirthDate());
@@ -51,26 +49,43 @@ public class CustomerService {
         checkSum = 10 - (checkSum % 10) % 10;
 
         if (controlNumber != checkSum) {
-           return ResponseEntity.badRequest().body("Pesel is incorrect");
+            return ResponseEntity.badRequest().body("Pesel is incorrect");
         }
-
-        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl()+ "/createcustomer", customer, Customers.class);
+        return null;
     }
 
-    public ResponseEntity deleteCustomer(@RequestBody Customers customer) {
-        RestTemplate template = new RestTemplate();
-        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl()+ "/deletecustomer", customer, Customers.class);
+    public ResponseEntity<Customers> createCustomer(@RequestBody Customers customer) {
+        ResponseEntity customerVerification = null;
+        customerVerification = verifyCustomerPeselAndBirth(customer);
+        if (customerVerification == null) {
+            RestTemplate template = new RestTemplate();
+            return template.postForEntity(eurekaClient.getApplication(Variables.dbName)
+                    .getInstances().get(0).getHomePageUrl()+"/createcustomer", customer, Customers.class);
+        } else {
+            return customerVerification;
+        }
     }
 
     public ResponseEntity<Customers> modifyCustomer(@RequestBody Customers customer) {
-        RestTemplate template = new RestTemplate();
-        return template.postForEntity(eurekaClient.getApplication(Variables.dbName)
-                .getInstances().get(0).getHomePageUrl()+"/modifycustomer", customer, Customers.class);
+        ResponseEntity customerVerification = null;
+        customerVerification = verifyCustomerPeselAndBirth(customer);
+        if (customerVerification == null) {
+            RestTemplate template = new RestTemplate();
+            return template.postForEntity(eurekaClient.getApplication(Variables.dbName)
+                    .getInstances().get(0).getHomePageUrl()+"/modifycustomer", customer, Customers.class);
+        } else {
+            return customerVerification;
+        }
     }
 
     public ResponseEntity searchCustomers(@RequestBody Customers customer) {
         RestTemplate template = new RestTemplate();
         return template.postForEntity(eurekaClient.getApplication(Variables.dbName)
                 .getInstances().get(0).getHomePageUrl()+"/searchcustomers", customer, List.class);
+    }
+
+    public ResponseEntity deleteCustomer(@RequestBody Customers customer) {
+        RestTemplate template = new RestTemplate();
+        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl()+ "/deletecustomer", customer, Customers.class);
     }
 }

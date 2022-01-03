@@ -13,13 +13,8 @@ public class Controller {
 
     @ResponseBody
     @PostMapping("/createcustomer")
-    public ResponseEntity addCustomer(@RequestBody Customers customer) {
-        return customerService.verifyCustomerPeselAndBirth(customer);
-    }
-
-    @PostMapping("/deletecustomer")
-    public ResponseEntity deleteCustomer(@RequestBody Customers customer) {
-        return customerService.deleteCustomer(customer);
+    public ResponseEntity createCustomer(@RequestBody Customers customer) {
+        return customerService.createCustomer(customer);
     }
 
     @PostMapping("/modifycustomer")
@@ -30,6 +25,11 @@ public class Controller {
     @PostMapping("/searchcustomers")
     public ResponseEntity searchCustomers(@RequestBody Customers customer) {
         return customerService.searchCustomers(customer);
+    }
+
+    @PostMapping("/deletecustomer")
+    public ResponseEntity deleteCustomer(@RequestBody Customers customer) {
+        return customerService.deleteCustomer(customer);
     }
 
     @GetMapping("/serviceStatus")
