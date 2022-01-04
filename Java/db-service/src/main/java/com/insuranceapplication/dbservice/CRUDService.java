@@ -4,7 +4,6 @@ import com.insuranceapplication.dbservice.models.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -40,9 +39,10 @@ public class CRUDService {
 
     @Transactional
     public ResponseEntity searchInsuredObject(InsuredObjects insuredObject) {
-        InsuredObjects result = (InsuredObjects)em.createQuery("select io from InsuredObjects io WHERE io.policyLineId = '" + insuredObject.getPolicyLineId() + "' AND io.type = '" + insuredObject.getType() + "'").getSingleResult();
+        InsuredObjects result = (InsuredObjects) em.createQuery("select io from InsuredObjects io WHERE io.policyLineId = '" + insuredObject.getPolicyLineId() + "' AND io.type = '" + insuredObject.getType() + "'").getSingleResult();
         return ResponseEntity.ok().body(result);
     }
+
     @Transactional
     public ResponseEntity getTransactionId(String query) {
         Query q = em.createQuery(query);
@@ -107,29 +107,34 @@ public class CRUDService {
     }
 
     @Transactional
-    public ResponseEntity createCustomer(Customers newCustomer) {
-        em.persist(newCustomer);
-        return ResponseEntity.ok().build();
+    public ResponseEntity createCustomer(Customers customer) {
+        em.persist(customer);
+        return ResponseEntity.ok().body(customer);
     }
 
     @Transactional
-    public ResponseEntity deleteCustomer(Customers customerToDelete) {
+    public ResponseEntity deleteCustomer(Customers customer) {
+        em.createQuery("delete from Customers c where c.customerId = " + customer.getCustomerId()).executeUpdate();
+        return ResponseEntity.ok().body(customer);
+    }
 
-        if (customerToDelete.getCustomerId() != 0) {
-            em.remove(customerToDelete);
+    @Transactional
+    public ResponseEntity modifyCustomer(Customers customer) {
+        em.merge(customer);
+        return ResponseEntity.ok().body(customer);
+    }
+
+    @Transactional
+    public ResponseEntity searchCustomers(Customers customer) {
+        List<Customers> result;
+        if (customer.getCustomerId() != null) {
+            result = em.createQuery("select c from Customers c where c.customerId = '" + customer.getCustomerId() + "'").getResultList();
+        } else if (customer.getPesel() != null){
+            result = em.createQuery("select c from Customers c where c.pesel like '%" + customer.getPesel() + "%'").getResultList();
+        } else {
+            result = em.createQuery("select c from Customers c where upper(c.name) like upper('%" + customer.getName() + "%')").getResultList();
         }
-        return ResponseEntity.ok().body("Customer has been deleted.");
-    }
-
-    @Transactional
-    public ResponseEntity modifyCustomer(String modifyQuery) {
-        em.createQuery(modifyQuery).executeUpdate();
-        return ResponseEntity.ok().body("Customer has been deleted.");
-    }
-
-    public List getCustomersList(String query) {
-        Query select = em.createQuery(query);
-        return select.getResultList();
+        return ResponseEntity.ok().body(result);
     }
 
     public ResponseEntity verifyUserLogin(@RequestBody Users user) {
