@@ -25,10 +25,10 @@ public class PremiumCalculation {
     private List<PremiumCalcConfigValues> configValues;
 
 
-    public void calculate(InsuredObjects insuredObjects, PolicyLines policyLines) {
+    public void calculate(PolicyLines policyLines) {
 
         configValues = policyService.premiumConfigList();
-        List<InsuredObjects> insObjects = (List<InsuredObjects>) policyService.getInsuredObjectsFromPolicyLineId(policyLines);
+        List<InsuredObjects> insObjects = (List<InsuredObjects>) policyService.getInsuredObjects(policyLines);
         for (InsuredObjects insuredObject : insObjects) {
             if (insuredObject.getType().equals("DRI")) {
                 insuredDriver = insuredObject;
@@ -39,15 +39,15 @@ public class PremiumCalculation {
             }
         }
 
-        List<ObjectRisks> risks = (List<ObjectRisks>) policyService.getRisks(insuredObjects);
+        List<ObjectRisks> risks = (List<ObjectRisks>) policyService.getRisks(insuredVehicle);
 
         for (ObjectRisks risk : risks) {
 
             if (risk.getRiskId().equals("OC") && risk.getIsSelected().equals("true")) {
-               updatePremium(calculateOC(insuredObjects));
+               updatePremium(calculateOC(insuredVehicle));
             }
             else if (risk.getRiskId().equals("NNW") && risk.getIsSelected().equals("true")) {
-                updatePremium(calculateNNW(insuredObjects));
+                updatePremium(calculateNNW(insuredVehicle));
             }
             else if (risk.getRiskId().equals("ASI") && risk.getIsSelected().equals("true")) {
                 updatePremium(getAssistance());

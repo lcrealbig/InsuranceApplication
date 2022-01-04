@@ -159,8 +159,8 @@ public class PolicyController {
     }
 
     @PostMapping("/calculations")
-    public void premiumCalc(@RequestBody PolicyLines policyLine,InsuredObjects insuredObjects) {
-        policyService.calculation(policyLine,insuredObjects);
+    public void premiumCalc(@RequestBody PolicyLines policyLine) {
+        policyService.calculation(policyLine);
     }
 
     @GetMapping("/serviceStatus")
