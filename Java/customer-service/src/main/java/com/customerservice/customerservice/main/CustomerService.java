@@ -51,13 +51,13 @@ public class CustomerService {
         if (controlNumber != checkSum) {
             return ResponseEntity.badRequest().body("Pesel is incorrect");
         }
-        return null;
+        return ResponseEntity.ok().body(customer);
     }
 
     public ResponseEntity<Customers> createCustomer(@RequestBody Customers customer) {
-        ResponseEntity customerVerification = null;
+        ResponseEntity customerVerification;
         customerVerification = verifyCustomerPeselAndBirth(customer);
-        if (customerVerification == null) {
+        if (customerVerification.getStatusCode().value() == 200) {
             RestTemplate template = new RestTemplate();
             return template.postForEntity(eurekaClient.getApplication(Variables.dbName)
                     .getInstances().get(0).getHomePageUrl()+"/createcustomer", customer, Customers.class);
@@ -69,7 +69,7 @@ public class CustomerService {
     public ResponseEntity<Customers> modifyCustomer(@RequestBody Customers customer) {
         ResponseEntity customerVerification = null;
         customerVerification = verifyCustomerPeselAndBirth(customer);
-        if (customerVerification == null) {
+        if (customerVerification.getStatusCode().value() == 200) {
             RestTemplate template = new RestTemplate();
             return template.postForEntity(eurekaClient.getApplication(Variables.dbName)
                     .getInstances().get(0).getHomePageUrl()+"/modifycustomer", customer, Customers.class);
