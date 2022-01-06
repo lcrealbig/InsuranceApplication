@@ -205,4 +205,13 @@ public class PolicyService {
         template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/updateinsuredvehicle", insuredObject, InsuredObjects.class);
     }
 
+    public ResponseEntity getAllVehicles() {
+        RestTemplate template = new RestTemplate();
+        return template.getForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getallvehicles", List.class);
+    }
+
+    public ResponseEntity addVehicle(Vehicles vehicle) {
+        RestTemplate template = new RestTemplate();
+        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/addvehicle", vehicle, Vehicles.class);
+    }
 }

@@ -60,6 +60,12 @@ public class PolicyController {
         return policyService.getVehicle(vehicle);
     }
 
+    @GetMapping("/allvehicles")
+    @ResponseBody
+    public ResponseEntity getAllVehicles(){
+        return policyService.getAllVehicles();
+    }
+
     @PostMapping("/getpolicy")
     @ResponseBody
     public ResponseEntity getPolicy(@RequestBody Policy policy) {
@@ -165,5 +171,10 @@ public class PolicyController {
     @ResponseBody
     public ResponseEntity getStatus() {
         return ResponseEntity.ok().body("policy-service is [ONLINE]");
+    }
+
+    @PostMapping("/addvehicle")
+    public ResponseEntity addVehicle(@RequestBody Vehicles vehicle) {
+       return policyService.addVehicle(vehicle);
     }
 }

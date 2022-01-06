@@ -1,24 +1,22 @@
 package com.insuranceapplication.dbservice.models;
 
-import javax.persistence.*;
 
-@Entity
-@Table(name = "VEHICLES")
 public class Vehicles {
-    private Integer vehicleId;
+    private int vehicleId;
     private String vehicleType;
     private String brand;
     private String vehicleModel;
     private String generation;
     private String engineType;
     private String engine;
-    private String protectionClass;
     private String partsAvailability;
+    private String protectionClass;
+    private String power;
 
     public Vehicles() {
     }
 
-    public Vehicles(String protectionClass,String partsAvailability, Integer vehicleId, String vehicleType, String brand, String vehicleModel, String generation, String engineType, String engine) {
+    public Vehicles(String protectionClass, String partsAvailability, int vehicleId, String vehicleType, String brand, String vehicleModel, String generation, String engineType, String engine, String power) {
         this.vehicleId = vehicleId;
         this.vehicleType = vehicleType;
         this.brand = brand;
@@ -28,16 +26,15 @@ public class Vehicles {
         this.engine = engine;
         this.partsAvailability = partsAvailability;
         this.protectionClass = protectionClass;
+        this.power = power;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "veh_id_seq")
-    @SequenceGenerator(name = "veh_id_seq", allocationSize = 1)
-    public Integer getVehicleId() {
+
+    public int getVehicleId() {
         return vehicleId;
     }
 
-    public void setVehicleId(Integer vehicleId) {
+    public void setVehicleId(int vehicleId) {
         this.vehicleId = vehicleId;
     }
 
@@ -92,7 +89,6 @@ public class Vehicles {
     public String getPartsAvailability() {
         return partsAvailability;
     }
-
     public void setPartsAvailability(String partsAvailability) {
         this.partsAvailability = partsAvailability;
     }
@@ -103,5 +99,13 @@ public class Vehicles {
 
     public void setProtectionClass(String protectionClass) {
         this.protectionClass = protectionClass;
+    }
+
+    public String getPower() {
+        return power;
+    }
+
+    public void setPower(String power) {
+        this.power = power;
     }
 }

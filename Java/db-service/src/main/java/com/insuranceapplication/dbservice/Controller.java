@@ -189,4 +189,16 @@ public class Controller {
     public Object updateObjectRisks(@RequestBody String query) {
         return CRUDService.updateQuery(query);
     }
+
+    @GetMapping("/getallvehicles")
+    @ResponseBody
+    public ResponseEntity getAllVehicles() {
+        return CRUDService.getAllVehicles();
+    }
+
+    @PostMapping("/addvehicle")
+    @ResponseBody
+    public  ResponseEntity addVehicle(@RequestBody Vehicles vehicle){
+        return CRUDService.addVehicle(vehicle);
+    }
 }

@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,9 +66,25 @@ public class CRUDService {
     }
 
     @Transactional
+    public ResponseEntity getAllVehicles() {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Vehicles> cq = cb.createQuery(Vehicles.class);
+        Root<Vehicles> rootEntry = cq.from(Vehicles.class);
+        CriteriaQuery<Vehicles> all = cq.select(rootEntry);
+        TypedQuery<Vehicles> allQuery = em.createQuery(all);
+        return ResponseEntity.ok().body(allQuery.getResultList());
+    }
+
+    @Transactional
     public ResponseEntity getVehicle(Vehicles vehicle) {
         Vehicles result = (Vehicles) em.createQuery("select v from Vehicles v WHERE v.vehicleId = " + vehicle.getVehicleId()).getSingleResult();
         return ResponseEntity.ok().body(result);
+    }
+
+    @Transactional
+    public ResponseEntity addVehicle(Vehicles vehicle){
+        em.merge(vehicle);
+        return ResponseEntity.ok().body(vehicle);
     }
 
 

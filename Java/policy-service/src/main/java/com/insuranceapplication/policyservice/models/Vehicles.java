@@ -1,5 +1,8 @@
 package com.insuranceapplication.policyservice.models;
 
+
+import org.springframework.beans.factory.annotation.Value;
+
 public class Vehicles {
     private int vehicleId;
     private String vehicleType;
@@ -10,11 +13,12 @@ public class Vehicles {
     private String engine;
     private String partsAvailability;
     private String protectionClass;
+    private String power;
 
     public Vehicles() {
     }
 
-    public Vehicles(String protectionClass, String partsAvailability, int vehicleId, String vehicleType, String brand, String vehicleModel, String generation, String engineType, String engine) {
+    public Vehicles(String protectionClass, String partsAvailability, int vehicleId, String vehicleType, String brand, String vehicleModel, String generation, String engineType, String engine, String power) {
         this.vehicleId = vehicleId;
         this.vehicleType = vehicleType;
         this.brand = brand;
@@ -23,6 +27,8 @@ public class Vehicles {
         this.engineType = engineType;
         this.engine = engine;
         this.partsAvailability = partsAvailability;
+        this.protectionClass = protectionClass;
+        this.power = power;
     }
 
 
@@ -82,7 +88,7 @@ public class Vehicles {
         this.engine = engine;
     }
 
-    public String isPartsAvailability() {
+    public String getPartsAvailability() {
         return partsAvailability;
     }
     public void setPartsAvailability(String partsAvailability) {
@@ -95,5 +101,13 @@ public class Vehicles {
 
     public void setProtectionClass(String protectionClass) {
         this.protectionClass = protectionClass;
+    }
+
+    public String getPower() {
+        return power;
+    }
+
+    public void setPower(String power) {
+        this.power = power;
     }
 }
