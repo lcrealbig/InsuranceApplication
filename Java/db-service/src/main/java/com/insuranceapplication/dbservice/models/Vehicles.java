@@ -1,8 +1,14 @@
 package com.insuranceapplication.dbservice.models;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "VEHICLES")
 public class Vehicles {
-    private int vehicleId;
+    @Id
+    private Integer vehicleId;
     private String vehicleType;
     private String brand;
     private String vehicleModel;

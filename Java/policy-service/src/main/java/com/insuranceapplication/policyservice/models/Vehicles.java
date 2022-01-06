@@ -4,7 +4,7 @@ package com.insuranceapplication.policyservice.models;
 import org.springframework.beans.factory.annotation.Value;
 
 public class Vehicles {
-    private int vehicleId;
+    private Integer vehicleId;
     private String vehicleType;
     private String brand;
     private String vehicleModel;
@@ -32,7 +32,7 @@ public class Vehicles {
     }
 
 
-    public int getVehicleId() {
+    public Integer getVehicleId() {
         return vehicleId;
     }
 
