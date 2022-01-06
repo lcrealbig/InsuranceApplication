@@ -32,6 +32,11 @@ public class Controller {
         return customerService.deleteCustomer(customer);
     }
 
+    @GetMapping("/allcustomers")
+    public ResponseEntity getAllCustomers() {
+        return customerService.getAllCustomers();
+    }
+
     @GetMapping("/serviceStatus")
     @ResponseBody
     public ResponseEntity getStatus() {

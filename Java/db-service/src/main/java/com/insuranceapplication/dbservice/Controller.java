@@ -267,4 +267,10 @@ public class Controller {
     public ResponseEntity mergePremiumValueConfig(@RequestBody PremiumCalcConfigValues values) {
         return CRUDService.mergePremiumValueConfig(values);
     }
+
+    @GetMapping("/getallcustomers")
+    @ResponseBody
+    public ResponseEntity getAllCustomers() {
+        return CRUDService.getAllCustomers();
+    }
 }

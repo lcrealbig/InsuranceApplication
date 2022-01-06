@@ -309,4 +309,13 @@ public class CRUDService {
         em.merge(values);
         return ResponseEntity.ok().body(values);
     }
+
+    public ResponseEntity getAllCustomers() {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Customers> cq = cb.createQuery(Customers.class);
+        Root<Customers> rootEntry = cq.from(Customers.class);
+        CriteriaQuery<Customers> all = cq.select(rootEntry);
+        TypedQuery<Customers> allQuery = em.createQuery(all);
+        return ResponseEntity.ok().body(allQuery.getResultList());
+    }
 }
