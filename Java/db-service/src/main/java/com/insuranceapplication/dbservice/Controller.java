@@ -198,7 +198,73 @@ public class Controller {
 
     @PostMapping("/addvehicle")
     @ResponseBody
-    public  ResponseEntity addVehicle(@RequestBody Vehicles vehicle){
-        return CRUDService.addVehicle(vehicle);
+    public ResponseEntity addVehicle(@RequestBody Vehicles vehicle) {
+        return CRUDService.mergeVehicle(vehicle);
+    }
+
+    @GetMapping("/getallobjectflexfields")
+    @ResponseBody
+    public ResponseEntity getAllObjectFlexfields() {
+        return CRUDService.getAllObjectFlexfields();
+    }
+
+    @PostMapping("/mergeobjectflexfield")
+    @ResponseBody
+    public ResponseEntity mergeObjectFlexfield(@RequestBody ObjectFlexfieldsConfig flexfield) {
+        return CRUDService.mergeObjectFlexfield(flexfield);
+    }
+
+    @GetMapping("/getallobjectriskconfig")
+    @ResponseBody
+    public ResponseEntity getAllObjectRiskConfig() {
+        return CRUDService.getAllObjectRiskConfig();
+    }
+
+    @PostMapping("/mergeobjectriskconfig")
+    @ResponseBody
+    public ResponseEntity mergeObjectRisk(@RequestBody ObjectRisksConfig risk) {
+        return CRUDService.mergeObjectRiskConfig(risk);
+    }
+
+    @PostMapping("/mergeproductconfig")
+    @ResponseBody
+    public ResponseEntity mergeProductConfig(@RequestBody ProductsConfig productsConfig) {
+        return CRUDService.mergeProductConfig(productsConfig);
+    }
+
+    @GetMapping("/getallpolicylinetypesconfig")
+    @ResponseBody
+    public ResponseEntity getAllPolicyLineTypesConfig() {
+        return CRUDService.getAllPolicyLineTypesConfig();
+    }
+
+    @PostMapping("/mergepolicylinetypeconfig")
+    @ResponseBody
+    public ResponseEntity mergePolicyLineTypeConfig(@RequestBody PolicyLineTypesConfig typesConfig) {
+        return CRUDService.mergePolicyLineTypeConfig(typesConfig);
+    }
+
+    @GetMapping("/getallpremiumheadersconfig")
+    @ResponseBody
+    public ResponseEntity getAllPremiumHeadersConfig() {
+        return CRUDService.getAllPremiumHeadersConfig();
+    }
+
+    @PostMapping("/mergepremiumheadersconfig")
+    @ResponseBody
+    public ResponseEntity mergePremiumHeaderConfig(@RequestBody PremiumCalcConfigHeaders headers) {
+        return CRUDService.mergePremiumHeaderConfig(headers);
+    }
+
+    @GetMapping("/getallpremiumvaluesconfig")
+    @ResponseBody
+    public ResponseEntity getAllPremiumValuesConfig() {
+        return CRUDService.getAllPremiumValuesConfig();
+    }
+
+    @PostMapping("/mergepremiumvaluesconfig")
+    @ResponseBody
+    public ResponseEntity mergePremiumValueConfig(@RequestBody PremiumCalcConfigValues values) {
+        return CRUDService.mergePremiumValueConfig(values);
     }
 }

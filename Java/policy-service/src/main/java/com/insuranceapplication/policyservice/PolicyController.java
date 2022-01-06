@@ -173,8 +173,68 @@ public class PolicyController {
         return ResponseEntity.ok().body("policy-service is [ONLINE]");
     }
 
-    @PostMapping("/addvehicle")
-    public ResponseEntity addVehicle(@RequestBody Vehicles vehicle) {
-       return policyService.addVehicle(vehicle);
+    @PostMapping("/mergevehicle")
+    public ResponseEntity mergeVehicle(@RequestBody Vehicles vehicle) {
+       return policyService.mergeVehicle(vehicle);
+    }
+
+    @GetMapping("/allobjectflexfields")
+    @ResponseBody
+    public ResponseEntity getAllObjectFlexfields(){
+        return policyService.getAllObjectFlexfields();
+    }
+
+    @PostMapping("/mergeobjectflexfield")
+    public ResponseEntity mergeObjectFlexfield(@RequestBody ObjectFlexfieldsConfig flexfield) {
+        return policyService.mergeObjectFlexfield(flexfield);
+    }
+
+    @GetMapping("/allobjectriskconfig")
+    @ResponseBody
+    public ResponseEntity getAllObjectRiskConfig(){
+        return policyService.getAllObjectRiskConfig();
+    }
+
+    @PostMapping("/mergeobjectriskconfig")
+    public ResponseEntity mergeObjectRiskConfig(@RequestBody ObjectRisksConfig risk) {
+        return policyService.mergeObjectRiskConfig(risk);
+    }
+
+    @PostMapping("/mergeproductconfig")
+    public ResponseEntity mergeProductConfig(@RequestBody ProductsConfig productsConfig) {
+        return policyService.mergeProductConfig(productsConfig);
+    }
+
+    @GetMapping("/allpolicylinetypesconfig")
+    @ResponseBody
+    public ResponseEntity getAllPolicyLineTypesConfig(){
+        return policyService.getAllPolicyLineTypesConfig();
+    }
+
+    @PostMapping("/mergepolicylinetypeconfig")
+    public ResponseEntity mergeObjectRiskConfig(@RequestBody PolicyLineTypesConfig typesConfig) {
+        return policyService.mergePolicyLineTypeConfig(typesConfig);
+    }
+
+    @GetMapping("/allpremiumheadersconfig")
+    @ResponseBody
+    public ResponseEntity getAllPremiumHeadersConfig(){
+        return policyService.getAllPremiumHeadersConfig();
+    }
+
+    @PostMapping("/mergepremiumheadersconfig")
+    public ResponseEntity mergePremiumHeadersConfig(@RequestBody PremiumCalcConfigHeaders headers) {
+        return policyService.mergePremiumHeadersConfig(headers);
+    }
+
+    @GetMapping("/allpremiumvaluesconfig")
+    @ResponseBody
+    public ResponseEntity getAllPremiumValuesConfig(){
+        return policyService.getAllPremiumValuesConfig();
+    }
+
+    @PostMapping("/mergepremiumvaluesconfig")
+    public ResponseEntity mergePremiumValuesConfig(@RequestBody PremiumCalcConfigValues values) {
+        return policyService.mergePremiumValuesConfig(values);
     }
 }

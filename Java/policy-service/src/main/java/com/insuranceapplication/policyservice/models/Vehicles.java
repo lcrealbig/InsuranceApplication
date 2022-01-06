@@ -1,7 +1,6 @@
 package com.insuranceapplication.policyservice.models;
 
 
-import org.springframework.beans.factory.annotation.Value;
 
 public class Vehicles {
     private Integer vehicleId;

@@ -210,8 +210,68 @@ public class PolicyService {
         return template.getForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getallvehicles", List.class);
     }
 
-    public ResponseEntity addVehicle(Vehicles vehicle) {
+    public ResponseEntity mergeVehicle(Vehicles vehicle) {
         RestTemplate template = new RestTemplate();
-        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/addvehicle", vehicle, Vehicles.class);
+        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/mergevehicle", vehicle, Vehicles.class);
+    }
+
+    public ResponseEntity getAllObjectFlexfields() {
+        RestTemplate template = new RestTemplate();
+        return template.getForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getallobjectflexfields", List.class);
+    }
+
+    public ResponseEntity mergeObjectFlexfield(ObjectFlexfieldsConfig flexfield) {
+        RestTemplate template = new RestTemplate();
+        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/mergeobjectflexfield", flexfield, ObjectFlexfieldsConfig.class);
+    }
+
+    public ResponseEntity getAllObjectRiskConfig() {
+        RestTemplate template = new RestTemplate();
+        return template.getForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getallobjectriskconfig", List.class);
+    }
+
+    public ResponseEntity mergeObjectRiskConfig(ObjectRisksConfig risk) {
+        RestTemplate template = new RestTemplate();
+        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/mergeobjectriskconfig", risk, ObjectRisks.class);
+
+    }
+
+    public ResponseEntity mergeProductConfig(ProductsConfig productsConfig) {
+        RestTemplate template = new RestTemplate();
+        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/mergeproductconfig", productsConfig, ProductsConfig.class);
+    }
+
+    public ResponseEntity getAllPolicyLineTypesConfig() {
+        RestTemplate template = new RestTemplate();
+        return template.getForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getallpolicylinetypesconfig", List.class);
+
+    }
+
+    public ResponseEntity mergePolicyLineTypeConfig(PolicyLineTypesConfig typesConfig) {
+        RestTemplate template = new RestTemplate();
+        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/mergepolicylinetypeconfig", typesConfig, PolicyLineTypesConfig.class);
+
+    }
+
+    public ResponseEntity getAllPremiumHeadersConfig() {
+        RestTemplate template = new RestTemplate();
+        return template.getForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getallpremiumheadersconfig", List.class);
+
+    }
+
+    public ResponseEntity mergePremiumHeadersConfig(PremiumCalcConfigHeaders headers) {
+        RestTemplate template = new RestTemplate();
+        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/mergepremiumheadersconfig", headers, PremiumCalcConfigHeaders.class);
+    }
+
+    public ResponseEntity getAllPremiumValuesConfig() {
+        RestTemplate template = new RestTemplate();
+        return template.getForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getallpremiumvaluesconfig", List.class);
+
+    }
+
+    public ResponseEntity mergePremiumValuesConfig(PremiumCalcConfigValues values) {
+        RestTemplate template = new RestTemplate();
+        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/mergepremiumvaluesconfig", values, PremiumCalcConfigValues.class);
     }
 }

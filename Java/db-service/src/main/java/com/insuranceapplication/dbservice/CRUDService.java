@@ -82,7 +82,7 @@ public class CRUDService {
     }
 
     @Transactional
-    public ResponseEntity addVehicle(Vehicles vehicle){
+    public ResponseEntity mergeVehicle(Vehicles vehicle){
         em.merge(vehicle);
         return ResponseEntity.ok().body(vehicle);
     }
@@ -230,5 +230,83 @@ public class CRUDService {
     public ResponseEntity getRisks(InsuredObjects insuredObject) {
         List<ObjectRisks> resultList = (List<ObjectRisks>) em.createQuery("select o from ObjectRisks o where o.objectId = " + insuredObject.getObjectId()).getResultList();
         return ResponseEntity.ok().body(resultList);
+    }
+
+    public ResponseEntity getAllObjectFlexfields() {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<ObjectFlexfieldsConfig> cq = cb.createQuery(ObjectFlexfieldsConfig.class);
+            Root<ObjectFlexfieldsConfig> rootEntry = cq.from(ObjectFlexfieldsConfig.class);
+            CriteriaQuery<ObjectFlexfieldsConfig> all = cq.select(rootEntry);
+            TypedQuery<ObjectFlexfieldsConfig> allQuery = em.createQuery(all);
+            return ResponseEntity.ok().body(allQuery.getResultList());
+    }
+
+    @Transactional
+    public ResponseEntity mergeObjectFlexfield(ObjectFlexfieldsConfig flexfield) {
+            em.merge(flexfield);
+            return ResponseEntity.ok().body(flexfield);
+    }
+
+    @Transactional
+    public ResponseEntity mergeObjectRiskConfig(ObjectRisksConfig risk){
+        em.merge(risk);
+        return ResponseEntity.ok().body(risk);
+    }
+
+    public ResponseEntity getAllObjectRiskConfig() {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<ObjectRisksConfig> cq = cb.createQuery(ObjectRisksConfig.class);
+        Root<ObjectRisksConfig> rootEntry = cq.from(ObjectRisksConfig.class);
+        CriteriaQuery<ObjectRisksConfig> all = cq.select(rootEntry);
+        TypedQuery<ObjectRisksConfig> allQuery = em.createQuery(all);
+        return ResponseEntity.ok().body(allQuery.getResultList());
+    }
+
+    public ResponseEntity mergeProductConfig(ProductsConfig productsConfig) {
+        em.merge(productsConfig);
+        return ResponseEntity.ok().body(productsConfig);
+    }
+
+    @Transactional
+    public ResponseEntity mergePolicyLineTypeConfig(PolicyLineTypesConfig typesConfig){
+        em.merge(typesConfig);
+        return ResponseEntity.ok().body(typesConfig);
+    }
+
+    public ResponseEntity getAllPolicyLineTypesConfig() {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<PolicyLineTypesConfig> cq = cb.createQuery(PolicyLineTypesConfig.class);
+        Root<PolicyLineTypesConfig> rootEntry = cq.from(PolicyLineTypesConfig.class);
+        CriteriaQuery<PolicyLineTypesConfig> all = cq.select(rootEntry);
+        TypedQuery<PolicyLineTypesConfig> allQuery = em.createQuery(all);
+        return ResponseEntity.ok().body(allQuery.getResultList());
+    }
+
+    public ResponseEntity getAllPremiumHeadersConfig() {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<PremiumCalcConfigHeaders> cq = cb.createQuery(PremiumCalcConfigHeaders.class);
+        Root<PremiumCalcConfigHeaders> rootEntry = cq.from(PremiumCalcConfigHeaders.class);
+        CriteriaQuery<PremiumCalcConfigHeaders> all = cq.select(rootEntry);
+        TypedQuery<PremiumCalcConfigHeaders> allQuery = em.createQuery(all);
+        return ResponseEntity.ok().body(allQuery.getResultList());
+    }
+
+    public ResponseEntity mergePremiumHeaderConfig(PremiumCalcConfigHeaders headers) {
+        em.merge(headers);
+        return ResponseEntity.ok().body(headers);
+    }
+
+    public ResponseEntity getAllPremiumValuesConfig() {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<PremiumCalcConfigValues> cq = cb.createQuery(PremiumCalcConfigValues.class);
+        Root<PremiumCalcConfigValues> rootEntry = cq.from(PremiumCalcConfigValues.class);
+        CriteriaQuery<PremiumCalcConfigValues> all = cq.select(rootEntry);
+        TypedQuery<PremiumCalcConfigValues> allQuery = em.createQuery(all);
+        return ResponseEntity.ok().body(allQuery.getResultList());
+    }
+
+    public ResponseEntity mergePremiumValueConfig(PremiumCalcConfigValues values) {
+        em.merge(values);
+        return ResponseEntity.ok().body(values);
     }
 }
