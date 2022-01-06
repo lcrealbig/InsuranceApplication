@@ -22,4 +22,10 @@ call heroku git:remote -a insapp-user-service
 call git add . 
 call git commit -am "deploy" 
 call git push heroku master 
+
+cd ..\claim-service
+call heroku git:remote -a insapp-claim-service
+call git add . 
+call git commit -am "deploy" 
+call git push heroku master 
 PAUSE
