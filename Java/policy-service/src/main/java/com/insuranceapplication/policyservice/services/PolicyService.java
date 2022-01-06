@@ -17,7 +17,7 @@ public class PolicyService {
     
     @Autowired
     EurekaClient eurekaClient;
-     private RestTemplate template;
+     private RestTemplate template = new RestTemplate();
 
     public void createTransaction(Transactions transactions) {
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/createtransaction", transactions, String.class);
@@ -108,11 +108,11 @@ public class PolicyService {
          return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/searchpolicyline", policyLine, PolicyLines.class);
      }
 
-    public void calculation(PolicyLines policyLines) {
+    public void calculation(PolicyLines policyLine) {
         PremiumCalculation calculation = new PremiumCalculation();
         calculation.eurekaClient = this.eurekaClient;
         calculation.policyService = this;
-        calculation.calculate(policyLines);
+        calculation.calculate(policyLine);
     }
 
     public ResponseEntity getProducts() {
@@ -185,8 +185,8 @@ public class PolicyService {
         return (List<PremiumCalcConfigValues>) response.getBody();
     }
 
-    public Object getInsuredObjects(PolicyLines policyLines) {
+    public List getInsuredObjects(PolicyLines policyLines) {
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getInsuredObjects",policyLines, List.class);
-        return (List<PremiumCalcConfigValues>) response.getBody();
+        return (List)response.getBody();
     }
 }

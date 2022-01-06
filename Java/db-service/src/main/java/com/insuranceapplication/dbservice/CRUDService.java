@@ -54,9 +54,7 @@ public class CRUDService {
 
     @Transactional
     public ResponseEntity getVehicles(String query) {
-
         Query q = em.createQuery(query);
-
         ArrayList<Vehicles> results = (ArrayList<Vehicles>) q.getResultList();
         return ResponseEntity.ok().body(results);
     }
@@ -219,10 +217,11 @@ public class CRUDService {
     }
 
     @Transactional
-    public List getInsuredObjects(PolicyLines policyLines) {
-        List<InsuredObjects> insuredObjects = (List<InsuredObjects>) em.createQuery("select io from InsuredObjects io where policyLineId =" + policyLines.getPolicyLineId()).getResultList();
+    public List getInsuredObjects(PolicyLines policyLine) {
+        List<InsuredObjects> insuredObjects = (List<InsuredObjects>) em.createQuery("select io from InsuredObjects io where io.policyLineId = " + policyLine.getPolicyLineId()).getResultList();
         return insuredObjects;
     }
+
     //stworz funkcje wyciagajaca insured object zwracajaca liste obiektow, przyjmie w argumencie obiekt policy line.
 
    /* @Transactional
