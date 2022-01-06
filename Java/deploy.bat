@@ -23,7 +23,12 @@ call git add .
 call git commit -am "deploy" 
 call git push heroku master 
 
+
 cd ..\claim-service
+call heroku logout
+echo "przeloguj na insuranceapplicationsoft@gmail.com"
+pause
+call heroku login
 call heroku git:remote -a insapp-claim-service
 call git add . 
 call git commit -am "deploy" 
