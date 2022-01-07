@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,9 +64,25 @@ public class CRUDService {
     }
 
     @Transactional
+    public ResponseEntity getAllVehicles() {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Vehicles> cq = cb.createQuery(Vehicles.class);
+        Root<Vehicles> rootEntry = cq.from(Vehicles.class);
+        CriteriaQuery<Vehicles> all = cq.select(rootEntry);
+        TypedQuery<Vehicles> allQuery = em.createQuery(all);
+        return ResponseEntity.ok().body(allQuery.getResultList());
+    }
+
+    @Transactional
     public ResponseEntity getVehicle(Vehicles vehicle) {
         Vehicles result = (Vehicles) em.createQuery("select v from Vehicles v WHERE v.vehicleId = " + vehicle.getVehicleId()).getSingleResult();
         return ResponseEntity.ok().body(result);
+    }
+
+    @Transactional
+    public ResponseEntity mergeVehicle(Vehicles vehicle){
+        em.merge(vehicle);
+        return ResponseEntity.ok().body(vehicle);
     }
 
 
@@ -229,4 +249,90 @@ public class CRUDService {
         List<ObjectRisks> selectedCoverages = em.createQuery("select or isSelected from  ObjectRisks or where or.objectId ="+insuredObjects.getObjectId()).getResultList();
         return ResponseEntity.ok().body(selectedCoverages);
     }*/
+    public ResponseEntity getAllObjectFlexfields() {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<ObjectFlexfieldsConfig> cq = cb.createQuery(ObjectFlexfieldsConfig.class);
+            Root<ObjectFlexfieldsConfig> rootEntry = cq.from(ObjectFlexfieldsConfig.class);
+            CriteriaQuery<ObjectFlexfieldsConfig> all = cq.select(rootEntry);
+            TypedQuery<ObjectFlexfieldsConfig> allQuery = em.createQuery(all);
+            return ResponseEntity.ok().body(allQuery.getResultList());
+    }
+
+    @Transactional
+    public ResponseEntity mergeObjectFlexfield(ObjectFlexfieldsConfig flexfield) {
+            em.merge(flexfield);
+            return ResponseEntity.ok().body(flexfield);
+    }
+
+    @Transactional
+    public ResponseEntity mergeObjectRiskConfig(ObjectRisksConfig risk){
+        em.merge(risk);
+        return ResponseEntity.ok().body(risk);
+    }
+
+    public ResponseEntity getAllObjectRiskConfig() {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<ObjectRisksConfig> cq = cb.createQuery(ObjectRisksConfig.class);
+        Root<ObjectRisksConfig> rootEntry = cq.from(ObjectRisksConfig.class);
+        CriteriaQuery<ObjectRisksConfig> all = cq.select(rootEntry);
+        TypedQuery<ObjectRisksConfig> allQuery = em.createQuery(all);
+        return ResponseEntity.ok().body(allQuery.getResultList());
+    }
+
+    public ResponseEntity mergeProductConfig(ProductsConfig productsConfig) {
+        em.merge(productsConfig);
+        return ResponseEntity.ok().body(productsConfig);
+    }
+
+    @Transactional
+    public ResponseEntity mergePolicyLineTypeConfig(PolicyLineTypesConfig typesConfig){
+        em.merge(typesConfig);
+        return ResponseEntity.ok().body(typesConfig);
+    }
+
+    public ResponseEntity getAllPolicyLineTypesConfig() {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<PolicyLineTypesConfig> cq = cb.createQuery(PolicyLineTypesConfig.class);
+        Root<PolicyLineTypesConfig> rootEntry = cq.from(PolicyLineTypesConfig.class);
+        CriteriaQuery<PolicyLineTypesConfig> all = cq.select(rootEntry);
+        TypedQuery<PolicyLineTypesConfig> allQuery = em.createQuery(all);
+        return ResponseEntity.ok().body(allQuery.getResultList());
+    }
+
+    public ResponseEntity getAllPremiumHeadersConfig() {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<PremiumCalcConfigHeaders> cq = cb.createQuery(PremiumCalcConfigHeaders.class);
+        Root<PremiumCalcConfigHeaders> rootEntry = cq.from(PremiumCalcConfigHeaders.class);
+        CriteriaQuery<PremiumCalcConfigHeaders> all = cq.select(rootEntry);
+        TypedQuery<PremiumCalcConfigHeaders> allQuery = em.createQuery(all);
+        return ResponseEntity.ok().body(allQuery.getResultList());
+    }
+
+    public ResponseEntity mergePremiumHeaderConfig(PremiumCalcConfigHeaders headers) {
+        em.merge(headers);
+        return ResponseEntity.ok().body(headers);
+    }
+
+    public ResponseEntity getAllPremiumValuesConfig() {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<PremiumCalcConfigValues> cq = cb.createQuery(PremiumCalcConfigValues.class);
+        Root<PremiumCalcConfigValues> rootEntry = cq.from(PremiumCalcConfigValues.class);
+        CriteriaQuery<PremiumCalcConfigValues> all = cq.select(rootEntry);
+        TypedQuery<PremiumCalcConfigValues> allQuery = em.createQuery(all);
+        return ResponseEntity.ok().body(allQuery.getResultList());
+    }
+
+    public ResponseEntity mergePremiumValueConfig(PremiumCalcConfigValues values) {
+        em.merge(values);
+        return ResponseEntity.ok().body(values);
+    }
+
+    public ResponseEntity getAllCustomers() {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Customers> cq = cb.createQuery(Customers.class);
+        Root<Customers> rootEntry = cq.from(Customers.class);
+        CriteriaQuery<Customers> all = cq.select(rootEntry);
+        TypedQuery<Customers> allQuery = em.createQuery(all);
+        return ResponseEntity.ok().body(allQuery.getResultList());
+    }
 }

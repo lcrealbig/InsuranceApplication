@@ -1,5 +1,7 @@
 package com.insuranceapplication.policyservice.models;
 
+
+
 public class Vehicles {
     private Integer vehicleId;
     private String vehicleType;
@@ -11,11 +13,12 @@ public class Vehicles {
     private String power;
     private String partsAvailability;
     private String protectionClass;
+    private String power;
 
     public Vehicles() {
     }
 
-    public Vehicles(String power,String protectionClass, String partsAvailability, Integer vehicleId, String vehicleType, String brand, String vehicleModel, String generation, String engineType, String engine) {
+    public Vehicles(String protectionClass, String partsAvailability, int vehicleId, String vehicleType, String brand, String vehicleModel, String generation, String engineType, String engine, String power) {
         this.vehicleId = vehicleId;
         this.vehicleType = vehicleType;
         this.brand = brand;
@@ -25,11 +28,12 @@ public class Vehicles {
         this.engine = engine;
         this.protectionClass = protectionClass;
         this.partsAvailability = partsAvailability;
+        this.protectionClass = protectionClass;
         this.power = power;
     }
 
 
-    public int getVehicleId() {
+    public Integer getVehicleId() {
         return vehicleId;
     }
 
@@ -85,6 +89,9 @@ public class Vehicles {
         this.engine = engine;
     }
 
+    public String getPartsAvailability() {
+        return partsAvailability;
+    }
     public void setPartsAvailability(String partsAvailability) {
         this.partsAvailability = partsAvailability;
     }
@@ -103,9 +110,5 @@ public class Vehicles {
 
     public void setPower(String power) {
         this.power = power;
-    }
-
-    public String getPartsAvailability() {
-        return partsAvailability;
     }
 }

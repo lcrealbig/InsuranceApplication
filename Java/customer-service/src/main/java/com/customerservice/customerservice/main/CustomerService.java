@@ -1,6 +1,7 @@
 package com.customerservice.customerservice.main;
 
 import com.customerservice.customerservice.globals.Variables;
+import com.customerservice.customerservice.methods.Utils;
 import com.customerservice.customerservice.model.Customers;
 import com.netflix.discovery.EurekaClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 @Service
@@ -51,13 +54,21 @@ public class CustomerService {
         if (controlNumber != checkSum) {
             return ResponseEntity.badRequest().body("Pesel is incorrect");
         }
-        return null;
+        ArrayList<Customers> customers = (ArrayList<Customers>) Utils.mapToList((List<LinkedHashMap>) getAllCustomers().getBody(),Customers.class);
+        for(Customers existingCustomer : customers){
+            if(existingCustomer.getPesel().equals(customer.getPesel()) && !existingCustomer.getCustomerId().equals(customer.getCustomerId())){
+                return ResponseEntity.badRequest().body("Pesel already exist in database");
+            }
+        }
+
+
+        return ResponseEntity.ok().body(customer);
     }
 
     public ResponseEntity<Customers> createCustomer(@RequestBody Customers customer) {
-        ResponseEntity customerVerification = null;
+        ResponseEntity customerVerification;
         customerVerification = verifyCustomerPeselAndBirth(customer);
-        if (customerVerification == null) {
+        if (customerVerification.getStatusCode().value() == 200) {
             RestTemplate template = new RestTemplate();
             return template.postForEntity(eurekaClient.getApplication(Variables.dbName)
                     .getInstances().get(0).getHomePageUrl()+"/createcustomer", customer, Customers.class);
@@ -69,7 +80,7 @@ public class CustomerService {
     public ResponseEntity<Customers> modifyCustomer(@RequestBody Customers customer) {
         ResponseEntity customerVerification = null;
         customerVerification = verifyCustomerPeselAndBirth(customer);
-        if (customerVerification == null) {
+        if (customerVerification.getStatusCode().value() == 200) {
             RestTemplate template = new RestTemplate();
             return template.postForEntity(eurekaClient.getApplication(Variables.dbName)
                     .getInstances().get(0).getHomePageUrl()+"/modifycustomer", customer, Customers.class);
@@ -87,5 +98,11 @@ public class CustomerService {
     public ResponseEntity deleteCustomer(@RequestBody Customers customer) {
         RestTemplate template = new RestTemplate();
         return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl()+ "/deletecustomer", customer, Customers.class);
+    }
+
+    public ResponseEntity getAllCustomers() {
+        RestTemplate template = new RestTemplate();
+        return template.getForEntity(eurekaClient.getApplication(Variables.dbName)
+                .getInstances().get(0).getHomePageUrl()+"/getallcustomers", List.class);
     }
 }

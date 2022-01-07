@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -8,15 +8,13 @@
 		<version>2.4.5</version>
 		<relativePath/>
 	</parent>
-	<groupId>MPdev</groupId>
-	<artifactId>policy-service</artifactId>
+	<groupId>com.insuranceapplication</groupId>
+	<artifactId>claim-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<name>claim-service</name>
+	<description>Claim service for Insurance Application</description>
 	<packaging>jar</packaging>
-	<name>policy-service</name>
-	<description>serverApp learning project for Spring Boot</description>
 	<properties>
-		<java.version>1.8</java.version>
-		<maven.version>3.6.2</maven.version>
 		<spring-cloud.version>2020.0.4</spring-cloud.version>
 	</properties>
 	<dependencies>
