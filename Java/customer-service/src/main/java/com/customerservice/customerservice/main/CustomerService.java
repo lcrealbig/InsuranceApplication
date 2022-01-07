@@ -56,7 +56,7 @@ public class CustomerService {
         }
         ArrayList<Customers> customers = (ArrayList<Customers>) Utils.mapToList((List<LinkedHashMap>) getAllCustomers().getBody(),Customers.class);
         for(Customers existingCustomer : customers){
-            if(existingCustomer.getPesel().equals(customer.getPesel()) && existingCustomer.getCustomerId() != customer.getCustomerId()){
+            if(existingCustomer.getPesel().equals(customer.getPesel()) && !existingCustomer.getCustomerId().equals(customer.getCustomerId())){
                 return ResponseEntity.badRequest().body("Pesel already exist in database");
             }
         }
