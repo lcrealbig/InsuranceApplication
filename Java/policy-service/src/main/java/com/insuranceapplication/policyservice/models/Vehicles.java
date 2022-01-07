@@ -13,7 +13,7 @@ public class Vehicles {
     private String power;
     private String partsAvailability;
     private String protectionClass;
-    private String power;
+
 
     public Vehicles() {
     }

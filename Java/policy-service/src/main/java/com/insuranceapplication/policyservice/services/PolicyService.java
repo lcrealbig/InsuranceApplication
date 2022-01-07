@@ -188,6 +188,7 @@ public class PolicyService {
     public List getInsuredObjects(PolicyLines policyLines) {
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getInsuredObjects",policyLines, List.class);
         return (List)response.getBody();
+    }
     public ResponseEntity getAllVehicles() {
         RestTemplate template = new RestTemplate();
         return template.getForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getallvehicles", List.class);
