@@ -1,6 +1,8 @@
 package com.insuranceapplication.dbservice;
 
 import com.insuranceapplication.dbservice.models.*;
+import com.netflix.discovery.converters.Auto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,11 +12,10 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class Controller {
 
-    private final CRUDService CRUDService;
+    @Autowired
+    private CRUDService CRUDService;
 
-    public Controller(CRUDService CRUDService) {
-        this.CRUDService = CRUDService;
-    }
+
 
     @PostMapping("/createtransaction")
     public void createTransaction(@RequestBody Transactions newTransactions) {
@@ -184,9 +185,10 @@ public class Controller {
     public List premiumConfigList() {
         return CRUDService.getPremCalcVals();
     }
-    @GetMapping("/getInsuredObjects")
-    public List getInsuredObjects(PolicyLines policyLines){
-        return CRUDService.getInsuredObjects(policyLines);
+
+    @PostMapping("/getInsuredObjects")
+    public List getInsuredObjects(@RequestBody PolicyLines policyLine){
+        return CRUDService.getInsuredObjects(policyLine);
     }
 
     @GetMapping("/getallvehicles")
