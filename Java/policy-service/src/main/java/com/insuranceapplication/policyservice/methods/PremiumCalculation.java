@@ -64,87 +64,87 @@ public class PremiumCalculation {
 
         Double riseOfPremium = 0D;
 
-        for (PremiumCalcConfigValues riskValue : configValues) {
-            if (riskValue.getCombinationName().equals("driver_age")) {
+        for (PremiumCalcConfigValues calcConfig : configValues) {
+            if (calcConfig.getCombinationName().equals("driver_age")) {
 
-                if (getPeriod(customer.getBirthDate()) < Integer.valueOf(riskValue.getValue1())
-                        || getPeriod(customer.getBirthDate()) > Integer.valueOf(riskValue.getValue2())) {
-                    riseOfPremium = riseOfPremium + Integer.valueOf(riskValue.getValue3());
+                if (getPeriod(customer.getBirthDate()) < Integer.valueOf(calcConfig.getValue1())
+                        || getPeriod(customer.getBirthDate()) > Integer.valueOf(calcConfig.getValue2())) {
+                    riseOfPremium = riseOfPremium + Integer.valueOf(calcConfig.getValue3());
                 }
             }
-            if (riskValue.getCombinationName().equals("license_age")) {
-                if (getPeriod(insuredDriver.getD01()) < Integer.valueOf(riskValue.getValue1())
-                        && riskValue.getComboId().equals("LIC_BE")) {
-                    riseOfPremium = riseOfPremium + Integer.valueOf(riskValue.getValue2());
+            if (calcConfig.getCombinationName().equals("license_age")) {
+                if (getPeriod(insuredDriver.getD01()) < Integer.valueOf(calcConfig.getValue1())
+                        && calcConfig.getComboId().equals("LIC_BE")) {
+                    riseOfPremium = riseOfPremium + Integer.valueOf(calcConfig.getValue2());
                 }
-                if (getPeriod(insuredDriver.getD01()) < Integer.valueOf(riskValue.getValue1())
-                        && getPeriod(insuredDriver.getD01()) >= Integer.valueOf(riskValue.getValue2())
-                        && riskValue.getComboId().equals("LIC_LBE")) {
-                    riseOfPremium = riseOfPremium + Integer.valueOf(riskValue.getValue3());
+                if (getPeriod(insuredDriver.getD01()) < Integer.valueOf(calcConfig.getValue1())
+                        && getPeriod(insuredDriver.getD01()) >= Integer.valueOf(calcConfig.getValue2())
+                        && calcConfig.getComboId().equals("LIC_LBE")) {
+                    riseOfPremium = riseOfPremium + Integer.valueOf(calcConfig.getValue3());
                 }
-                if (getPeriod(insuredDriver.getD01()) < Integer.valueOf(riskValue.getValue1())
-                        && riskValue.getComboId().equals("LIC_L")) {
-                    riseOfPremium = riseOfPremium + Integer.valueOf(riskValue.getValue2());
+                if (getPeriod(insuredDriver.getD01()) < Integer.valueOf(calcConfig.getValue1())
+                        && calcConfig.getComboId().equals("LIC_L")) {
+                    riseOfPremium = riseOfPremium + Integer.valueOf(calcConfig.getValue2());
                 }
             }
 
-            if (riskValue.getCombinationName().equals("car_age")) {
-                if (riskValue.getComboId().equals("CAR_BE")) {
-                    if (getPeriod(insuredVehicle.getD01()) >= Integer.valueOf(riskValue.getValue1())) {
-                        riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue2(), insuredVehicle.getN02());
+            if (calcConfig.getCombinationName().equals("car_age")) {
+                if (calcConfig.getComboId().equals("CAR_BE")) {
+                    if (getPeriod(insuredVehicle.getD01()) >= Integer.valueOf(calcConfig.getValue1())) {
+                        riseOfPremium = riseOfPremium + precentToPremium(calcConfig.getValue2(), insuredVehicle.getN02());
                     }
                 }
-                if (riskValue.getComboId().equals("CAR_LBE") && riskValue.getId().equals(Integer.valueOf(7))) {
-                    if (getPeriod(insuredVehicle.getD01()) < Integer.valueOf(riskValue.getValue1()) && getPeriod(insuredVehicle.getD01()) >= Integer.valueOf(riskValue.getValue2())) {
-                        riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue3(), insuredVehicle.getN02());
+                if (calcConfig.getComboId().equals("CAR_LBE") && calcConfig.getId().equals(Integer.valueOf(30))) {
+                    if (getPeriod(insuredVehicle.getD01()) < Integer.valueOf(calcConfig.getValue1()) && getPeriod(insuredVehicle.getD01()) >= Integer.valueOf(calcConfig.getValue2())) {
+                        riseOfPremium = riseOfPremium + precentToPremium(calcConfig.getValue3(), insuredVehicle.getN02());
                     }
                 }
-                if (riskValue.getComboId().equals("CAR_LBE") && riskValue.getId().equals(Integer.valueOf(6))) {
-                    if (getPeriod(insuredVehicle.getD01()) < Integer.valueOf(riskValue.getValue1()) && getPeriod(insuredVehicle.getD01()) >= Integer.valueOf(riskValue.getValue2())) {
-                        riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue3(), insuredVehicle.getN02());
+                if (calcConfig.getComboId().equals("CAR_LBE") && calcConfig.getId().equals(Integer.valueOf(29))) {
+                    if (getPeriod(insuredVehicle.getD01()) < Integer.valueOf(calcConfig.getValue1()) && getPeriod(insuredVehicle.getD01()) >= Integer.valueOf(calcConfig.getValue2())) {
+                        riseOfPremium = riseOfPremium + precentToPremium(calcConfig.getValue3(), insuredVehicle.getN02());
                     }
                 }
-                if (riskValue.getComboId().equals("CAR_L")) {
-                    if (getPeriod(insuredVehicle.getD01()) < Integer.valueOf(riskValue.getValue1())) {
-                        riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue2(), insuredVehicle.getN02());
+                if (calcConfig.getComboId().equals("CAR_L")) {
+                    if (getPeriod(insuredVehicle.getD01()) < Integer.valueOf(calcConfig.getValue1())) {
+                        riseOfPremium = riseOfPremium + precentToPremium(calcConfig.getValue2(), insuredVehicle.getN02());
                     }
                 }
             }
 
             String partsAvailability = getVehicle().getPartsAvailability();
 
-            if (riskValue.getCombinationName().equals("mileage")) {
-                if (riskValue.getComboId().equals("MIL_L")) {
-                    if (insuredVehicle.getN04() < Integer.valueOf(riskValue.getValue1())) {
-                        riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue2(), insuredVehicle.getN02());
+            if (calcConfig.getCombinationName().equals("mileage")) {
+                if (calcConfig.getComboId().equals("MIL_L")) {
+                    if (insuredVehicle.getN04() < Integer.valueOf(calcConfig.getValue1())) {
+                        riseOfPremium = riseOfPremium + precentToPremium(calcConfig.getValue2(), insuredVehicle.getN02());
                     }
                 }
-                if (riskValue.getComboId().equals("MIL_BE")) {
-                    if (insuredVehicle.getN04() >= Integer.valueOf(riskValue.getValue1()) && partsAvailability.equals("true")) {
-                        riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue2(), insuredVehicle.getN04());
+                if (calcConfig.getComboId().equals("MIL_BE")) {
+                    if (insuredVehicle.getN04() >= Integer.valueOf(calcConfig.getValue1()) && partsAvailability.equals("true")) {
+                        riseOfPremium = riseOfPremium + precentToPremium(calcConfig.getValue2(), insuredVehicle.getN04());
                     }
-                    if (insuredVehicle.getN04() >= Integer.valueOf(riskValue.getValue1()) && !partsAvailability.equals("true")) {
-                        riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue3(), insuredVehicle.getN02());
+                    if (insuredVehicle.getN04() >= Integer.valueOf(calcConfig.getValue1()) && !partsAvailability.equals("true")) {
+                        riseOfPremium = riseOfPremium + precentToPremium(calcConfig.getValue3(), insuredVehicle.getN02());
                     }
                 }
 
-                if (riskValue.getComboId().equals("MIL_LBE") && riskValue.getId() == 9) {
-                    if (insuredVehicle.getN04() < Integer.valueOf(riskValue.getValue1())
-                            && insuredVehicle.getN04() >= Integer.valueOf(riskValue.getValue2())) {
+                if (calcConfig.getComboId().equals("MIL_LBE") && calcConfig.getId() == 32) {
+                    if (insuredVehicle.getN04() < Integer.valueOf(calcConfig.getValue1())
+                            && insuredVehicle.getN04() >= Integer.valueOf(calcConfig.getValue2())) {
                         if (partsAvailability.equals("true")) {
-                            riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue3(), insuredVehicle.getN02());
+                            riseOfPremium = riseOfPremium + precentToPremium(calcConfig.getValue3(), insuredVehicle.getN02());
                         } else {
-                            riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue4(), insuredVehicle.getN02());
+                            riseOfPremium = riseOfPremium + precentToPremium(calcConfig.getValue4(), insuredVehicle.getN02());
                         }
                     }
                 }
-                if (riskValue.getComboId().equals("MIL_LBE") && riskValue.getId() == 10) {
-                    if (insuredVehicle.getN04() < Integer.valueOf(riskValue.getValue1())
-                            && insuredVehicle.getN04() >= Integer.valueOf(riskValue.getValue2())) {
+                if (calcConfig.getComboId().equals("MIL_LBE") && calcConfig.getId() == 33) {
+                    if (insuredVehicle.getN04() < Integer.valueOf(calcConfig.getValue1())
+                            && insuredVehicle.getN04() >= Integer.valueOf(calcConfig.getValue2())) {
                         if (partsAvailability.equals("true")) {
-                            riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue3(), insuredVehicle.getN02());
+                            riseOfPremium = riseOfPremium + precentToPremium(calcConfig.getValue3(), insuredVehicle.getN02());
                         } else {
-                            riseOfPremium = riseOfPremium + precentToPremium(riskValue.getValue4(), insuredVehicle.getN02());
+                            riseOfPremium = riseOfPremium + precentToPremium(calcConfig.getValue4(), insuredVehicle.getN02());
                         }
                     }
                 }
