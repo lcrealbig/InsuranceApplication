@@ -46,14 +46,14 @@ public class Controller {
 
     @PostMapping("/gettransactionid")
     @ResponseBody
-    public ResponseEntity getTransactionId(@RequestBody String query) {
-        return CRUDService.getTransactionId(query);
+    public ResponseEntity getTransactionId(@RequestBody Transactions transaction) {
+        return CRUDService.getTransactionId(transaction);
     }
 
     @PostMapping("/getvehicles")
     @ResponseBody
-    public ResponseEntity getVehicles(@RequestBody String query) {
-        return CRUDService.getVehicles(query);
+    public ResponseEntity getVehicles(@RequestBody Vehicles vehicle) {
+        return CRUDService.getVehicles(vehicle);
     }
 
     @PostMapping("/getvehicle")
@@ -65,8 +65,8 @@ public class Controller {
 
     @PostMapping("/getpolicy")
     @ResponseBody
-    public Policy getPolicy(@RequestBody String query) {
-        return CRUDService.getPolicy(query);
+    public Policy getPolicy(@RequestBody Policy policy) {
+        return CRUDService.getPolicy(policy);
     }
 
     @PostMapping("/searchpolicy")
@@ -77,16 +77,23 @@ public class Controller {
 
     @PostMapping("/getpolicyline")
     @ResponseBody
-    public ResponseEntity getPolicyLine(@RequestBody String query) {
-        return CRUDService.getPolicyLine(query);
+    public ResponseEntity getPolicyLine(@RequestBody PolicyLines policyLine) {
+        return CRUDService.getPolicyLine(policyLine);
     }
-
+    @PostMapping("/getpolicylinetypes")
+    @ResponseBody
+    public ResponseEntity getPolicyLinesTypeConfig(@RequestBody PolicyLineTypesConfig policyLineTypesConfig) {
+        return CRUDService.getPolicyLineTypes(policyLineTypesConfig);
+    }
     @PostMapping("/searchpolicyline")
     @ResponseBody
     public ResponseEntity searchPolicyLine(@RequestBody PolicyLines policyLines) {
         return CRUDService.searchPolicyLine(policyLines);
     }
-
+    @GetMapping("/getProducts")
+    public ResponseEntity getProducts(){
+        return CRUDService.getProducts();
+    }
     @PostMapping("/createcustomer")
     public void createCustomer(@RequestBody Customers customer) {
         CRUDService.createCustomer(customer);
@@ -132,10 +139,15 @@ public class Controller {
         return CRUDService.insertInsuredObject(newInsuredObject);
     }
 
-    @PostMapping("/getrisksconfig")
+    @GetMapping("/getrisksconfig")
     @ResponseBody
-    public ResponseEntity getObjectRisksConfig(@RequestBody String query) {
-        return CRUDService.getObjectRisksConfig(query);
+    public ResponseEntity getObjectRisksConfig() {
+        return CRUDService.getObjectRisksConfig();
+    }
+    @PostMapping("/getobjecttypes")
+    @ResponseBody
+    public ResponseEntity getObjectTypesConfig(@RequestBody PolicyLineTypesConfig policyLineTypesConfig) {
+        return CRUDService.getObjectTypes(policyLineTypesConfig);
     }
 
     @PostMapping("/getvehicletypes")

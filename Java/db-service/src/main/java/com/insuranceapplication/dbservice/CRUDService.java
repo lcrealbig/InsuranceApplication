@@ -4,6 +4,7 @@ import com.insuranceapplication.dbservice.models.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -48,18 +49,37 @@ public class CRUDService {
     }
 
     @Transactional
-    public ResponseEntity getTransactionId(String query) {
-        Query q = em.createQuery(query);
-
+    public ResponseEntity getTransactionId(Transactions transactions) {
+        Query q = em.createQuery("select distinct t from Transactions t WHERE t.modifiedBy = '" + transactions.getModifiedBy() +
+                "' AND t.timestamp = '" + transactions.getTimestamp() + "'");
         ArrayList<Transactions> resultArray = (ArrayList<Transactions>) q.getResultList();
         Transactions result = resultArray.get(0);
         return ResponseEntity.ok().body(result);
     }
 
     @Transactional
-    public ResponseEntity getVehicles(String query) {
-        Query q = em.createQuery(query);
-        ArrayList<Vehicles> results = (ArrayList<Vehicles>) q.getResultList();
+    public ResponseEntity getVehicles(Vehicles vehicle) {
+        Query query = null;
+        if (vehicle.getBrand() == null) {
+            query = em.createQuery("select distinct v.brand from Vehicles v WHERE v.vehicleType = '" + vehicle.getVehicleType() + "'");
+        } else if (vehicle.getVehicleModel() == null) {
+            query = em.createQuery("select distinct v.vehicleModel from Vehicles v WHERE v.brand = '" + vehicle.getBrand() + "' AND v.vehicleType = '" + vehicle.getVehicleType() + "'");
+        } else if (vehicle.getGeneration() == null) {
+            query = em.createQuery("select distinct v.generation from Vehicles v WHERE v.vehicleModel = '" + vehicle.getVehicleModel() +
+                    "' AND v.brand = '" + vehicle.getBrand() + "'");
+        } else if (vehicle.getEngineType() == null) {
+            query = em.createQuery("select distinct v.engineType from Vehicles v WHERE v.generation = '" + vehicle.getGeneration() +
+                    "' and v.vehicleModel = '" + vehicle.getVehicleModel() + "' AND v.brand = '" + vehicle.getBrand() + "'");
+        } else if (vehicle.getEngine() == null) {
+            query = em.createQuery("select distinct v.engine from Vehicles v WHERE v.engineType = '" + vehicle.getEngineType() +
+                    "' and v.vehicleModel = '" + vehicle.getVehicleModel() + "' AND v.brand = '" + vehicle.getBrand() +
+                    "' AND v.generation = '" + vehicle.getGeneration() + "'");
+        } else {
+            query = em.createQuery("select distinct v.vehicleId from Vehicles v WHERE v.engineType = '" + vehicle.getEngineType() +
+                    "' and v.vehicleModel = '" + vehicle.getVehicleModel() + "' AND v.brand = '" + vehicle.getBrand() +
+                    "' AND v.generation = '" + vehicle.getGeneration() + "' and v.engine = '" + vehicle.getEngine() + "'");
+        }
+        ArrayList<Vehicles> results = (ArrayList<Vehicles>) query.getResultList();
         return ResponseEntity.ok().body(results);
     }
 
@@ -80,17 +100,16 @@ public class CRUDService {
     }
 
     @Transactional
-    public ResponseEntity mergeVehicle(Vehicles vehicle){
+    public ResponseEntity mergeVehicle(Vehicles vehicle) {
         em.merge(vehicle);
         return ResponseEntity.ok().body(vehicle);
     }
 
 
     @Transactional
-    public Policy getPolicy(String query) {
-        Query q = em.createQuery(query);
-
-        ArrayList<Policy> resultArray = (ArrayList<Policy>) q.getResultList();
+    public Policy getPolicy(Policy policy) {
+        Query query = em.createQuery("select p from Policy p WHERE p.transactionId = '" + policy.getTransactionId() + "'");
+        ArrayList<Policy> resultArray = (ArrayList<Policy>) query.getResultList();
         Policy result = resultArray.get(0);
         return result;
     }
@@ -102,52 +121,57 @@ public class CRUDService {
     }
 
     @Transactional
-    public ResponseEntity getPolicyLine(String query) {
-        Query q = em.createQuery(query);
-
-        ArrayList<PolicyLines> resultArray = (ArrayList<PolicyLines>) q.getResultList();
+    public ResponseEntity getPolicyLine(PolicyLines policyLine) {
+        Query query = em.createQuery( "select p from PolicyLines p WHERE p.transactionId = '" + policyLine.getTransactionId() + "'");
+        ArrayList<PolicyLines> resultArray = (ArrayList<PolicyLines>) query.getResultList();
         PolicyLines result = resultArray.get(0);
         return ResponseEntity.ok().body(result);
     }
-
+    @Transactional
+    public ResponseEntity getPolicyLineTypes(PolicyLineTypesConfig policyLineTypesConfig) {
+        Query query = em.createQuery("select p from PolicyLineTypesConfig p WHERE p.productId = '" + policyLineTypesConfig.getProductId() + "'");
+        ArrayList<PolicyLineTypesConfig> resultArray = (ArrayList<PolicyLineTypesConfig>) query.getResultList();
+        PolicyLineTypesConfig result = resultArray.get(0);
+        return ResponseEntity.ok().body(result);
+    }
     @Transactional
     public ResponseEntity searchPolicyLine(PolicyLines policyLine) {
         PolicyLines result = (PolicyLines) em.createQuery("select p from PolicyLines p WHERE p.policyId = " + policyLine.getPolicyId()).getSingleResult();
         return ResponseEntity.ok().body(result);
     }
-
     @Transactional
-    public ResponseEntity getObjectRisksConfig(String query) {
-        Query q = em.createQuery(query);
-
+    public ResponseEntity getObjectRisksConfig() {
+        Query q = em.createQuery( "select o from ObjectRisksConfig o");
         ArrayList<ObjectRisksConfig> resultArray = (ArrayList<ObjectRisksConfig>) q.getResultList();
         return ResponseEntity.ok().body(resultArray);
     }
-
+    @Transactional
+    public ResponseEntity getObjectTypes(PolicyLineTypesConfig policyLineTypesConfig){
+        Query q = em.createQuery("select o from ObjectTypesConfig o WHERE o.policyLineId = '" + policyLineTypesConfig.getPolicyLineId() + "'");
+        ArrayList<ObjectRisksConfig> resultArray = (ArrayList<ObjectRisksConfig>) q.getResultList();
+        return ResponseEntity.ok().body(resultArray);
+    }
     @Transactional
     public ResponseEntity createCustomer(Customers customer) {
         em.persist(customer);
         return ResponseEntity.ok().body(customer);
     }
-
     @Transactional
     public ResponseEntity deleteCustomer(Customers customer) {
         em.createQuery("delete from Customers c where c.customerId = " + customer.getCustomerId()).executeUpdate();
         return ResponseEntity.ok().body(customer);
     }
-
     @Transactional
     public ResponseEntity modifyCustomer(Customers customer) {
         em.merge(customer);
         return ResponseEntity.ok().body(customer);
     }
-
     @Transactional
     public ResponseEntity searchCustomers(Customers customer) {
         List<Customers> result;
         if (customer.getCustomerId() != null) {
             result = em.createQuery("select c from Customers c where c.customerId = '" + customer.getCustomerId() + "'").getResultList();
-        } else if (customer.getPesel() != null){
+        } else if (customer.getPesel() != null) {
             result = em.createQuery("select c from Customers c where c.pesel like '%" + customer.getPesel() + "%'").getResultList();
         } else {
             result = em.createQuery("select c from Customers c where upper(c.name) like upper('%" + customer.getName() + "%')").getResultList();
@@ -174,98 +198,81 @@ public class CRUDService {
         List l = select.getResultList();
         return l;
     }
-
-
     @Transactional
     public int updateQuery(String query) {
         int result = em.createQuery(query).executeUpdate();
         return result;
     }
-
     @Transactional
     public ResponseEntity insertInsuredObject(InsuredObjects newInsuredObject) {
         em.persist(newInsuredObject);
         return ResponseEntity.ok().body(newInsuredObject);
     }
-
     @Transactional
     public ResponseEntity getVehicleTypes(VehicleTypesConfig vehicleTypesConfig) {
         List<VehicleTypesConfig> resultList = (List<VehicleTypesConfig>) em.createQuery("select v from VehicleTypesConfig v WHERE v.productLineType = '" + vehicleTypesConfig.getProductLineType() + "'").getResultList();
         return ResponseEntity.ok().body(resultList);
     }
-
     @Transactional
     public ResponseEntity createRisks(ObjectRisks risks) {
         em.persist(risks);
         return ResponseEntity.ok().build();
     }
-
     @Transactional
     public ResponseEntity updateRisk(ObjectRisks risk) {
         em.merge(risk);
         return ResponseEntity.ok().body(risk);
     }
-
     @Transactional
     public ResponseEntity updatePolicy(Policy policy) {
         em.merge(policy);
         return ResponseEntity.ok().body(policy);
     }
-
     @Transactional
     public ResponseEntity updatePolicyLine(PolicyLines policyLine) {
         em.merge(policyLine);
         return ResponseEntity.ok().body(policyLine);
     }
-
     @Transactional
     public ResponseEntity updateInsuredVehicle(InsuredObjects insuredObject) {
         em.merge(insuredObject);
         return ResponseEntity.ok().body(insuredObject);
     }
-
     @Transactional
     public ResponseEntity getRisks(InsuredObjects insuredObject) {
         List<ObjectRisks> resultList = (List<ObjectRisks>) em.createQuery("select o from ObjectRisks o where o.objectId = " + insuredObject.getObjectId()).getResultList();
         return ResponseEntity.ok().body(resultList);
     }
-
+    @Transactional
+    public ResponseEntity getProducts() {
+        List<ObjectRisks> resultList = (List<ObjectRisks>) em.createQuery("select p from ProductsConfig p").getResultList();
+        return ResponseEntity.ok().body(resultList);
+    }
     @Transactional
     public List getPremCalcVals() {
         List<PremiumCalcConfigValues> configValues = (List<PremiumCalcConfigValues>) em.createQuery("select pccv from PremiumCalcConfigValues pccv").getResultList();
         return configValues;
     }
-
     @Transactional
     public List getInsuredObjects(PolicyLines policyLine) {
         List<InsuredObjects> insuredObjects = (List<InsuredObjects>) em.createQuery("select io from InsuredObjects io where io.policyLineId = " + policyLine.getPolicyLineId()).getResultList();
         return insuredObjects;
     }
-
-    //stworz funkcje wyciagajaca insured object zwracajaca liste obiektow, przyjmie w argumencie obiekt policy line.
-
-   /* @Transactional
-    public ResponseEntity getSelectedCoverages(InsuredObjects insuredObjects) {
-        List<ObjectRisks> selectedCoverages = em.createQuery("select or isSelected from  ObjectRisks or where or.objectId ="+insuredObjects.getObjectId()).getResultList();
-        return ResponseEntity.ok().body(selectedCoverages);
-    }*/
     public ResponseEntity getAllObjectFlexfields() {
-            CriteriaBuilder cb = em.getCriteriaBuilder();
-            CriteriaQuery<ObjectFlexfieldsConfig> cq = cb.createQuery(ObjectFlexfieldsConfig.class);
-            Root<ObjectFlexfieldsConfig> rootEntry = cq.from(ObjectFlexfieldsConfig.class);
-            CriteriaQuery<ObjectFlexfieldsConfig> all = cq.select(rootEntry);
-            TypedQuery<ObjectFlexfieldsConfig> allQuery = em.createQuery(all);
-            return ResponseEntity.ok().body(allQuery.getResultList());
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<ObjectFlexfieldsConfig> cq = cb.createQuery(ObjectFlexfieldsConfig.class);
+        Root<ObjectFlexfieldsConfig> rootEntry = cq.from(ObjectFlexfieldsConfig.class);
+        CriteriaQuery<ObjectFlexfieldsConfig> all = cq.select(rootEntry);
+        TypedQuery<ObjectFlexfieldsConfig> allQuery = em.createQuery(all);
+        return ResponseEntity.ok().body(allQuery.getResultList());
     }
-
     @Transactional
     public ResponseEntity mergeObjectFlexfield(ObjectFlexfieldsConfig flexfield) {
-            em.merge(flexfield);
-            return ResponseEntity.ok().body(flexfield);
+        em.merge(flexfield);
+        return ResponseEntity.ok().body(flexfield);
     }
-
     @Transactional
-    public ResponseEntity mergeObjectRiskConfig(ObjectRisksConfig risk){
+    public ResponseEntity mergeObjectRiskConfig(ObjectRisksConfig risk) {
         em.merge(risk);
         return ResponseEntity.ok().body(risk);
     }
@@ -285,7 +292,7 @@ public class CRUDService {
     }
 
     @Transactional
-    public ResponseEntity mergePolicyLineTypeConfig(PolicyLineTypesConfig typesConfig){
+    public ResponseEntity mergePolicyLineTypeConfig(PolicyLineTypesConfig typesConfig) {
         em.merge(typesConfig);
         return ResponseEntity.ok().body(typesConfig);
     }

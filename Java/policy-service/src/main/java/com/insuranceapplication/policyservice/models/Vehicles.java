@@ -14,7 +14,6 @@ public class Vehicles {
     private String partsAvailability;
     private String protectionClass;
 
-
     public Vehicles() {
     }
 
