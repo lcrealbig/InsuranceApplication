@@ -9,6 +9,6 @@ create SEQUENCE public.pltc_id_seq
 create table policy_line_types_config (
 ID integer default nextval('pltc_id_seq'),
 PRODUCT_ID varchar(5),
-POLICY_LINE_ID varchar(5),
+POLICY_LINE_TYPE varchar(5),
 VERSION varchar(5)
 );

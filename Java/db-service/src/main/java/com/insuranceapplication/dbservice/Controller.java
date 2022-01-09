@@ -90,7 +90,7 @@ public class Controller {
     public ResponseEntity searchPolicyLine(@RequestBody PolicyLines policyLines) {
         return CRUDService.searchPolicyLine(policyLines);
     }
-    @GetMapping("/getProducts")
+    @GetMapping("/getproducts")
     public ResponseEntity getProducts(){
         return CRUDService.getProducts();
     }
@@ -144,6 +144,7 @@ public class Controller {
     public ResponseEntity getObjectRisksConfig() {
         return CRUDService.getObjectRisksConfig();
     }
+
     @PostMapping("/getobjecttypes")
     @ResponseBody
     public ResponseEntity getObjectTypesConfig(@RequestBody PolicyLineTypesConfig policyLineTypesConfig) {

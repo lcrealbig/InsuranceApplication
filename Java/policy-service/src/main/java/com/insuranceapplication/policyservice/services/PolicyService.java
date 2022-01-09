@@ -87,20 +87,19 @@ public class PolicyService {
 
     public ResponseEntity getProducts() {
 
-        ResponseEntity response = template.getForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/customPOST", List.class);
+        ResponseEntity response = template.getForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getproducts", List.class);
         List<ProductsConfig> resultArray = (List) response.getBody();
         return ResponseEntity.ok().body(resultArray);
     }
 
     public ResponseEntity getPolicyLineTypes(PolicyLineTypesConfig policyLineTypesConfig) {
-
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getpolicylinetypes", policyLineTypesConfig, List.class);
         ArrayList<PolicyLineTypesConfig> resultArray = (ArrayList<PolicyLineTypesConfig>) response.getBody();
         return ResponseEntity.ok().body(resultArray);
     }
 
-    public ResponseEntity getObjectTypes(PolicyLineTypesConfig policyLineTypesConfig) {
-        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/customPOST", policyLineTypesConfig, List.class);
+    public ResponseEntity getObjectTypes(PolicyLineTypesConfig policyLineTypesConfig) {                         //todo
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getobjecttypes", policyLineTypesConfig, List.class);
         ArrayList<ObjectTypesConfig> resultArray = (ArrayList<ObjectTypesConfig>) response.getBody();
         return ResponseEntity.ok().body(resultArray);
     }

@@ -131,8 +131,7 @@ public class CRUDService {
     public ResponseEntity getPolicyLineTypes(PolicyLineTypesConfig policyLineTypesConfig) {
         Query query = em.createQuery("select p from PolicyLineTypesConfig p WHERE p.productId = '" + policyLineTypesConfig.getProductId() + "'");
         ArrayList<PolicyLineTypesConfig> resultArray = (ArrayList<PolicyLineTypesConfig>) query.getResultList();
-        PolicyLineTypesConfig result = resultArray.get(0);
-        return ResponseEntity.ok().body(result);
+        return ResponseEntity.ok().body(resultArray);
     }
     @Transactional
     public ResponseEntity searchPolicyLine(PolicyLines policyLine) {
