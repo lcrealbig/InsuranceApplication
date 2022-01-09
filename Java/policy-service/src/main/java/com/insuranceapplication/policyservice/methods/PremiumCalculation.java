@@ -17,7 +17,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 public class PremiumCalculation {
-
     public EurekaClient eurekaClient;
     public PolicyService policyService;
     private InsuredObjects insuredVehicle;
@@ -27,9 +26,7 @@ public class PremiumCalculation {
     private RestTemplate template = new RestTemplate();
     private ObjectRisks riskToUpdate = new ObjectRisks();
 
-
     public void calculate(PolicyLines policyLine) {
-
         riskToUpdate = new ObjectRisks();
         calcVariables = Utils.mapToList((List<LinkedHashMap>) (List) policyService.premiumConfigList(), PremiumCalcConfigValues.class);
         List<InsuredObjects> insObjects = Utils.mapToList((List<LinkedHashMap>) policyService.getInsuredObjects(policyLine), InsuredObjects.class);
@@ -43,7 +40,6 @@ public class PremiumCalculation {
             }
         }
         List<ObjectRisks> risks = (List<ObjectRisks>) Utils.mapToList((List<LinkedHashMap>) policyService.getRisks(insuredVehicle).getBody(), ObjectRisks.class);
-
         for (ObjectRisks risk : risks) {
             if (risk.getRiskId().equals("OC") && risk.getIsSelected().equals("true")) {
                 updatePremium(calculateOC(), risk);
@@ -154,9 +150,6 @@ public class PremiumCalculation {
             }
             if (protectionClass.equals("III")) {
                 calculatedPremium = calculatedPremium + precentToPremium(calcVariables.get(14).getValue1(), insuredVehicle.getN05());
-                //todo
-            } else if (protectionClass.equals("IV")) {
-                System.out.println("Protection class 4th or lower must not be insured.");
             }
         }
         for (PremiumCalcConfigValues riskValue : calcVariables) {
@@ -181,7 +174,6 @@ public class PremiumCalculation {
     }
 
     public Double getAssistance() {
-
         Double calculatedPremium = 0D;
         for (PremiumCalcConfigValues riskValue : calcVariables) {
             if (riskValue.getComboId().equals("ASI")) {
@@ -192,7 +184,6 @@ public class PremiumCalculation {
     }
 
     public Integer getPeriod(Date date) {
-
         if (date == null) {
             date = new Date();
         }
@@ -205,15 +196,14 @@ public class PremiumCalculation {
     }
 
     public Double precentToPremium(String precentage, Integer value) {
-
         Double precentageTofloat = Double.valueOf(precentage.replace(",", ".").replace("%", ""));
         Double sumToAdd = value.floatValue() * (precentageTofloat / 100.0D);
         DecimalFormat df = new DecimalFormat("###.##");
         Double addition = Double.valueOf(df.format(sumToAdd));
         return addition;
     }
-    public Customers getDriver(InsuredObjects driver) {
 
+    public Customers getDriver(InsuredObjects driver) {
         Customers custDriver = new Customers();
         custDriver.setCustomerId(driver.getN01());
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
@@ -224,7 +214,6 @@ public class PremiumCalculation {
     }
 
     public Vehicles getVehicle() {
-
         Vehicles vehicle = new Vehicles();
         vehicle.setVehicleId(insuredVehicle.getN01());
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
@@ -234,7 +223,6 @@ public class PremiumCalculation {
     }
 
     public void updatePremium(Double valueOfUpdate, ObjectRisks riskToUpdate) {
-
         riskToUpdate.setPremium(valueOfUpdate);
         policyService.updateRisk(riskToUpdate);
     }

@@ -1,14 +1,10 @@
 package com.insuranceapplication.policyservice;
 
 import com.insuranceapplication.policyservice.models.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import com.insuranceapplication.policyservice.services.PolicyService;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -64,7 +60,7 @@ public class PolicyController {
 
     @GetMapping("/allvehicles")
     @ResponseBody
-    public ResponseEntity getAllVehicles(){
+    public ResponseEntity getAllVehicles() {
         return policyService.getAllVehicles();
     }
 
@@ -173,17 +169,16 @@ public class PolicyController {
     @ResponseBody
     public ResponseEntity getStatus() {
         return ResponseEntity.ok().body("policy-service is [ONLINE]");
-
     }
 
     @PostMapping("/mergevehicle")
     public ResponseEntity mergeVehicle(@RequestBody Vehicles vehicle) {
-       return policyService.mergeVehicle(vehicle);
+        return policyService.mergeVehicle(vehicle);
     }
 
     @GetMapping("/allobjectflexfields")
     @ResponseBody
-    public ResponseEntity getAllObjectFlexfields(){
+    public ResponseEntity getAllObjectFlexfields() {
         return policyService.getAllObjectFlexfields();
     }
 
@@ -194,7 +189,7 @@ public class PolicyController {
 
     @GetMapping("/allobjectriskconfig")
     @ResponseBody
-    public ResponseEntity getAllObjectRiskConfig(){
+    public ResponseEntity getAllObjectRiskConfig() {
         return policyService.getAllObjectRiskConfig();
     }
 
@@ -210,7 +205,7 @@ public class PolicyController {
 
     @GetMapping("/allpolicylinetypesconfig")
     @ResponseBody
-    public ResponseEntity getAllPolicyLineTypesConfig(){
+    public ResponseEntity getAllPolicyLineTypesConfig() {
         return policyService.getAllPolicyLineTypesConfig();
     }
 
@@ -221,7 +216,7 @@ public class PolicyController {
 
     @GetMapping("/allpremiumheadersconfig")
     @ResponseBody
-    public ResponseEntity getAllPremiumHeadersConfig(){
+    public ResponseEntity getAllPremiumHeadersConfig() {
         return policyService.getAllPremiumHeadersConfig();
     }
 
@@ -232,7 +227,7 @@ public class PolicyController {
 
     @GetMapping("/allpremiumvaluesconfig")
     @ResponseBody
-    public ResponseEntity getAllPremiumValuesConfig(){
+    public ResponseEntity getAllPremiumValuesConfig() {
         return policyService.getAllPremiumValuesConfig();
     }
 
