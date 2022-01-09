@@ -16,7 +16,6 @@ public class Controller {
     private CRUDService CRUDService;
 
 
-
     @PostMapping("/createtransaction")
     public void createTransaction(@RequestBody Transactions newTransactions) {
         CRUDService.createTransaction(newTransactions);
@@ -139,10 +138,10 @@ public class Controller {
         return CRUDService.insertInsuredObject(newInsuredObject);
     }
 
-    @GetMapping("/getrisksconfig")
+    @PostMapping("/getrisksconfig")
     @ResponseBody
-    public ResponseEntity getObjectRisksConfig() {
-        return CRUDService.getObjectRisksConfig();
+    public ResponseEntity getObjectRisksConfig(@RequestBody ObjectRisksConfig objectRisksConfig) {
+        return CRUDService.getObjectRisksConfig(objectRisksConfig);
     }
 
     @PostMapping("/getobjecttypes")

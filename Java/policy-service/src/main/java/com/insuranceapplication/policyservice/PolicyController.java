@@ -158,10 +158,10 @@ public class PolicyController {
         return policyService.getRisks(insuredObject);
     }
 
-    @GetMapping("/getrisksconfig")
+    @PostMapping("/getrisksconfig")
     @ResponseBody
-    public ResponseEntity getObjectRisksConfig() {
-        return policyService.getObjectRisksConfig();
+    public ResponseEntity getObjectRisksConfig(@RequestBody ObjectRisksConfig objectRisksConfig) {
+        return policyService.getObjectRisksConfig(objectRisksConfig);
     }
 
     @PostMapping("/calculations")

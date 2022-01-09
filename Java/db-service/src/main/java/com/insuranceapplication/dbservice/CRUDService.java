@@ -139,7 +139,7 @@ public class CRUDService {
         return ResponseEntity.ok().body(result);
     }
     @Transactional
-    public ResponseEntity getObjectRisksConfig() {
+    public ResponseEntity getObjectRisksConfig(ObjectRisksConfig objectRisksConfig) {
         Query q = em.createQuery( "select o from ObjectRisksConfig o");
         ArrayList<ObjectRisksConfig> resultArray = (ArrayList<ObjectRisksConfig>) q.getResultList();
         return ResponseEntity.ok().body(resultArray);
