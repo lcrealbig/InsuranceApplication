@@ -1,7 +1,6 @@
 package com.insuranceapplication.policyservice.models;
 
 
-
 public class Vehicles {
     private Integer vehicleId;
     private String vehicleType;
@@ -91,6 +90,7 @@ public class Vehicles {
     public String getPartsAvailability() {
         return partsAvailability;
     }
+
     public void setPartsAvailability(String partsAvailability) {
         this.partsAvailability = partsAvailability;
     }

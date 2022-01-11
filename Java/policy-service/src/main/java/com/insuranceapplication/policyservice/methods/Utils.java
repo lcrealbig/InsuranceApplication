@@ -1,8 +1,6 @@
 package com.insuranceapplication.policyservice.methods;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.insuranceapplication.policyservice.models.InsuredObjects;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;

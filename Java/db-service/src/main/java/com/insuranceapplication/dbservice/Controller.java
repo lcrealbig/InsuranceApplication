@@ -1,7 +1,6 @@
 package com.insuranceapplication.dbservice;
 
 import com.insuranceapplication.dbservice.models.*;
-import com.netflix.discovery.converters.Auto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -79,20 +78,24 @@ public class Controller {
     public ResponseEntity getPolicyLine(@RequestBody PolicyLines policyLine) {
         return CRUDService.getPolicyLine(policyLine);
     }
+
     @PostMapping("/getpolicylinetypes")
     @ResponseBody
     public ResponseEntity getPolicyLinesTypeConfig(@RequestBody PolicyLineTypesConfig policyLineTypesConfig) {
         return CRUDService.getPolicyLineTypes(policyLineTypesConfig);
     }
+
     @PostMapping("/searchpolicyline")
     @ResponseBody
     public ResponseEntity searchPolicyLine(@RequestBody PolicyLines policyLines) {
         return CRUDService.searchPolicyLine(policyLines);
     }
+
     @GetMapping("/getproducts")
-    public ResponseEntity getProducts(){
+    public ResponseEntity getProducts() {
         return CRUDService.getProducts();
     }
+
     @PostMapping("/createcustomer")
     public void createCustomer(@RequestBody Customers customer) {
         CRUDService.createCustomer(customer);
@@ -138,10 +141,10 @@ public class Controller {
         return CRUDService.insertInsuredObject(newInsuredObject);
     }
 
-    @PostMapping("/getrisksconfig")
+    @GetMapping("/getrisksconfig")
     @ResponseBody
-    public ResponseEntity getObjectRisksConfig(@RequestBody ObjectRisksConfig objectRisksConfig) {
-        return CRUDService.getObjectRisksConfig(objectRisksConfig);
+    public ResponseEntity getObjectRisksConfig() {
+        return CRUDService.getObjectRisksConfig();
     }
 
     @PostMapping("/getobjecttypes")
@@ -193,13 +196,13 @@ public class Controller {
         return ResponseEntity.ok().body("db-service is [ONLINE]");
     }
 
-    @GetMapping ("/premiumCalcConfigVars")
+    @GetMapping("/premiumCalcConfigVars")
     public List premiumConfigList() {
         return CRUDService.getPremCalcVals();
     }
 
     @PostMapping("/getInsuredObjects")
-    public List getInsuredObjects(@RequestBody PolicyLines policyLine){
+    public List getInsuredObjects(@RequestBody PolicyLines policyLine) {
         return CRUDService.getInsuredObjects(policyLine);
     }
 

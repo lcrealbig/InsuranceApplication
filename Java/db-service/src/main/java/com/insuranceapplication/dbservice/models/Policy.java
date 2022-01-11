@@ -16,8 +16,7 @@ public class Policy {
     private String altNo;
     private String version;
 
-    //no argument constructor is required to create entity class
-    public Policy(){
+    public Policy() {
     }
 
     public Policy(Integer policyId, Integer transactionId, Integer ownerId, String type, String status, String startDate, String endDate, String productType, String altNo, String version) {

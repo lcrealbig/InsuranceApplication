@@ -1,4 +1,5 @@
 package com.insuranceapplication.policyservice.models;
+
 import java.util.Date;
 
 public class ProductsConfig {

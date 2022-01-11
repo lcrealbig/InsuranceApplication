@@ -138,12 +138,14 @@ public class CRUDService {
         PolicyLines result = (PolicyLines) em.createQuery("select p from PolicyLines p WHERE p.policyId = " + policyLine.getPolicyId()).getSingleResult();
         return ResponseEntity.ok().body(result);
     }
+
     @Transactional
-    public ResponseEntity getObjectRisksConfig(ObjectRisksConfig objectRisksConfig) {
+    public ResponseEntity getObjectRisksConfig() {
         Query q = em.createQuery( "select o from ObjectRisksConfig o");
         ArrayList<ObjectRisksConfig> resultArray = (ArrayList<ObjectRisksConfig>) q.getResultList();
         return ResponseEntity.ok().body(resultArray);
     }
+
     @Transactional
     public ResponseEntity getObjectTypes(PolicyLineTypesConfig policyLineTypesConfig){
         Query q = em.createQuery("select o from ObjectTypesConfig o WHERE o.policyLineId = '" + policyLineTypesConfig.getPolicyLineId() + "'");

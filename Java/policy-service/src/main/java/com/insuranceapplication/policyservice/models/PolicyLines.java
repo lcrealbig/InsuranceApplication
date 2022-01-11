@@ -7,8 +7,7 @@ public class PolicyLines {
     private String productLineType;
     private String version;
 
-    //no argument constructor is required to create entity class
-    public PolicyLines(){
+    public PolicyLines() {
     }
 
     public PolicyLines(Integer policyLineId, Integer transactionId, Integer policyId, String productLineType, String version) {

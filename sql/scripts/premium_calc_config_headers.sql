@@ -41,8 +41,8 @@ header_2)
 insert into premium_calc_config_headers
 (combo_id,risk_id,combination_name,version,header_1,
 header_2,header_3)
- values('CAR_LBE',
-'OC','car_age','1','lesser_than',
+ values
+ ('CAR_LBE','OC','ar_age','1','lesser_than',
 'bigger_or_equal','rise_of_premium' );
 
 insert into premium_calc_config_headers
@@ -66,20 +66,20 @@ insert into premium_calc_config_headers
 header_2,header_3)
  values('MIL_LBE',
 'OC','mileage','1','lesser_than',
-'bigger_or_equal','rise_of_premium' );
+'bigger_or_equal','rise_of_premium','alter_rise_of_premium' );
 
 insert into premium_calc_config_headers
 (combo_id,risk_id,combination_name,version,header_1,
 header_2,header_3)
  values('MIL_LBE',
 'OC','mileage','1','lesser_than',
-'bigger_or_equal','rise_of_premium' );
+'bigger_or_equal','rise_of_premium','alter_rise_of_premium' );
 insert into premium_calc_config_headers
 (combo_id,risk_id,combination_name,version,header_1,
 header_2)
  values('MIL_BE',
 'OC','mileage','1',
-'bigger_or_equal','rise_of_premium' );
+'bigger_or_equal','rise_of_premium','alter_rise_of_premium' );
 
 insert into premium_calc_config_headers
 (combo_id,risk_id,combination_name,version,header_1,

@@ -7,7 +7,8 @@ public class ObjectFlexfieldsConfig {
     private String objectKey;
     private String objectValue;
 
-    public ObjectFlexfieldsConfig(){}
+    public ObjectFlexfieldsConfig() {
+    }
 
     public ObjectFlexfieldsConfig(Integer id, String type, String objectKey, String objectValue) {
         this.id = id;

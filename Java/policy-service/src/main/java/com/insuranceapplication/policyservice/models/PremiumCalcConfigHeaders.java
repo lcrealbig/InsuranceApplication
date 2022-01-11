@@ -23,8 +23,7 @@ public class PremiumCalcConfigHeaders {
     public PremiumCalcConfigHeaders() {
     }
 
-    public PremiumCalcConfigHeaders(String comboId, Integer id, String riskId, String combinationName, String header_1, String header_2, String header_3, String header_4, String header_5, String header_6, String header_7, String header_8, String header_9, String header_10, String header_11, String header_12, String version)
-    {
+    public PremiumCalcConfigHeaders(String comboId, Integer id, String riskId, String combinationName, String header_1, String header_2, String header_3, String header_4, String header_5, String header_6, String header_7, String header_8, String header_9, String header_10, String header_11, String header_12, String version) {
         this.id = id;
         this.riskId = riskId;
         this.comboId = comboId;

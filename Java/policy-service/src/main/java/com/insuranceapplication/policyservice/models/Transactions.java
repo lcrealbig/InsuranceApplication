@@ -36,7 +36,7 @@ public class Transactions {
         return timestamp;
     }
 
-    public void setTimestamp(String  timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 
