@@ -106,8 +106,8 @@ public class PolicyService {
         return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getvehicletypes", vehicleTypesConfig, List.class);
     }
 
-    public ResponseEntity getObjectRisksConfig() {
-        ResponseEntity response = template.getForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getrisksconfig", List.class);
+    public ResponseEntity getObjectRisksConfig(InsuredObjects insuredObjects) {
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getrisksconfig",insuredObjects, List.class);
         ArrayList<ObjectTypesConfig> resultArray = (ArrayList<ObjectTypesConfig>) response.getBody();
         return ResponseEntity.ok().body(resultArray);
     }

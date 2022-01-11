@@ -141,10 +141,10 @@ public class Controller {
         return CRUDService.insertInsuredObject(newInsuredObject);
     }
 
-    @GetMapping("/getrisksconfig")
+    @PostMapping("/getrisksconfig")
     @ResponseBody
-    public ResponseEntity getObjectRisksConfig() {
-        return CRUDService.getObjectRisksConfig();
+    public ResponseEntity getObjectRisksConfig(@RequestBody InsuredObjects insuredObjects) {
+        return CRUDService.getObjectRisksConfig(insuredObjects);
     }
 
     @PostMapping("/getobjecttypes")
