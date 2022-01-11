@@ -14,7 +14,7 @@ public class ClaimService {
     @Autowired
     EurekaClient eurekaClient;
     private RestTemplate template = new RestTemplate();
-    
+
     public void createClaim(Claim claim){
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/createclaim", claim, String.class);    }
 

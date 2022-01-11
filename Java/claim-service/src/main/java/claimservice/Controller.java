@@ -1,5 +1,6 @@
 package claimservice;
 
+import claimservice.models.Claim;
 import claimservice.services.ClaimService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,12 @@ public class Controller {
     @Autowired
     private ClaimService claimService;
 
+    @PostMapping("/createclaim")
+    @ResponseBody
+    public void createClaim(@RequestBody Claim claim){
+        claimService.createClaim(claim);
+    }
+    
     @GetMapping("/serviceStatus")
     @ResponseBody
     public ResponseEntity getStatus() {
