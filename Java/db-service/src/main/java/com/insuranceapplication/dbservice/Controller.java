@@ -289,4 +289,10 @@ public class Controller {
     public ResponseEntity getAllCustomers() {
         return CRUDService.getAllCustomers();
     }
+
+    @PostMapping("/createclaim")
+    @ResponseBody
+    public void createClaim(@RequestBody Claim claim){
+        CRUDService.createClaim(claim);
+    }
 }

@@ -343,4 +343,8 @@ public class CRUDService {
         TypedQuery<Customers> allQuery = em.createQuery(all);
         return ResponseEntity.ok().body(allQuery.getResultList());
     }
+    @Transactional
+    public void createClaim(Claim claim) {
+        em.persist(claim);
+    }
 }
