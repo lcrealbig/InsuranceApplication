@@ -3,7 +3,7 @@ package claimservice.models;
 import java.util.Date;
 
 public class Claim {
-    private Integer id;
+    private Integer claimId;
     private String policyLineId;
     private Integer policyId;
     private String status;
@@ -11,27 +11,29 @@ public class Claim {
     private String claimDescription;
     private Date claimDate;
     private String lastStatusUpdate;
+    private String version;
 
     public Claim() {
     }
 
-    public Claim(Integer id, String policyLineId, Integer policyId, String status, String claimType, String claimDescription, Date claimDate, String lastStatusUpdate) {
+    public Claim(Integer id, String policyLineId, Integer policyId, String status, String claimType, String claimDescription, Date claimDate, String lastStatusUpdate,String version) {
         this.policyLineId = policyLineId;
-        this.id = id;
+        this.claimId = id;
         this.policyId = policyId;
         this.status = status;
         this.claimType = claimType;
         this.claimDescription = claimDescription;
         this.claimDate = claimDate;
         this.lastStatusUpdate = lastStatusUpdate;
+        this.version = version;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getClaimId() {
+        return claimId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setClaimId(Integer claimId) {
+        this.claimId = claimId;
     }
 
     public String getPolicyLineId() {
@@ -88,5 +90,13 @@ public class Claim {
 
     public void setLastStatusUpdate(String lastStatusUpdate) {
         this.lastStatusUpdate = lastStatusUpdate;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 }

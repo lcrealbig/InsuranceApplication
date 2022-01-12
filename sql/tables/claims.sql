@@ -8,12 +8,13 @@ create SEQUENCE public.claim_id_seq
 
 
 create table Claim (
-id integer default nextval('claim_id_seq'),
+claim_id integer default nextval('claim_id_seq'),
 policy_line_id varchar(30),
 policy_id INTEGER,
 status varchar(30),
 claim_type varchar(30),
 claim_description varchar,
 claim_date date,
-last_status_update date
+last_status_update date,
+version varchar
 );

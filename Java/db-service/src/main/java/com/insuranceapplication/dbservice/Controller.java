@@ -295,4 +295,22 @@ public class Controller {
     public void createClaim(@RequestBody Claim claim){
         CRUDService.createClaim(claim);
     }
+
+    @PostMapping("/updateclaim")
+    @ResponseBody
+    public void updateClaim(@RequestBody Claim claim){
+        CRUDService.updateClaim(claim);
+    }
+
+    @PostMapping("/removeclaim")
+    @ResponseBody
+    public void removeClaim(@RequestBody Claim claim){
+        CRUDService.removeClaim(claim);
+    }
+
+    @PostMapping("/getclaims")
+    @ResponseBody
+    public void getClaim(@RequestBody InsuredObjects driver){
+        CRUDService.getClaims(driver);
+    }
 }
