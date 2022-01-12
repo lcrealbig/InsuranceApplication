@@ -374,13 +374,35 @@ public class CRUDService {
     public void updateClaim(Claim claim) {
         em.merge(claim);
     }
+
     @Transactional
-    public void removeClaim(Claim claim){
-        em.createQuery("delete c from Claim c where claimId = '" + claim.getClaimId() +"'");
-    }
-    @Transactional
-    public void getClaims(InsuredObjects driver){
-        em.createQuery("select c from Claim c where claimId = '" + driver.getObjectId() +"'");
+    public void removeClaim(Claim claim) {
+        em.createQuery("delete c from Claim c where claimId = '" + claim.getClaimId() + "'");
     }
 
+    @Transactional
+    public List getClaims(InsuredObjects driver) {
+        List<Claim> claims = em.createQuery("select c from Claim c where claimId = '" + driver.getObjectId() + "'").getResultList();
+        return claims;
+    }
+
+    @Transactional
+    public void createBill(Bill bill) {
+        em.persist(bill);
+    }
+
+    @Transactional
+    public void updateBill(Bill bill) {
+        em.merge(bill);
+    }
+
+    @Transactional
+    public void removeBill(Bill bill) {
+        em.createQuery("delete c from Bill c where claimId = '" + bill.getClaimId() + "'");
+    }
+
+    @Transactional
+    public List getBills(Claim claim) {
+        return (List) em.createQuery("select c from Claim c where claimId = '" + claim.getClaimId() + "'");
+    }
 }

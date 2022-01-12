@@ -292,25 +292,50 @@ public class Controller {
 
     @PostMapping("/createclaim")
     @ResponseBody
-    public void createClaim(@RequestBody Claim claim){
+    public void createClaim(@RequestBody Claim claim) {
         CRUDService.createClaim(claim);
     }
 
     @PostMapping("/updateclaim")
     @ResponseBody
-    public void updateClaim(@RequestBody Claim claim){
+    public void updateClaim(@RequestBody Claim claim) {
         CRUDService.updateClaim(claim);
     }
 
     @PostMapping("/removeclaim")
     @ResponseBody
-    public void removeClaim(@RequestBody Claim claim){
+    public void removeClaim(@RequestBody Claim claim) {
         CRUDService.removeClaim(claim);
     }
 
     @PostMapping("/getclaims")
     @ResponseBody
-    public void getClaim(@RequestBody InsuredObjects driver){
-        CRUDService.getClaims(driver);
+    public List getClaim(@RequestBody InsuredObjects driver) {
+        return CRUDService.getClaims(driver);
+
+    }
+
+    @PostMapping("/createbill")
+    @ResponseBody
+    public void createBill(@RequestBody Bill bill) {
+        CRUDService.createBill(bill);
+    }
+
+    @PostMapping("/updatebill")
+    @ResponseBody
+    public void updateBill(@RequestBody Bill bill) {
+        CRUDService.updateBill(bill);
+    }
+
+    @PostMapping("/removebill")
+    @ResponseBody
+    public void removeClaim(@RequestBody Bill bill) {
+        CRUDService.removeBill(bill);
+    }
+
+    @PostMapping("/getbills")
+    @ResponseBody
+    public List getBills(@RequestBody Claim claim) {
+        return CRUDService.getBills(claim);
     }
 }
