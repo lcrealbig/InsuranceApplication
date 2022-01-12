@@ -16,5 +16,6 @@ claim_type varchar(30),
 claim_description varchar,
 claim_date date,
 last_status_update date,
+occurency_place varchar,
 version varchar
 );
