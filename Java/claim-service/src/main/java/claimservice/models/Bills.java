@@ -1,10 +1,6 @@
-package com.insuranceapplication.dbservice.models;
+package claimservice.models;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "Bill")
-public class Bill {
+public class Bills {
     private Integer claimId;
     private String billStatus;
     private Double billAmount;
@@ -12,7 +8,7 @@ public class Bill {
     private Integer victimId;
     private String version;
 
-    public Bill(Integer claimId, String billStatus, Double billAmount, Double amountOfWithdraw, Integer victimId, String version) {
+    public Bills(Integer claimId, String billStatus, Double billAmount, Double amountOfWithdraw, Integer victimId, String version) {
         this.claimId = claimId;
         this.billStatus = billStatus;
         this.billAmount = billAmount;
@@ -21,12 +17,9 @@ public class Bill {
         this.version = version;
     }
 
-    public Bill() {
+    public Bills() {
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bill_id_seq")
-    @SequenceGenerator(name = "bill_id_seq", allocationSize = 1)
     public Integer getClaimId() {
         return claimId;
     }

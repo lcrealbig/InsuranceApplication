@@ -7,7 +7,7 @@ create SEQUENCE public.bill_id_seq
     MAXVALUE 999999;
 
 
-create table Bill (
+create table Bills (
 claim_id integer default nextval('bill_id_seq'),
 bill_status varchar(30),
 victim_id INTEGER,

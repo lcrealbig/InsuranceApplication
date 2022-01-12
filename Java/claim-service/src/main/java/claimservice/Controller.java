@@ -1,8 +1,9 @@
 package claimservice;
 
-import claimservice.models.Bill;
+import claimservice.models.Bills;
 import claimservice.models.Claim;
 import claimservice.models.InsuredObjects;
+import claimservice.models.Victims;
 import claimservice.services.ClaimService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -42,26 +43,49 @@ public class Controller {
 
     @PostMapping("/createbill")
     @ResponseBody
-    public void createBill(@RequestBody Bill bill) {
-        claimService.createBill(bill);
+    public void createBill(@RequestBody Bills bills) {
+        claimService.createBill(bills);
     }
 
     @PostMapping("/updatebill")
     @ResponseBody
-    public void updateBill(@RequestBody Bill bill) {
-        claimService.updateBill(bill);
+    public void updateBill(@RequestBody Bills bills) {
+        claimService.updateBill(bills);
     }
 
     @PostMapping("/removebill")
     @ResponseBody
-    public void removeClaim(@RequestBody Bill bill) {
-        claimService.removeBill(bill);
+    public void removeClaim(@RequestBody Bills bills) {
+        claimService.removeBill(bills);
     }
 
     @PostMapping("/getbills")
     @ResponseBody
     public List getBills(@RequestBody Claim claim) {
         return claimService.getBills(claim);
+    }
+    @PostMapping("/createvictim")
+    @ResponseBody
+    public void createvictim(@RequestBody Victims victims) {
+        claimService.createVictim(victims);
+    }
+
+    @PostMapping("/updatevictim")
+    @ResponseBody
+    public void updateVictim(@RequestBody Victims victims) {
+        claimService.updateVictim(victims);
+    }
+
+    @PostMapping("/removevictim")
+    @ResponseBody
+    public void removeVictim(@RequestBody Victims victims) {
+        claimService.removeVictim(victims);
+    }
+
+    @PostMapping("/getvictims")
+    @ResponseBody
+    public List getVictims(@RequestBody Bills bill) {
+        return claimService.getVictims(bill);
     }
 
     @GetMapping("/serviceStatus")

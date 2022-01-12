@@ -7,7 +7,7 @@ create SEQUENCE public.claim_id_seq
     MAXVALUE 999999;
 
 
-create table Claim (
+create table Claims (
 claim_id integer default nextval('claim_id_seq'),
 policy_line_id varchar(30),
 policy_id INTEGER,
