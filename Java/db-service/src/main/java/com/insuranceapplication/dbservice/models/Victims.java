@@ -1,7 +1,6 @@
 package com.insuranceapplication.dbservice.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigInteger;
 import java.util.Date;
 @Entity
@@ -15,6 +14,21 @@ public class Victims {
     private Date birthDate;
     private BigInteger phoneNum;
 
+    public Victims(Integer victimId, String name, String pesel, String address, Date birthDate, BigInteger phoneNum) {
+        this.victimId = victimId;
+        this.name = name;
+        this.pesel = pesel;
+        this.address = address;
+        this.birthDate = birthDate;
+        this.phoneNum = phoneNum;
+    }
+
+    public Victims() {
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bill_id_seq")
+    @SequenceGenerator(name = "bill_id_seq", allocationSize = 1)
     public String getName() {
         return name;
     }
