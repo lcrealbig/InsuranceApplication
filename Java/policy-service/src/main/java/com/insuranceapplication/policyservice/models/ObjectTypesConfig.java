@@ -3,16 +3,16 @@ package com.insuranceapplication.policyservice.models;
 
 public class ObjectTypesConfig {
     private Integer id;
-    private String policyLineId;
+    private String policyLineType;
     private String objType;
     private String version;
 
     public ObjectTypesConfig() {
     }
 
-    public ObjectTypesConfig(int id, String policyLineId, String objType, String version) {
+    public ObjectTypesConfig(int id, String policyLineType, String objType, String version) {
         this.id = id;
-        this.policyLineId = policyLineId;
+        this.policyLineType = policyLineType;
         this.objType = objType;
         this.version = version;
     }
@@ -25,12 +25,12 @@ public class ObjectTypesConfig {
         this.id = id;
     }
 
-    public String getPolicyLineId() {
-        return policyLineId;
+    public String getPolicyLineType() {
+        return policyLineType;
     }
 
-    public void setPolicyLineId(String policyLineId) {
-        this.policyLineId = policyLineId;
+    public void setPolicyLineType(String policyLineType) {
+        this.policyLineType = policyLineType;
     }
 
     public String getObjType() {

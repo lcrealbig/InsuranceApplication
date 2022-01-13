@@ -150,7 +150,7 @@ public class CRUDService {
 
     @Transactional
     public ResponseEntity getObjectTypes(PolicyLineTypesConfig policyLineTypesConfig) {
-        Query q = em.createQuery("select o from ObjectTypesConfig o WHERE o.policyLineId = '" + policyLineTypesConfig.getPolicyLineId() + "'");
+        Query q = em.createQuery("select o from ObjectTypesConfig o WHERE o.policyLineType = '" + policyLineTypesConfig.getPolicyLineType() + "'");
         ArrayList<ObjectRisksConfig> resultArray = (ArrayList<ObjectRisksConfig>) q.getResultList();
         return ResponseEntity.ok().body(resultArray);
     }

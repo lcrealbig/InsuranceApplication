@@ -10,16 +10,16 @@ import javax.persistence.Table;
 public class PolicyLineTypesConfig {
     private Integer id;
     private String productId;
-    private String policyLineId;
+    private String policyLineType;
     private String version;
 
     public PolicyLineTypesConfig() {
     }
 
-    public PolicyLineTypesConfig(int id, String productId, String policyLineId, String version) {
+    public PolicyLineTypesConfig(int id, String productId, String policyLineType, String version) {
         this.id = id;
         this.productId = productId;
-        this.policyLineId = policyLineId;
+        this.policyLineType = policyLineType;
         this.version = version;
     }
 
@@ -40,12 +40,12 @@ public class PolicyLineTypesConfig {
         this.productId = productId;
     }
 
-    public String getPolicyLineId() {
-        return policyLineId;
+    public String getPolicyLineType() {
+        return policyLineType;
     }
 
-    public void setPolicyLineId(String policyLineId) {
-        this.policyLineId = policyLineId;
+    public void setPolicyLineType(String policyLineType) {
+        this.policyLineType = policyLineType;
     }
 
     public String getVersion() {
