@@ -9,9 +9,9 @@
 		<relativePath/>
 	</parent>
 	<groupId>com.insuranceapplication</groupId>
-	<artifactId>claim-service</artifactId>
+	<artifactId>claims-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>claim-service</name>
+	<name>claims-service</name>
 	<description>Claim service for Insurance Application</description>
 	<packaging>jar</packaging>
 	<properties>

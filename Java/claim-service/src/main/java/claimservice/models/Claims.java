@@ -2,7 +2,7 @@ package claimservice.models;
 
 import java.util.Date;
 
-public class Claim {
+public class Claims {
     private Integer claimId;
     private String policyLineId;
     private Integer policyId;
@@ -13,10 +13,10 @@ public class Claim {
     private String lastStatusUpdate;
     private String version;
     private String occurencyPlace;
-    public Claim() {
+    public Claims() {
     }
 
-    public Claim(Integer id, String policyLineId, Integer policyId, String status, String claimType, String claimDescription, Date claimDate, String lastStatusUpdate,String version,String occurencyPlace) {
+    public Claims(Integer id, String policyLineId, Integer policyId, String status, String claimType, String claimDescription, Date claimDate, String lastStatusUpdate, String version, String occurencyPlace) {
         this.policyLineId = policyLineId;
         this.claimId = id;
         this.policyId = policyId;

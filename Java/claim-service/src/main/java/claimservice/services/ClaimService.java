@@ -2,7 +2,7 @@ package claimservice.services;
 
 import claimservice.globals.Variables;
 import claimservice.models.Bills;
-import claimservice.models.Claim;
+import claimservice.models.Claims;
 import claimservice.models.InsuredObjects;
 import claimservice.models.Victims;
 import com.netflix.discovery.EurekaClient;
@@ -19,17 +19,17 @@ public class ClaimService {
     EurekaClient eurekaClient;
     private RestTemplate template = new RestTemplate();
 
-    public void createClaim(Claim claim) {
-        template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/createclaim", claim, String.class);
+    public void createClaim(Claims claims) {
+        template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/createclaim", claims, String.class);
     }
 
-    public void updateClaim(Claim claim) {
-        template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/updateclaim", claim, Claim.class);
+    public void updateClaim(Claims claims) {
+        template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/updateclaim", claims, Claims.class);
 
     }
 
-    public void removeClaim(Claim claim) {
-        template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/removeclaim", claim, Claim.class);
+    public void removeClaim(Claims claims) {
+        template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/removeclaim", claims, Claims.class);
     }
 
     public void getClaims(InsuredObjects driver) {
@@ -49,9 +49,10 @@ public class ClaimService {
         template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/removebill", bills, Bills.class);
     }
 
-    public List getBills(Claim claim) {
-        return (List) template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getbills", claim, List.class);
+    public List getBills(Claims claims) {
+        return (List) template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getbills", claims, List.class);
     }
+
     public void createVictim(Victims victims) {
         template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/createvictim", victims, Victims.class);
     }

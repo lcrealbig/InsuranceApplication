@@ -1,7 +1,7 @@
 package claimservice;
 
 import claimservice.models.Bills;
-import claimservice.models.Claim;
+import claimservice.models.Claims;
 import claimservice.models.InsuredObjects;
 import claimservice.models.Victims;
 import claimservice.services.ClaimService;
@@ -19,19 +19,19 @@ public class Controller {
 
     @PostMapping("/createclaim")
     @ResponseBody
-    public void createClaim(@RequestBody Claim claim) {
+    public void createClaim(@RequestBody Claims claim) {
         claimService.createClaim(claim);
     }
 
     @PostMapping("/updateclaim")
     @ResponseBody
-    public void updateClaim(@RequestBody Claim claim) {
+    public void updateClaim(@RequestBody Claims claim) {
         claimService.updateClaim(claim);
     }
 
     @PostMapping("/removeclaim")
     @ResponseBody
-    public void removeClaim(@RequestBody Claim claim) {
+    public void removeClaim(@RequestBody Claims claim) {
         claimService.removeClaim(claim);
     }
 
@@ -43,43 +43,43 @@ public class Controller {
 
     @PostMapping("/createbill")
     @ResponseBody
-    public void createBill(@RequestBody Bills bills) {
-        claimService.createBill(bills);
+    public void createBill(@RequestBody Bills bill) {
+        claimService.createBill(bill);
     }
 
     @PostMapping("/updatebill")
     @ResponseBody
-    public void updateBill(@RequestBody Bills bills) {
-        claimService.updateBill(bills);
+    public void updateBill(@RequestBody Bills bill) {
+        claimService.updateBill(bill);
     }
 
     @PostMapping("/removebill")
     @ResponseBody
-    public void removeClaim(@RequestBody Bills bills) {
-        claimService.removeBill(bills);
+    public void removeClaim(@RequestBody Bills bill) {
+        claimService.removeBill(bill);
     }
 
     @PostMapping("/getbills")
     @ResponseBody
-    public List getBills(@RequestBody Claim claim) {
+    public List getBills(@RequestBody Claims claim) {
         return claimService.getBills(claim);
     }
     @PostMapping("/createvictim")
     @ResponseBody
-    public void createvictim(@RequestBody Victims victims) {
-        claimService.createVictim(victims);
+    public void createvictim(@RequestBody Victims victim) {
+        claimService.createVictim(victim);
     }
 
     @PostMapping("/updatevictim")
     @ResponseBody
-    public void updateVictim(@RequestBody Victims victims) {
-        claimService.updateVictim(victims);
+    public void updateVictim(@RequestBody Victims victim) {
+        claimService.updateVictim(victim);
     }
 
     @PostMapping("/removevictim")
     @ResponseBody
-    public void removeVictim(@RequestBody Victims victims) {
-        claimService.removeVictim(victims);
+    public void removeVictim(@RequestBody Victims victim) {
+        claimService.removeVictim(victim);
     }
 
     @PostMapping("/getvictims")

@@ -366,18 +366,18 @@ public class CRUDService {
     }
 
     @Transactional
-    public void createClaim(Claims claims) {
-        em.persist(claims);
+    public void createClaim(Claims claim) {
+        em.persist(claim);
     }
 
     @Transactional
-    public void updateClaim(Claims claims) {
-        em.merge(claims);
+    public void updateClaim(Claims claim) {
+        em.merge(claim);
     }
 
     @Transactional
-    public void removeClaim(Claims claims) {
-        em.createQuery("delete c from Claims c where claimId = '" + claims.getClaimId() + "'");
+    public void removeClaim(Claims claim) {
+        em.createQuery("delete c from Claims c where claimId = '" + claim.getClaimId() + "'");
     }
 
     @Transactional
@@ -387,24 +387,25 @@ public class CRUDService {
     }
 
     @Transactional
-    public void createBill(Bills bills) {
-        em.persist(bills);
+    public void createBill(Bills bill) {
+        em.persist(bill);
     }
 
     @Transactional
-    public void updateBill(Bills bills) {
-        em.merge(bills);
+    public void updateBill(Bills bill) {
+        em.merge(bill);
     }
 
     @Transactional
-    public void removeBill(Bills bills) {
-        em.createQuery("delete c from Bills c where claimId = '" + bills.getClaimId() + "'");
+    public void removeBill(Bills bill) {
+        em.createQuery("delete c from Bills c where claimId = '" + bill.getClaimId() + "'");
     }
 
     @Transactional
-    public List getBills(Claims claims) {
-        return (List) em.createQuery("select c from Bills c where claimId = '" + claims.getClaimId() + "'");
+    public List getBills(Claims claim) {
+        return (List) em.createQuery("select c from Bills c where claimId = '" + claim.getClaimId() + "'");
     }
+
     @Transactional
     public void createVictim(Victims victim) {
         em.persist(victim);
