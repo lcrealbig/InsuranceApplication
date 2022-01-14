@@ -4,15 +4,17 @@ public class ObjectRisksConfig {
     private Integer id;
     private String objectType;
     private String objectRisks;
+    private String required;
     private String version;
 
     public ObjectRisksConfig() {
     }
 
-    public ObjectRisksConfig(Integer id, String objectType, String objectRisks, String version) {
+    public ObjectRisksConfig(Integer id, String objectType, String objectRisks, String required, String version) {
         this.id = id;
         this.objectType = objectType;
         this.objectRisks = objectRisks;
+        this.required = required;
         this.version = version;
     }
 
@@ -38,6 +40,14 @@ public class ObjectRisksConfig {
 
     public void setObjectRisks(String objectRisks) {
         this.objectRisks = objectRisks;
+    }
+
+    public String getRequired() {
+        return required;
+    }
+
+    public void setRequired(String required) {
+        this.required = required;
     }
 
     public String getVersion() {
