@@ -289,4 +289,76 @@ public class Controller {
     public ResponseEntity getAllCustomers() {
         return CRUDService.getAllCustomers();
     }
+
+    @PostMapping("/createclaim")
+    @ResponseBody
+    public void createClaim(@RequestBody Claims claims) {
+        CRUDService.createClaim(claims);
+    }
+
+    @PostMapping("/updateclaim")
+    @ResponseBody
+    public void updateClaim(@RequestBody Claims claims) {
+        CRUDService.updateClaim(claims);
+    }
+
+    @PostMapping("/removeclaim")
+    @ResponseBody
+    public void removeClaim(@RequestBody Claims claims) {
+        CRUDService.removeClaim(claims);
+    }
+
+    @PostMapping("/getclaims")
+    @ResponseBody
+    public List getClaim(@RequestBody InsuredObjects driver) {
+        return CRUDService.getClaims(driver);
+
+    }
+
+    @PostMapping("/createbill")
+    @ResponseBody
+    public void createBill(@RequestBody Bills bills) {
+        CRUDService.createBill(bills);
+    }
+
+    @PostMapping("/updatebill")
+    @ResponseBody
+    public void updateBill(@RequestBody Bills bills) {
+        CRUDService.updateBill(bills);
+    }
+
+    @PostMapping("/removebill")
+    @ResponseBody
+    public void removeClaim(@RequestBody Bills bills) {
+        CRUDService.removeBill(bills);
+    }
+
+    @PostMapping("/getbills")
+    @ResponseBody
+    public List getBills(@RequestBody Claims claims) {
+        return CRUDService.getBills(claims);
+    }
+    @PostMapping("/createvictim")
+    @ResponseBody
+    public void createvictim(@RequestBody Victims victims) {
+        CRUDService.createVictim(victims);
+    }
+
+    @PostMapping("/updatevictim")
+    @ResponseBody
+    public void updateVictim(@RequestBody Victims victims) {
+        CRUDService.updateVictim(victims);
+    }
+
+    @PostMapping("/removevictim")
+    @ResponseBody
+    public void removeVictim(@RequestBody Victims victims) {
+        CRUDService.removeVictim(victims);
+    }
+
+    @PostMapping("/getvictims")
+    @ResponseBody
+    public List getVictims(@RequestBody Bills bill) {
+        return CRUDService.getVictims(bill);
+    }
 }

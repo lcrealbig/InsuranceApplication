@@ -7,18 +7,18 @@ public class PolicyLines {
     private Integer policyLineId;
     private Integer transactionId;
     private Integer policyId;
-    private String productLineType;
+    private String policyLineType;
     private String version;
 
     //no argument constructor is required to create entity class
     public PolicyLines(){
     }
 
-    public PolicyLines(Integer policyLineId, Integer transactionId, Integer policyId, String productLineType, String version) {
+    public PolicyLines(Integer policyLineId, Integer transactionId, Integer policyId, String policyLineType, String version) {
         this.policyLineId = policyLineId;
         this.transactionId = transactionId;
         this.policyId = policyId;
-        this.productLineType = productLineType;
+        this.policyLineType = policyLineType;
         this.version = version;
     }
 
@@ -49,12 +49,12 @@ public class PolicyLines {
         this.policyId = policyId;
     }
 
-    public String getProductLineType() {
-        return productLineType;
+    public String getPolicyLineType() {
+        return policyLineType;
     }
 
-    public void setProductLineType(String productLineType) {
-        this.productLineType = productLineType;
+    public void setPolicyLineType(String policyLineType) {
+        this.policyLineType = policyLineType;
     }
 
     public String getVersion() {
