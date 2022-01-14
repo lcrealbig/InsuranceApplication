@@ -29,6 +29,7 @@ public class Victims {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bill_id_seq")
     @SequenceGenerator(name = "bill_id_seq", allocationSize = 1)
+
     public String getName() {
         return name;
     }
