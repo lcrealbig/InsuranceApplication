@@ -3,16 +3,16 @@ package com.insuranceapplication.policyservice.models;
 public class ObjectRisksConfig {
     private Integer id;
     private String objectType;
-    private String objectRisks;
+    private String riskId;
     private String version;
 
     public ObjectRisksConfig() {
     }
 
-    public ObjectRisksConfig(Integer id, String objectType, String objectRisks, String version) {
+    public ObjectRisksConfig(Integer id, String objectType, String riskId, String version) {
         this.id = id;
         this.objectType = objectType;
-        this.objectRisks = objectRisks;
+        this.riskId = riskId;
         this.version = version;
     }
 
@@ -32,12 +32,12 @@ public class ObjectRisksConfig {
         this.objectType = objectType;
     }
 
-    public String getObjectRisks() {
-        return objectRisks;
+    public String getRiskId() {
+        return riskId;
     }
 
-    public void setObjectRisks(String objectRisks) {
-        this.objectRisks = objectRisks;
+    public void setRiskId(String riskId) {
+        this.riskId = riskId;
     }
 
     public String getVersion() {
