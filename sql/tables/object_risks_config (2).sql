@@ -9,7 +9,7 @@ create SEQUENCE public.orc_id_seq
 create table object_risks_config (
 id integer default nextval('orc_id_seq'),
 object_type varchar(10),
-object_risks varchar(30),
+risk_id varchar(30),
 version varchar(30)
 );
 
