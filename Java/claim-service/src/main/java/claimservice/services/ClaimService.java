@@ -20,52 +20,52 @@ public class ClaimService {
     EurekaClient eurekaClient;
     private RestTemplate template = new RestTemplate();
 
-    public ResponseEntity createClaim(Claims claims) {
-        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/createclaim", claims, String.class);
+    public ResponseEntity createClaim(Claims claim) {
+        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/createclaim", claim, String.class);
 
     }
 
-    public ResponseEntity updateClaim(Claims claims) {
-        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/updateclaim", claims, Claims.class);
+    public ResponseEntity updateClaim(Claims claim) {
+        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/updateclaim", claim, Claims.class);
 
     }
 
-    public ResponseEntity deleteClaim(Claims claims) {
-        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/deleteclaim", claims, Claims.class);
+    public ResponseEntity deleteClaim(Claims claim) {
+        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/deleteclaim", claim, Claims.class);
     }
 
     public ResponseEntity<List> getClaims(InsuredObjects driver) {
         return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getclaims", driver, List.class);
     }
 
-    public ResponseEntity createBill(Bills bills) {
-        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/createbill", bills, String.class);
+    public ResponseEntity createBill(Bills bill) {
+        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/createbill", bill, String.class);
     }
 
-    public ResponseEntity updateBill(Bills bills) {
-        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/updatebill", bills, Bills.class);
-
-    }
-
-    public ResponseEntity deleteBill(Bills bills) {
-        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/deletebill", bills, Bills.class);
-    }
-
-    public ResponseEntity<List> getBills(Claims claims) {
-        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getbills", claims, List.class);
-    }
-
-    public ResponseEntity createVictim(Victims victims) {
-        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/createvictim", victims, String.class);
-    }
-
-    public ResponseEntity updateVictim(Victims victims) {
-        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/updatevictim", victims, Victims.class);
+    public ResponseEntity updateBill(Bills bill) {
+        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/updatebill", bill, Bills.class);
 
     }
 
-    public ResponseEntity deleteVictim(Victims victims) {
-        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/deletevictim", victims, Victims.class);
+    public ResponseEntity deleteBill(Bills bill) {
+        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/deletebill", bill, Bills.class);
+    }
+
+    public ResponseEntity<List> getBills(Claims claim) {
+        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getbills", claim, List.class);
+    }
+
+    public ResponseEntity createVictim(Victims victim) {
+        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/createvictim", victim, String.class);
+    }
+
+    public ResponseEntity updateVictim(Victims victim) {
+        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/updatevictim", victim, Victims.class);
+
+    }
+
+    public ResponseEntity deleteVictim(Victims victim) {
+        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/deletevictim", victim, Victims.class);
     }
 
     public ResponseEntity<List> getVictims(Bills bill) {

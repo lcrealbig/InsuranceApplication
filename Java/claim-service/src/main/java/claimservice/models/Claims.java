@@ -12,11 +12,11 @@ public class Claims {
     private Date claimDate;
     private String lastStatusUpdate;
     private String version;
-    private String occurencyPlace;
+    private String eventPlace;
     public Claims() {
     }
 
-    public Claims(Integer id, String policyLineId, Integer policyId, String status, String claimType, String claimDescription, Date claimDate, String lastStatusUpdate, String version, String occurencyPlace) {
+    public Claims(Integer id, String policyLineId, Integer policyId, String status, String claimType, String claimDescription, Date claimDate, String lastStatusUpdate, String version, String eventPlace) {
         this.policyLineId = policyLineId;
         this.claimId = id;
         this.policyId = policyId;
@@ -25,7 +25,7 @@ public class Claims {
         this.claimDescription = claimDescription;
         this.claimDate = claimDate;
         this.lastStatusUpdate = lastStatusUpdate;
-        this.occurencyPlace = occurencyPlace;
+        this.eventPlace = eventPlace;
         this.version = version;
     }
 
@@ -101,11 +101,11 @@ public class Claims {
         this.version = version;
     }
 
-    public String getOccurencyPlace() {
-        return occurencyPlace;
+    public String getEventPlace() {
+        return eventPlace;
     }
 
-    public void setOccurencyPlace(String occurencyPlace) {
-        this.occurencyPlace = occurencyPlace;
+    public void setEventPlace(String eventPlace) {
+        this.eventPlace = eventPlace;
     }
 }
