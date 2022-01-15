@@ -150,7 +150,7 @@ public class CRUDService {
 
     @Transactional
     public ResponseEntity getObjectTypes(PolicyLineTypesConfig policyLineTypesConfig) {
-        Query q = em.createQuery("select o from ObjectTypesConfig o WHERE o.policyLineId = '" + policyLineTypesConfig.getPolicyLineId() + "'");
+        Query q = em.createQuery("select o from ObjectTypesConfig o WHERE o.policyLineType = '" + policyLineTypesConfig.getPolicyLineType() + "'");
         ArrayList<ObjectRisksConfig> resultArray = (ArrayList<ObjectRisksConfig>) q.getResultList();
         return ResponseEntity.ok().body(resultArray);
     }
@@ -220,7 +220,7 @@ public class CRUDService {
 
     @Transactional
     public ResponseEntity getVehicleTypes(VehicleTypesConfig vehicleTypesConfig) {
-        List<VehicleTypesConfig> resultList = (List<VehicleTypesConfig>) em.createQuery("select v from VehicleTypesConfig v WHERE v.productLineType = '" + vehicleTypesConfig.getProductLineType() + "'").getResultList();
+        List<VehicleTypesConfig> resultList = (List<VehicleTypesConfig>) em.createQuery("select v from VehicleTypesConfig v WHERE v.productLineType = '" + vehicleTypesConfig.getPolicyLineType() + "'").getResultList();
         return ResponseEntity.ok().body(resultList);
     }
 

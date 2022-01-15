@@ -10,7 +10,7 @@ create table policy_lines(
 POLICY_LINE_ID integer default nextval('line_id_seq'),
 TRANSACTION_ID integer,
 POLICY_ID integer,
-PRODUCT_LINE_TYPE varchar(30),
+POLICY_LINE_TYPE varchar(30),
 VERSION varchar(5)
 )
 

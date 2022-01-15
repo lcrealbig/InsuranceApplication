@@ -8,7 +8,7 @@ create SEQUENCE public.otc_id_seq
 
 create table object_types_config (
 ID integer default nextval('otc_id_seq'),
-POLICY_LINE_ID varchar(5),
+POLICY_LINE_TYPE varchar(5),
 OBJ_TYPE varchar(5),
 VERSION varchar(5)
 );
