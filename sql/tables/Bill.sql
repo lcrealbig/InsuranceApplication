@@ -8,11 +8,10 @@ create SEQUENCE public.bill_id_seq
 
 
 create table Bills (
-claim_id integer default nextval('bill_id_seq'),
+bill_id integer default nextval('bill_id_seq'),
 bill_status varchar(30),
 victim_id INTEGER,
 bill_amount numeric,
 amount_to_withdraw numeric,
-version varchar
 
 );

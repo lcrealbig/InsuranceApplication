@@ -8,16 +8,16 @@ import javax.persistence.Table;
 @Table(name = "VEHICLE_TYPES_CONFIG", schema = "public")
 public class VehicleTypesConfig {
     private Integer id;
-    private String productLineType;
+    private String policyLineType;
     private String vehicleType;
     private String version;
 
     public VehicleTypesConfig() {
     }
 
-    public VehicleTypesConfig(Integer id, String productLineType, String vehicleType, String version) {
+    public VehicleTypesConfig(Integer id, String policyLineType, String vehicleType, String version) {
         this.id = id;
-        this.productLineType = productLineType;
+        this.policyLineType = policyLineType;
         this.vehicleType = vehicleType;
         this.version = version;
     }
@@ -31,12 +31,12 @@ public class VehicleTypesConfig {
         this.id = id;
     }
 
-    public String getProductLineType() {
-        return productLineType;
+    public String getPolicyLineType() {
+        return policyLineType;
     }
 
-    public void setProductLineType(String productLineType) {
-        this.productLineType = productLineType;
+    public void setPolicyLineType(String policyLineType) {
+        this.policyLineType = policyLineType;
     }
 
     public String getVehicleType() {

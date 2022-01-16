@@ -19,23 +19,24 @@ public class PolicyService {
     EurekaClient eurekaClient;
     private RestTemplate template = new RestTemplate();
 
-    public void createTransaction(Transactions transactions) {
+    public ResponseEntity createTransaction(Transactions transactions) {
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/createtransaction", transactions, String.class);
+        return ResponseEntity.ok().body(response);
     }
 
-    public void createPolicy(Policy newPolicy) {
+    public ResponseEntity createPolicy(Policy newPolicy) {
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/createpolicy", newPolicy, String.class);
-
+        return ResponseEntity.ok().body(response);
     }
 
-    public void createPolicyLine(PolicyLines newPolicyLines) {
+    public ResponseEntity createPolicyLine(PolicyLines newPolicyLines) {
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/createpolicyline", newPolicyLines, String.class);
-
+        return ResponseEntity.ok().body(response);
     }
 
-    public void createInsuredObject(InsuredObjects insuredObject) {
+    public ResponseEntity createInsuredObject(InsuredObjects insuredObject) {
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/createinsuredobject", insuredObject, String.class);
-
+        return ResponseEntity.ok().body(response);
     }
 
     public ResponseEntity searchInsuredObject(InsuredObjects insuredObject) {
@@ -107,7 +108,7 @@ public class PolicyService {
     }
 
     public ResponseEntity getObjectRisksConfig(InsuredObjects insuredObjects) {
-        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getrisksconfig",insuredObjects, List.class);
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getrisksconfig", insuredObjects, List.class);
         ArrayList<ObjectTypesConfig> resultArray = (ArrayList<ObjectTypesConfig>) response.getBody();
         return ResponseEntity.ok().body(resultArray);
     }

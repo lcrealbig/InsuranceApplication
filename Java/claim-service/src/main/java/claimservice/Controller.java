@@ -19,72 +19,73 @@ public class Controller {
 
     @PostMapping("/createclaim")
     @ResponseBody
-    public void createClaim(@RequestBody Claims claim) {
-        claimService.createClaim(claim);
+    public ResponseEntity createClaim(@RequestBody Claims claim) {
+        return claimService.createClaim(claim);
     }
 
     @PostMapping("/updateclaim")
     @ResponseBody
-    public void updateClaim(@RequestBody Claims claim) {
-        claimService.updateClaim(claim);
+    public ResponseEntity updateClaim(@RequestBody Claims claim) {
+        return claimService.updateClaim(claim);
     }
 
-    @PostMapping("/removeclaim")
+    @PostMapping("/deleteclaim")
     @ResponseBody
-    public void removeClaim(@RequestBody Claims claim) {
-        claimService.removeClaim(claim);
+    public ResponseEntity deleteClaim(@RequestBody Claims claim) {
+        return claimService.deleteClaim(claim);
     }
 
     @PostMapping("/getclaims")
     @ResponseBody
-    public void getClaim(@RequestBody InsuredObjects driver) {
-        claimService.getClaims(driver);
+    public ResponseEntity<List> getClaims(@RequestBody InsuredObjects driver) {
+        return claimService.getClaims(driver);
     }
 
     @PostMapping("/createbill")
     @ResponseBody
-    public void createBill(@RequestBody Bills bill) {
-        claimService.createBill(bill);
+    public ResponseEntity createBill(@RequestBody Bills bill) {
+        return claimService.createBill(bill);
     }
 
     @PostMapping("/updatebill")
     @ResponseBody
-    public void updateBill(@RequestBody Bills bill) {
-        claimService.updateBill(bill);
+    public ResponseEntity updateBill(@RequestBody Bills bill) {
+        return claimService.updateBill(bill);
     }
 
-    @PostMapping("/removebill")
+    @PostMapping("/deletebill")
     @ResponseBody
-    public void removeClaim(@RequestBody Bills bill) {
-        claimService.removeBill(bill);
+    public ResponseEntity deleteClaim(@RequestBody Bills bill) {
+        return claimService.deleteBill(bill);
     }
 
     @PostMapping("/getbills")
     @ResponseBody
-    public List getBills(@RequestBody Claims claim) {
+    public ResponseEntity<List> getBills(@RequestBody Claims claim) {
         return claimService.getBills(claim);
     }
+
     @PostMapping("/createvictim")
     @ResponseBody
-    public void createvictim(@RequestBody Victims victim) {
-        claimService.createVictim(victim);
+    public ResponseEntity createvictim(@RequestBody Victims victim) {
+        return claimService.createVictim(victim);
     }
 
     @PostMapping("/updatevictim")
     @ResponseBody
-    public void updateVictim(@RequestBody Victims victim) {
-        claimService.updateVictim(victim);
+    public ResponseEntity updateVictim(@RequestBody Victims victim) {
+        return claimService.updateVictim(victim);
     }
 
-    @PostMapping("/removevictim")
+    @PostMapping("/deletevictim")
     @ResponseBody
-    public void removeVictim(@RequestBody Victims victim) {
-        claimService.removeVictim(victim);
+    public ResponseEntity deleteVictim(@RequestBody Victims victim) {
+        return claimService.deleteVictim(victim);
     }
 
     @PostMapping("/getvictims")
     @ResponseBody
-    public List getVictims(@RequestBody Bills bill) {
+    public ResponseEntity<List> getVictims(@RequestBody Bills bill) {
         return claimService.getVictims(bill);
     }
 

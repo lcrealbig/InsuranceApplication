@@ -220,7 +220,7 @@ public class CRUDService {
 
     @Transactional
     public ResponseEntity getVehicleTypes(VehicleTypesConfig vehicleTypesConfig) {
-        List<VehicleTypesConfig> resultList = (List<VehicleTypesConfig>) em.createQuery("select v from VehicleTypesConfig v WHERE v.productLineType = '" + vehicleTypesConfig.getProductLineType() + "'").getResultList();
+        List<VehicleTypesConfig> resultList = (List<VehicleTypesConfig>) em.createQuery("select v from VehicleTypesConfig v WHERE v.policyLineType = '" + vehicleTypesConfig.getPolicyLineType() + "'").getResultList();
         return ResponseEntity.ok().body(resultList);
     }
 
@@ -366,63 +366,74 @@ public class CRUDService {
     }
 
     @Transactional
-    public void createClaim(Claims claim) {
+    public ResponseEntity createClaim(Claims claim) {
         em.persist(claim);
+        return ResponseEntity.ok().body(claim);
     }
 
     @Transactional
-    public void updateClaim(Claims claim) {
+    public ResponseEntity updateClaim(Claims claim) {
         em.merge(claim);
+        return ResponseEntity.ok().body(claim);
     }
 
     @Transactional
-    public void removeClaim(Claims claim) {
+    public ResponseEntity deleteClaim(Claims claim) {
         em.createQuery("delete c from Claims c where claimId = '" + claim.getClaimId() + "'");
+        return ResponseEntity.ok().body(claim);
     }
 
     @Transactional
-    public List getClaims(InsuredObjects driver) {
+    public ResponseEntity getClaims(InsuredObjects driver) {
         List<Claims> claims = em.createQuery("select c from Claims c where claimId = '" + driver.getObjectId() + "'").getResultList();
-        return claims;
+        return ResponseEntity.ok().body(claims);
     }
 
     @Transactional
-    public void createBill(Bills bill) {
+    public ResponseEntity createBill(Bills bill) {
         em.persist(bill);
+        return ResponseEntity.ok().body(bill);
     }
 
     @Transactional
-    public void updateBill(Bills bill) {
+    public ResponseEntity updateBill(Bills bill) {
         em.merge(bill);
+        return ResponseEntity.ok().body(bill);
     }
 
     @Transactional
-    public void removeBill(Bills bill) {
-        em.createQuery("delete c from Bills c where claimId = '" + bill.getClaimId() + "'");
+    public ResponseEntity deleteBill(Bills bill) {
+        em.createQuery("delete b from Bills b where b.claimId = '" + bill.getClaimId() + "'");
+        return ResponseEntity.ok().body(bill);
     }
 
     @Transactional
-    public List getBills(Claims claim) {
-        return (List) em.createQuery("select c from Bills c where claimId = '" + claim.getClaimId() + "'");
+    public ResponseEntity getBills(Claims claim) {
+        List<Bills> bills = em.createQuery("select b from Bills b where b.claimId = '" + claim.getClaimId() + "'").getResultList();
+        return ResponseEntity.ok().body(bills);
     }
 
     @Transactional
-    public void createVictim(Victims victim) {
+    public ResponseEntity createVictim(Victims victim) {
         em.persist(victim);
+        return ResponseEntity.ok().body(victim);
     }
 
     @Transactional
-    public void updateVictim(Victims victim) {
+    public ResponseEntity updateVictim(Victims victim) {
         em.merge(victim);
+        return ResponseEntity.ok().body(victim);
     }
 
     @Transactional
-    public void removeVictim(Victims victim) {
-        em.createQuery("delete c from Victims c where claimId = '" + victim.getVictimId() + "'");
+    public ResponseEntity deleteVictim(Victims victim) {
+        em.createQuery("delete v from Victims v where v.claimId = '" + victim.getVictimId() + "'");
+        return ResponseEntity.ok().body(victim);
     }
 
     @Transactional
-    public List getVictims(Bills bill) {
-        return (List) em.createQuery("select c from Victims c where claimId = '" + bill.getClaimId() + "'");
+    public ResponseEntity getVictims(Bills bill) {
+        List<Victims> victims = em.createQuery("select v from Victims v where v.claimId = '" + bill.getClaimId() + "'").getResultList();
+        return ResponseEntity.ok().body(victims);
     }
 }
