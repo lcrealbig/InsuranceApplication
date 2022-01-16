@@ -10,15 +10,14 @@ public class Bills {
     private Double billAmount;
     private Double amountOfWithdraw;
     private Integer victimId;
-    private String version;
 
-    public Bills(Integer claimId, String billStatus, Double billAmount, Double amountOfWithdraw, Integer victimId, String version) {
+    public Bills(Integer claimId, String billStatus, Double billAmount, Double amountOfWithdraw, Integer victimId) {
         this.claimId = claimId;
         this.billStatus = billStatus;
         this.billAmount = billAmount;
         this.amountOfWithdraw = amountOfWithdraw;
         this.victimId = victimId;
-        this.version = version;
+
     }
 
     public Bills() {
@@ -67,11 +66,4 @@ public class Bills {
         this.victimId = victimId;
     }
 
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
 }

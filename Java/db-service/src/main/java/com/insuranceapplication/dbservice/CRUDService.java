@@ -403,13 +403,13 @@ public class CRUDService {
 
     @Transactional
     public ResponseEntity deleteBill(Bills bill) {
-        em.createQuery("delete c from Bills c where claimId = '" + bill.getClaimId() + "'");
+        em.createQuery("delete b from Bills b where b.claimId = '" + bill.getClaimId() + "'");
         return ResponseEntity.ok().body(bill);
     }
 
     @Transactional
     public ResponseEntity getBills(Claims claim) {
-        List<Bills> bills = em.createQuery("select c from Bills c where claimId = '" + claim.getClaimId() + "'").getResultList();
+        List<Bills> bills = em.createQuery("select b from Bills b where b.claimId = '" + claim.getClaimId() + "'").getResultList();
         return ResponseEntity.ok().body(bills);
     }
 
@@ -427,13 +427,13 @@ public class CRUDService {
 
     @Transactional
     public ResponseEntity deleteVictim(Victims victim) {
-        em.createQuery("delete c from Victims c where claimId = '" + victim.getVictimId() + "'");
+        em.createQuery("delete v from Victims v where v.claimId = '" + victim.getVictimId() + "'");
         return ResponseEntity.ok().body(victim);
     }
 
     @Transactional
     public ResponseEntity getVictims(Bills bill) {
-        List<Victims> victims = em.createQuery("select c from Victims c where claimId = '" + bill.getClaimId() + "'").getResultList();
+        List<Victims> victims = em.createQuery("select v from Victims v where v.claimId = '" + bill.getClaimId() + "'").getResultList();
         return ResponseEntity.ok().body(victims);
     }
 }

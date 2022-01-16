@@ -7,7 +7,6 @@ import java.util.Date;
 @Table(name = "Claims")
 public class Claims {
     private Integer claimId;
-    private String policyLineId;
     private Integer policyId;
     private String status;
     private String claimType;
@@ -15,13 +14,11 @@ public class Claims {
     private Date claimDate;
     private String lastStatusUpdate;
     private String eventPlace;
-    private String version;
 
     public Claims() {
     }
 
-    public Claims(Integer id, String policyLineId, Integer policyId, String status, String claimType, String claimDescription, Date claimDate, String lastStatusUpdate, String eventPlace, String version) {
-        this.policyLineId = policyLineId;
+    public Claims(Integer id,Integer policyId, String status, String claimType, String claimDescription, Date claimDate, String lastStatusUpdate, String eventPlace) {
         this.claimId = id;
         this.policyId = policyId;
         this.status = status;
@@ -30,7 +27,6 @@ public class Claims {
         this.claimDate = claimDate;
         this.lastStatusUpdate = lastStatusUpdate;
         this.eventPlace = eventPlace;
-        this.version = version;
     }
 
     @Id
@@ -42,14 +38,6 @@ public class Claims {
 
     public void setClaimId(Integer claimId) {
         this.claimId = claimId;
-    }
-
-    public String getPolicyLineId() {
-        return policyLineId;
-    }
-
-    public void setPolicyLineId(String policyLineId) {
-        this.policyLineId = policyLineId;
     }
 
     public Integer getPolicyId() {
@@ -98,14 +86,6 @@ public class Claims {
 
     public void setLastStatusUpdate(String lastStatusUpdate) {
         this.lastStatusUpdate = lastStatusUpdate;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
     }
 
     public String getEventPlace() {

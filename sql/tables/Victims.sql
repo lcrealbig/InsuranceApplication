@@ -8,7 +8,7 @@ create SEQUENCE public.victim_id_seq
 
 
 create table Victims(
-CUSTOMER_ID integer default nextval('victim_id_seq'),
+VICTIM_ID integer default nextval('victim_id_seq'),
 NAME varchar(150),
 PESEL varchar(11),
 ADDRESS varchar(150),
