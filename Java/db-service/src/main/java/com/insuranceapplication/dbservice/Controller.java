@@ -92,8 +92,8 @@ public class Controller {
     }
 
     @GetMapping("/getproducts")
-    public ResponseEntity getProducts() {
-        return CRUDService.getProducts();
+    public ResponseEntity getProducts(ProductsConfig productsConfig) {
+        return CRUDService.getProducts(productsConfig);
     }
 
     @PostMapping("/createcustomer")
@@ -197,8 +197,8 @@ public class Controller {
     }
 
     @GetMapping("/premiumCalcConfigVars")
-    public List premiumConfigList() {
-        return CRUDService.getPremCalcVals();
+    public List premiumConfigList(PremiumCalcConfigValues pccv) {
+        return CRUDService.getPremCalcVals(pccv);
     }
 
     @PostMapping("/getInsuredObjects")
