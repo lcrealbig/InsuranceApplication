@@ -91,8 +91,9 @@ public class Controller {
         return CRUDService.searchPolicyLine(policyLines);
     }
 
-    @GetMapping("/getproducts")
-    public ResponseEntity getProducts(ProductsConfig productsConfig) {
+    @PostMapping("/getproducts")
+    @ResponseBody
+    public ResponseEntity getProducts(@RequestBody ProductsConfig productsConfig) {
         return CRUDService.getProducts(productsConfig);
     }
 
@@ -288,6 +289,12 @@ public class Controller {
     @ResponseBody
     public ResponseEntity getAllCustomers() {
         return CRUDService.getAllCustomers();
+    }
+
+    @GetMapping("/getallproductconfig")
+    @ResponseBody
+    public ResponseEntity getAllProductconfig() {
+        return CRUDService.getAllProductConfig();
     }
 
     @PostMapping("/createclaim")

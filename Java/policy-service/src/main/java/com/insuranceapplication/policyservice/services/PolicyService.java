@@ -85,8 +85,8 @@ public class PolicyService {
         calculation.calculate(policyLine);
     }
 
-    public ResponseEntity getProducts() {
-        ResponseEntity response = template.getForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getproducts", List.class);
+    public ResponseEntity getProducts(ProductsConfig productsConfig) {
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getproducts", productsConfig, List.class);
         List<ProductsConfig> resultArray = (List) response.getBody();
         return ResponseEntity.ok().body(resultArray);
     }
@@ -206,5 +206,10 @@ public class PolicyService {
 
     public ResponseEntity mergePremiumValuesConfig(PremiumCalcConfigValues values) {
         return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/mergepremiumvaluesconfig", values, PremiumCalcConfigValues.class);
+    }
+
+    public ResponseEntity getAllProductConfig() {
+        return template.getForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/getallproductconfig", List.class);
+
     }
 }

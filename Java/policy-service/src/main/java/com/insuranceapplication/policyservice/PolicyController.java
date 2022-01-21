@@ -88,10 +88,10 @@ public class PolicyController {
         return policyService.searchPolicyLine(policyLine);
     }
 
-    @GetMapping("/getproducts")
+    @PostMapping("/getproducts")
     @ResponseBody
-    public ResponseEntity getProducts() {
-        return policyService.getProducts();
+    public ResponseEntity getProducts(@RequestBody ProductsConfig productsConfig) {
+        return policyService.getProducts(productsConfig);
     }
 
     @PostMapping("/getpolicylinetypes")
@@ -196,6 +196,12 @@ public class PolicyController {
     @PostMapping("/mergeobjectriskconfig")
     public ResponseEntity mergeObjectRiskConfig(@RequestBody ObjectRisksConfig risk) {
         return policyService.mergeObjectRiskConfig(risk);
+    }
+
+    @GetMapping("/allproductconfig")
+    @ResponseBody
+    public ResponseEntity getAllProductConfig() {
+        return policyService.getAllProductConfig();
     }
 
     @PostMapping("/mergeproductconfig")

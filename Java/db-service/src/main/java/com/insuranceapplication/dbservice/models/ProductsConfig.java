@@ -11,13 +11,13 @@ public class ProductsConfig {
     private Integer id;
     private String productId;
     private String version;
-    private Date startDate;
-    private Date endDate;
+    private String startDate;
+    private String endDate;
 
     public ProductsConfig() {
     }
 
-    public ProductsConfig(int id, String productId, String version, Date startDate, Date endDate) {
+    public ProductsConfig(int id, String productId, String version, String startDate, String endDate) {
         this.id = id;
         this.productId = productId;
         this.version = version;
@@ -50,19 +50,19 @@ public class ProductsConfig {
         this.version = version;
     }
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 }

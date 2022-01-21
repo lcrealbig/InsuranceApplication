@@ -151,7 +151,7 @@ public class CRUDService {
 
     @Transactional
     public ResponseEntity getObjectTypes(PolicyLineTypesConfig policyLineTypesConfig) {
-        Query q = em.createQuery("SELECT oFROM ObjectTypesConfig o WHERE o.policyLineType = '" + policyLineTypesConfig.getPolicyLineType() + "' AND o.version = '" + policyLineTypesConfig.getVersion() + "'");
+        Query q = em.createQuery("SELECT o FROM ObjectTypesConfig o WHERE o.policyLineType = '" + policyLineTypesConfig.getPolicyLineType() + "' AND o.version = '" + policyLineTypesConfig.getVersion() + "'");
         ArrayList<ObjectRisksConfig> resultArray = (ArrayList<ObjectRisksConfig>) q.getResultList();
         return ResponseEntity.ok().body(resultArray);
     }
@@ -264,7 +264,7 @@ public class CRUDService {
 
     @Transactional
     public ResponseEntity getProducts(ProductsConfig productsConfig) {
-        List<ObjectRisks> resultList = (List<ObjectRisks>) em.createQuery("SELECT p FROM ProductsConfig p WHERE p.version = '" + productsConfig.getVersion() + "'").getResultList();
+        List<ObjectRisks> resultList = (List<ObjectRisks>) em.createQuery("SELECT p FROM ProductsConfig p WHERE p.startDate<=to_date('"+productsConfig.getStartDate() + "','yyyy-MM-dd') and coalesce(p.endDate,current_date+10000)>to_date('"+productsConfig.getStartDate() + "','yyyy-MM-dd')").getResultList();
         return ResponseEntity.ok().body(resultList);
     }
 
@@ -438,5 +438,14 @@ public class CRUDService {
     public ResponseEntity getVictims(Bills bill) {
         List<Victims> victims = em.createQuery("SELECT v FROM Victims v WHERE v.claimId = '" + bill.getClaimId() + "'").getResultList();
         return ResponseEntity.ok().body(victims);
+    }
+
+    public ResponseEntity getAllProductConfig() {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<ProductsConfig> cq = cb.createQuery(ProductsConfig.class);
+        Root<ProductsConfig> rootEntry = cq.from(ProductsConfig.class);
+        CriteriaQuery<ProductsConfig> all = cq.select(rootEntry);
+        TypedQuery<ProductsConfig> allQuery = em.createQuery(all);
+        return ResponseEntity.ok().body(allQuery.getResultList());
     }
 }
