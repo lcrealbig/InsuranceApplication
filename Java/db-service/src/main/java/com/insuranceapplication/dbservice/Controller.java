@@ -197,9 +197,10 @@ public class Controller {
         return ResponseEntity.ok().body("db-service is [ONLINE]");
     }
 
-    @GetMapping("/premiumCalcConfigVars")
-    public List premiumConfigList(PremiumCalcConfigValues pccv) {
-        return CRUDService.getPremCalcVals(pccv);
+    @PostMapping("/premiumCalcConfigVars")
+    @ResponseBody
+    public List premiumConfigList(@RequestBody PolicyLines policyLine) {
+        return CRUDService.getPremCalcVals(policyLine);
     }
 
     @PostMapping("/getInsuredObjects")

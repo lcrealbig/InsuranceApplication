@@ -269,8 +269,8 @@ public class CRUDService {
     }
 
     @Transactional
-    public List getPremCalcVals(PremiumCalcConfigValues pccv) {
-        List<PremiumCalcConfigValues> configValues = (List<PremiumCalcConfigValues>) em.createQuery("SELECT pccv FROM PremiumCalcConfigValues pccv WHERE pccv.version ='" + pccv.getVersion() + "'").getResultList();
+    public List getPremCalcVals(PolicyLines policyLine) {
+        List<PremiumCalcConfigValues> configValues = (List<PremiumCalcConfigValues>) em.createQuery("SELECT pccv FROM PremiumCalcConfigValues pccv WHERE pccv.version ='" + policyLine.getVersion() + "'").getResultList();
         return configValues;
     }
 

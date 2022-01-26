@@ -28,7 +28,8 @@ public class PremiumCalculation {
 
     public void calculate(PolicyLines policyLine) {
         riskToUpdate = new ObjectRisks();
-        calcVariables = Utils.mapToList((List<LinkedHashMap>) (List) policyService.premiumConfigList(), PremiumCalcConfigValues.class);
+        calcVariables = Utils.mapToList((List<LinkedHashMap>) (List) policyService.premiumConfigList(policyLine), PremiumCalcConfigValues.class);
+
         List<InsuredObjects> insObjects = Utils.mapToList((List<LinkedHashMap>) policyService.getInsuredObjects(policyLine), InsuredObjects.class);
         for (InsuredObjects insuredObject : insObjects) {
             if (insuredObject.getType().equals("DRI")) {

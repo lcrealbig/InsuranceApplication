@@ -142,8 +142,8 @@ public class PolicyService {
         template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/updateinsuredvehicle", insuredObject, InsuredObjects.class);
     }
 
-    public List<PremiumCalcConfigValues> premiumConfigList() {
-        ResponseEntity response = template.getForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/premiumCalcConfigVars", List.class);
+    public List<PremiumCalcConfigValues> premiumConfigList(PolicyLines policyLine) {
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/premiumCalcConfigVars",policyLine, List.class);
         return (List<PremiumCalcConfigValues>) response.getBody();
     }
 
