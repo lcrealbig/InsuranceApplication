@@ -4,9 +4,9 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "INSURED_OBJECTS")
-public class InsuredObjects {
-    private Integer objectId;
+@Table(name = "INSURED_OBJECT")
+public class InsuredObject {
+    private Integer id;
     private Integer policyLineId;
     private Integer transactionId;
     private String type;
@@ -26,12 +26,11 @@ public class InsuredObjects {
     private Date d03;
     private String version;
 
-    //no argument constructor is required to create entity class
-    public InsuredObjects() {
+    public InsuredObject() {
     }
 
-    public InsuredObjects(Integer objectId, Integer policyLineId, Integer transactionId, String type, String c01, String c02, String c03, String c04, Integer n01, Integer n02, Integer n03, Integer n04, Integer n05, Integer n06, Integer n07, Date d01, Date d02, Date d03, String version) {
-        this.objectId = objectId;
+    public InsuredObject(Integer id, Integer policyLineId, Integer transactionId, String type, String c01, String c02, String c03, String c04, Integer n01, Integer n02, Integer n03, Integer n04, Integer n05, Integer n06, Integer n07, Date d01, Date d02, Date d03, String version) {
+        this.id = id;
         this.policyLineId = policyLineId;
         this.transactionId = transactionId;
         this.type = type;
@@ -55,12 +54,12 @@ public class InsuredObjects {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "io_id_seq")
     @SequenceGenerator(name = "io_id_seq", allocationSize = 1)
-    public Integer getObjectId() {
-        return objectId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setObjectId(Integer objectId) {
-        this.objectId = objectId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getPolicyLineId() {

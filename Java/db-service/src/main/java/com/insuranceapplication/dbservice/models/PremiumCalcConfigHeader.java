@@ -2,8 +2,8 @@ package com.insuranceapplication.dbservice.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "premium_calc_config_headers")
-public class PremiumCalcConfigHeaders {
+@Table(name = "premium_calc_config_header")
+public class PremiumCalcConfigHeader {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "RISKS_VALUES")
     @SequenceGenerator(name = "RISKS_VALUES", allocationSize = 1)
@@ -41,10 +41,10 @@ public class PremiumCalcConfigHeaders {
     @Column(name = "version")
     private String version;
 
-    public PremiumCalcConfigHeaders() {
+    public PremiumCalcConfigHeader() {
     }
 
-    public PremiumCalcConfigHeaders(String comboId, Integer id, String riskId, String combinationName, String header1, String header2, String header3, String header4, String header5, String header6, String header7, String header8, String header9, String header10, String header11, String header12, String version)
+    public PremiumCalcConfigHeader(String comboId, Integer id, String riskId, String combinationName, String header1, String header2, String header3, String header4, String header5, String header6, String header7, String header8, String header9, String header10, String header11, String header12, String version)
     {
         this.id = id;
         this.riskId = riskId;

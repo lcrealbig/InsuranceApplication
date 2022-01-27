@@ -2,35 +2,32 @@ package com.insuranceapplication.dbservice.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "POLICY_LINES")
-public class PolicyLines {
-    private Integer policyLineId;
+@Table(name = "POLICY_LINE")
+public class PolicyLine {
+    private Integer id;
     private Integer transactionId;
     private Integer policyId;
     private String policyLineType;
-    private String version;
 
-    //no argument constructor is required to create entity class
-    public PolicyLines(){
+    public PolicyLine(){
     }
 
-    public PolicyLines(Integer policyLineId, Integer transactionId, Integer policyId, String policyLineType, String version) {
-        this.policyLineId = policyLineId;
+    public PolicyLine(Integer id, Integer transactionId, Integer policyId, String policyLineType) {
+        this.id = id;
         this.transactionId = transactionId;
         this.policyId = policyId;
         this.policyLineType = policyLineType;
-        this.version = version;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "line_id_seq")
     @SequenceGenerator(name = "line_id_seq", allocationSize = 1)
-    public Integer getPolicyLineId() {
-        return policyLineId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setPolicyLineId(Integer policyLineId) {
-        this.policyLineId = policyLineId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getTransactionId() {
@@ -57,11 +54,4 @@ public class PolicyLines {
         this.policyLineType = policyLineType;
     }
 
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
 }

@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "Claims")
-public class Claims {
+@Table(name = "CLAIM")
+public class Claim {
     private Integer claimId;
     private Integer policyId;
     private String status;
@@ -15,10 +15,10 @@ public class Claims {
     private String lastStatusUpdate;
     private String eventPlace;
 
-    public Claims() {
+    public Claim() {
     }
 
-    public Claims(Integer id,Integer policyId, String status, String claimType, String claimDescription, Date claimDate, String lastStatusUpdate, String eventPlace) {
+    public Claim(Integer id, Integer policyId, String status, String claimType, String claimDescription, Date claimDate, String lastStatusUpdate, String eventPlace) {
         this.claimId = id;
         this.policyId = policyId;
         this.status = status;

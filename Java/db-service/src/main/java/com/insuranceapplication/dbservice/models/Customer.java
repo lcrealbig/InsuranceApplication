@@ -5,17 +5,17 @@ import java.math.BigInteger;
 import java.util.Date;
 
 @Entity
-@Table(name = "CUSTOMERS")
-public class Customers {
-    private Integer customerId;
+@Table(name = "CUSTOMER")
+public class Customer {
+    private Integer id;
     private String name;
     private String pesel;
     private String address;
     private Date birthDate;
     private BigInteger phoneNum;
 
-    public Customers(Integer customerId, String name, String pesel, String address, Date birthDate, BigInteger phoneNum) {
-        this.customerId = customerId;
+    public Customer(Integer id, String name, String pesel, String address, Date birthDate, BigInteger phoneNum) {
+        this.id = id;
         this.name = name;
         this.pesel = pesel;
         this.address = address;
@@ -23,18 +23,18 @@ public class Customers {
         this.phoneNum = phoneNum;
     }
 
-    public Customers() {
+    public Customer() {
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cust_id_seq")
     @SequenceGenerator(name = "cust_id_seq", allocationSize = 1)
-    public Integer getCustomerId() {
-        return customerId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {

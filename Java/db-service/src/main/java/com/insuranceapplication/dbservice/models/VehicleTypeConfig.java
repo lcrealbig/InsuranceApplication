@@ -1,25 +1,24 @@
 package com.insuranceapplication.dbservice.models;
 
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "OBJECT_TYPES_CONFIG")
-public class ObjectTypesConfig {
+@Table(name = "VEHICLE_TYPE_CONFIG", schema = "public")
+public class VehicleTypeConfig {
     private Integer id;
     private String policyLineType;
-    private String objType;
+    private String vehicleType;
     private String version;
 
-    public ObjectTypesConfig() {
+    public VehicleTypeConfig() {
     }
 
-    public ObjectTypesConfig(int id, String policyLineType, String objType, String version) {
+    public VehicleTypeConfig(Integer id, String policyLineType, String vehicleType, String version) {
         this.id = id;
         this.policyLineType = policyLineType;
-        this.objType = objType;
+        this.vehicleType = vehicleType;
         this.version = version;
     }
 
@@ -40,12 +39,12 @@ public class ObjectTypesConfig {
         this.policyLineType = policyLineType;
     }
 
-    public String getObjType() {
-        return objType;
+    public String getVehicleType() {
+        return vehicleType;
     }
 
-    public void setObjType(String objType) {
-        this.objType = objType;
+    public void setVehicleType(String vehicleType) {
+        this.vehicleType = vehicleType;
     }
 
     public String getVersion() {

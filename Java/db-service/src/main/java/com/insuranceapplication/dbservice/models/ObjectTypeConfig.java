@@ -6,20 +6,20 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "POLICY_LINE_TYPES_CONFIG")
-public class PolicyLineTypesConfig {
+@Table(name = "OBJECT_TYPE_CONFIG")
+public class ObjectTypeConfig {
     private Integer id;
-    private String productId;
     private String policyLineType;
+    private String objType;
     private String version;
 
-    public PolicyLineTypesConfig() {
+    public ObjectTypeConfig() {
     }
 
-    public PolicyLineTypesConfig(int id, String productId, String policyLineType, String version) {
+    public ObjectTypeConfig(int id, String policyLineType, String objType, String version) {
         this.id = id;
-        this.productId = productId;
         this.policyLineType = policyLineType;
+        this.objType = objType;
         this.version = version;
     }
 
@@ -32,20 +32,20 @@ public class PolicyLineTypesConfig {
         this.id = id;
     }
 
-    public String getProductId() {
-        return productId;
-    }
-
-    public void setProductId(String productId) {
-        this.productId = productId;
-    }
-
     public String getPolicyLineType() {
         return policyLineType;
     }
 
     public void setPolicyLineType(String policyLineType) {
         this.policyLineType = policyLineType;
+    }
+
+    public String getObjType() {
+        return objType;
+    }
+
+    public void setObjType(String objType) {
+        this.objType = objType;
     }
 
     public String getVersion() {

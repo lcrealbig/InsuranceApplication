@@ -16,8 +16,8 @@ public class Controller {
 
 
     @PostMapping("/createtransaction")
-    public void createTransaction(@RequestBody Transactions newTransactions) {
-        CRUDService.createTransaction(newTransactions);
+    public void createTransaction(@RequestBody Transaction newTransaction) {
+        CRUDService.createTransaction(newTransaction);
     }
 
     @PostMapping("/createpolicy")
@@ -26,37 +26,37 @@ public class Controller {
     }
 
     @PostMapping("/createpolicyline")
-    public void createPolicyLine(@RequestBody PolicyLines newPolicyLines) {
-        CRUDService.createPolicyLine(newPolicyLines);
+    public void createPolicyLine(@RequestBody PolicyLine newPolicyLine) {
+        CRUDService.createPolicyLine(newPolicyLine);
     }
 
     @PostMapping("/createinsuredobject")
     @ResponseBody
-    public void createInsuredObject(@RequestBody InsuredObjects newInsuredObjects) {
-        CRUDService.createInsuredObject(newInsuredObjects);
+    public void createInsuredObject(@RequestBody InsuredObject newInsuredObject) {
+        CRUDService.createInsuredObject(newInsuredObject);
     }
 
     @PostMapping("/searchinsuredobject")
     @ResponseBody
-    public ResponseEntity searchInsuredObject(@RequestBody InsuredObjects insuredObject) {
+    public ResponseEntity searchInsuredObject(@RequestBody InsuredObject insuredObject) {
         return CRUDService.searchInsuredObject(insuredObject);
     }
 
     @PostMapping("/gettransactionid")
     @ResponseBody
-    public ResponseEntity getTransactionId(@RequestBody Transactions transaction) {
+    public ResponseEntity getTransactionId(@RequestBody Transaction transaction) {
         return CRUDService.getTransactionId(transaction);
     }
 
     @PostMapping("/getvehicles")
     @ResponseBody
-    public ResponseEntity getVehicles(@RequestBody Vehicles vehicle) {
+    public ResponseEntity getVehicles(@RequestBody Vehicle vehicle) {
         return CRUDService.getVehicles(vehicle);
     }
 
     @PostMapping("/getvehicle")
     @ResponseBody
-    public ResponseEntity getVehicle(@RequestBody Vehicles vehicle) {
+    public ResponseEntity getVehicle(@RequestBody Vehicle vehicle) {
         return CRUDService.getVehicle(vehicle);
     }
 
@@ -75,45 +75,45 @@ public class Controller {
 
     @PostMapping("/getpolicyline")
     @ResponseBody
-    public ResponseEntity getPolicyLine(@RequestBody PolicyLines policyLine) {
+    public ResponseEntity getPolicyLine(@RequestBody PolicyLine policyLine) {
         return CRUDService.getPolicyLine(policyLine);
     }
 
     @PostMapping("/getpolicylinetypes")
     @ResponseBody
-    public ResponseEntity getPolicyLinesTypeConfig(@RequestBody PolicyLineTypesConfig policyLineTypesConfig) {
-        return CRUDService.getPolicyLineTypes(policyLineTypesConfig);
+    public ResponseEntity getPolicyLinesTypeConfig(@RequestBody PolicyLineTypeConfig policyLineTypeConfig) {
+        return CRUDService.getPolicyLineTypes(policyLineTypeConfig);
     }
 
     @PostMapping("/searchpolicyline")
     @ResponseBody
-    public ResponseEntity searchPolicyLine(@RequestBody PolicyLines policyLines) {
-        return CRUDService.searchPolicyLine(policyLines);
+    public ResponseEntity searchPolicyLine(@RequestBody PolicyLine policyLine) {
+        return CRUDService.searchPolicyLine(policyLine);
     }
 
     @PostMapping("/getproducts")
     @ResponseBody
-    public ResponseEntity getProducts(@RequestBody ProductsConfig productsConfig) {
-        return CRUDService.getProducts(productsConfig);
+    public ResponseEntity getProducts(@RequestBody ProductConfig productConfig) {
+        return CRUDService.getProducts(productConfig);
     }
 
     @PostMapping("/createcustomer")
-    public void createCustomer(@RequestBody Customers customer) {
+    public void createCustomer(@RequestBody Customer customer) {
         CRUDService.createCustomer(customer);
     }
 
     @PostMapping("/deletecustomer")
-    public ResponseEntity deleteCustomer(@RequestBody Customers customer) {
+    public ResponseEntity deleteCustomer(@RequestBody Customer customer) {
         return CRUDService.deleteCustomer(customer);
     }
 
     @PostMapping("/modifycustomer")
-    public ResponseEntity modifyCustomer(@RequestBody Customers customer) {
+    public ResponseEntity modifyCustomer(@RequestBody Customer customer) {
         return CRUDService.modifyCustomer(customer);
     }
 
     @PostMapping("/searchcustomers")
-    public ResponseEntity searchCustomers(@RequestBody Customers customer) {
+    public ResponseEntity searchCustomers(@RequestBody Customer customer) {
         return CRUDService.searchCustomers(customer);
     }
 
@@ -138,35 +138,35 @@ public class Controller {
     }
 
     @PostMapping("/insertinsuredobject")
-    public ResponseEntity insertInsuredObject(@RequestBody InsuredObjects newInsuredObject) {
+    public ResponseEntity insertInsuredObject(@RequestBody InsuredObject newInsuredObject) {
         return CRUDService.insertInsuredObject(newInsuredObject);
     }
 
     @PostMapping("/getrisksconfig")
     @ResponseBody
-    public ResponseEntity getObjectRisksConfig(@RequestBody InsuredObjects insuredObjects) {
-        return CRUDService.getObjectRisksConfig(insuredObjects);
+    public ResponseEntity getObjectRisksConfig(@RequestBody InsuredObject insuredObject) {
+        return CRUDService.getObjectRisksConfig(insuredObject);
     }
 
     @PostMapping("/getobjecttypes")
     @ResponseBody
-    public ResponseEntity getObjectTypesConfig(@RequestBody PolicyLineTypesConfig policyLineTypesConfig) {
-        return CRUDService.getObjectTypes(policyLineTypesConfig);
+    public ResponseEntity getObjectTypesConfig(@RequestBody PolicyLineTypeConfig policyLineTypeConfig) {
+        return CRUDService.getObjectTypes(policyLineTypeConfig);
     }
 
     @PostMapping("/getvehicletypes")
     @ResponseBody
-    public ResponseEntity getVehicleTypes(@RequestBody VehicleTypesConfig vehicleTypesConfig) {
-        return CRUDService.getVehicleTypes(vehicleTypesConfig);
+    public ResponseEntity getVehicleTypes(@RequestBody VehicleTypeConfig vehicleTypeConfig) {
+        return CRUDService.getVehicleTypes(vehicleTypeConfig);
     }
 
     @PostMapping("/createrisks")
-    public ResponseEntity createRisks(@RequestBody ObjectRisks risks) {
+    public ResponseEntity createRisks(@RequestBody ObjectRisk risks) {
         return CRUDService.createRisks(risks);
     }
 
     @PostMapping("/updaterisk")
-    public void updateRisk(@RequestBody ObjectRisks risk) {
+    public void updateRisk(@RequestBody ObjectRisk risk) {
         CRUDService.updateRisk(risk);
     }
 
@@ -176,18 +176,18 @@ public class Controller {
     }
 
     @PostMapping("/updatepolicyline")
-    public void updatePolicyLine(@RequestBody PolicyLines policyLine) {
+    public void updatePolicyLine(@RequestBody PolicyLine policyLine) {
         CRUDService.updatePolicyLine(policyLine);
     }
 
     @PostMapping("/updateinsuredvehicle")
-    public void updateInsuredVehicle(@RequestBody InsuredObjects insuredObject) {
+    public void updateInsuredVehicle(@RequestBody InsuredObject insuredObject) {
         CRUDService.updateInsuredVehicle(insuredObject);
     }
 
     @PostMapping("/getrisks")
     @ResponseBody
-    public ResponseEntity getRisks(@RequestBody InsuredObjects insuredObject) {
+    public ResponseEntity getRisks(@RequestBody InsuredObject insuredObject) {
         return CRUDService.getRisks(insuredObject);
     }
 
@@ -199,12 +199,12 @@ public class Controller {
 
     @PostMapping("/premiumCalcConfigVars")
     @ResponseBody
-    public List premiumConfigList(@RequestBody PolicyLines policyLine) {
-        return CRUDService.getPremCalcVals(policyLine);
+    public List premiumConfigList(@RequestBody Policy policy) {
+        return CRUDService.getPremCalcVals(policy);
     }
 
     @PostMapping("/getInsuredObjects")
-    public List getInsuredObjects(@RequestBody PolicyLines policyLine) {
+    public List getInsuredObjects(@RequestBody PolicyLine policyLine) {
         return CRUDService.getInsuredObjects(policyLine);
     }
 
@@ -216,7 +216,7 @@ public class Controller {
 
     @PostMapping("/addvehicle")
     @ResponseBody
-    public ResponseEntity addVehicle(@RequestBody Vehicles vehicle) {
+    public ResponseEntity addVehicle(@RequestBody Vehicle vehicle) {
         return CRUDService.mergeVehicle(vehicle);
     }
 
@@ -228,7 +228,7 @@ public class Controller {
 
     @PostMapping("/mergeobjectflexfield")
     @ResponseBody
-    public ResponseEntity mergeObjectFlexfield(@RequestBody ObjectFlexfieldsConfig flexfield) {
+    public ResponseEntity mergeObjectFlexfield(@RequestBody ObjectFlexfieldConfig flexfield) {
         return CRUDService.mergeObjectFlexfield(flexfield);
     }
 
@@ -240,14 +240,14 @@ public class Controller {
 
     @PostMapping("/mergeobjectriskconfig")
     @ResponseBody
-    public ResponseEntity mergeObjectRisk(@RequestBody ObjectRisksConfig risk) {
+    public ResponseEntity mergeObjectRisk(@RequestBody ObjectRiskConfig risk) {
         return CRUDService.mergeObjectRiskConfig(risk);
     }
 
     @PostMapping("/mergeproductconfig")
     @ResponseBody
-    public ResponseEntity mergeProductConfig(@RequestBody ProductsConfig productsConfig) {
-        return CRUDService.mergeProductConfig(productsConfig);
+    public ResponseEntity mergeProductConfig(@RequestBody ProductConfig productConfig) {
+        return CRUDService.mergeProductConfig(productConfig);
     }
 
     @GetMapping("/getallpolicylinetypesconfig")
@@ -258,7 +258,7 @@ public class Controller {
 
     @PostMapping("/mergepolicylinetypeconfig")
     @ResponseBody
-    public ResponseEntity mergePolicyLineTypeConfig(@RequestBody PolicyLineTypesConfig typesConfig) {
+    public ResponseEntity mergePolicyLineTypeConfig(@RequestBody PolicyLineTypeConfig typesConfig) {
         return CRUDService.mergePolicyLineTypeConfig(typesConfig);
     }
 
@@ -270,7 +270,7 @@ public class Controller {
 
     @PostMapping("/mergepremiumheadersconfig")
     @ResponseBody
-    public ResponseEntity mergePremiumHeaderConfig(@RequestBody PremiumCalcConfigHeaders headers) {
+    public ResponseEntity mergePremiumHeaderConfig(@RequestBody PremiumCalcConfigHeader headers) {
         return CRUDService.mergePremiumHeaderConfig(headers);
     }
 
@@ -282,7 +282,7 @@ public class Controller {
 
     @PostMapping("/mergepremiumvaluesconfig")
     @ResponseBody
-    public ResponseEntity mergePremiumValueConfig(@RequestBody PremiumCalcConfigValues values) {
+    public ResponseEntity mergePremiumValueConfig(@RequestBody PremiumCalcConfigValue values) {
         return CRUDService.mergePremiumValueConfig(values);
     }
 
@@ -300,74 +300,74 @@ public class Controller {
 
     @PostMapping("/createclaim")
     @ResponseBody
-    public ResponseEntity createClaim(@RequestBody Claims claim) {
+    public ResponseEntity createClaim(@RequestBody Claim claim) {
         return CRUDService.createClaim(claim);
     }
 
     @PostMapping("/updateclaim")
     @ResponseBody
-    public ResponseEntity updateClaim(@RequestBody Claims claim) {
+    public ResponseEntity updateClaim(@RequestBody Claim claim) {
         return CRUDService.updateClaim(claim);
     }
 
     @PostMapping("/deleteclaim")
     @ResponseBody
-    public ResponseEntity deleteClaim(@RequestBody Claims claim) {
+    public ResponseEntity deleteClaim(@RequestBody Claim claim) {
         return CRUDService.deleteClaim(claim);
     }
 
     @PostMapping("/getclaims")
     @ResponseBody
-    public ResponseEntity getClaim(@RequestBody InsuredObjects driver) {
+    public ResponseEntity getClaim(@RequestBody InsuredObject driver) {
         return CRUDService.getClaims(driver);
 
     }
 
     @PostMapping("/createbill")
     @ResponseBody
-    public ResponseEntity createBill(@RequestBody Bills bill) {
+    public ResponseEntity createBill(@RequestBody Bill bill) {
         return CRUDService.createBill(bill);
     }
 
     @PostMapping("/updatebill")
     @ResponseBody
-    public ResponseEntity updateBill(@RequestBody Bills bill) {
+    public ResponseEntity updateBill(@RequestBody Bill bill) {
         return CRUDService.updateBill(bill);
     }
 
     @PostMapping("/deletebill")
     @ResponseBody
-    public ResponseEntity deleteClaim(@RequestBody Bills bill) {
+    public ResponseEntity deleteClaim(@RequestBody Bill bill) {
         return CRUDService.deleteBill(bill);
     }
 
     @PostMapping("/getbills")
     @ResponseBody
-    public ResponseEntity getBills(@RequestBody Claims claim) {
+    public ResponseEntity getBills(@RequestBody Claim claim) {
         return CRUDService.getBills(claim);
     }
 
     @PostMapping("/createvictim")
     @ResponseBody
-    public ResponseEntity createvictim(@RequestBody Victims victim) {
+    public ResponseEntity createvictim(@RequestBody Victim victim) {
         return CRUDService.createVictim(victim);
     }
 
     @PostMapping("/updatevictim")
     @ResponseBody
-    public ResponseEntity updateVictim(@RequestBody Victims victim) {
+    public ResponseEntity updateVictim(@RequestBody Victim victim) {
         return CRUDService.updateVictim(victim);
     }
 
     @PostMapping("/deletevictim")
     @ResponseBody
-    public ResponseEntity deleteVictim(@RequestBody Victims victim) {
+    public ResponseEntity deleteVictim(@RequestBody Victim victim) {
         return CRUDService.deleteVictim(victim);
     }
 
     @PostMapping("/getvictims")
     @ResponseBody
-    public ResponseEntity getVictims(@RequestBody Bills bill) {
+    public ResponseEntity getVictims(@RequestBody Bill bill) {
         return CRUDService.getVictims(bill);
     }
 }

@@ -3,17 +3,17 @@ package com.insuranceapplication.dbservice.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "OBJECT_RISKS_CONFIG")
-public class ObjectRisksConfig {
+@Table(name = "OBJECT_RISK_CONFIG")
+public class ObjectRiskConfig {
     private Integer id;
     private String objectType;
     private String riskId;
     private String version;
 
-    public ObjectRisksConfig() {
+    public ObjectRiskConfig() {
     }
 
-    public ObjectRisksConfig(Integer id, String objectType, String riskId, String version) {
+    public ObjectRiskConfig(Integer id, String objectType, String riskId, String version) {
         this.id = id;
         this.objectType = objectType;
         this.riskId = riskId;

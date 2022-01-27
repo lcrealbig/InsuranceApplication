@@ -6,23 +6,23 @@ import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
-@Table(name = "PRODUCTS_CONFIG")
-public class ProductsConfig {
+@Table(name = "PRODUCT_CONFIG")
+public class ProductConfig {
     private Integer id;
     private String productId;
-    private String version;
     private String startDate;
     private String endDate;
+    private String version;
 
-    public ProductsConfig() {
+    public ProductConfig() {
     }
 
-    public ProductsConfig(int id, String productId, String version, String startDate, String endDate) {
+    public ProductConfig(Integer id, String productId, String startDate, String endDate, String version) {
         this.id = id;
         this.productId = productId;
-        this.version = version;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.version = version;
     }
 
     @Id

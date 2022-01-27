@@ -3,15 +3,15 @@ package com.insuranceapplication.dbservice.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Bills")
-public class Bills {
+@Table(name = "BILL")
+public class Bill {
     private Integer claimId;
     private String billStatus;
     private Double billAmount;
     private Double amountOfWithdraw;
     private Integer victimId;
 
-    public Bills(Integer claimId, String billStatus, Double billAmount, Double amountOfWithdraw, Integer victimId) {
+    public Bill(Integer claimId, String billStatus, Double billAmount, Double amountOfWithdraw, Integer victimId) {
         this.claimId = claimId;
         this.billStatus = billStatus;
         this.billAmount = billAmount;
@@ -20,7 +20,7 @@ public class Bills {
 
     }
 
-    public Bills() {
+    public Bill() {
     }
 
     @Id

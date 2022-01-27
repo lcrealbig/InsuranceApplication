@@ -4,8 +4,8 @@ package com.insuranceapplication.dbservice.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "object_risks")
-public class ObjectRisks {
+@Table(name = "object_risk")
+public class ObjectRisk {
     @Id
     private Integer id;
     @Column(name = "risk_id")
@@ -19,10 +19,10 @@ public class ObjectRisks {
     @Column(name = "is_selected")
     private String isSelected;
 
-    public ObjectRisks() {
+    public ObjectRisk() {
     }
 
-    public ObjectRisks(Integer id, String riskId, Integer objectId, Integer premium, Integer premiumForPeriod, String isSelected) {
+    public ObjectRisk(Integer id, String riskId, Integer objectId, Integer premium, Integer premiumForPeriod, String isSelected) {
         this.id = id;
         this.riskId = riskId;
         this.objectId = objectId;

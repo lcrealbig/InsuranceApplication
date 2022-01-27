@@ -4,18 +4,18 @@ import javax.persistence.*;
 import java.math.BigInteger;
 import java.util.Date;
 @Entity
-@Table(name = "Victims")
-public class Victims {
+@Table(name = "Victim")
+public class Victim {
 
-    private Integer victimId;
+    private Integer id;
     private String name;
     private String pesel;
     private String address;
     private Date birthDate;
     private BigInteger phoneNum;
 
-    public Victims(Integer victimId, String name, String pesel, String address, Date birthDate, BigInteger phoneNum) {
-        this.victimId = victimId;
+    public Victim(Integer id, String name, String pesel, String address, Date birthDate, BigInteger phoneNum) {
+        this.id = id;
         this.name = name;
         this.pesel = pesel;
         this.address = address;
@@ -23,7 +23,7 @@ public class Victims {
         this.phoneNum = phoneNum;
     }
 
-    public Victims() {
+    public Victim() {
     }
 
     @Id
@@ -70,11 +70,11 @@ public class Victims {
         this.phoneNum = phoneNum;
     }
 
-    public Integer getVictimId() {
-        return victimId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setVictimId(Integer victimId) {
-        this.victimId = victimId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
