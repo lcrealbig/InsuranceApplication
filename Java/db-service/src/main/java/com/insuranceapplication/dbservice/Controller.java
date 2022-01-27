@@ -1,6 +1,8 @@
 package com.insuranceapplication.dbservice;
 
 import com.insuranceapplication.dbservice.models.*;
+import com.insuranceapplication.dbservice.models.authentication.Role;
+import com.insuranceapplication.dbservice.models.authentication.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -107,7 +109,7 @@ public class Controller {
     }
 
     @PostMapping("/verify")
-    public ResponseEntity verifyUserLogin(@RequestBody Users user) {
+    public ResponseEntity verifyUserLogin(@RequestBody User user) {
         return CRUDService.verifyUserLogin(user);
     }
 
@@ -272,5 +274,29 @@ public class Controller {
     @ResponseBody
     public ResponseEntity getAllCustomers() {
         return CRUDService.getAllCustomers();
+    }
+
+    @PostMapping("/saverole")
+    @ResponseBody
+    public ResponseEntity saveRole(@RequestBody Role role){
+        return ResponseEntity.ok(CRUDService.saveRole(role));
+    }
+
+    @PostMapping("/saveuser")
+    @ResponseBody
+    public ResponseEntity saveUser(@RequestBody User user){
+        return ResponseEntity.ok(CRUDService.saveUser(user));
+    }
+
+    @PostMapping("/addroletouser")
+    @ResponseBody
+    public ResponseEntity addRoleToUser(@RequestBody String [] roleToUser){
+        return ResponseEntity.ok(CRUDService.addRoleToUser(roleToUser[0],roleToUser[1]));
+    }
+
+    @PostMapping("/finduserbyname")
+    @ResponseBody
+    public ResponseEntity findUserByUsername(@RequestBody User user){
+        return ResponseEntity.ok(CRUDService.getUser(user.getUsername()));
     }
 }

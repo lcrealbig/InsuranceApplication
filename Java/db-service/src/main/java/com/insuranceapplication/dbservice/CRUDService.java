@@ -1,9 +1,19 @@
 package com.insuranceapplication.dbservice;
 
+import com.insuranceapplication.dbservice.interfaces.UserService;
 import com.insuranceapplication.dbservice.models.*;
+import com.insuranceapplication.dbservice.models.authentication.Role;
+import com.insuranceapplication.dbservice.models.authentication.User;
+import com.insuranceapplication.dbservice.repository.RoleRepository;
+import com.insuranceapplication.dbservice.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -15,39 +25,50 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Service
-public class CRUDService {
+@Transactional
+public class CRUDService implements UserService {
+
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @PersistenceContext
     private EntityManager em;
 
-    @Transactional
+    public CRUDService(UserRepository userRepository, RoleRepository roleRepository) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+    }
+
+
     public void createTransaction(Transactions transactions) {
         em.persist(transactions);
     }
 
-    @Transactional
+
     public void createPolicy(Policy newPolicy) {
         em.persist(newPolicy);
     }
 
-    @Transactional
+
     public void createPolicyLine(PolicyLines newPolicyLines) {
         em.persist(newPolicyLines);
     }
 
-    @Transactional
+
     public void createInsuredObject(InsuredObjects insuredObjects) {
         em.persist(insuredObjects);
     }
 
-    @Transactional
+
     public ResponseEntity searchInsuredObject(InsuredObjects insuredObject) {
         InsuredObjects result = (InsuredObjects) em.createQuery("select io from InsuredObjects io WHERE io.policyLineId = '" + insuredObject.getPolicyLineId() + "' AND io.type = '" + insuredObject.getType() + "'").getSingleResult();
         return ResponseEntity.ok().body(result);
     }
 
-    @Transactional
+
     public ResponseEntity getTransactionId(String query) {
         Query q = em.createQuery(query);
 
@@ -56,7 +77,7 @@ public class CRUDService {
         return ResponseEntity.ok().body(result);
     }
 
-    @Transactional
+
     public ResponseEntity getVehicles(String query) {
 
         Query q = em.createQuery(query);
@@ -65,7 +86,7 @@ public class CRUDService {
         return ResponseEntity.ok().body(results);
     }
 
-    @Transactional
+
     public ResponseEntity getAllVehicles() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Vehicles> cq = cb.createQuery(Vehicles.class);
@@ -75,20 +96,19 @@ public class CRUDService {
         return ResponseEntity.ok().body(allQuery.getResultList());
     }
 
-    @Transactional
+
     public ResponseEntity getVehicle(Vehicles vehicle) {
         Vehicles result = (Vehicles) em.createQuery("select v from Vehicles v WHERE v.vehicleId = " + vehicle.getVehicleId()).getSingleResult();
         return ResponseEntity.ok().body(result);
     }
 
-    @Transactional
-    public ResponseEntity mergeVehicle(Vehicles vehicle){
+
+    public ResponseEntity mergeVehicle(Vehicles vehicle) {
         em.merge(vehicle);
         return ResponseEntity.ok().body(vehicle);
     }
 
 
-    @Transactional
     public Policy getPolicy(String query) {
         Query q = em.createQuery(query);
 
@@ -97,13 +117,13 @@ public class CRUDService {
         return result;
     }
 
-    @Transactional
+
     public ResponseEntity searchPolicy(Policy policy) {
         List<Policy> resultList = (List<Policy>) em.createQuery("select p from Policy p WHERE p.ownerId = " + policy.getOwnerId()).getResultList();
         return ResponseEntity.ok().body(resultList);
     }
 
-    @Transactional
+
     public ResponseEntity getPolicyLine(String query) {
         Query q = em.createQuery(query);
 
@@ -112,13 +132,13 @@ public class CRUDService {
         return ResponseEntity.ok().body(result);
     }
 
-    @Transactional
+
     public ResponseEntity searchPolicyLine(PolicyLines policyLine) {
         PolicyLines result = (PolicyLines) em.createQuery("select p from PolicyLines p WHERE p.policyId = " + policyLine.getPolicyId()).getSingleResult();
         return ResponseEntity.ok().body(result);
     }
 
-    @Transactional
+
     public ResponseEntity getObjectRisksConfig(String query) {
         Query q = em.createQuery(query);
 
@@ -126,30 +146,30 @@ public class CRUDService {
         return ResponseEntity.ok().body(resultArray);
     }
 
-    @Transactional
+
     public ResponseEntity createCustomer(Customers customer) {
         em.persist(customer);
         return ResponseEntity.ok().body(customer);
     }
 
-    @Transactional
+
     public ResponseEntity deleteCustomer(Customers customer) {
         em.createQuery("delete from Customers c where c.customerId = " + customer.getCustomerId()).executeUpdate();
         return ResponseEntity.ok().body(customer);
     }
 
-    @Transactional
+
     public ResponseEntity modifyCustomer(Customers customer) {
         em.merge(customer);
         return ResponseEntity.ok().body(customer);
     }
 
-    @Transactional
+
     public ResponseEntity searchCustomers(Customers customer) {
         List<Customers> result;
         if (customer.getCustomerId() != null) {
             result = em.createQuery("select c from Customers c where c.customerId = '" + customer.getCustomerId() + "'").getResultList();
-        } else if (customer.getPesel() != null){
+        } else if (customer.getPesel() != null) {
             result = em.createQuery("select c from Customers c where c.pesel like '%" + customer.getPesel() + "%'").getResultList();
         } else {
             result = em.createQuery("select c from Customers c where upper(c.name) like upper('%" + customer.getName() + "%')").getResultList();
@@ -157,16 +177,16 @@ public class CRUDService {
         return ResponseEntity.ok().body(result);
     }
 
-    public ResponseEntity verifyUserLogin(@RequestBody Users user) {
+    public ResponseEntity verifyUserLogin(@RequestBody User user) {
         String userName = user.getName();
         String userPassword = user.getPassword();
-        List<Users> dbRecords = em.createQuery("select u from Users u", Users.class).getResultList();
-        for (Users u : dbRecords) {
+        List<User> dbRecords = em.createQuery("select u from Users u", User.class).getResultList();
+        for (User u : dbRecords) {
             if (u.getName().equals(userName) && u.getPassword().equals(userPassword)) {
                 return ResponseEntity.ok().body(u);
             }
         }
-        Users notExist = new Users();
+        User notExist = new User();
         notExist.setName("NOT_EXIST");
         return ResponseEntity.ok().body(notExist);
     }
@@ -178,77 +198,76 @@ public class CRUDService {
     }
 
 
-    @Transactional
     public int updateQuery(String query) {
         int result = em.createQuery(query).executeUpdate();
         return result;
     }
 
-    @Transactional
+
     public ResponseEntity insertInsuredObject(InsuredObjects newInsuredObject) {
         em.persist(newInsuredObject);
         return ResponseEntity.ok().body(newInsuredObject);
     }
 
-    @Transactional
+
     public ResponseEntity getVehicleTypes(VehicleTypesConfig vehicleTypesConfig) {
         List<VehicleTypesConfig> resultList = (List<VehicleTypesConfig>) em.createQuery("select v from VehicleTypesConfig v WHERE v.productLineType = '" + vehicleTypesConfig.getProductLineType() + "'").getResultList();
         return ResponseEntity.ok().body(resultList);
     }
 
-    @Transactional
+
     public ResponseEntity createRisks(ObjectRisks risks) {
         em.persist(risks);
         return ResponseEntity.ok().build();
     }
 
-    @Transactional
+
     public ResponseEntity updateRisk(ObjectRisks risk) {
         em.merge(risk);
         return ResponseEntity.ok().body(risk);
     }
 
-    @Transactional
+
     public ResponseEntity updatePolicy(Policy policy) {
         em.merge(policy);
         return ResponseEntity.ok().body(policy);
     }
 
-    @Transactional
+
     public ResponseEntity updatePolicyLine(PolicyLines policyLine) {
         em.merge(policyLine);
         return ResponseEntity.ok().body(policyLine);
     }
 
-    @Transactional
+
     public ResponseEntity updateInsuredVehicle(InsuredObjects insuredObject) {
         em.merge(insuredObject);
         return ResponseEntity.ok().body(insuredObject);
     }
 
-    @Transactional
+
     public ResponseEntity getRisks(InsuredObjects insuredObject) {
         List<ObjectRisks> resultList = (List<ObjectRisks>) em.createQuery("select o from ObjectRisks o where o.objectId = " + insuredObject.getObjectId()).getResultList();
         return ResponseEntity.ok().body(resultList);
     }
 
     public ResponseEntity getAllObjectFlexfields() {
-            CriteriaBuilder cb = em.getCriteriaBuilder();
-            CriteriaQuery<ObjectFlexfieldsConfig> cq = cb.createQuery(ObjectFlexfieldsConfig.class);
-            Root<ObjectFlexfieldsConfig> rootEntry = cq.from(ObjectFlexfieldsConfig.class);
-            CriteriaQuery<ObjectFlexfieldsConfig> all = cq.select(rootEntry);
-            TypedQuery<ObjectFlexfieldsConfig> allQuery = em.createQuery(all);
-            return ResponseEntity.ok().body(allQuery.getResultList());
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<ObjectFlexfieldsConfig> cq = cb.createQuery(ObjectFlexfieldsConfig.class);
+        Root<ObjectFlexfieldsConfig> rootEntry = cq.from(ObjectFlexfieldsConfig.class);
+        CriteriaQuery<ObjectFlexfieldsConfig> all = cq.select(rootEntry);
+        TypedQuery<ObjectFlexfieldsConfig> allQuery = em.createQuery(all);
+        return ResponseEntity.ok().body(allQuery.getResultList());
     }
 
-    @Transactional
+
     public ResponseEntity mergeObjectFlexfield(ObjectFlexfieldsConfig flexfield) {
-            em.merge(flexfield);
-            return ResponseEntity.ok().body(flexfield);
+        em.merge(flexfield);
+        return ResponseEntity.ok().body(flexfield);
     }
 
-    @Transactional
-    public ResponseEntity mergeObjectRiskConfig(ObjectRisksConfig risk){
+
+    public ResponseEntity mergeObjectRiskConfig(ObjectRisksConfig risk) {
         em.merge(risk);
         return ResponseEntity.ok().body(risk);
     }
@@ -267,8 +286,8 @@ public class CRUDService {
         return ResponseEntity.ok().body(productsConfig);
     }
 
-    @Transactional
-    public ResponseEntity mergePolicyLineTypeConfig(PolicyLineTypesConfig typesConfig){
+
+    public ResponseEntity mergePolicyLineTypeConfig(PolicyLineTypesConfig typesConfig) {
         em.merge(typesConfig);
         return ResponseEntity.ok().body(typesConfig);
     }
@@ -317,5 +336,29 @@ public class CRUDService {
         CriteriaQuery<Customers> all = cq.select(rootEntry);
         TypedQuery<Customers> allQuery = em.createQuery(all);
         return ResponseEntity.ok().body(allQuery.getResultList());
+    }
+
+    @Override
+    public User saveUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
+    }
+
+    @Override
+    public Role saveRole(Role role) {
+        return roleRepository.save(role);
+    }
+
+    @Override
+    public User addRoleToUser(String userName, String roleName) {
+        User user = userRepository.findByUsername(userName);
+        Role role = roleRepository.findByName(roleName);
+        user.getRoles().add(role);
+        return user;
+    }
+
+    @Override
+    public User getUser(String userName) {
+        return userRepository.findByUsername(userName);
     }
 }

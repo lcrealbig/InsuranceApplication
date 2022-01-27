@@ -1,7 +1,5 @@
 package com.insuranceapplication.userservice.main;
-import com.insuranceapplication.userservice.globals.Constants;
-import com.insuranceapplication.userservice.model.Users;
-import org.json.simple.JSONObject;
+import com.insuranceapplication.userservice.model.authentication.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +13,7 @@ public class Controller {
 
     @ResponseBody
     @PostMapping("/verify")
-    public ResponseEntity verifyUserLogin(@RequestBody Users user) {
+    public ResponseEntity verifyUserLogin(@RequestBody User user) {
         return userService.verifyUserLogin(user);
     }
 
