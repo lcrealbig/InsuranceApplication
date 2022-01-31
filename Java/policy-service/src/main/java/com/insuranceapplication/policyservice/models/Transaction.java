@@ -1,27 +1,28 @@
 package com.insuranceapplication.policyservice.models;
 
-public class Transactions {
-    private Integer transactionId;
+
+public class Transaction {
+    private Integer id;
     private String modifiedBy;
     private String timestamp;
     private String transactionType;
 
-    public Transactions(Integer transactionId, String modifiedBy, String modified_time, String transactionType) {
-        this.transactionId = transactionId;
+    public Transaction(Integer id, String modifiedBy, String modified_time, String transactionType) {
+        this.id = id;
         this.modifiedBy = modifiedBy;
         this.timestamp = modified_time;
         this.transactionType = transactionType;
     }
 
-    public Transactions() {
+    public Transaction() {
     }
 
-    public Integer getTransactionId() {
-        return transactionId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setTransactionId(Integer transactionId) {
-        this.transactionId = transactionId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getModifiedBy() {
@@ -36,7 +37,7 @@ public class Transactions {
         return timestamp;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(String  timestamp) {
         this.timestamp = timestamp;
     }
 

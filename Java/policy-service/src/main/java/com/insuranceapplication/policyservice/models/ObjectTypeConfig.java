@@ -1,18 +1,20 @@
 package com.insuranceapplication.policyservice.models;
 
-public class VehicleTypesConfig {
+
+
+public class ObjectTypeConfig {
     private Integer id;
     private String policyLineType;
-    private String vehicleType;
+    private String objType;
     private String version;
 
-    public VehicleTypesConfig() {
+    public ObjectTypeConfig() {
     }
 
-    public VehicleTypesConfig(Integer id, String policyLineType, String vehicleType, String version) {
+    public ObjectTypeConfig(int id, String policyLineType, String objType, String version) {
         this.id = id;
         this.policyLineType = policyLineType;
-        this.vehicleType = vehicleType;
+        this.objType = objType;
         this.version = version;
     }
 
@@ -32,12 +34,12 @@ public class VehicleTypesConfig {
         this.policyLineType = policyLineType;
     }
 
-    public String getVehicleType() {
-        return vehicleType;
+    public String getObjType() {
+        return objType;
     }
 
-    public void setVehicleType(String vehicleType) {
-        this.vehicleType = vehicleType;
+    public void setObjType(String objType) {
+        this.objType = objType;
     }
 
     public String getVersion() {

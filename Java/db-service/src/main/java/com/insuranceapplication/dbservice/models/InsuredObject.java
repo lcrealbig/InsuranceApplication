@@ -24,12 +24,11 @@ public class InsuredObject {
     private Date d01;
     private Date d02;
     private Date d03;
-    private String version;
 
     public InsuredObject() {
     }
 
-    public InsuredObject(Integer id, Integer policyLineId, Integer transactionId, String type, String c01, String c02, String c03, String c04, Integer n01, Integer n02, Integer n03, Integer n04, Integer n05, Integer n06, Integer n07, Date d01, Date d02, Date d03, String version) {
+    public InsuredObject(Integer id, Integer policyLineId, Integer transactionId, String type, String c01, String c02, String c03, String c04, Integer n01, Integer n02, Integer n03, Integer n04, Integer n05, Integer n06, Integer n07, Date d01, Date d02, Date d03) {
         this.id = id;
         this.policyLineId = policyLineId;
         this.transactionId = transactionId;
@@ -48,7 +47,6 @@ public class InsuredObject {
         this.d01 = d01;
         this.d02 = d02;
         this.d03 = d03;
-        this.version = version;
     }
 
     @Id
@@ -198,11 +196,4 @@ public class InsuredObject {
         this.d03 = d03;
     }
 
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
 }

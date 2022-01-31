@@ -1,6 +1,6 @@
 package com.insuranceapplication.policyservice.models;
 
-public class PremiumCalcConfigValues {
+public class PremiumCalcConfigValue {
     private Integer id;
     private String riskId;
     private String comboId;
@@ -19,10 +19,10 @@ public class PremiumCalcConfigValues {
     private String value12;
     private String version;
 
-    public PremiumCalcConfigValues() {
+    public PremiumCalcConfigValue() {
     }
 
-    public PremiumCalcConfigValues(String comboId, Integer id, String riskId, String combinationName, String value1, String value2, String value3, String value4, String value5, String value6, String value7, String value8, String value9, String value10, String value11, String value12, String version)
+    public PremiumCalcConfigValue(String comboId, Integer id, String riskId, String combinationName, String value1, String value2, String value3, String value4, String value5, String value6, String value7, String value8, String value9, String value10, String value11, String value12, String version)
     {
         this.id = id;
         this.riskId = riskId;

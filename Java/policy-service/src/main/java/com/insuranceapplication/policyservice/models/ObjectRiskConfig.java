@@ -1,15 +1,16 @@
 package com.insuranceapplication.policyservice.models;
 
-public class ObjectRisksConfig {
+
+public class ObjectRiskConfig {
     private Integer id;
     private String objectType;
     private String riskId;
     private String version;
 
-    public ObjectRisksConfig() {
+    public ObjectRiskConfig() {
     }
 
-    public ObjectRisksConfig(Integer id, String objectType, String riskId, String version) {
+    public ObjectRiskConfig(Integer id, String objectType, String riskId, String version) {
         this.id = id;
         this.objectType = objectType;
         this.riskId = riskId;

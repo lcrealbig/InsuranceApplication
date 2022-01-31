@@ -1,16 +1,16 @@
 package com.insuranceapplication.policyservice.models;
 
 
-public class ObjectFlexfieldsConfig {
+
+public class ObjectFlexfieldConfig {
     private Integer id;
     private String type;
     private String objectKey;
     private String objectValue;
 
-    public ObjectFlexfieldsConfig() {
-    }
+    public ObjectFlexfieldConfig(){}
 
-    public ObjectFlexfieldsConfig(Integer id, String type, String objectKey, String objectValue) {
+    public ObjectFlexfieldConfig(Integer id, String type, String objectKey, String objectValue) {
         this.id = id;
         this.type = type;
         this.objectKey = objectKey;

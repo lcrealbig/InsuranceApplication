@@ -1,9 +1,10 @@
 package com.insuranceapplication.policyservice.models;
 
+
 import java.util.Date;
 
-public class InsuredObjects {
-    private Integer objectId;
+public class InsuredObject {
+    private Integer id;
     private Integer policyLineId;
     private Integer transactionId;
     private String type;
@@ -21,13 +22,12 @@ public class InsuredObjects {
     private Date d01;
     private Date d02;
     private Date d03;
-    private String version;
 
-    public InsuredObjects() {
+    public InsuredObject() {
     }
 
-    public InsuredObjects(Integer objectId, Integer policyLineId, Integer transactionId, String type, String c01, String c02, String c03, String c04, Integer n01, Integer n02, Integer n03, Integer n04, Integer n05, Integer n06, Integer n07, Date d01, Date d02, Date d03, String version) {
-        this.objectId = objectId;
+    public InsuredObject(Integer id, Integer policyLineId, Integer transactionId, String type, String c01, String c02, String c03, String c04, Integer n01, Integer n02, Integer n03, Integer n04, Integer n05, Integer n06, Integer n07, Date d01, Date d02, Date d03) {
+        this.id = id;
         this.policyLineId = policyLineId;
         this.transactionId = transactionId;
         this.type = type;
@@ -45,15 +45,14 @@ public class InsuredObjects {
         this.d01 = d01;
         this.d02 = d02;
         this.d03 = d03;
-        this.version = version;
     }
 
-    public Integer getObjectId() {
-        return objectId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setObjectId(Integer objectId) {
-        this.objectId = objectId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getPolicyLineId() {
@@ -192,11 +191,4 @@ public class InsuredObjects {
         this.d03 = d03;
     }
 
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
 }

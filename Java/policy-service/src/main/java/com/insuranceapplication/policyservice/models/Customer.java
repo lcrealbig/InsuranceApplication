@@ -1,16 +1,37 @@
 package com.insuranceapplication.policyservice.models;
 
+
 import java.math.BigInteger;
 import java.util.Date;
 
-public class Customers {
-
-    private Integer customerId;
+public class Customer {
+    private Integer id;
     private String name;
     private String pesel;
     private String address;
     private Date birthDate;
     private BigInteger phoneNum;
+
+    public Customer(Integer id, String name, String pesel, String address, Date birthDate, BigInteger phoneNum) {
+        this.id = id;
+        this.name = name;
+        this.pesel = pesel;
+        this.address = address;
+        this.birthDate = birthDate;
+        this.phoneNum = phoneNum;
+    }
+
+    public Customer() {
+    }
+
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -50,13 +71,5 @@ public class Customers {
 
     public void setPhoneNum(BigInteger phoneNum) {
         this.phoneNum = phoneNum;
-    }
-
-    public Integer getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
     }
 }

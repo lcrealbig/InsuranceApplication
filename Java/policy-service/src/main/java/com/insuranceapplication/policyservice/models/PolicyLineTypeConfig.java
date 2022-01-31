@@ -1,16 +1,16 @@
 package com.insuranceapplication.policyservice.models;
 
 
-public class PolicyLineTypesConfig {
+public class PolicyLineTypeConfig {
     private Integer id;
     private String productId;
     private String policyLineType;
     private String version;
 
-    public PolicyLineTypesConfig() {
+    public PolicyLineTypeConfig() {
     }
 
-    public PolicyLineTypesConfig(Integer id, String productId, String policyLineType, String version) {
+    public PolicyLineTypeConfig(int id, String productId, String policyLineType, String version) {
         this.id = id;
         this.productId = productId;
         this.policyLineType = policyLineType;
