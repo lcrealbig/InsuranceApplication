@@ -16,7 +16,7 @@ public class Vehicle {
     public Vehicle() {
     }
 
-    public Vehicle(String protectionClass, String partsAvailability, int id, String vehicleType, String brand, String vehicleModel, String generation, String engineType, String engine, String power) {
+    public Vehicle(String protectionClass, String partsAvailability, Integer id, String vehicleType, String brand, String vehicleModel, String generation, String engineType, String engine, String power) {
         this.id = id;
         this.vehicleType = vehicleType;
         this.brand = brand;
@@ -30,11 +30,11 @@ public class Vehicle {
     }
 
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

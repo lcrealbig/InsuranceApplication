@@ -75,7 +75,7 @@ public class CRUDService {
                     "' AND v.vehicleModel = '" + vehicle.getVehicleModel() + "' AND v.brand = '" + vehicle.getBrand() +
                     "' AND v.generation = '" + vehicle.getGeneration() + "'");
         } else {
-            query = em.createQuery("SELECT DISTINCT v.vehicleId FROM Vehicle v WHERE v.engineType = '" + vehicle.getEngineType() +
+            query = em.createQuery("SELECT DISTINCT v.id FROM Vehicle v WHERE v.engineType = '" + vehicle.getEngineType() +
                     "' AND v.vehicleModel = '" + vehicle.getVehicleModel() + "' AND v.brand = '" + vehicle.getBrand() +
                     "' AND v.generation = '" + vehicle.getGeneration() + "' AND v.engine = '" + vehicle.getEngine() + "'");
         }
@@ -95,7 +95,7 @@ public class CRUDService {
 
     @Transactional
     public ResponseEntity getVehicle(Vehicle vehicle) {
-        Vehicle result = (Vehicle) em.createQuery("SELECT v FROM Vehicle v WHERE v.vehicleId = " + vehicle.getId()).getSingleResult();
+        Vehicle result = (Vehicle) em.createQuery("SELECT v FROM Vehicle v WHERE v.id = " + vehicle.getId()).getSingleResult();
         return ResponseEntity.ok().body(result);
     }
 
@@ -164,7 +164,7 @@ public class CRUDService {
 
     @Transactional
     public ResponseEntity deleteCustomer(Customer customer) {
-        em.createQuery("DELETE FROM Customer c WHERE c.customerId = " + customer.getId()).executeUpdate();
+        em.createQuery("DELETE FROM Customer c WHERE c.id = " + customer.getId()).executeUpdate();
         return ResponseEntity.ok().body(customer);
     }
 
@@ -179,7 +179,7 @@ public class CRUDService {
     public ResponseEntity searchCustomers(Customer customer) {
         List<Customer> result;
         if (customer.getId() != null) {
-            result = em.createQuery("SELECT c FROM Customer c WHERE c.customerId = '" + customer.getId() + "'").getResultList();
+            result = em.createQuery("SELECT c FROM Customer c WHERE c.id = '" + customer.getId() + "'").getResultList();
         } else if (customer.getPesel() != null) {
             result = em.createQuery("SELECT c FROM Customer c WHERE c.pesel like '%" + customer.getPesel() + "%'").getResultList();
         } else {
@@ -264,7 +264,7 @@ public class CRUDService {
 
     @Transactional
     public ResponseEntity getProducts(ProductConfig productConfig) {
-        List<ObjectRisk> resultList = (List<ObjectRisk>) em.createQuery("SELECT p FROM ProductConfig p WHERE p.startDate<=to_date('"+ productConfig.getStartDate() + "','yyyy-MM-dd') and coalesce(p.endDate,current_date+10000)>to_date('"+ productConfig.getStartDate() + "','yyyy-MM-dd')").getResultList();
+        List<ObjectRisk> resultList = (List<ObjectRisk>) em.createQuery("SELECT p FROM ProductConfig p WHERE p.startDate<=to_date('"+ productConfig.getStartDate() + "','yyyy-MM-dd') and coalesce(p.endDate,current_date+10000)>=to_date('"+ productConfig.getStartDate() + "','yyyy-MM-dd')").getResultList();
         return ResponseEntity.ok().body(resultList);
     }
 

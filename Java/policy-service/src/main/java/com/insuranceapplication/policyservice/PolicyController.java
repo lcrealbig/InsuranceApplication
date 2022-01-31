@@ -13,8 +13,8 @@ public class PolicyController {
     private PolicyService policyService;
 
     @PostMapping("/createtransaction")
-    public void createTransaction(@RequestBody Transactions newTransactions) {
-        policyService.createTransaction(newTransactions);
+    public void createTransaction(@RequestBody Transaction newTransaction) {
+        policyService.createTransaction(newTransaction);
     }
 
     @PostMapping("/createpolicy")
@@ -23,38 +23,38 @@ public class PolicyController {
     }
 
     @PostMapping("/createpolicyline")
-    public void createPolicyLine(@RequestBody PolicyLines newPolicyLines) {
-        policyService.createPolicyLine(newPolicyLines);
+    public void createPolicyLine(@RequestBody PolicyLine newPolicyLine) {
+        policyService.createPolicyLine(newPolicyLine);
     }
 
     @PostMapping("/createinsuredobject")
     @ResponseBody
-    public void createInsuredObject(@RequestBody InsuredObjects newInsuredObjects) {
-        policyService.createInsuredObject(newInsuredObjects);
+    public void createInsuredObject(@RequestBody InsuredObject newInsuredObject) {
+        policyService.createInsuredObject(newInsuredObject);
     }
 
     @PostMapping("/searchinsuredobject")
     @ResponseBody
-    public ResponseEntity searchPolicy(@RequestBody InsuredObjects insuredObjects) {
-        return policyService.searchInsuredObject(insuredObjects);
+    public ResponseEntity searchPolicy(@RequestBody InsuredObject insuredObject) {
+        return policyService.searchInsuredObject(insuredObject);
     }
 
 
     @PostMapping("/gettransactionid")
     @ResponseBody
-    public ResponseEntity getTransactionId(@RequestBody Transactions transactions) {
-        return policyService.getTransactionId(transactions);
+    public ResponseEntity getTransactionId(@RequestBody Transaction transaction) {
+        return policyService.getTransactionId(transaction);
     }
 
     @PostMapping("/getvehicles")
     @ResponseBody
-    public ResponseEntity getVehicles(@RequestBody Vehicles vehicles) {
-        return policyService.getVehicles(vehicles);
+    public ResponseEntity getVehicles(@RequestBody Vehicle vehicle) {
+        return policyService.getVehicles(vehicle);
     }
 
     @PostMapping("/getvehicle")
     @ResponseBody
-    public ResponseEntity getVehicle(@RequestBody Vehicles vehicle) {
+    public ResponseEntity getVehicle(@RequestBody Vehicle vehicle) {
         return policyService.getVehicle(vehicle);
     }
 
@@ -78,55 +78,55 @@ public class PolicyController {
 
     @PostMapping("/getpolicyline")
     @ResponseBody
-    public ResponseEntity getPolicyLine(@RequestBody PolicyLines policyLine) {
+    public ResponseEntity getPolicyLine(@RequestBody PolicyLine policyLine) {
         return policyService.getPolicyLine(policyLine);
     }
 
     @PostMapping("/searchpolicyline")
     @ResponseBody
-    public ResponseEntity searchPolicyLine(@RequestBody PolicyLines policyLine) {
+    public ResponseEntity searchPolicyLine(@RequestBody PolicyLine policyLine) {
         return policyService.searchPolicyLine(policyLine);
     }
 
     @PostMapping("/getproducts")
     @ResponseBody
-    public ResponseEntity getProducts(@RequestBody ProductsConfig productsConfig) {
-        return policyService.getProducts(productsConfig);
+    public ResponseEntity getProducts(@RequestBody ProductConfig productConfig) {
+        return policyService.getProducts(productConfig);
     }
 
     @PostMapping("/getpolicylinetypes")
     @ResponseBody
-    public ResponseEntity getPolicyLineTypes(@RequestBody PolicyLineTypesConfig policyLineTypes) {
+    public ResponseEntity getPolicyLineTypes(@RequestBody PolicyLineTypeConfig policyLineTypes) {
         return policyService.getPolicyLineTypes(policyLineTypes);
     }
 
     @PostMapping("/getobjecttypes")
     @ResponseBody
-    public ResponseEntity getObjectTypes(@RequestBody PolicyLineTypesConfig policyLineTypesConfig) {
-        return policyService.getObjectTypes(policyLineTypesConfig);
+    public ResponseEntity getObjectTypes(@RequestBody PolicyLineTypeConfig policyLineTypeConfig) {
+        return policyService.getObjectTypes(policyLineTypeConfig);
     }
 
     @PostMapping("/getvehicletypes")
     @ResponseBody
-    public ResponseEntity getVehicleTypes(@RequestBody VehicleTypesConfig vehicleTypesConfig) {
-        return policyService.getVehicleTypes(vehicleTypesConfig);
+    public ResponseEntity getVehicleTypes(@RequestBody VehicleTypeConfig vehicleTypeConfig) {
+        return policyService.getVehicleTypes(vehicleTypeConfig);
     }
 
     @PostMapping("/insertinsuredobject")
     @ResponseBody
-    public ResponseEntity insertInsuredObject(@RequestBody InsuredObjects insuredObject) {
+    public ResponseEntity insertInsuredObject(@RequestBody InsuredObject insuredObject) {
         return policyService.insertInsuredObject(insuredObject);
     }
 
     @PostMapping("/createrisks")
     @ResponseBody
-    public ResponseEntity createRisks(@RequestBody ObjectRisks risks) {
+    public ResponseEntity createRisks(@RequestBody ObjectRisk risks) {
         return policyService.createRisks(risks);
     }
 
     @PostMapping("/updaterisk")
     @ResponseBody
-    public void updateRisk(@RequestBody ObjectRisks risk) {
+    public void updateRisk(@RequestBody ObjectRisk risk) {
         policyService.updateRisk(risk);
     }
 
@@ -138,30 +138,30 @@ public class PolicyController {
 
     @PostMapping("/updatepolicyline")
     @ResponseBody
-    public void updatePolicyLine(@RequestBody PolicyLines policyLine) {
+    public void updatePolicyLine(@RequestBody PolicyLine policyLine) {
         policyService.updatePolicyLine(policyLine);
     }
 
     @PostMapping("/updateinsuredvehicle")
     @ResponseBody
-    public void updateInsuredVehicle(@RequestBody InsuredObjects insuredObject) {
+    public void updateInsuredVehicle(@RequestBody InsuredObject insuredObject) {
         policyService.updateInsuredVehicle(insuredObject);
     }
 
     @PostMapping("/getrisks")
     @ResponseBody
-    public ResponseEntity getRisks(@RequestBody InsuredObjects insuredObject) {
+    public ResponseEntity getRisks(@RequestBody InsuredObject insuredObject) {
         return policyService.getRisks(insuredObject);
     }
 
     @PostMapping("/getrisksconfig")
     @ResponseBody
-    public ResponseEntity getObjectRisksConfig(@RequestBody InsuredObjects insuredObjects) {
-        return policyService.getObjectRisksConfig(insuredObjects);
+    public ResponseEntity getObjectRisksConfig(@RequestBody InsuredObject insuredObject) {
+        return policyService.getObjectRisksConfig(insuredObject);
     }
 
     @PostMapping("/calculations")
-    public void premiumCalc(@RequestBody PolicyLines policyLine) {
+    public void premiumCalc(@RequestBody PolicyLine policyLine) {
         policyService.calculation(policyLine);
     }
 
@@ -172,7 +172,7 @@ public class PolicyController {
     }
 
     @PostMapping("/mergevehicle")
-    public ResponseEntity mergeVehicle(@RequestBody Vehicles vehicle) {
+    public ResponseEntity mergeVehicle(@RequestBody Vehicle vehicle) {
         return policyService.mergeVehicle(vehicle);
     }
 
@@ -183,7 +183,7 @@ public class PolicyController {
     }
 
     @PostMapping("/mergeobjectflexfield")
-    public ResponseEntity mergeObjectFlexfield(@RequestBody ObjectFlexfieldsConfig flexfield) {
+    public ResponseEntity mergeObjectFlexfield(@RequestBody ObjectFlexfieldConfig flexfield) {
         return policyService.mergeObjectFlexfield(flexfield);
     }
 
@@ -194,7 +194,7 @@ public class PolicyController {
     }
 
     @PostMapping("/mergeobjectriskconfig")
-    public ResponseEntity mergeObjectRiskConfig(@RequestBody ObjectRisksConfig risk) {
+    public ResponseEntity mergeObjectRiskConfig(@RequestBody ObjectRiskConfig risk) {
         return policyService.mergeObjectRiskConfig(risk);
     }
 
@@ -205,8 +205,8 @@ public class PolicyController {
     }
 
     @PostMapping("/mergeproductconfig")
-    public ResponseEntity mergeProductConfig(@RequestBody ProductsConfig productsConfig) {
-        return policyService.mergeProductConfig(productsConfig);
+    public ResponseEntity mergeProductConfig(@RequestBody ProductConfig productConfig) {
+        return policyService.mergeProductConfig(productConfig);
     }
 
     @GetMapping("/allpolicylinetypesconfig")
@@ -216,7 +216,7 @@ public class PolicyController {
     }
 
     @PostMapping("/mergepolicylinetypeconfig")
-    public ResponseEntity mergeObjectRiskConfig(@RequestBody PolicyLineTypesConfig typesConfig) {
+    public ResponseEntity mergeObjectRiskConfig(@RequestBody PolicyLineTypeConfig typesConfig) {
         return policyService.mergePolicyLineTypeConfig(typesConfig);
     }
 
@@ -227,7 +227,7 @@ public class PolicyController {
     }
 
     @PostMapping("/mergepremiumheadersconfig")
-    public ResponseEntity mergePremiumHeadersConfig(@RequestBody PremiumCalcConfigHeaders headers) {
+    public ResponseEntity mergePremiumHeadersConfig(@RequestBody PremiumCalcConfigHeader headers) {
         return policyService.mergePremiumHeadersConfig(headers);
     }
 
@@ -238,7 +238,7 @@ public class PolicyController {
     }
 
     @PostMapping("/mergepremiumvaluesconfig")
-    public ResponseEntity mergePremiumValuesConfig(@RequestBody PremiumCalcConfigValues values) {
+    public ResponseEntity mergePremiumValuesConfig(@RequestBody PremiumCalcConfigValue values) {
         return policyService.mergePremiumValuesConfig(values);
     }
 }
