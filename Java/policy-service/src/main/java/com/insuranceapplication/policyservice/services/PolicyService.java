@@ -78,11 +78,11 @@ public class PolicyService {
         return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/searchpolicyline", policyLine, PolicyLine.class);
     }
 
-    public void calculation(PolicyLine policyLine) {
+    public void calculation(Policy policy) {
         PremiumCalculation calculation = new PremiumCalculation();
         calculation.eurekaClient = this.eurekaClient;
         calculation.policyService = this;
-        calculation.calculate(policyLine);
+        calculation.calculate(policy);
     }
 
     public ResponseEntity getProducts(ProductConfig productConfig) {
@@ -142,8 +142,8 @@ public class PolicyService {
         template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/updateinsuredvehicle", insuredObject, InsuredObject.class);
     }
 
-    public List<PremiumCalcConfigValue> premiumConfigList(PolicyLine policyLine) {
-        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/premiumCalcConfigVars",policyLine, List.class);
+    public List<PremiumCalcConfigValue> premiumConfigList(Policy policy) {
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/premiumCalcConfigVars",policy, List.class);
         return (List<PremiumCalcConfigValue>) response.getBody();
     }
 
