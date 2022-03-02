@@ -8,13 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 public class PremiumCalculation {
     public EurekaClient eurekaClient;
@@ -26,9 +24,13 @@ public class PremiumCalculation {
     private RestTemplate template = new RestTemplate();
     private ObjectRisk riskToUpdate = new ObjectRisk();
 
-    public void calculate(PolicyLine policyLine) {
+    public void calculate(Policy policy) {
         riskToUpdate = new ObjectRisk();
-        calcVariables = Utils.mapToList((List<LinkedHashMap>) (List) policyService.premiumConfigList(policyLine), PremiumCalcConfigValue.class);
+        calcVariables = Utils.mapToList((List<LinkedHashMap>) (List) policyService.premiumConfigList(policy), PremiumCalcConfigValue.class);
+
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
+                .getInstances().get(0).getHomePageUrl() + "/getpolicyline", policy, PolicyLine.class);
+        PolicyLine policyLine = (PolicyLine) response.getBody();
 
         List<InsuredObject> insObjects = Utils.mapToList((List<LinkedHashMap>) policyService.getInsuredObjects(policyLine), InsuredObject.class);
         for (InsuredObject insuredObject : insObjects) {
@@ -199,7 +201,9 @@ public class PremiumCalculation {
     public Double precentToPremium(String precentage, Integer value) {
         Double precentageTofloat = Double.valueOf(precentage.replace(",", ".").replace("%", ""));
         Double sumToAdd = value.floatValue() * (precentageTofloat / 100.0D);
-        DecimalFormat df = new DecimalFormat("###.##");
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
+        DecimalFormat df = new DecimalFormat("###.##",symbols);
+        String test = df.format(sumToAdd);
         Double addition = Double.valueOf(df.format(sumToAdd));
         return addition;
     }
