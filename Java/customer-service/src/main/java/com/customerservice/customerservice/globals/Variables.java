@@ -9,7 +9,7 @@ public class Variables {
             dbName = "DATABASE";
         }
         else{
-            dbName = "DATABASE-TEST";//or any other name
+            dbName = "DATABASE-SLOWIK";//or any other name
         }
 
     }
