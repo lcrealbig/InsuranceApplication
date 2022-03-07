@@ -14,7 +14,7 @@ public class ObjectRiskConfig {
     public ObjectRiskConfig() {
     }
 
-    public ObjectRisksConfig(Integer id, String objectType, String riskId, String required, String version) {
+    public ObjectRiskConfig(Integer id, String objectType, String riskId, String required, String version) {
         this.id = id;
         this.objectType = objectType;
         this.riskId = riskId;
