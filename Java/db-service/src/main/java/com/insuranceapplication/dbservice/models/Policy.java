@@ -3,9 +3,9 @@ package com.insuranceapplication.dbservice.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "POLICIES")
+@Table(name = "POLICY")
 public class Policy {
-    private Integer policyId;
+    private Integer id;
     private Integer transactionId;
     private Integer ownerId;
     private String type;
@@ -19,8 +19,8 @@ public class Policy {
     public Policy() {
     }
 
-    public Policy(Integer policyId, Integer transactionId, Integer ownerId, String type, String status, String startDate, String endDate, String productType, String altNo, String version) {
-        this.policyId = policyId;
+    public Policy(Integer id, Integer transactionId, Integer ownerId, String type, String status, String startDate, String endDate, String productType, String altNo, String version) {
+        this.id = id;
         this.transactionId = transactionId;
         this.ownerId = ownerId;
         this.type = type;
@@ -35,12 +35,12 @@ public class Policy {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "policy_id_seq")
     @SequenceGenerator(name = "policy_id_seq", allocationSize = 1)
-    public Integer getPolicyId() {
-        return policyId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setPolicyId(Integer policyId) {
-        this.policyId = policyId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getTransactionId() {

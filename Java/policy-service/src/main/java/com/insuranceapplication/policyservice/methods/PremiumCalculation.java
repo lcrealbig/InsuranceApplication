@@ -8,29 +8,32 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 public class PremiumCalculation {
     public EurekaClient eurekaClient;
     public PolicyService policyService;
-    private InsuredObjects insuredVehicle;
-    private InsuredObjects insuredDriver;
-    private Customers customer;
-    private List<PremiumCalcConfigValues> calcVariables;
+    private InsuredObject insuredVehicle;
+    private InsuredObject insuredDriver;
+    private Customer customer;
+    private List<PremiumCalcConfigValue> calcVariables;
     private RestTemplate template = new RestTemplate();
-    private ObjectRisks riskToUpdate = new ObjectRisks();
+    private ObjectRisk riskToUpdate = new ObjectRisk();
 
-    public void calculate(PolicyLines policyLine) {
-        riskToUpdate = new ObjectRisks();
-        calcVariables = Utils.mapToList((List<LinkedHashMap>) (List) policyService.premiumConfigList(), PremiumCalcConfigValues.class);
-        List<InsuredObjects> insObjects = Utils.mapToList((List<LinkedHashMap>) policyService.getInsuredObjects(policyLine), InsuredObjects.class);
-        for (InsuredObjects insuredObject : insObjects) {
+    public void calculate(Policy policy) {
+        riskToUpdate = new ObjectRisk();
+        calcVariables = Utils.mapToList((List<LinkedHashMap>) (List) policyService.premiumConfigList(policy), PremiumCalcConfigValue.class);
+
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
+                .getInstances().get(0).getHomePageUrl() + "/getpolicyline", policy, PolicyLine.class);
+        PolicyLine policyLine = (PolicyLine) response.getBody();
+
+        List<InsuredObject> insObjects = Utils.mapToList((List<LinkedHashMap>) policyService.getInsuredObjects(policyLine), InsuredObject.class);
+        for (InsuredObject insuredObject : insObjects) {
             if (insuredObject.getType().equals("DRI")) {
                 insuredDriver = insuredObject;
                 customer = getDriver(insuredDriver);
@@ -39,8 +42,8 @@ public class PremiumCalculation {
                 insuredVehicle = insuredObject;
             }
         }
-        List<ObjectRisks> risks = (List<ObjectRisks>) Utils.mapToList((List<LinkedHashMap>) policyService.getRisks(insuredVehicle).getBody(), ObjectRisks.class);
-        for (ObjectRisks risk : risks) {
+        List<ObjectRisk> risks = (List<ObjectRisk>) Utils.mapToList((List<LinkedHashMap>) policyService.getRisks(insuredVehicle).getBody(), ObjectRisk.class);
+        for (ObjectRisk risk : risks) {
             if (risk.getRiskId().equals("OC") && risk.getIsSelected().equals("true")) {
                 updatePremium(calculateOC(), risk);
             } else if (risk.getRiskId().equals("NNW") && risk.getIsSelected().equals("true")) {
@@ -53,7 +56,7 @@ public class PremiumCalculation {
 
     public Double calculateOC() {
         Double calculatedPremium = 0D;
-        for (PremiumCalcConfigValues calcConfig : calcVariables) {
+        for (PremiumCalcConfigValue calcConfig : calcVariables) {
             if (calcConfig.getCombinationName().equals("driver_age")) {
 
                 if (getPeriod(customer.getBirthDate()) < Integer.valueOf(calcConfig.getValue1())
@@ -152,7 +155,7 @@ public class PremiumCalculation {
                 calculatedPremium = calculatedPremium + precentToPremium(calcVariables.get(14).getValue1(), insuredVehicle.getN05());
             }
         }
-        for (PremiumCalcConfigValues riskValue : calcVariables) {
+        for (PremiumCalcConfigValue riskValue : calcVariables) {
             if (riskValue.getComboId().equals("NNW_L")) {
                 if (getPeriod(insuredVehicle.getD01()) < Integer.valueOf(riskValue.getValue1())) {
                     calculatedPremium = 0d;
@@ -175,7 +178,7 @@ public class PremiumCalculation {
 
     public Double getAssistance() {
         Double calculatedPremium = 0D;
-        for (PremiumCalcConfigValues riskValue : calcVariables) {
+        for (PremiumCalcConfigValue riskValue : calcVariables) {
             if (riskValue.getComboId().equals("ASI")) {
                 calculatedPremium = Double.valueOf(riskValue.getValue1());
             }
@@ -198,31 +201,33 @@ public class PremiumCalculation {
     public Double precentToPremium(String precentage, Integer value) {
         Double precentageTofloat = Double.valueOf(precentage.replace(",", ".").replace("%", ""));
         Double sumToAdd = value.floatValue() * (precentageTofloat / 100.0D);
-        DecimalFormat df = new DecimalFormat("###.##");
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
+        DecimalFormat df = new DecimalFormat("###.##",symbols);
+        String test = df.format(sumToAdd);
         Double addition = Double.valueOf(df.format(sumToAdd));
         return addition;
     }
 
-    public Customers getDriver(InsuredObjects driver) {
-        Customers custDriver = new Customers();
-        custDriver.setCustomerId(driver.getN01());
+    public Customer getDriver(InsuredObject driver) {
+        Customer custDriver = new Customer();
+        custDriver.setId(driver.getN01());
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
                 .getInstances().get(0).getHomePageUrl() + "/searchcustomers", custDriver, List.class);
-        ArrayList listFromResponse = (ArrayList) Utils.mapToList((List<LinkedHashMap>) response.getBody(), Customers.class);
-        custDriver = (Customers) listFromResponse.get(0);
+        ArrayList listFromResponse = (ArrayList) Utils.mapToList((List<LinkedHashMap>) response.getBody(), Customer.class);
+        custDriver = (Customer) listFromResponse.get(0);
         return custDriver;
     }
 
-    public Vehicles getVehicle() {
-        Vehicles vehicle = new Vehicles();
-        vehicle.setVehicleId(insuredVehicle.getN01());
+    public Vehicle getVehicle() {
+        Vehicle vehicle = new Vehicle();
+        vehicle.setId(insuredVehicle.getN01());
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
-                .getInstances().get(0).getHomePageUrl() + "/getvehicle", vehicle, Vehicles.class);
-        vehicle = (Vehicles) response.getBody();
+                .getInstances().get(0).getHomePageUrl() + "/getvehicle", vehicle, Vehicle.class);
+        vehicle = (Vehicle) response.getBody();
         return vehicle;
     }
 
-    public void updatePremium(Double valueOfUpdate, ObjectRisks riskToUpdate) {
+    public void updatePremium(Double valueOfUpdate, ObjectRisk riskToUpdate) {
         riskToUpdate.setPremium(valueOfUpdate);
         policyService.updateRisk(riskToUpdate);
     }
