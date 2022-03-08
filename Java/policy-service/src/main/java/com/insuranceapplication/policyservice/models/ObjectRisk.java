@@ -7,17 +7,19 @@ public class ObjectRisk {
     private String riskId;
     private Integer objectId;
     private Double premium;
+    private Integer depositAmount;
     private Integer premiumForPeriod;
     private String isSelected;
 
     public ObjectRisk() {
     }
 
-    public ObjectRisk(Integer id, String riskId, Integer objectId, Double premium, Integer premiumForPeriod, String isSelected) {
+    public ObjectRisk(Integer id, String riskId, Integer objectId, Double premium, Integer depositAmount, Integer premiumForPeriod, String isSelected) {
         this.id = id;
         this.riskId = riskId;
         this.objectId = objectId;
         this.premium = premium;
+        this.depositAmount = depositAmount;
         this.premiumForPeriod = premiumForPeriod;
         this.isSelected = isSelected;
     }
@@ -52,6 +54,14 @@ public class ObjectRisk {
 
     public void setPremium(Double premium) {
         this.premium = premium;
+    }
+
+    public Integer getDepositAmount() {
+        return depositAmount;
+    }
+
+    public void setDepositAmount(Integer depositAmount) {
+        this.depositAmount = depositAmount;
     }
 
     public Integer getPremiumForPeriod() {
