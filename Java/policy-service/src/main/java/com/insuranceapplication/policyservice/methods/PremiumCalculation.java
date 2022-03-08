@@ -149,10 +149,10 @@ public class PremiumCalculation {
         String protectionClass = getVehicle().getProtectionClass();
         if (!protectionClass.equals("I")) {
             if (protectionClass.equals("II")) {
-                calculatedPremium = calculatedPremium + precentToPremium(calcVariables.get(13).getValue1(), insuredVehicle.getN05());
+                calculatedPremium = calculatedPremium + precentToPremium(calcVariables.get(13).getValue1(), riskToUpdate.getDepositAmount());
             }
             if (protectionClass.equals("III")) {
-                calculatedPremium = calculatedPremium + precentToPremium(calcVariables.get(14).getValue1(), insuredVehicle.getN05());
+                calculatedPremium = calculatedPremium + precentToPremium(calcVariables.get(14).getValue1(), riskToUpdate.getDepositAmount());
             }
         }
         for (PremiumCalcConfigValue riskValue : calcVariables) {
@@ -164,12 +164,12 @@ public class PremiumCalculation {
             if (riskValue.getComboId().equals("NNW_LBE")) {
                 if (getPeriod(insuredVehicle.getD01()) < Integer.valueOf(riskValue.getValue1())
                         && getPeriod(insuredVehicle.getD01()) >= Integer.valueOf(riskValue.getValue2())) {
-                    calculatedPremium = calculatedPremium + precentToPremium(riskValue.getValue3(), insuredVehicle.getN05());
+                    calculatedPremium = calculatedPremium + precentToPremium(riskValue.getValue3(), riskToUpdate.getDepositAmount());
                 }
             }
             if (riskValue.getComboId().equals("NNW_BE")) {
                 if (getPeriod(insuredVehicle.getD01()) >= Integer.valueOf(riskValue.getValue1())) {
-                    calculatedPremium = calculatedPremium + precentToPremium(riskValue.getValue2(), insuredVehicle.getN05());
+                    calculatedPremium = calculatedPremium + precentToPremium(riskValue.getValue2(), riskToUpdate.getDepositAmount());
                 }
             }
         }
