@@ -9,6 +9,7 @@ create table object_risk_config (
     object_type varchar(10),
     risk_id varchar(30),
     required varchar(20),
+    deposit_amount numeric,
     version varchar(30)
 );
 

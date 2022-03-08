@@ -6,16 +6,18 @@ public class ObjectRiskConfig {
     private String objectType;
     private String riskId;
     private String required;
+    private Integer depositAmount;
     private String version;
 
     public ObjectRiskConfig() {
     }
 
-    public ObjectRiskConfig(Integer id, String objectType, String riskId, String required, String version) {
+    public ObjectRiskConfig(Integer id, String objectType, String riskId, String required, Integer depositAmount, String version) {
         this.id = id;
         this.objectType = objectType;
         this.riskId = riskId;
         this.required = required;
+        this.depositAmount = depositAmount;
         this.version = version;
     }
 
@@ -49,6 +51,14 @@ public class ObjectRiskConfig {
 
     public void setRequired(String required) {
         this.required = required;
+    }
+
+    public Integer getDepositAmount() {
+        return depositAmount;
+    }
+
+    public void setDepositAmount(Integer depositAmount) {
+        this.depositAmount = depositAmount;
     }
 
     public String getVersion() {
