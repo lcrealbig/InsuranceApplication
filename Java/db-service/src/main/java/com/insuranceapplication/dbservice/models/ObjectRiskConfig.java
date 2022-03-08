@@ -8,15 +8,17 @@ public class ObjectRiskConfig {
     private Integer id;
     private String objectType;
     private String riskId;
+    private String required;
     private String version;
 
     public ObjectRiskConfig() {
     }
 
-    public ObjectRiskConfig(Integer id, String objectType, String riskId, String version) {
+    public ObjectRiskConfig(Integer id, String objectType, String riskId, String required, String version) {
         this.id = id;
         this.objectType = objectType;
         this.riskId = riskId;
+        this.required = required;
         this.version = version;
     }
 
@@ -45,6 +47,14 @@ public class ObjectRiskConfig {
 
     public void setRiskId(String riskId) {
         this.riskId = riskId;
+    }
+
+    public String getRequired() {
+        return required;
+    }
+
+    public void setRequired(String required) {
+        this.required = required;
     }
 
     public String getVersion() {
