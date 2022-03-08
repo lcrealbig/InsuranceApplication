@@ -2,5 +2,5 @@ package com.customerservice.customerservice.globals;
 
 
 public class Constants {
-    static public final boolean isDbServiceLocal=true;
+    static public final boolean isDbServiceLocal=false;
 }
