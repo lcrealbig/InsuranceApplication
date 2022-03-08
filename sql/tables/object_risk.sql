@@ -9,6 +9,7 @@ CREATE TABLE public.object_risk(
     risk_id character varying(5) COLLATE pg_catalog."default" NOT NULL,
     object_id integer NOT NULL,
     premium numeric,
+    deposit_amount numeric,
     premium_for_period numeric,
     is_selected character varying(5) NOT NULL
 );
