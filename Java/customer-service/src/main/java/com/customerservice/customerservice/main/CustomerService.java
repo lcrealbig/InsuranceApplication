@@ -2,7 +2,6 @@ package com.customerservice.customerservice.main;
 
 import com.customerservice.customerservice.globals.Variables;
 import com.customerservice.customerservice.methods.Utils;
-import com.customerservice.customerservice.model.Customers;
 import com.customerservice.customerservice.model.Customer;
 import com.netflix.discovery.EurekaClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +19,6 @@ import java.util.List;
 public class CustomerService {
     @Autowired
     EurekaClient eurekaClient;
-
-    public ResponseEntity verifyCustomerPeselAndBirth(Customers customer) {
 
     public ResponseEntity verifyCustomerPeselAndBirth(Customer customer) {
         String pesel = customer.getPesel();
@@ -61,10 +58,6 @@ public class CustomerService {
         if (controlNumber != checkSum) {
             return ResponseEntity.badRequest().body("Pesel is incorrect");
         }
-
-        ArrayList<Customers> customers = (ArrayList<Customers>) Utils.mapToList((List<LinkedHashMap>) getAllCustomers().getBody(), Customers.class);
-        for (Customers existingCustomer : customers) {
-            if (existingCustomer.getPesel().equals(customer.getPesel()) && !existingCustomer.getCustomerId().equals(customer.getCustomerId())) {
         ArrayList<Customer> customers = (ArrayList<Customer>) Utils.mapToList((List<LinkedHashMap>) getAllCustomers().getBody(), Customer.class);
         for(Customer existingCustomer : customers){
             if(existingCustomer.getPesel().equals(customer.getPesel()) && !existingCustomer.getId().equals(customer.getId())){
@@ -75,18 +68,13 @@ public class CustomerService {
         return ResponseEntity.ok().body(customer);
     }
 
-    public ResponseEntity<Customers> createCustomer(@RequestBody Customers customer) {
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
         ResponseEntity customerVerification;
         customerVerification = verifyCustomerPeselAndBirth(customer);
         if (customerVerification.getStatusCode().value() == 200) {
             RestTemplate template = new RestTemplate();
             return template.postForEntity(eurekaClient.getApplication(Variables.dbName)
-<<<<<<< HEAD
-                    .getInstances().get(0).getHomePageUrl() + "/createcustomer", customer, Customers.class);
-=======
                     .getInstances().get(0).getHomePageUrl()+"/createcustomer", customer, Customer.class);
->>>>>>> develop
         } else {
             return customerVerification;
         }
@@ -98,17 +86,12 @@ public class CustomerService {
         if (customerVerification.getStatusCode().value() == 200) {
             RestTemplate template = new RestTemplate();
             return template.postForEntity(eurekaClient.getApplication(Variables.dbName)
-<<<<<<< HEAD
-                    .getInstances().get(0).getHomePageUrl() + "/modifycustomer", customer, Customers.class);
-=======
                     .getInstances().get(0).getHomePageUrl()+"/modifycustomer", customer, Customer.class);
->>>>>>> develop
         } else {
             return customerVerification;
         }
     }
 
-    public ResponseEntity searchCustomers(@RequestBody Customers customer) {
     public ResponseEntity searchCustomers(@RequestBody Customer customer) {
         RestTemplate template = new RestTemplate();
         return template.postForEntity(eurekaClient.getApplication(Variables.dbName)
@@ -117,11 +100,7 @@ public class CustomerService {
 
     public ResponseEntity deleteCustomer(@RequestBody Customer customer) {
         RestTemplate template = new RestTemplate();
-<<<<<<< HEAD
-        return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/deletecustomer", customer, Customers.class);
-=======
         return template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl()+ "/deletecustomer", customer, Customer.class);
->>>>>>> develop
     }
 
     public ResponseEntity getAllCustomers() {
