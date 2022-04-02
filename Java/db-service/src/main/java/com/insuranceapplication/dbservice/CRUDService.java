@@ -337,6 +337,7 @@ public class CRUDService {
         Root<PremiumCalcConfigHeader> rootEntry = cq.from(PremiumCalcConfigHeader.class);
         CriteriaQuery<PremiumCalcConfigHeader> all = cq.select(rootEntry);
         TypedQuery<PremiumCalcConfigHeader> allQuery = em.createQuery(all);
+        ArrayList<PremiumCalcConfigHeader> output = (ArrayList<PremiumCalcConfigHeader>) allQuery.getResultList();
         return ResponseEntity.ok().body(allQuery.getResultList());
     }
 

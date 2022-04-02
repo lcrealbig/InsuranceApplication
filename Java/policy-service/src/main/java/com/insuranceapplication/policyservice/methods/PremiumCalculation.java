@@ -25,7 +25,6 @@ public class PremiumCalculation {
     private ObjectRisk riskToUpdate = new ObjectRisk();
 
     public void calculate(Policy policy) {
-        riskToUpdate = new ObjectRisk();
         calcVariables = Utils.mapToList((List<LinkedHashMap>) (List) policyService.premiumConfigList(policy), PremiumCalcConfigValue.class);
 
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
@@ -40,6 +39,8 @@ public class PremiumCalculation {
             }
             if (insuredObject.getType().equals("VEH")) {
                 insuredVehicle = insuredObject;
+                riskToUpdate = (ObjectRisk) Utils.mapToObject((LinkedHashMap) (policyService.getRisks(insuredVehicle).getBody().get(0)), ObjectRisk.class);
+
             }
         }
         List<ObjectRisk> risks = (List<ObjectRisk>) Utils.mapToList((List<LinkedHashMap>) policyService.getRisks(insuredVehicle).getBody(), ObjectRisk.class);
@@ -149,10 +150,10 @@ public class PremiumCalculation {
         String protectionClass = getVehicle().getProtectionClass();
         if (!protectionClass.equals("I")) {
             if (protectionClass.equals("II")) {
-                calculatedPremium = calculatedPremium + precentToPremium(calcVariables.get(13).getValue1(), riskToUpdate.getDepositAmount());
+                calculatedPremium = calculatedPremium + precentToPremium(calcVariables.get(16).getValue1(), riskToUpdate.getDepositAmount());
             }
             if (protectionClass.equals("III")) {
-                calculatedPremium = calculatedPremium + precentToPremium(calcVariables.get(14).getValue1(), riskToUpdate.getDepositAmount());
+                calculatedPremium = calculatedPremium + precentToPremium(calcVariables.get(17).getValue1(), riskToUpdate.getDepositAmount());
             }
         }
         for (PremiumCalcConfigValue riskValue : calcVariables) {
@@ -203,7 +204,6 @@ public class PremiumCalculation {
         Double sumToAdd = value.floatValue() * (precentageTofloat / 100.0D);
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
         DecimalFormat df = new DecimalFormat("###.##",symbols);
-        String test = df.format(sumToAdd);
         Double addition = Double.valueOf(df.format(sumToAdd));
         return addition;
     }
