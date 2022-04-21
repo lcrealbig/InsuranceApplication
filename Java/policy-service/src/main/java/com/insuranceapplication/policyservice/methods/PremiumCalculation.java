@@ -27,9 +27,11 @@ public class PremiumCalculation {
     public void calculate(Policy policy) {
         riskToUpdate = new ObjectRisk();
         calcVariables = Utils.mapToList((List<LinkedHashMap>) (List) policyService.premiumConfigList(policy), PremiumCalcConfigValue.class);
-
+        PolicyLine tempPolicyLine = new PolicyLine();
+        tempPolicyLine.setPolicyId(policy.getId());
+        tempPolicyLine.setTransactionId(policy.getTransactionId());
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
-                .getInstances().get(0).getHomePageUrl() + "/getpolicyline", policy, PolicyLine.class);
+                .getInstances().get(0).getHomePageUrl() + "/getpolicyline", tempPolicyLine, PolicyLine.class);
         PolicyLine policyLine = (PolicyLine) response.getBody();
 
         List<InsuredObject> insObjects = Utils.mapToList((List<LinkedHashMap>) policyService.getInsuredObjects(policyLine), InsuredObject.class);
