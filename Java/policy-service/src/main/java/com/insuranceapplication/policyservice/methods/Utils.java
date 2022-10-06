@@ -20,4 +20,9 @@ public class Utils {
         return list;
     }
 
+    public static Double percentToDouble (String percentage) {
+       return Double.parseDouble(percentage.replace(",", ".").replace("%", ""))/100;
+
+    }
+
 }

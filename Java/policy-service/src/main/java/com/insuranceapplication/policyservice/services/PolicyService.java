@@ -6,6 +6,7 @@ import com.insuranceapplication.policyservice.models.*;
 import com.netflix.discovery.EurekaClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Component
 public class PolicyService {
 
     @Autowired
@@ -82,7 +84,7 @@ public class PolicyService {
         PremiumCalculation calculation = new PremiumCalculation();
         calculation.eurekaClient = this.eurekaClient;
         calculation.policyService = this;
-        calculation.calculate(policy);
+        //calculation.calculate(policy);
     }
 
     public ResponseEntity getProducts(ProductConfig productConfig) {
@@ -143,7 +145,7 @@ public class PolicyService {
     }
 
     public List<PremiumCalcConfigValue> premiumConfigList(Policy policy) {
-        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/premiumCalcConfigVars",policy, List.class);
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/premiumCalcConfigVars", policy, List.class);
         return (List<PremiumCalcConfigValue>) response.getBody();
     }
 
