@@ -24,10 +24,18 @@ public class Controller {
     public void createPolicy(@RequestBody Policy newPolicy) {
         CRUDService.createPolicy(newPolicy);
     }
-
+    @PostMapping("deletepolicy")
+    public void deletepolicy(@RequestBody Policy policy){
+        CRUDService.deletePolicy(policy);
+    }
     @PostMapping("/createpolicyline")
     public void createPolicyLine(@RequestBody PolicyLine newPolicyLine) {
         CRUDService.createPolicyLine(newPolicyLine);
+    }
+
+    @PostMapping("/deletepolicyline")
+    public void deletePolicyLine(@RequestBody PolicyLine policyLine){
+        CRUDService.deletePolicyLine(policyLine);
     }
 
     @PostMapping("/createinsuredobject")
@@ -106,7 +114,11 @@ public class Controller {
     public ResponseEntity deleteCustomer(@RequestBody Customer customer) {
         return CRUDService.deleteCustomer(customer);
     }
-
+    @PostMapping("/deleteinsuredobjects")
+    public void deleteInsuredObjectsByTransactionId(InsuredObject insuredObject)
+    {
+     CRUDService.customQuery("DELETE io FROM insuredObject io WHERE io.transactionId = '" + insuredObject.getTransactionId() + "'");
+    }
     @PostMapping("/modifycustomer")
     public ResponseEntity modifyCustomer(@RequestBody Customer customer) {
         return CRUDService.modifyCustomer(customer);
@@ -291,6 +303,7 @@ public class Controller {
     public ResponseEntity getAllCustomers() {
         return CRUDService.getAllCustomers();
     }
+
 
     @GetMapping("/getallproductconfig")
     @ResponseBody

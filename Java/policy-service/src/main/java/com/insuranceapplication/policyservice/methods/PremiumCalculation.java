@@ -75,13 +75,49 @@ public class PremiumCalculation {
         policyService.updateRisk(riskToUpdate);
     }
 
+    public InsuredObject findInsuredObject(Policy policy, String objectType) {
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
+                .getInstances().get(0).getHomePageUrl() + "/getpolicyline", policy, PolicyLine.class);
+        PolicyLine policyLine = (PolicyLine) response.getBody();
+        List<InsuredObject> insObjects = Utils.mapToList((List<LinkedHashMap>) policyService.getInsuredObjects(policyLine), InsuredObject.class);
+        return insObjects.stream().filter(x -> x.getType().equals(objectType)).collect(Collectors.toList()).get(0);
+    }
 
-    public double getDriverAgeBonus(int driverAge) {
+    public double getDriverAgeBonus(Policy policy) {
+
+        int driverAge = yearsFromNow(customerAsDriver(findInsuredObject(policy, "DRI")).getBirthDate());
         calcVariables = Utils.mapToList((List<LinkedHashMap>) policyService.getAllPremiumValuesConfig().getBody(), PremiumCalcConfigValue.class);
         PremiumCalcConfigValue driverAgeVariables = calcVariables.stream().filter(x -> x.getCombinationName().equals("driver_age")
                 && x.getComboId().equals("LB")).collect(Collectors.toList()).get(0);
         return (driverAge < Integer.parseInt(driverAgeVariables.getValue1()) || driverAge > Integer.parseInt(driverAgeVariables.getValue2()))
                 ? Double.parseDouble(driverAgeVariables.getValue3())
                 : 0d;
+    }
+
+    public double licenceAgeBonus(Policy policy) {
+
+        int licenseAge = yearsFromNow(findInsuredObject(policy, "DRI").getD01());
+        PremiumCalcConfigValue variableOfLicenseAgeL = buildValueFromConditions("license_age", "L");
+        PremiumCalcConfigValue variableOfLicenseAgeBE = buildValueFromConditions("license_age", "BE");
+        PremiumCalcConfigValue variableOfLicenseAgeLBE = buildValueFromConditions("license_age", "LBE");
+        if (licenseAge < Double.parseDouble(variableOfLicenseAgeBE.getValue1())) {
+            if (licenseAge < Double.parseDouble(variableOfLicenseAgeLBE.getValue1()) && licenseAge >= Double.parseDouble(variableOfLicenseAgeLBE.getValue2())) {
+                return Double.parseDouble(variableOfLicenseAgeLBE.getValue3());
+            } else return Double.parseDouble(variableOfLicenseAgeL.getValue2());
+        }
+        return Double.parseDouble(variableOfLicenseAgeBE.getValue2());
+    }
+
+    /**
+     * helper method to get correct configuration variables.
+     * @param combinationName
+     * @param comboId
+     * @return returns configuration row of params.
+     */
+    public PremiumCalcConfigValue buildValueFromConditions(String combinationName, String comboId) {
+        calcVariables = Utils.mapToList((List<LinkedHashMap>) policyService.getAllPremiumValuesConfig().getBody(), PremiumCalcConfigValue.class);
+        return calcVariables.stream()
+                .filter(x -> x.getCombinationName().equals(combinationName) && x.getComboId().equals(comboId))
+                .collect(Collectors.toList()).get(0);
     }
 }

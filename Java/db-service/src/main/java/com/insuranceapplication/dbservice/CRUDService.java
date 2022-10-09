@@ -256,6 +256,7 @@ public class CRUDService {
         return ResponseEntity.ok().body(insuredObject);
     }
 
+
     @Transactional
     public ResponseEntity getRisks(InsuredObject insuredObject) {
         List<ObjectRisk> resultList = (List<ObjectRisk>) em.createQuery("SELECT o FROM ObjectRisk o WHERE o.objectId = " + insuredObject.getId()).getResultList();
@@ -447,5 +448,13 @@ public class CRUDService {
         CriteriaQuery<ProductConfig> all = cq.select(rootEntry);
         TypedQuery<ProductConfig> allQuery = em.createQuery(all);
         return ResponseEntity.ok().body(allQuery.getResultList());
+    }
+
+    public void deletePolicy(Policy policy) {
+        em.remove(policy);
+    }
+
+    public void deletePolicyLine(PolicyLine policyLine) {
+        em.remove(policyLine);
     }
 }
