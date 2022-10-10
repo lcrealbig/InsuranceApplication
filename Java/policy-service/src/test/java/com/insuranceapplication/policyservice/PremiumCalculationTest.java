@@ -6,17 +6,13 @@ import com.insuranceapplication.policyservice.methods.Utils;
 import com.insuranceapplication.policyservice.models.*;
 import com.insuranceapplication.policyservice.services.PolicyService;
 import com.netflix.discovery.EurekaClient;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureJdbc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.math.BigInteger;
@@ -44,24 +40,15 @@ class PremiumCalculationTest {
     @Autowired
     private EurekaClient eurekaClient;
 
-
-    @Autowired
-    private static EntityManager entityManager;
-
-
-
-
-
     private RestTemplate template = new RestTemplate();
-
     private List<PremiumCalcConfigValue> configurations;
     private Customer customer = new Customer();
     private InsuredObject insuredDriver = new InsuredObject();
     private InsuredObject insuredVehicle = new InsuredObject();
-    ;
     Policy policy = new Policy();
     PolicyLine policyLine = new PolicyLine();
     ResponseEntity response;
+
 
     @BeforeEach
     void customerAndPolicyCreation() {
@@ -107,6 +94,7 @@ class PremiumCalculationTest {
         insuredVehicle.setPolicyLineId(policyLine.getId());
         insuredVehicle.setTransactionId(policyLine.getTransactionId());
         insuredVehicle.setN01(141);
+        insuredVehicle.setN02(10000);
         insuredVehicle.setD01(stringToDate("2021-10-08"));
         insuredVehicle.setType("VEH");
         insuredVehicle.setN04(150000);
@@ -125,7 +113,7 @@ class PremiumCalculationTest {
     @Test
     void willAssignCorrectConfigurationAndReturnCorrectExpectedBonus() {
         int driverAge = premiumCalculation.yearsFromNow(customer.getBirthDate());
-        PremiumCalcConfigValue premiumCalcConfigValue = premiumCalculation.buildValueFromConditions("driver_age", "LB");
+        PremiumCalcConfigValue premiumCalcConfigValue = premiumCalculation.buildValueFromConditions("driver_age", "LB","1.0");
         int upperScopePointer = Integer.parseInt(premiumCalcConfigValue.getValue2());
         int bottomScopePointer = Integer.parseInt(premiumCalcConfigValue.getValue1());
         assertFalse(driverAge > Integer.parseInt(premiumCalcConfigValue.getValue1()));
@@ -141,9 +129,9 @@ class PremiumCalculationTest {
                 .collect(Collectors.toList());
 
         int licenseAge = premiumCalculation.yearsFromNow(insuredDriver.getD01());
-        assertTrue(licenseAge < Double.parseDouble(premiumCalculation.buildValueFromConditions("license_age", "L").getValue1()));
-        assertTrue(licenseAge < Double.parseDouble(premiumCalculation.buildValueFromConditions("license_age", "BE").getValue1()));
-        double expectedValue = Double.valueOf(premiumCalculation.buildValueFromConditions("license_age", "L").getValue2());
+        assertTrue(licenseAge < Double.parseDouble(premiumCalculation.buildValueFromConditions("license_age", "L","1.0").getValue1()));
+        assertTrue(licenseAge < Double.parseDouble(premiumCalculation.buildValueFromConditions("license_age", "BE","1.0").getValue1()));
+        double expectedValue = Double.valueOf(premiumCalculation.buildValueFromConditions("license_age", "L","1.0").getValue2());
         assertEquals(expectedValue, premiumCalculation.licenceAgeBonus(policy));
     }
 
@@ -158,6 +146,29 @@ class PremiumCalculationTest {
         String expectedObjectType = premiumCalculation.findInsuredObject(policy, "VEH").getType();
         assertEquals(expectedObjectType, premiumCalculation.findInsuredObject(policy, "VEH").getType());
     }
+
+    @Test
+    void shouldReturnProperCarAgeBonus(){
+        int carAge = Integer.valueOf(premiumCalculation.yearsFromNow(insuredVehicle.getD01()));
+        PremiumCalcConfigValue bottomScopePointer = premiumCalculation.buildValueFromConditions("car_age", "L", "1.0");
+        PremiumCalcConfigValue middleScopePointer = premiumCalculation.buildValueFromConditions("car_age", "LBE", "1.0", carAge);
+        PremiumCalcConfigValue maxScopePointer =  premiumCalculation.buildValueFromConditions("car_age", "BE", "1.0");
+        double expected = premiumCalculation.precentToPremium(bottomScopePointer.getValue2(), insuredDriver.getN02());
+        assertEquals(expected, premiumCalculation.carAgeBonus());
+    }
+    @Test
+    void shouldReturnCorrectConfigValueForDriverAgeLBEVariable(){
+
+        int carAge = 3;
+        String expected ="0,5%";
+        assertEquals(expected, premiumCalculation.buildValueFromConditions("car_age","LBE","1.0",carAge).getValue3());
+        carAge = 7;
+        expected = "1%";
+        assertEquals(expected, premiumCalculation.buildValueFromConditions("car_age","LBE","1.0",carAge).getValue3());
+
+    }
+
+
 
     @AfterEach
     public void cleanUp() {

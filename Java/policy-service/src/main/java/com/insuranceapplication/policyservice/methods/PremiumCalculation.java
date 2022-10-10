@@ -97,9 +97,9 @@ public class PremiumCalculation {
     public double licenceAgeBonus(Policy policy) {
 
         int licenseAge = yearsFromNow(findInsuredObject(policy, "DRI").getD01());
-        PremiumCalcConfigValue variableOfLicenseAgeL = buildValueFromConditions("license_age", "L");
-        PremiumCalcConfigValue variableOfLicenseAgeBE = buildValueFromConditions("license_age", "BE");
-        PremiumCalcConfigValue variableOfLicenseAgeLBE = buildValueFromConditions("license_age", "LBE");
+        PremiumCalcConfigValue variableOfLicenseAgeL = buildValueFromConditions("license_age", "L", "1.0");
+        PremiumCalcConfigValue variableOfLicenseAgeBE = buildValueFromConditions("license_age", "BE", "1.0");
+        PremiumCalcConfigValue variableOfLicenseAgeLBE = buildValueFromConditions("license_age", "LBE", "1.0");
         if (licenseAge < Double.parseDouble(variableOfLicenseAgeBE.getValue1())) {
             if (licenseAge < Double.parseDouble(variableOfLicenseAgeLBE.getValue1()) && licenseAge >= Double.parseDouble(variableOfLicenseAgeLBE.getValue2())) {
                 return Double.parseDouble(variableOfLicenseAgeLBE.getValue3());
@@ -110,14 +110,37 @@ public class PremiumCalculation {
 
     /**
      * helper method to get correct configuration variables.
+     *
      * @param combinationName
      * @param comboId
      * @return returns configuration row of params.
      */
-    public PremiumCalcConfigValue buildValueFromConditions(String combinationName, String comboId) {
+    public PremiumCalcConfigValue buildValueFromConditions(String combinationName, String comboId, String version) {
         calcVariables = Utils.mapToList((List<LinkedHashMap>) policyService.getAllPremiumValuesConfig().getBody(), PremiumCalcConfigValue.class);
         return calcVariables.stream()
-                .filter(x -> x.getCombinationName().equals(combinationName) && x.getComboId().equals(comboId))
+                .filter(x -> x.getCombinationName().equals(combinationName) && x.getComboId().equals(comboId) && x.getVersion().equals(version))
                 .collect(Collectors.toList()).get(0);
+    }
+
+    public PremiumCalcConfigValue buildValueFromConditions(String combinationName, String comboId, String version, int carAge) {
+        calcVariables = Utils.mapToList((List<LinkedHashMap>) policyService.getAllPremiumValuesConfig().getBody(), PremiumCalcConfigValue.class);
+        PremiumCalcConfigValue value = calcVariables.stream()
+                .filter(x -> x.getCombinationName().equals(combinationName) && x.getComboId().equals(comboId) && x.getVersion().equals(version))
+                .collect(Collectors.toList()).get(0);
+        OptionalInt maxVal = calcVariables.stream()
+                .filter(x -> x.getCombinationName().equals(combinationName) && x.getComboId().equals(comboId) && x.getVersion().equals(version))
+                .collect(Collectors.toList()).stream().mapToInt(x -> Integer.parseInt(x.getValue2())).max();
+        OptionalInt minVal = calcVariables.stream()
+                .filter(x -> x.getCombinationName().equals(combinationName) && x.getComboId().equals(comboId) && x.getVersion().equals(version))
+                .collect(Collectors.toList()).stream().mapToInt(x -> Integer.parseInt(x.getValue2())).min();
+        PremiumCalcConfigValue recordWithLesserValue = calcVariables.stream()
+                .filter(x -> x.getCombinationName().equals("car_age") && x.getComboId().equals("LBE") && Integer.parseInt(x.getValue2()) == minVal.getAsInt()).collect(Collectors.toList()).get(0);
+        PremiumCalcConfigValue recordWithBiggerValue = calcVariables.stream()
+                .filter(x -> x.getCombinationName().equals("car_age") && x.getComboId().equals("LBE") && Integer.parseInt(x.getValue2()) == maxVal.getAsInt()).collect(Collectors.toList()).get(0);
+        return (carAge >= maxVal.getAsInt()) ? recordWithBiggerValue : recordWithLesserValue;
+    }
+
+    public double carAgeBonus() {
+        return 2d;
     }
 }
