@@ -63,8 +63,10 @@ class PremiumCalculationTest {
                 .getInstances().get(0).getHomePageUrl() + "/createcustomer", customer, Customer.class);
         response = template.getForEntity(eurekaClient.getApplication(Variables.dbName)
                 .getInstances().get(0).getHomePageUrl() + "/getallcustomers", List.class);
+
         List<Customer> customers = Utils.mapToList((List<LinkedHashMap>) response.getBody(), Customer.class);
         customer = customers.stream().filter(x -> x.getName().equals(customer.getName())).collect(Collectors.toList()).get(0);
+
         policy.setOwnerId(customer.getId());
         policy.setTransactionId(987);
         policy.setAltNo("M987Test");
@@ -75,6 +77,7 @@ class PremiumCalculationTest {
                 .getInstances().get(0).getHomePageUrl() + "/createpolicy", policy, Policy.class);
         policy = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
                 .getInstances().get(0).getHomePageUrl() + "/getpolicy", policy, Policy.class).getBody();
+
         policyLine.setPolicyId(policy.getId());
         policyLine.setTransactionId(policy.getTransactionId());
         policyLine.setPolicyLineType("MOT");
@@ -82,6 +85,7 @@ class PremiumCalculationTest {
                 .getInstances().get(0).getHomePageUrl() + "/createpolicyline", policyLine, PolicyLine.class);
         policyLine = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
                 .getInstances().get(0).getHomePageUrl() + "/getpolicyline", policyLine, PolicyLine.class).getBody();
+
         insuredDriver.setTransactionId(policyLine.getTransactionId());
         insuredDriver.setPolicyLineId(policyLine.getId());
         insuredDriver.setType("DRI");
@@ -91,6 +95,7 @@ class PremiumCalculationTest {
         insuredDriver.setD01(stringToDate("2021-10-08"));
         response = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
                 .getInstances().get(0).getHomePageUrl() + "/insertinsuredobject", insuredDriver, InsuredObject.class);
+
         insuredVehicle.setPolicyLineId(policyLine.getId());
         insuredVehicle.setTransactionId(policyLine.getTransactionId());
         insuredVehicle.setN01(141);
@@ -100,20 +105,18 @@ class PremiumCalculationTest {
         insuredVehicle.setN04(150000);
         response = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
                 .getInstances().get(0).getHomePageUrl() + "/insertinsuredobject", insuredVehicle, InsuredObject.class);
+
         insuredVehicle = premiumCalculation.findInsuredObject(policy, "VEH");
         insuredDriver = premiumCalculation.findInsuredObject(policy, "DRI");
-        customer = premiumCalculation.customerAsDriver(insuredDriver);
-
+        customer = premiumCalculation.getCustomerFromInsuredObject(insuredDriver);
         configurations = Utils.mapToList((List<LinkedHashMap>) policyService.getAllPremiumValuesConfig().getBody(), PremiumCalcConfigValue.class);
-
-
     }
 
-    @DisplayName("Get Expected Bonus.")
+    @DisplayName("Driver Age test.")
     @Test
     void willAssignCorrectConfigurationAndReturnCorrectExpectedBonus() {
         int driverAge = premiumCalculation.yearsFromNow(customer.getBirthDate());
-        PremiumCalcConfigValue premiumCalcConfigValue = premiumCalculation.buildValueFromConditions("driver_age", "LB","1.0");
+        PremiumCalcConfigValue premiumCalcConfigValue = premiumCalculation.findConfigValueFrom("driver_age", "LB","1.0");
         int upperScopePointer = Integer.parseInt(premiumCalcConfigValue.getValue2());
         int bottomScopePointer = Integer.parseInt(premiumCalcConfigValue.getValue1());
         assertFalse(driverAge > Integer.parseInt(premiumCalcConfigValue.getValue1()));
@@ -122,50 +125,59 @@ class PremiumCalculationTest {
         assertEquals(expectedBonus, premiumCalculation.getDriverAgeBonus(policy));
     }
 
+    @DisplayName("License Age test.")
     @Test
     void shouldReturnCorrectLicenseAgeBonusForCertainDriver() {
-        List<PremiumCalcConfigValue> licenseAgeConfig = configurations.stream()
-                .filter(x -> x.getCombinationName().equals("license_age"))
-                .collect(Collectors.toList());
 
         int licenseAge = premiumCalculation.yearsFromNow(insuredDriver.getD01());
-        assertTrue(licenseAge < Double.parseDouble(premiumCalculation.buildValueFromConditions("license_age", "L","1.0").getValue1()));
-        assertTrue(licenseAge < Double.parseDouble(premiumCalculation.buildValueFromConditions("license_age", "BE","1.0").getValue1()));
-        double expectedValue = Double.valueOf(premiumCalculation.buildValueFromConditions("license_age", "L","1.0").getValue2());
+        assertTrue(licenseAge < Double.parseDouble(premiumCalculation.findConfigValueFrom("license_age", "L","1.0").getValue1()));
+        assertTrue(licenseAge < Double.parseDouble(premiumCalculation.findConfigValueFrom("license_age", "BE","1.0").getValue1()));
+        double expectedValue = Double.valueOf(premiumCalculation.findConfigValueFrom("license_age", "L","1.0").getValue2());
         assertEquals(expectedValue, premiumCalculation.licenceAgeBonus(policy));
     }
 
+    @DisplayName("Find insured object with DRI type.")
     @Test
     void willRetriveInsuredObjectWithDRIType() {
         String expectedObjectType = insuredDriver.getType();
         assertEquals(expectedObjectType, premiumCalculation.findInsuredObject(policy, "DRI").getType());
     }
 
+    @DisplayName("Find insured object with VEH type.")
     @Test
     void willRetriveInsuredObjectWithVEHType() {
         String expectedObjectType = premiumCalculation.findInsuredObject(policy, "VEH").getType();
         assertEquals(expectedObjectType, premiumCalculation.findInsuredObject(policy, "VEH").getType());
     }
 
+    @DisplayName("Car age bonus test.")
     @Test
     void shouldReturnProperCarAgeBonus(){
         int carAge = Integer.valueOf(premiumCalculation.yearsFromNow(insuredVehicle.getD01()));
-        PremiumCalcConfigValue bottomScopePointer = premiumCalculation.buildValueFromConditions("car_age", "L", "1.0");
-        PremiumCalcConfigValue middleScopePointer = premiumCalculation.buildValueFromConditions("car_age", "LBE", "1.0", carAge);
-        PremiumCalcConfigValue maxScopePointer =  premiumCalculation.buildValueFromConditions("car_age", "BE", "1.0");
-        double expected = premiumCalculation.precentToPremium(bottomScopePointer.getValue2(), insuredDriver.getN02());
-        assertEquals(expected, premiumCalculation.carAgeBonus());
+        PremiumCalcConfigValue bottomScopePointer = premiumCalculation.findConfigValueFrom("car_age", "L", "1.0");
+        PremiumCalcConfigValue middleScopePointer = premiumCalculation.findConfigValueFrom("car_age", "LBE", "1.0", carAge);
+        PremiumCalcConfigValue maxScopePointer =  premiumCalculation.findConfigValueFrom("car_age", "BE", "1.0");
+        double expected = premiumCalculation.calcBonusFromGivenPercentage(bottomScopePointer.getValue2(), insuredDriver.getN02());
+        assertEquals(expected, premiumCalculation.carAgeBonus(policy));
+
     }
+    @DisplayName("LBE config value handler test.")
     @Test
     void shouldReturnCorrectConfigValueForDriverAgeLBEVariable(){
-
         int carAge = 3;
         String expected ="0,5%";
-        assertEquals(expected, premiumCalculation.buildValueFromConditions("car_age","LBE","1.0",carAge).getValue3());
+        assertEquals(expected, premiumCalculation.findConfigValueFrom("car_age","LBE","1.0",carAge).getValue3());
         carAge = 7;
         expected = "1%";
-        assertEquals(expected, premiumCalculation.buildValueFromConditions("car_age","LBE","1.0",carAge).getValue3());
+        assertEquals(expected, premiumCalculation.findConfigValueFrom("car_age","LBE","1.0",carAge).getValue3());
+    }
 
+    @DisplayName("Assistance adition test.")
+    @Test
+    void shouldReturnAssistanceValueFromConfiguration(){
+        PremiumCalcConfigValue assistance = premiumCalculation.findConfigValueFrom("ASSISTANCE","ASI", "2.0");
+        double expected =Double.valueOf( assistance.getValue1());
+        assertEquals(expected, premiumCalculation.assistanceBonus());
     }
 
 
@@ -189,10 +201,8 @@ public  Date stringToDate(String s){
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         result  = dateFormat.parse(s);
     }
-
     catch(ParseException e){
         e.printStackTrace();
-
     }
     return result ;
 }
