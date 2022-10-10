@@ -1,6 +1,8 @@
 package com.insuranceapplication.policyservice.models;
 
+import javax.persistence.Entity;
 
+@Entity
 public class Policy {
     private Integer id;
     private Integer transactionId;

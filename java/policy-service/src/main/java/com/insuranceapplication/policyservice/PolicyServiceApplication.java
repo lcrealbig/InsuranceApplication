@@ -2,7 +2,6 @@ package com.insuranceapplication.policyservice;
 
 import com.insuranceapplication.policyservice.globals.Variables;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication

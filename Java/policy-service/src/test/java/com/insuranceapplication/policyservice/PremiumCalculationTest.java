@@ -6,28 +6,34 @@ import com.insuranceapplication.policyservice.methods.Utils;
 import com.insuranceapplication.policyservice.models.*;
 import com.insuranceapplication.policyservice.services.PolicyService;
 import com.netflix.discovery.EurekaClient;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureJdbc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.math.BigInteger;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-public class PremiumCalculationTest {
+@PersistenceContext
+@AutoConfigureJdbc
+class PremiumCalculationTest {
 
     @Autowired
     private PolicyService policyService;
@@ -39,30 +45,38 @@ public class PremiumCalculationTest {
     private EurekaClient eurekaClient;
 
 
+    @Autowired
+    private static EntityManager entityManager;
+
+
+
+
+
     private RestTemplate template = new RestTemplate();
 
     private List<PremiumCalcConfigValue> configurations;
     private Customer customer = new Customer();
     private InsuredObject insuredDriver = new InsuredObject();
-    private InsuredObject insuredVehicle = new InsuredObject();;
+    private InsuredObject insuredVehicle = new InsuredObject();
+    ;
     Policy policy = new Policy();
     PolicyLine policyLine = new PolicyLine();
-    ResponseEntity response ;
+    ResponseEntity response;
 
     @BeforeEach
     void customerAndPolicyCreation() {
 
         Variables.init();
-        customer.setBirthDate(new Date(01-01-1999));
+        customer.setBirthDate(stringToDate("1999-01-01"));
         customer.setAddress("testAddress");
         customer.setName("TestCase");
         customer.setPesel("99010123551");
         customer.setPhoneNum(new BigInteger("123123123"));
         response = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
                 .getInstances().get(0).getHomePageUrl() + "/createcustomer", customer, Customer.class);
-        response  = template.getForEntity(eurekaClient.getApplication(Variables.dbName)
-                .getInstances().get(0).getHomePageUrl() + "/getallcustomers",List.class);
-        List <Customer> customers = Utils.mapToList((List<LinkedHashMap>) response.getBody(),Customer.class);
+        response = template.getForEntity(eurekaClient.getApplication(Variables.dbName)
+                .getInstances().get(0).getHomePageUrl() + "/getallcustomers", List.class);
+        List<Customer> customers = Utils.mapToList((List<LinkedHashMap>) response.getBody(), Customer.class);
         customer = customers.stream().filter(x -> x.getName().equals(customer.getName())).collect(Collectors.toList()).get(0);
         policy.setOwnerId(customer.getId());
         policy.setTransactionId(987);
@@ -87,18 +101,18 @@ public class PremiumCalculationTest {
         insuredDriver.setN01(customer.getId());
         insuredDriver.setN02(1);
         insuredDriver.setN03(1);
-        insuredDriver.setD01(new Date(8 - 10 - 2021));
+        insuredDriver.setD01(stringToDate("2021-10-08"));
         response = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
                 .getInstances().get(0).getHomePageUrl() + "/insertinsuredobject", insuredDriver, InsuredObject.class);
         insuredVehicle.setPolicyLineId(policyLine.getId());
         insuredVehicle.setTransactionId(policyLine.getTransactionId());
         insuredVehicle.setN01(141);
-        insuredVehicle.setD01(new Date(8 -10 - 2016));
+        insuredVehicle.setD01(stringToDate("2021-10-08"));
         insuredVehicle.setType("VEH");
         insuredVehicle.setN04(150000);
         response = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
                 .getInstances().get(0).getHomePageUrl() + "/insertinsuredobject", insuredVehicle, InsuredObject.class);
-        insuredVehicle = premiumCalculation.findInsuredObject(policy,"VEH");
+        insuredVehicle = premiumCalculation.findInsuredObject(policy, "VEH");
         insuredDriver = premiumCalculation.findInsuredObject(policy, "DRI");
         customer = premiumCalculation.customerAsDriver(insuredDriver);
 
@@ -106,15 +120,17 @@ public class PremiumCalculationTest {
 
 
     }
+
     @DisplayName("Get Expected Bonus.")
     @Test
     void willAssignCorrectConfigurationAndReturnCorrectExpectedBonus() {
         int driverAge = premiumCalculation.yearsFromNow(customer.getBirthDate());
         PremiumCalcConfigValue premiumCalcConfigValue = premiumCalculation.buildValueFromConditions("driver_age", "LB");
-        int upperScopePointer =Integer.parseInt(premiumCalcConfigValue.getValue2()) ;
-        int bottomScopePointer =Integer.parseInt(premiumCalcConfigValue.getValue1()) ;
-        assertTrue(driverAge > bottomScopePointer && driverAge <= upperScopePointer );
-        double expectedBonus = 0d;
+        int upperScopePointer = Integer.parseInt(premiumCalcConfigValue.getValue2());
+        int bottomScopePointer = Integer.parseInt(premiumCalcConfigValue.getValue1());
+        assertFalse(driverAge > Integer.parseInt(premiumCalcConfigValue.getValue1()));
+        assertTrue(driverAge < bottomScopePointer || driverAge > upperScopePointer);
+        double expectedBonus = Double.parseDouble(premiumCalcConfigValue.getValue3());
         assertEquals(expectedBonus, premiumCalculation.getDriverAgeBonus(policy));
     }
 
@@ -125,9 +141,9 @@ public class PremiumCalculationTest {
                 .collect(Collectors.toList());
 
         int licenseAge = premiumCalculation.yearsFromNow(insuredDriver.getD01());
-        assertTrue(licenseAge > Double.parseDouble(premiumCalculation.buildValueFromConditions("license_age", "L").getValue1()));
-        assertTrue(licenseAge > Double.parseDouble(premiumCalculation.buildValueFromConditions("license_age", "BE").getValue1()));
-        double expectedValue = Double.valueOf(premiumCalculation.buildValueFromConditions("license_age", "BE").getValue2());
+        assertTrue(licenseAge < Double.parseDouble(premiumCalculation.buildValueFromConditions("license_age", "L").getValue1()));
+        assertTrue(licenseAge < Double.parseDouble(premiumCalculation.buildValueFromConditions("license_age", "BE").getValue1()));
+        double expectedValue = Double.valueOf(premiumCalculation.buildValueFromConditions("license_age", "L").getValue2());
         assertEquals(expectedValue, premiumCalculation.licenceAgeBonus(policy));
     }
 
@@ -143,14 +159,30 @@ public class PremiumCalculationTest {
         assertEquals(expectedObjectType, premiumCalculation.findInsuredObject(policy, "VEH").getType());
     }
 
- /*   @AfterEach
-    public void cleanUp(){
-        response = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
-                .getInstances().get(0).getHomePageUrl() + "/deletecustomer", customer, Customer.class);
-        response = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
-                .getInstances().get(0).getHomePageUrl() + "/deletepolicy", policy, Policy.class);
-        response = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
-                .getInstances().get(0).getHomePageUrl() + "/deletepolicyline", policyLine, Policy.class);
-        response
-    }*/
+    @AfterEach
+    public void cleanUp() {
+        template.delete(eurekaClient.getApplication(Variables.dbName)
+                .getInstances().get(0).getHomePageUrl() + "/deletepolicy/{transactionId}", policy.getTransactionId());
+        template.delete(eurekaClient.getApplication(Variables.dbName)
+                .getInstances().get(0).getHomePageUrl() + "/deletepolicyline/{transactionId}", policy.getTransactionId());
+        template.delete(eurekaClient.getApplication(Variables.dbName)
+                .getInstances().get(0).getHomePageUrl() + "/deleteinsuredobjects/{transactionId}", policy.getTransactionId());
+        template.delete(eurekaClient.getApplication(Variables.dbName)
+                .getInstances().get(0).getHomePageUrl() + "/deletecustomer/{id}", customer.getId());
+
+    }
+public  Date stringToDate(String s){
+
+    Date result = null;
+    try{
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        result  = dateFormat.parse(s);
+    }
+
+    catch(ParseException e){
+        e.printStackTrace();
+
+    }
+    return result ;
+}
 }

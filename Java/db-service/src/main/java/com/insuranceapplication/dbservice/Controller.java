@@ -24,18 +24,20 @@ public class Controller {
     public void createPolicy(@RequestBody Policy newPolicy) {
         CRUDService.createPolicy(newPolicy);
     }
-    @PostMapping("deletepolicy")
-    public void deletepolicy(@RequestBody Policy policy){
-        CRUDService.deletePolicy(policy);
+
+    @DeleteMapping("/deletepolicy/{transactionId}")
+    public void deletepolicy(@PathVariable int transactionId) {
+        CRUDService.deletePolicy(transactionId);
     }
+
     @PostMapping("/createpolicyline")
     public void createPolicyLine(@RequestBody PolicyLine newPolicyLine) {
         CRUDService.createPolicyLine(newPolicyLine);
     }
 
-    @PostMapping("/deletepolicyline")
-    public void deletePolicyLine(@RequestBody PolicyLine policyLine){
-        CRUDService.deletePolicyLine(policyLine);
+    @DeleteMapping("/deletepolicyline/{transactionId}")
+    public void deletePolicyLine(@PathVariable int transactionId) {
+        CRUDService.deletePolicyLine(transactionId);
     }
 
     @PostMapping("/createinsuredobject")
@@ -110,15 +112,16 @@ public class Controller {
         CRUDService.createCustomer(customer);
     }
 
-    @PostMapping("/deletecustomer")
-    public ResponseEntity deleteCustomer(@RequestBody Customer customer) {
-        return CRUDService.deleteCustomer(customer);
+    @DeleteMapping("/deletecustomer/{id}")
+    public ResponseEntity deleteCustomer(@PathVariable int id) {
+        return CRUDService.deleteCustomer(id);
     }
-    @PostMapping("/deleteinsuredobjects")
-    public void deleteInsuredObjectsByTransactionId(InsuredObject insuredObject)
-    {
-     CRUDService.customQuery("DELETE io FROM insuredObject io WHERE io.transactionId = '" + insuredObject.getTransactionId() + "'");
+
+    @DeleteMapping("/deleteinsuredobjects/{transactionId}")
+    public void deleteInsuredObjectsByTransactionId(@PathVariable int transactionId) {
+        CRUDService.deleteInsuredObject(transactionId);
     }
+
     @PostMapping("/modifycustomer")
     public ResponseEntity modifyCustomer(@RequestBody Customer customer) {
         return CRUDService.modifyCustomer(customer);
