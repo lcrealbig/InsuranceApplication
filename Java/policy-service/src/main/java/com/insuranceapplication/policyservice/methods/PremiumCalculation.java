@@ -27,6 +27,7 @@ public class PremiumCalculation {
     private InsuredObject insuredDriver;
     private Customer customer;
     private List<PremiumCalcConfigValue> calcVariables;
+    private List<ObjectRiskConfig> objectRiskConfigs;
     private RestTemplate template = new RestTemplate();
     private ObjectRisk riskToUpdate = new ObjectRisk();
 
@@ -39,8 +40,7 @@ public class PremiumCalculation {
         return Math.abs(Period.between(LocalDate.parse(sdf.format(date)), LocalDate.now()).getYears());
     }
 
-    public Double calcBonusFromGivenPercentage(String precentage, Integer value) {
-
+    public Double calcBonusFromGivenPercentage(String precentage, Double value) {
         Double precentageOfBonus = Double.valueOf(precentage.replace(",", ".").replace("%", ""));
         Double sumToAdd = value.floatValue() * (precentageOfBonus / 100.0D);
         DecimalFormat df = new DecimalFormat("###.##", new DecimalFormatSymbols(Locale.US));
@@ -79,7 +79,6 @@ public class PremiumCalculation {
     }
 
     public double getDriverAgeBonus(Policy policy) {
-
         int driverAge = yearsFromNow(getCustomerFromInsuredObject(findInsuredObject(policy, "DRI")).getBirthDate());
         calcVariables = Utils.mapToList((List<LinkedHashMap>) policyService.getAllPremiumValuesConfig().getBody(), PremiumCalcConfigValue.class);
         PremiumCalcConfigValue driverAgeVariables = calcVariables.stream().filter(x -> x.getCombinationName().equals("driver_age")
@@ -90,11 +89,10 @@ public class PremiumCalculation {
     }
 
     public double licenceAgeBonus(Policy policy) {
-
         int licenseAge = yearsFromNow(findInsuredObject(policy, "DRI").getD01());
-        PremiumCalcConfigValue variableOfLicenseAgeL = findConfigValueFrom("license_age", "L", "1.0");
-        PremiumCalcConfigValue variableOfLicenseAgeBE = findConfigValueFrom("license_age", "BE", "1.0");
-        PremiumCalcConfigValue variableOfLicenseAgeLBE = findConfigValueFrom("license_age", "LBE", "1.0");
+        PremiumCalcConfigValue variableOfLicenseAgeL = findConfigValue("license_age", "L", "1.0");
+        PremiumCalcConfigValue variableOfLicenseAgeBE = findConfigValue("license_age", "BE", "1.0");
+        PremiumCalcConfigValue variableOfLicenseAgeLBE = findConfigValue("license_age", "LBE", "1.0");
         if (licenseAge < Double.parseDouble(variableOfLicenseAgeBE.getValue1())) {
             if (licenseAge < Double.parseDouble(variableOfLicenseAgeLBE.getValue1()) && licenseAge >= Double.parseDouble(variableOfLicenseAgeLBE.getValue2())) {
                 return Double.parseDouble(variableOfLicenseAgeLBE.getValue3());
@@ -110,14 +108,14 @@ public class PremiumCalculation {
      * @param comboId
      * @return returns configuration row of params.
      */
-    public PremiumCalcConfigValue findConfigValueFrom(String combinationName, String comboId, String version) {
+    public PremiumCalcConfigValue findConfigValue(String combinationName, String comboId, String version) {
         calcVariables = Utils.mapToList((List<LinkedHashMap>) policyService.getAllPremiumValuesConfig().getBody(), PremiumCalcConfigValue.class);
         return calcVariables.stream()
                 .filter(x -> x.getCombinationName().equals(combinationName) && x.getComboId().equals(comboId) && x.getVersion().equals(version))
                 .collect(Collectors.toList()).get(0);
     }
 
-    public PremiumCalcConfigValue findConfigValueFrom(String combinationName, String comboId, String version, int age) {
+    public PremiumCalcConfigValue findConfigValue(String combinationName, String comboId, String version, int age) {
         calcVariables = Utils.mapToList((List<LinkedHashMap>) policyService.getAllPremiumValuesConfig().getBody(), PremiumCalcConfigValue.class);
         OptionalInt maxValue = calcVariables.stream()
                 .filter(x -> x.getCombinationName().equals(combinationName) && x.getComboId().equals(comboId) && x.getVersion().equals(version))
@@ -137,22 +135,46 @@ public class PremiumCalculation {
     public double carAgeBonus(Policy policy) {
         insuredVehicle = findInsuredObject(policy, "VEH");
         int carAge = yearsFromNow(insuredVehicle.getD01());
-        PremiumCalcConfigValue carAgeConfigL = findConfigValueFrom("car_age", "L", "1.0");
-        PremiumCalcConfigValue carAgeConfigBE = findConfigValueFrom("car_age", "BE", "1.0");
-        PremiumCalcConfigValue carAgeConfigLBE = findConfigValueFrom("car_age", "LBE", "1.0", carAge);
-        double carAgeBonus = calcBonusFromGivenPercentage(carAgeConfigL.getValue2(), insuredVehicle.getN02());
+        PremiumCalcConfigValue carAgeConfigL = findConfigValue("car_age", "L", "1.0");
+        PremiumCalcConfigValue carAgeConfigBE = findConfigValue("car_age", "BE", "1.0");
+        PremiumCalcConfigValue carAgeConfigLBE = findConfigValue("car_age", "LBE", "1.0", carAge);
+        double carAgeBonus = calcBonusFromGivenPercentage(carAgeConfigL.getValue2(), Double.valueOf(insuredVehicle.getN02()));
         if (carAge >= Integer.parseInt(carAgeConfigBE.getValue1())) {
-            carAgeBonus = calcBonusFromGivenPercentage(carAgeConfigBE.getValue2(), insuredVehicle.getN02());
+            carAgeBonus = calcBonusFromGivenPercentage(carAgeConfigBE.getValue2(), Double.valueOf(insuredVehicle.getN02()));
         }
         if (carAge >= Integer.parseInt(carAgeConfigL.getValue1())) {
             if (carAge < Integer.parseInt(carAgeConfigLBE.getValue1())) {
-                carAgeBonus = calcBonusFromGivenPercentage(carAgeConfigLBE.getValue3(), insuredVehicle.getN02());
+                carAgeBonus = calcBonusFromGivenPercentage(carAgeConfigLBE.getValue3(), Double.valueOf(insuredVehicle.getN02()));
             }
         }
         return carAgeBonus;
     }
 
     public double assistanceBonus() {
-        return Double.valueOf(findConfigValueFrom("ASSISTANCE","ASI","2.0").getValue1());
+        return Double.valueOf(findConfigValue("ASSISTANCE", "ASI", "2.0").getValue1());
+    }
+
+    public double findInsuranceSumForCertainRisk(String riskId, String version) {
+        objectRiskConfigs = Utils.mapToList((List<LinkedHashMap>) policyService.getAllObjectRiskConfig().getBody(), ObjectRiskConfig.class);
+        return objectRiskConfigs.stream()
+                .filter(x -> x.getRiskId().equals(riskId) && x.getVersion().equals(version))
+                .collect(Collectors.toList()).get(0).getDepositAmount();
+    }
+
+    public double getClaimsBonus(Policy policy) {
+        insuredDriver = findInsuredObject(policy,"DRI");
+        double calculationFormula = insuredDriver.getN02() / insuredDriver.getN03();
+        PremiumCalcConfigValue configValueL = findConfigValue("claims_count", "L", "1.0");
+        PremiumCalcConfigValue configValueLBE = findConfigValue("claims_count", "LBE", "1.0");
+        PremiumCalcConfigValue configValueBE = findConfigValue("claims_count", "BE", "1.0");
+        double insuranceSum = findInsuranceSumForCertainRisk("OC", "1.0");
+        double claimBonus = calcBonusFromGivenPercentage(configValueBE.getValue2(), insuranceSum);
+        if (calculationFormula < Double.parseDouble(configValueBE.getValue1())) {
+            if (calculationFormula < Double.parseDouble(configValueLBE.getValue1()) && calculationFormula >= Double.parseDouble(configValueLBE.getValue2())) {
+                claimBonus = calcBonusFromGivenPercentage(configValueLBE.getValue3(), insuranceSum);
+            } else claimBonus = calcBonusFromGivenPercentage(configValueL.getValue2(), insuranceSum);
+
+        }
+        return claimBonus;
     }
 }

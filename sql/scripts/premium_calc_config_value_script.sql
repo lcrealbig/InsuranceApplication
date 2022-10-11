@@ -37,11 +37,11 @@ values('MIL_BE','OC','mileage','1.0','350000','1%','2%' );
 
 --accidents_count config.
 insert into premium_calc_config_value(combo_id,risk_id,combination_name,version,value_1,value_2,value_3)
-values('ACC_LBE','OC','claims_count','1.0','1,2','1.0','0,5%' );
+values('CLAIM','OC','claims_count','1.0','1,2','1.0','0,5%' );
 insert into premium_calc_config_value(combo_id,risk_id,combination_name,version,value_1,value_2)
-values('ACC_L','OC','claims_count','1.0','1.0','0' );
+values('CLAIM','OC','claims_count','1.0','1.0','0' );
 insert into premium_calc_config_value(combo_id,risk_id,combination_name,version,value_1,value_2)
-values('ACC_BE','OC','claims_count','1.0','1,2%','1,5%' );
+values('CLAIM','OC','claims_count','1.0','1,2','1,5%' );
 
 --NNW CONFIG
 insert into premium_calc_config_value(combo_id,risk_id,combination_name,version,value_1)
@@ -98,7 +98,7 @@ values('ACC_LBE','OC','claims_count','2.0','1,2','2.0','0,7%' );
 insert into premium_calc_config_value(combo_id,risk_id,combination_name,version,value_1,value_2)
 values('ACC_L','OC','claims_count','2.0','2.0','0' );
 insert into premium_calc_config_value(combo_id,risk_id,combination_name,version,value_1,value_2)
-values('ACC_BE','OC','claims_count','2.0','1,2%','1,7%' );
+values('ACC_BE','OC','claims_count','2.0','1,2','1,7%' );
 
 --NNW CONFIG
 insert into premium_calc_config_value(combo_id,risk_id,combination_name,version,value_1)
