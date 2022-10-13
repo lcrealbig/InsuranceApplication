@@ -16,9 +16,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -42,11 +44,14 @@ class PremiumCalculationTest {
     private Customer customer = new Customer();
     private InsuredObject insuredDriver = new InsuredObject();
     private InsuredObject insuredVehicle = new InsuredObject();
-    private ObjectRisk objectRisk = new ObjectRisk();
+    private List<ObjectRisk> objectRisks = new ArrayList<>();
+    private ObjectRisk oc = new ObjectRisk();
+    private ObjectRisk nnw = new ObjectRisk();
+    private ObjectRisk asi = new ObjectRisk();
     private ObjectRiskConfig objectRiskConfig = new ObjectRiskConfig();
-    Policy policy = new Policy();
-    PolicyLine policyLine = new PolicyLine();
-    ResponseEntity response;
+    private Policy policy = new Policy();
+    private PolicyLine policyLine = new PolicyLine();
+    private ResponseEntity response;
 
 
 
@@ -78,6 +83,7 @@ class PremiumCalculationTest {
         policy = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
                 .getInstances().get(0).getHomePageUrl() + "/getpolicy", policy, Policy.class).getBody();
 
+        assert policy != null;
         policyLine.setPolicyId(policy.getId());
         policyLine.setTransactionId(policy.getTransactionId());
         policyLine.setPolicyLineType("MOT");
@@ -86,6 +92,7 @@ class PremiumCalculationTest {
         policyLine = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
                 .getInstances().get(0).getHomePageUrl() + "/getpolicyline", policyLine, PolicyLine.class).getBody();
 
+        assert policyLine != null;
         insuredDriver.setTransactionId(policyLine.getTransactionId());
         insuredDriver.setPolicyLineId(policyLine.getId());
         insuredDriver.setType("DRI");
@@ -111,30 +118,50 @@ class PremiumCalculationTest {
         customer = utils.getCustomerFromInsuredObject(insuredDriver);
         premiumCalcConfigs = Utils.mapToList((List<LinkedHashMap>) policyService.getAllPremiumValuesConfig().getBody(), PremiumCalcConfigValue.class);
         objectRiskConfigs = Utils.mapToList((List<LinkedHashMap>) policyService.getAllObjectRiskConfig().getBody(), ObjectRiskConfig.class);
+        oc.setDepositAmount(objectRiskConfig.getDepositAmount());
+        oc.setRiskId("OC");
+        oc.setIsSelected("true");
+        oc.setObjectId(policy.getTransactionId());
+        nnw.setDepositAmount(objectRiskConfig.getDepositAmount());
+        nnw.setRiskId("NNW");
+        nnw.setIsSelected("true");
+        nnw.setObjectId(policy.getTransactionId());
+        asi.setDepositAmount(objectRiskConfig.getDepositAmount());
+        asi.setRiskId("ASI");
+        asi.setIsSelected("true");
+        asi.setObjectId(policy.getTransactionId());
+
+        response = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
+                .getInstances().get(0).getHomePageUrl() + "/createrisks", oc, ObjectRisk.class);
+        response = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
+                .getInstances().get(0).getHomePageUrl() + "/createrisks", asi, ObjectRisk.class);
+        response = template.postForEntity(eurekaClient.getApplication(Variables.dbName)
+                .getInstances().get(0).getHomePageUrl() + "/createrisks", nnw, ObjectRisk.class);
+        objectRisks = Utils.mapToList((List<LinkedHashMap>) policyService.getRisks(insuredVehicle).getBody(), ObjectRisk.class);
     }
 
     @DisplayName("Driver Age test.")
     @Test
-    void willAssignCorrectConfigurationAndReturnCorrectExpectedBonus() {
+    void willAssignCorrectConfigurationAndReturnCorrectExpectedFee() {
         int driverAge = utils.yearsFromNow(customer.getBirthDate());
         PremiumCalcConfigValue premiumCalcConfigValue = utils.getCalcConfigValue("driver_age", "LB", "1.0");
         int upperScopePointer = Integer.parseInt(premiumCalcConfigValue.getValue2());
         int bottomScopePointer = Integer.parseInt(premiumCalcConfigValue.getValue1());
         assertFalse(driverAge > Integer.parseInt(premiumCalcConfigValue.getValue1()));
         assertTrue(driverAge < bottomScopePointer || driverAge > upperScopePointer);
-        double expectedBonus = Double.parseDouble(premiumCalcConfigValue.getValue3());
-        assertEquals(expectedBonus, premiumCalculation.getDriverAgeBonus(policy));
+        double expectedFee = Double.parseDouble(premiumCalcConfigValue.getValue3());
+        assertEquals(expectedFee, premiumCalculation.getDriverAgeFee(policy));
     }
 
     @DisplayName("License Age test.")
     @Test
-    void shouldReturnCorrectLicenseAgeBonusForCertainDriver() {
+    void shouldReturnCorrectLicenseAgeFeeForCertainDriver() {
 
         int licenseAge = utils.yearsFromNow(insuredDriver.getD01());
         assertTrue(licenseAge < Double.parseDouble(utils.getCalcConfigValue("license_age", "L", "1.0").getValue1()));
         assertTrue(licenseAge < Double.parseDouble(utils.getCalcConfigValue("license_age", "BE", "1.0").getValue1()));
-        double expectedValue = Double.valueOf(utils.getCalcConfigValue("license_age", "L", "1.0").getValue2());
-        assertEquals(expectedValue, premiumCalculation.getLicenceAgeBonus(policy));
+        double expectedValue = Double.parseDouble(utils.getCalcConfigValue("license_age", "L", "1.0").getValue2());
+        assertEquals(expectedValue, premiumCalculation.getLicenceAgeFee(policy));
     }
 
     @DisplayName("Find insured object with DRI type.")
@@ -151,15 +178,13 @@ class PremiumCalculationTest {
         assertEquals(expectedObjectType, utils.findInsuredObject(policy, "VEH").getType());
     }
 
-    @DisplayName("Car age bonus test.")
+    @DisplayName("Car age fee test.")
     @Test
-    void shouldReturnProperCarAgeBonus() {
-        int carAge = Integer.valueOf(utils.yearsFromNow(insuredVehicle.getD01()));
+    void shouldReturnProperCarAgeFee() {
+        int carAge = utils.yearsFromNow(insuredVehicle.getD01());
         PremiumCalcConfigValue bottomScopePointer = utils.getCalcConfigValue("car_age", "L", "1.0");
-        PremiumCalcConfigValue middleScopePointer = utils.getCalcConfigValue("car_age", "LBE", "1.0", carAge);
-        PremiumCalcConfigValue maxScopePointer = utils.getCalcConfigValue("car_age", "BE", "1.0");
         double expected = utils.getDoubleFromPrecentage(bottomScopePointer.getValue2(), Double.valueOf(insuredDriver.getN02()));
-        assertEquals(expected, premiumCalculation.getCarAgeBonus(policy));
+        assertEquals(expected, premiumCalculation.getCarAgeFee(policy));
 
     }
 
@@ -174,12 +199,12 @@ class PremiumCalculationTest {
         assertEquals(expected, utils.getCalcConfigValue("car_age", "LBE", "1.0", carAge).getValue3());
     }
 
-    @DisplayName("Assistance adition test.")
+    @DisplayName("Assistance fee test.")
     @Test
     void shouldReturnAssistanceValueFromConfiguration() {
         PremiumCalcConfigValue assistance = utils.getCalcConfigValue("ASSISTANCE", "ASI", "2.0");
-        double expected = Double.valueOf(assistance.getValue1());
-        assertEquals(expected, premiumCalculation.getAssistanceBonus());
+        double expected = Double.parseDouble(assistance.getValue1());
+        assertEquals(expected, premiumCalculation.getAssistanceFee());
     }
 
     @DisplayName("Checking for correct OC insurance sum value.")
@@ -197,9 +222,9 @@ class PremiumCalculationTest {
     @DisplayName("Testing claims calculation logic.")
     @Test
     void claimCalculationLogic() {
-        double claimBonusFormula = insuredDriver.getN02() / insuredDriver.getN03();
+        double claimFeeFormula = insuredDriver.getN02() / insuredDriver.getN03();
         PremiumCalcConfigValue configValue = utils.getCalcConfigValue("claims_count", "LBE", "1.0");
-        assertTrue(claimBonusFormula <= Double.parseDouble(configValue.getValue1()) && claimBonusFormula >= Double.parseDouble(configValue.getValue2()));
+        assertTrue(claimFeeFormula <= Double.parseDouble(configValue.getValue1()) && claimFeeFormula >= Double.parseDouble(configValue.getValue2()));
     }
 
     @DisplayName("Return correct object risk configuration.")
@@ -207,45 +232,52 @@ class PremiumCalculationTest {
     void shouldFindCorrectConfiguration() {
         String riskId = "OC";
         String version = "1.0";
-        assertNotNull(utils.findInsuranceSumForCertainRisk(riskId, version));
         double expected = 10000d;
-        assertEquals(expected,utils.findInsuranceSumForCertainRisk(riskId,version));
+        assertEquals(expected, utils.findInsuranceSumForCertainRisk(riskId, version));
     }
 
-    @DisplayName("Calculate claim bonus test.")
+    @DisplayName("Calculate claim fee test.")
     @Test
-    void shouldReturnCorrectClaimBonus() {
+    void shouldReturnCorrectClaimFee() {
         PremiumCalcConfigValue configValueLBE = utils.getCalcConfigValue("claims_count", "LBE", "1.0");
         double insuranceSum = utils.findInsuranceSumForCertainRisk("OC", "1.0");
-        double expected = utils.getDoubleFromPrecentage(configValueLBE.getValue3(),insuranceSum);
-        assertEquals(expected, premiumCalculation.getClaimsBonus(policy));
+        double expected = utils.getDoubleFromPrecentage(configValueLBE.getValue3(), insuranceSum);
+        assertEquals(expected, premiumCalculation.getClaimsFee(policy));
     }
+
     @DisplayName("Calculate mileage.")
     @Test
-    void shouldReturnCorrectMileageBonus(){
-        insuredVehicle = utils.findInsuredObject(policy,"VEH");
+    void shouldReturnCorrectMileageFee() {
+        insuredVehicle = utils.findInsuredObject(policy, "VEH");
         int mileage = insuredVehicle.getN04();
         int vehicleValue = insuredVehicle.getN02();
-        double insuranceSum = utils.findInsuranceSumForCertainRisk("OC","1.0");
-        PremiumCalcConfigValue mileageValueLBE = utils.getCalcConfigValue("mileage","LBE","2.0", mileage);
+        double insuranceSum = utils.findInsuranceSumForCertainRisk("OC", "1.0");
+        PremiumCalcConfigValue mileageValueLBE = utils.getCalcConfigValue("mileage", "LBE", "2.0", mileage);
         double expectedResult = utils.getDoubleFromPrecentage(mileageValueLBE.getValue4(), (double) vehicleValue)
                 + utils.getDoubleFromPrecentage(mileageValueLBE.getValue5(), insuranceSum);
-        assertEquals(expectedResult , premiumCalculation.getMileageBonus(policy));
+        assertEquals(expectedResult, premiumCalculation.getMileageFee(policy));
     }
 
     @DisplayName("NNW calculation test.")
     @Test
-    void shouldReturnExcpectedNNWBonus(){
-        double insuranceSum = utils.findInsuranceSumForCertainRisk("NNW","1.0");
-        insuredVehicle = utils.findInsuredObject(policy,"VEH");
-        PremiumCalcConfigValue bonusForCarAge = utils.getCalcConfigValue("nnw_<5", "L","2.0");
+    void shouldReturnExcpectedNNWFee() {
+        double insuranceSum = utils.findInsuranceSumForCertainRisk("NNW", "1.0");
+        insuredVehicle = utils.findInsuredObject(policy, "VEH");
+        PremiumCalcConfigValue feeForCarAge = utils.getCalcConfigValue("nnw_<5", "L", "2.0");
         String protectionClass = utils.getVehicleFromInsuredObject(insuredVehicle).getProtectionClass();
-        PremiumCalcConfigValue bonusForProtectionClass = utils.getCalcConfigValue("protection_class2", "PRC2","2.0");
-        double expected = utils.getDoubleFromPrecentage(bonusForProtectionClass.getValue1(),insuranceSum) + utils.getDoubleFromPrecentage(bonusForCarAge.getValue2(),insuranceSum);
-        assertEquals(expected, premiumCalculation.getNNWBonus(policy));
+        PremiumCalcConfigValue feeForProtectionClass = utils.getCalcConfigValue("protection_class2", "PRC2", "2.0");
+        double expected = utils.getDoubleFromPrecentage(feeForProtectionClass.getValue1(), insuranceSum) + utils.getDoubleFromPrecentage(feeForCarAge.getValue2(), insuranceSum);
+        assertEquals(expected, premiumCalculation.getNNWFee(policy));
 
     }
 
+    @DisplayName("OC calculation test.")
+    @Test
+    void shouldReturnProperOCFee() {
+        double expectedValue = premiumCalculation.getCarAgeFee(policy) + premiumCalculation.getLicenceAgeFee(policy)
+                + premiumCalculation.getMileageFee(policy) + premiumCalculation.getClaimsFee(policy);
+        assertEquals(expectedValue, premiumCalculation.getOCFee(policy));
+    }
 
     @AfterEach
     public void cleanUp() {

@@ -2,6 +2,7 @@ package com.insuranceapplication.policyservice.services;
 
 import com.insuranceapplication.policyservice.globals.Variables;
 import com.insuranceapplication.policyservice.methods.PremiumCalculation;
+import com.insuranceapplication.policyservice.methods.Utils;
 import com.insuranceapplication.policyservice.models.*;
 import com.netflix.discovery.EurekaClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ public class PolicyService {
     @Autowired
     EurekaClient eurekaClient;
     private RestTemplate template = new RestTemplate();
+    @Autowired
+    Utils utils = new Utils();
 
     public ResponseEntity createTransaction(Transaction transaction) {
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/createtransaction", transaction, String.class);
@@ -84,7 +87,8 @@ public class PolicyService {
         PremiumCalculation calculation = new PremiumCalculation();
         calculation.eurekaClient = this.eurekaClient;
         calculation.policyService = this;
-        //calculation.calculate(policy);
+        calculation.utils = this.utils;
+        calculation.calculate(policy);
     }
 
     public ResponseEntity getProducts(ProductConfig productConfig) {

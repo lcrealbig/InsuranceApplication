@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface InsuredObjectRepository extends JpaRepository<InsuredObject, Integer> {
     @Modifying
-    @Query(value = "DELETE FROM insured_object io WHERE io.transaction_id = :id", nativeQuery = true)
-    void deleteInsuredObjectByTransactionId(int id);
+    void deleteByTransactionId(int transactionId);
+
 }

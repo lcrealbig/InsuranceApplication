@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -180,7 +179,7 @@ public class CRUDService {
 
     @Transactional
     public ResponseEntity deleteCustomer(int id) {
-        customerRepository.deletePolicyLineByTransactionId(id);
+        customerRepository.deleteById(id);
         return ResponseEntity.ok().body(id);
     }
 
@@ -467,17 +466,16 @@ public class CRUDService {
 
     @Transactional
     public void deletePolicy(int transactionId) {
-        policyRepository.deletePolicyByTransactionId(transactionId);
-        // em.createQuery("DELETE FROM Policy c WHERE c.transactionId = '" + policy.getTransactionId() +"'").executeUpdate();
+        policyRepository.deleteByTransactionId(transactionId);
     }
 
     @Transactional
     public void deletePolicyLine(int transactionId) {
-        policyLineRepository.deletePolicyLineByTransactionId(transactionId);
+        policyLineRepository.deleteByTransactionId(transactionId);
     }
 
     @Transactional
     public void deleteInsuredObject(int transactionId) {
-        insuredObjectRepository.deleteInsuredObjectByTransactionId(transactionId);
+        insuredObjectRepository.deleteByTransactionId(transactionId);
     }
 }
