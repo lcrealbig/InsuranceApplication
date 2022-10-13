@@ -7,7 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -54,7 +55,6 @@ public class PremiumCalculation {
         return Double.parseDouble(variableOfLicenseAgeBE.getValue2());
     }
 
-
     public double getCarAgeBonus(Policy policy) {
         insuredVehicle = utils.findInsuredObject(policy, "VEH");
         int carAge = utils.yearsFromNow(insuredVehicle.getD01());
@@ -96,7 +96,7 @@ public class PremiumCalculation {
     public double getMileageBonus(Policy policy) {
         insuredVehicle = utils.findInsuredObject(policy, "VEH");
         Vehicle vehicle = utils.getVehicleFromInsuredObject(insuredVehicle);
-        int mileage = insuredVehicle.getN04(),  vehicleValue = insuredVehicle.getN02();
+        int mileage = insuredVehicle.getN04(), vehicleValue = insuredVehicle.getN02();
         double insuranceSum = utils.findInsuranceSumForCertainRisk("OC", "1.0");
         String partsAvailability = vehicle.getPartsAvailability();
         String protectionClass = vehicle.getProtectionClass();
@@ -152,4 +152,34 @@ public class PremiumCalculation {
         return mileageBonus;
     }
 
+    public double getNNWBonus(Policy policy) {
+        double insuranceSum = utils.findInsuranceSumForCertainRisk("NNW", "1.0");
+        insuredVehicle = utils.findInsuredObject(policy, "VEH");
+        PremiumCalcConfigValue bonusForCarAgeL = utils.getCalcConfigValue("nnw_<5", "L", "2.0");
+        PremiumCalcConfigValue bonusForCarAgeBE = utils.getCalcConfigValue("nnw_>=10", "BE", "2.0");
+        PremiumCalcConfigValue bonusForCarAgeLBE = utils.getCalcConfigValue("nnw_<10", "LBE", "2.0");
+        int vehicleAge = utils.yearsFromNow(insuredVehicle.getD01());
+        String protectionClass = utils.getVehicleFromInsuredObject(insuredVehicle).getProtectionClass();
+        PremiumCalcConfigValue bonusForProtectionClassI = utils.getCalcConfigValue("protection_class1", "PRC1", "2.0");
+        PremiumCalcConfigValue bonusForProtectionClassII = utils.getCalcConfigValue("protection_class2", "PRC2", "2.0");
+        PremiumCalcConfigValue bonusForProtectionClassIII = utils.getCalcConfigValue("protection_class3", "PRC3", "2.0");
+        double nnwBonus = 0d;
+        switch (protectionClass) {
+            case "I":
+                nnwBonus += utils.getDoubleFromPrecentage(bonusForProtectionClassI.getValue1(), insuranceSum);
+                break;
+            case "II":
+                nnwBonus += utils.getDoubleFromPrecentage(bonusForProtectionClassII.getValue1(), insuranceSum);
+                break;
+            case "III":
+                nnwBonus += utils.getDoubleFromPrecentage(bonusForProtectionClassIII.getValue1(), insuranceSum);
+                break;
+        }
+        if (vehicleAge >= Double.valueOf(bonusForCarAgeL.getValue1())) {
+            if (vehicleAge < Double.valueOf(bonusForCarAgeLBE.getValue1())) {
+                nnwBonus += utils.getDoubleFromPrecentage(bonusForCarAgeLBE.getValue3(), insuranceSum);
+            } else nnwBonus += utils.getDoubleFromPrecentage(bonusForCarAgeBE.getValue2(), insuranceSum);
+        }
+        return nnwBonus;
+    }
 }

@@ -228,9 +228,22 @@ class PremiumCalculationTest {
         int vehicleValue = insuredVehicle.getN02();
         double insuranceSum = utils.findInsuranceSumForCertainRisk("OC","1.0");
         PremiumCalcConfigValue mileageValueLBE = utils.getCalcConfigValue("mileage","LBE","2.0", mileage);
-        double expectedCalculation = utils.getDoubleFromPrecentage(mileageValueLBE.getValue4(), (double) vehicleValue)
+        double expectedResult = utils.getDoubleFromPrecentage(mileageValueLBE.getValue4(), (double) vehicleValue)
                 + utils.getDoubleFromPrecentage(mileageValueLBE.getValue5(), insuranceSum);
-        assertEquals(expectedCalculation , premiumCalculation.getMileageBonus(policy));
+        assertEquals(expectedResult , premiumCalculation.getMileageBonus(policy));
+    }
+
+    @DisplayName("NNW calculation test.")
+    @Test
+    void shouldReturnExcpectedNNWBonus(){
+        double insuranceSum = utils.findInsuranceSumForCertainRisk("NNW","1.0");
+        insuredVehicle = utils.findInsuredObject(policy,"VEH");
+        PremiumCalcConfigValue bonusForCarAge = utils.getCalcConfigValue("nnw_<5", "L","2.0");
+        String protectionClass = utils.getVehicleFromInsuredObject(insuredVehicle).getProtectionClass();
+        PremiumCalcConfigValue bonusForProtectionClass = utils.getCalcConfigValue("protection_class2", "PRC2","2.0");
+        double expected = utils.getDoubleFromPrecentage(bonusForProtectionClass.getValue1(),insuranceSum) + utils.getDoubleFromPrecentage(bonusForCarAge.getValue2(),insuranceSum);
+        assertEquals(expected, premiumCalculation.getNNWBonus(policy));
+
     }
 
 
