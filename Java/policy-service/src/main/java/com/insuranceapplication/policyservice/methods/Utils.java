@@ -6,6 +6,7 @@ import com.insuranceapplication.policyservice.models.*;
 import com.insuranceapplication.policyservice.services.PolicyService;
 import com.netflix.discovery.EurekaClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -18,7 +19,6 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.*;
 import java.util.stream.Collectors;
-
 @Component
 public class Utils {
 
@@ -39,7 +39,6 @@ public class Utils {
         Object o = mapper.convertValue(map, clazz);
         return o;
     }
-
     public static List mapToList(List<LinkedHashMap> mapList, Class clazz) {
 
         List<Object> list = new ArrayList<>();

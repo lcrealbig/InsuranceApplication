@@ -59,31 +59,31 @@ public class PremiumCalculation {
     public double getLicenceAgeFee(Policy policy) {
         int licenseAge = utils.yearsFromNow(utils.findInsuredObject(policy, "DRI").getD01());
         PremiumCalcConfigValue
-                variableOfLicenseAgeL = utils.getCalcConfigValue("license_age", "L", "1.0"),
-                variableOfLicenseAgeBE = utils.getCalcConfigValue("license_age", "BE", "1.0"),
-                variableOfLicenseAgeLBE = utils.getCalcConfigValue("license_age", "LBE", "1.0");
-        if (licenseAge < Double.parseDouble(variableOfLicenseAgeBE.getValue1())) {
-            if (licenseAge < Double.parseDouble(variableOfLicenseAgeLBE.getValue1()) && licenseAge >= Double.parseDouble(variableOfLicenseAgeLBE.getValue2())) {
-                return Double.parseDouble(variableOfLicenseAgeLBE.getValue3());
-            } else return Double.parseDouble(variableOfLicenseAgeL.getValue2());
+                licenseAgeLFee = utils.getCalcConfigValue("license_age", "L", "1.0"),
+                licenseAgeBEFee = utils.getCalcConfigValue("license_age", "BE", "1.0"),
+                licenseAgeLBEFee = utils.getCalcConfigValue("license_age", "LBE", "1.0");
+        if (licenseAge < Double.parseDouble(licenseAgeBEFee.getValue1())) {
+            if (licenseAge < Double.parseDouble(licenseAgeLBEFee.getValue1()) && licenseAge >= Double.parseDouble(licenseAgeLBEFee.getValue2())) {
+                return Double.parseDouble(licenseAgeLBEFee.getValue3());
+            } else return Double.parseDouble(licenseAgeLFee.getValue2());
         }
-        return Double.parseDouble(variableOfLicenseAgeBE.getValue2());
+        return Double.parseDouble(licenseAgeBEFee.getValue2());
     }
 
     public double getCarAgeFee(Policy policy) {
         insuredVehicle = utils.findInsuredObject(policy, "VEH");
         int carAge = utils.yearsFromNow(insuredVehicle.getD01());
         PremiumCalcConfigValue
-                carAgeConfigL = utils.getCalcConfigValue("car_age", "L", "1.0"),
-                carAgeConfigBE = utils.getCalcConfigValue("car_age", "BE", "1.0"),
-                carAgeConfigLBE = utils.getCalcConfigValue("car_age", "LBE", "1.0", carAge);
-        double carAgeFee = utils.getDoubleFromPrecentage(carAgeConfigL.getValue2(), Double.valueOf(insuredVehicle.getN02()));
-        if (carAge >= Integer.parseInt(carAgeConfigBE.getValue1())) {
-            carAgeFee = utils.getDoubleFromPrecentage(carAgeConfigBE.getValue2(), Double.valueOf(insuredVehicle.getN02()));
+                carAgeLFee = utils.getCalcConfigValue("car_age", "L", "1.0"),
+                carAgeBEFee = utils.getCalcConfigValue("car_age", "BE", "1.0"),
+                carAgeLBEFee = utils.getCalcConfigValue("car_age", "LBE", "1.0", carAge);
+        double carAgeFee = utils.getDoubleFromPrecentage(carAgeLFee.getValue2(), Double.valueOf(insuredVehicle.getN02()));
+        if (carAge >= Integer.parseInt(carAgeBEFee.getValue1())) {
+            carAgeFee = utils.getDoubleFromPrecentage(carAgeBEFee.getValue2(), Double.valueOf(insuredVehicle.getN02()));
         }
-        if (carAge >= Integer.parseInt(carAgeConfigL.getValue1())) {
-            if (carAge < Integer.parseInt(carAgeConfigLBE.getValue1())) {
-                carAgeFee = utils.getDoubleFromPrecentage(carAgeConfigLBE.getValue3(), Double.valueOf(insuredVehicle.getN02()));
+        if (carAge >= Integer.parseInt(carAgeLFee.getValue1())) {
+            if (carAge < Integer.parseInt(carAgeLBEFee.getValue1())) {
+                carAgeFee = utils.getDoubleFromPrecentage(carAgeLBEFee.getValue3(), Double.valueOf(insuredVehicle.getN02()));
             }
         }
         return carAgeFee;
