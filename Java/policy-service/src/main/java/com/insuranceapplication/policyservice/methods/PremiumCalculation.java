@@ -205,4 +205,5 @@ public class PremiumCalculation {
     public double getOCFee(Policy policy) {
         return getCarAgeFee(policy) + getClaimsFee(policy) + getLicenceAgeFee(policy) + getMileageFee(policy);
     }
+    
 }
