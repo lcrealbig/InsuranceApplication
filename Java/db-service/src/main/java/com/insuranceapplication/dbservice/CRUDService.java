@@ -1,9 +1,14 @@
 package com.insuranceapplication.dbservice;
 
 import com.insuranceapplication.dbservice.models.*;
+import com.insuranceapplication.dbservice.repositories.CustomerRepository;
+import com.insuranceapplication.dbservice.repositories.InsuredObjectRepository;
+import com.insuranceapplication.dbservice.repositories.PolicyLineRepository;
+import com.insuranceapplication.dbservice.repositories.PolicyRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,10 +22,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@EnableJpaRepositories
 public class CRUDService {
 
+    @Autowired
+    private PolicyLineRepository policyLineRepository;
+    @Autowired
+    private PolicyRepository policyRepository;
+    @Autowired
+    private InsuredObjectRepository insuredObjectRepository;
+    @Autowired
+    private CustomerRepository customerRepository;
     @PersistenceContext
     private EntityManager em;
+
 
     @Transactional
     public void createTransaction(Transaction transaction) {
@@ -163,11 +178,10 @@ public class CRUDService {
     }
 
     @Transactional
-    public ResponseEntity deleteCustomer(Customer customer) {
-        em.createQuery("DELETE FROM Customer c WHERE c.id = " + customer.getId()).executeUpdate();
-        return ResponseEntity.ok().body(customer);
+    public ResponseEntity deleteCustomer(int id) {
+        customerRepository.deleteById(id);
+        return ResponseEntity.ok().body(id);
     }
-
 
     @Transactional
     public ResponseEntity modifyCustomer(Customer customer) {
@@ -188,7 +202,7 @@ public class CRUDService {
         return ResponseEntity.ok().body(result);
     }
 
-    public ResponseEntity verifyUserLogin(@RequestBody Users user) {
+    public ResponseEntity verifyUserLogin( Users user) {
         String userName = user.getName();
         String userPassword = user.getPassword();
         List<Users> dbRecords = em.createQuery("SELECT u FROM Users u", Users.class).getResultList();
@@ -256,6 +270,7 @@ public class CRUDService {
         return ResponseEntity.ok().body(insuredObject);
     }
 
+
     @Transactional
     public ResponseEntity getRisks(InsuredObject insuredObject) {
         List<ObjectRisk> resultList = (List<ObjectRisk>) em.createQuery("SELECT o FROM ObjectRisk o WHERE o.objectId = " + insuredObject.getId()).getResultList();
@@ -264,7 +279,7 @@ public class CRUDService {
 
     @Transactional
     public ResponseEntity getProducts(ProductConfig productConfig) {
-        List<ObjectRisk> resultList = (List<ObjectRisk>) em.createQuery("SELECT p FROM ProductConfig p WHERE p.startDate<=to_date('"+ productConfig.getStartDate() + "','yyyy-MM-dd') and coalesce(p.endDate,current_date+10000)>=to_date('"+ productConfig.getStartDate() + "','yyyy-MM-dd')").getResultList();
+        List<ObjectRisk> resultList = (List<ObjectRisk>) em.createQuery("SELECT p FROM ProductConfig p WHERE p.startDate<=to_date('" + productConfig.getStartDate() + "','yyyy-MM-dd') and coalesce(p.endDate,current_date+10000)>=to_date('" + productConfig.getStartDate() + "','yyyy-MM-dd')").getResultList();
         return ResponseEntity.ok().body(resultList);
     }
 
@@ -447,5 +462,20 @@ public class CRUDService {
         CriteriaQuery<ProductConfig> all = cq.select(rootEntry);
         TypedQuery<ProductConfig> allQuery = em.createQuery(all);
         return ResponseEntity.ok().body(allQuery.getResultList());
+    }
+
+    @Transactional
+    public void deletePolicy(int transactionId) {
+        policyRepository.deleteByTransactionId(transactionId);
+    }
+
+    @Transactional
+    public void deletePolicyLine(int transactionId) {
+        policyLineRepository.deleteByTransactionId(transactionId);
+    }
+
+    @Transactional
+    public void deleteInsuredObject(int transactionId) {
+        insuredObjectRepository.deleteByTransactionId(transactionId);
     }
 }

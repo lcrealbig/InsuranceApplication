@@ -1,11 +1,13 @@
 package com.insuranceapplication.policyservice.services;
 
-import com.insuranceapplication.policyservice.globals.Variables;
+import com.insuranceapplication.policyservice.globals.*;
 import com.insuranceapplication.policyservice.methods.PremiumCalculation;
+import com.insuranceapplication.policyservice.methods.*;
 import com.insuranceapplication.policyservice.models.*;
 import com.netflix.discovery.EurekaClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -13,11 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Component
 public class PolicyService {
 
     @Autowired
     EurekaClient eurekaClient;
     private RestTemplate template = new RestTemplate();
+    @Autowired
+    Utils utils = new Utils();
 
     public ResponseEntity createTransaction(Transaction transaction) {
         ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/createtransaction", transaction, String.class);
@@ -82,6 +87,7 @@ public class PolicyService {
         PremiumCalculation calculation = new PremiumCalculation();
         calculation.eurekaClient = this.eurekaClient;
         calculation.policyService = this;
+        calculation.utils = this.utils;
         calculation.calculate(policy);
     }
 
@@ -143,7 +149,7 @@ public class PolicyService {
     }
 
     public List<PremiumCalcConfigValue> premiumConfigList(Policy policy) {
-        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/premiumCalcConfigVars",policy, List.class);
+        ResponseEntity response = template.postForEntity(eurekaClient.getApplication(Variables.dbName).getInstances().get(0).getHomePageUrl() + "/premiumCalcConfigVars", policy, List.class);
         return (List<PremiumCalcConfigValue>) response.getBody();
     }
 
