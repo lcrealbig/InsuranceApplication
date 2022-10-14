@@ -20,29 +20,30 @@ public class PremiumCalculation {
     @Autowired
     public Utils utils;
 
-    private InsuredObject insuredVehicle;
-    private InsuredObject insuredDriver;
+    private InsuredObject insuredVehicle = new InsuredObject();
+    private InsuredObject insuredDriver = new InsuredObject();
     private List<PremiumCalcConfigValue> calcVariables;
     private RestTemplate template = new RestTemplate();
     private ObjectRisk riskToUpdate = new ObjectRisk();
 
 
-    public void calculate(Policy policy) {
+    public void calculate(Policy policy) throws ArithmeticException {
         insuredVehicle = utils.findInsuredObject(policy, "VEH");
         List<ObjectRisk> risks = (List<ObjectRisk>) Utils.mapToList((List<LinkedHashMap>) policyService.getRisks(insuredVehicle).getBody(), ObjectRisk.class);
+
         for (ObjectRisk risk : risks) {
             if (risk.getRiskId().equals("OC") && risk.getIsSelected().equals("true")) {
                 updatePremium(getOCFee(policy), risk);
             } else if (risk.getRiskId().equals("NNW") && risk.getIsSelected().equals("true")) {
                 updatePremium(getNNWFee(policy), risk);
             } else if (risk.getRiskId().equals("ASI") && risk.getIsSelected().equals("true")) {
-                updatePremium(getAssistanceFee(), risk);
+                updatePremium(getAssistanceFee(policy), risk);
             } else updatePremium(0d, risk);
         }
     }
 
-    public void updatePremium(Double valueOfUpdate, ObjectRisk riskToUpdate) {
-        riskToUpdate.setPremium(valueOfUpdate);
+    public void updatePremium(Double newPremium, ObjectRisk riskToUpdate) {
+        riskToUpdate.setPremium(newPremium);
         policyService.updateRisk(riskToUpdate);
     }
 
@@ -59,9 +60,9 @@ public class PremiumCalculation {
     public double getLicenceAgeFee(Policy policy) {
         int licenseAge = utils.yearsFromNow(utils.findInsuredObject(policy, "DRI").getD01());
         PremiumCalcConfigValue
-                licenseAgeLFee = utils.getCalcConfigValue("license_age", "L", "1.0"),
-                licenseAgeBEFee = utils.getCalcConfigValue("license_age", "BE", "1.0"),
-                licenseAgeLBEFee = utils.getCalcConfigValue("license_age", "LBE", "1.0");
+                licenseAgeLFee = utils.getCalcConfigValue("license_age", "L", policy.getVersion()),
+                licenseAgeBEFee = utils.getCalcConfigValue("license_age", "BE", policy.getVersion()),
+                licenseAgeLBEFee = utils.getCalcConfigValue("license_age", "LBE", policy.getVersion());
         if (licenseAge < Double.parseDouble(licenseAgeBEFee.getValue1())) {
             if (licenseAge < Double.parseDouble(licenseAgeLBEFee.getValue1()) && licenseAge >= Double.parseDouble(licenseAgeLBEFee.getValue2())) {
                 return Double.parseDouble(licenseAgeLBEFee.getValue3());
@@ -74,9 +75,9 @@ public class PremiumCalculation {
         insuredVehicle = utils.findInsuredObject(policy, "VEH");
         int carAge = utils.yearsFromNow(insuredVehicle.getD01());
         PremiumCalcConfigValue
-                carAgeLFee = utils.getCalcConfigValue("car_age", "L", "1.0"),
-                carAgeBEFee = utils.getCalcConfigValue("car_age", "BE", "1.0"),
-                carAgeLBEFee = utils.getCalcConfigValue("car_age", "LBE", "1.0", carAge);
+                carAgeLFee = utils.getCalcConfigValue("car_age", "L", policy.getVersion()),
+                carAgeBEFee = utils.getCalcConfigValue("car_age", "BE", policy.getVersion()),
+                carAgeLBEFee = utils.getCalcConfigValue("car_age", "LBE", policy.getVersion(), carAge);
         double carAgeFee = utils.getDoubleFromPrecentage(carAgeLFee.getValue2(), Double.valueOf(insuredVehicle.getN02()));
         if (carAge >= Integer.parseInt(carAgeBEFee.getValue1())) {
             carAgeFee = utils.getDoubleFromPrecentage(carAgeBEFee.getValue2(), Double.valueOf(insuredVehicle.getN02()));
@@ -89,18 +90,18 @@ public class PremiumCalculation {
         return carAgeFee;
     }
 
-    public double getAssistanceFee() {
-        return Double.valueOf(utils.getCalcConfigValue("ASSISTANCE", "ASI", "2.0").getValue1());
+    public double getAssistanceFee(Policy policy) {
+        return Double.valueOf(utils.getCalcConfigValue("ASSISTANCE", "ASI", policy.getVersion()).getValue1());
     }
 
     public double getClaimsFee(Policy policy) {
         insuredDriver = utils.findInsuredObject(policy, "DRI");
         double calculationFormula = insuredDriver.getN02() / insuredDriver.getN03();
         PremiumCalcConfigValue
-                claimsLFee = utils.getCalcConfigValue("claims_count", "L", "1.0"),
-                claimsLBEFee = utils.getCalcConfigValue("claims_count", "LBE", "1.0"),
-                claimsBEFee = utils.getCalcConfigValue("claims_count", "BE", "1.0");
-        double insuranceSum = utils.findInsuranceSumForCertainRisk("OC", "1.0");
+                claimsLFee = utils.getCalcConfigValue("claims_count", "L", policy.getVersion()),
+                claimsLBEFee = utils.getCalcConfigValue("claims_count", "LBE", policy.getVersion()),
+                claimsBEFee = utils.getCalcConfigValue("claims_count", "BE", policy.getVersion());
+        double insuranceSum = utils.findInsuranceSumForCertainRisk("OC", policy.getVersion());
         double claimFee = utils.getDoubleFromPrecentage(claimsBEFee.getValue2(), insuranceSum);
         if (calculationFormula < Double.parseDouble(claimsBEFee.getValue1())) {
             if (calculationFormula < Double.parseDouble(claimsLBEFee.getValue1()) && calculationFormula >= Double.parseDouble(claimsLBEFee.getValue2())) {
@@ -114,13 +115,13 @@ public class PremiumCalculation {
         insuredVehicle = utils.findInsuredObject(policy, "VEH");
         Vehicle vehicle = utils.getVehicleFromInsuredObject(insuredVehicle);
         int mileage = insuredVehicle.getN04(), vehicleValue = insuredVehicle.getN02();
-        double insuranceSum = utils.findInsuranceSumForCertainRisk("OC", "1.0");
+        double insuranceSum = utils.findInsuranceSumForCertainRisk("OC", policy.getVersion());
         String partsAvailability = vehicle.getPartsAvailability();
         String protectionClass = vehicle.getProtectionClass();
         PremiumCalcConfigValue
-                mileageLBEFee = utils.getCalcConfigValue("mileage", "LBE", "2.0", mileage),
-                mileageBEFee = utils.getCalcConfigValue("mileage", "BE", "2.0"),
-                mileageLFee = utils.getCalcConfigValue("mileage", "L", "2.0");
+                mileageLBEFee = utils.getCalcConfigValue("mileage", "LBE", policy.getVersion(), mileage),
+                mileageBEFee = utils.getCalcConfigValue("mileage", "BE", policy.getVersion()),
+                mileageLFee = utils.getCalcConfigValue("mileage", "L", policy.getVersion());
 
         double mileageFee = 0d;
         if (mileage >= Double.valueOf(mileageLFee.getValue1())) {
@@ -170,18 +171,18 @@ public class PremiumCalculation {
     }
 
     public double getNNWFee(Policy policy) {
-        double insuranceSum = utils.findInsuranceSumForCertainRisk("NNW", "1.0");
+        double insuranceSum = utils.findInsuranceSumForCertainRisk("NNW", policy.getVersion());
         insuredVehicle = utils.findInsuredObject(policy, "VEH");
         PremiumCalcConfigValue
-                CarAgeLFee = utils.getCalcConfigValue("nnw_<5", "L", "2.0"),
-                CarAgeBEFee = utils.getCalcConfigValue("nnw_>=10", "BE", "2.0"),
-                CarAgeLBEFee = utils.getCalcConfigValue("nnw_<10", "LBE", "2.0");
+                CarAgeLFee = utils.getCalcConfigValue("nnw_<5", "L", policy.getVersion()),
+                CarAgeBEFee = utils.getCalcConfigValue("nnw_>=10", "BE", policy.getVersion()),
+                CarAgeLBEFee = utils.getCalcConfigValue("nnw_<10", "LBE", policy.getVersion());
         int vehicleAge = utils.yearsFromNow(insuredVehicle.getD01());
         String protectionClass = utils.getVehicleFromInsuredObject(insuredVehicle).getProtectionClass();
         PremiumCalcConfigValue
-                protectionClassIFee = utils.getCalcConfigValue("protection_class1", "PRC1", "2.0"),
-                protectionClassIIFee = utils.getCalcConfigValue("protection_class2", "PRC2", "2.0"),
-                protectionClassIIIFee = utils.getCalcConfigValue("protection_class3", "PRC3", "2.0");
+                protectionClassIFee = utils.getCalcConfigValue("protection_class1", "PRC1", policy.getVersion()),
+                protectionClassIIFee = utils.getCalcConfigValue("protection_class2", "PRC2", policy.getVersion()),
+                protectionClassIIIFee = utils.getCalcConfigValue("protection_class3", "PRC3", policy.getVersion());
         double nnwFee = 0d;
         switch (protectionClass) {
             case "I":
@@ -205,5 +206,5 @@ public class PremiumCalculation {
     public double getOCFee(Policy policy) {
         return getCarAgeFee(policy) + getClaimsFee(policy) + getLicenceAgeFee(policy) + getMileageFee(policy);
     }
-    
+
 }

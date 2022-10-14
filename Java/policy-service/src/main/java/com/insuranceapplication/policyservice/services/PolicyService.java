@@ -1,8 +1,8 @@
 package com.insuranceapplication.policyservice.services;
 
-import com.insuranceapplication.policyservice.globals.Variables;
+import com.insuranceapplication.policyservice.globals.*;
 import com.insuranceapplication.policyservice.methods.PremiumCalculation;
-import com.insuranceapplication.policyservice.methods.Utils;
+import com.insuranceapplication.policyservice.methods.*;
 import com.insuranceapplication.policyservice.models.*;
 import com.netflix.discovery.EurekaClient;
 import org.springframework.beans.factory.annotation.Autowired;
